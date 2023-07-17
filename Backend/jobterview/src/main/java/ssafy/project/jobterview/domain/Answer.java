@@ -3,7 +3,7 @@ package ssafy.project.jobterview.domain;
 import lombok.*;
 
 import javax.persistence.*;
-
+// 
 @Entity
 @Getter
 @Setter
