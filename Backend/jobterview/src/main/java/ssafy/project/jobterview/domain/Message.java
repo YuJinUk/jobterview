@@ -2,6 +2,7 @@ package ssafy.project.jobterview.domain;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.mapping.Join;
 
 import javax.persistence.*;
 import java.beans.ConstructorProperties;
@@ -20,14 +21,13 @@ public class Message extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "member_id", name = "from_member_id")
-    private Member fromMember;
+    @JoinColumn(name = "sender_id")
+    private Member sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "member_id", name = "to_member_id")
-    private Member toMember;
+    @JoinColumn(name = "receiver_id")
+    private Member receiver;
 
-    @Column(columnDefinition = "TEXT(500)")
     private String content;
 
     @Column(name = "is_read", nullable = false)
@@ -41,4 +41,5 @@ public class Message extends BaseTimeEntity {
     @Column(name = "to_member_visible", nullable = false)
     @ColumnDefault("true")
     private boolean toMemberVisible;
+
 }

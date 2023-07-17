@@ -1,6 +1,9 @@
 package ssafy.project.jobterview.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -8,9 +11,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
-public class RoomChat extends BaseTimeEntity{
+public class RoomChat extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -25,6 +28,5 @@ public class RoomChat extends BaseTimeEntity{
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(columnDefinition = "TEXT(500)")
     private String content;
 }

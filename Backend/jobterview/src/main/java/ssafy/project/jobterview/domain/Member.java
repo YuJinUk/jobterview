@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -19,13 +18,13 @@ public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long id;
+    private Long memberId;
 
-    @OneToMany(mappedBy = "fromMember")
-    private List<Message> sentMessage = new ArrayList<>();
+    @OneToMany(mappedBy = "sender")
+    private List<Message> receivedMessageList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "toMember")
-    private List<Message> receivedMessages = new ArrayList<>();
+    @OneToMany(mappedBy = "receiver")
+    private List<Message> sentMessageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<RoomChat> roomChatList = new ArrayList<>();
@@ -36,12 +35,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private List<Bookmark> bookmarkList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reportedMember")
-    private List<Report> reportedList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "reporter")
-    private List<Report> reportList = new ArrayList<>();
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -51,10 +44,12 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String password;
 
-    private String intro;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "mail_cert_id")
+    private MailCert mailCert;
 
-    @Embedded
-    private EmailVerify emailVerify;
+    @Column(name = "refresh_token")
+    private String refreshToken;
 
     @Column(name = "is_active", nullable = false)
     @ColumnDefault("1")

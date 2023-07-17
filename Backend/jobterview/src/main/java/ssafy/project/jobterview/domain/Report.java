@@ -12,7 +12,6 @@ import javax.persistence.*;
 public class Report extends BaseTimeEntity {
 
     @EmbeddedId
-    @Column(name = "report_id")
     private ReportId reportId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -21,12 +20,9 @@ public class Report extends BaseTimeEntity {
     private Member reporter;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reported_member_id")
-    @MapsId("reportedMemberId")
+    @JoinColumn(name = "reported_id")
+    @MapsId("reportedId")
     private Member reportedMember;
-
-    @Enumerated(EnumType.STRING)
-    private ReportStatus status;
 
     @Column(nullable = false)
     private String reason;

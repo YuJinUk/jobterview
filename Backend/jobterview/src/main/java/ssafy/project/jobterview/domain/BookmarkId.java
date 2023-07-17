@@ -4,11 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Embeddable
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@EqualsAndHashCode
 public class BookmarkId implements Serializable {
 
     @Column(name = "member_id")
@@ -16,17 +17,4 @@ public class BookmarkId implements Serializable {
 
     @Column(name = "room_id")
     private Long roomId;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookmarkId that = (BookmarkId) o;
-        return Objects.equals(memberId, that.memberId) && Objects.equals(roomId, that.roomId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(memberId, roomId);
-    }
 }

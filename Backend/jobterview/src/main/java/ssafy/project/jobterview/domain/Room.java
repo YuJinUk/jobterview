@@ -18,7 +18,7 @@ public class Room extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
-    private Long id;
+    private Long roomId;
 
     @OneToMany(mappedBy = "room")
     private List<RoomChat> roomChatList = new ArrayList<>();

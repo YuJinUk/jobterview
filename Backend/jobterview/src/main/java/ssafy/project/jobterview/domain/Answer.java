@@ -9,11 +9,11 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Answer extends BaseTimeEntity{
+public class Answer extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "answer_id")
-    private Long id;
+    private Long answerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -23,6 +23,5 @@ public class Answer extends BaseTimeEntity{
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(columnDefinition = "TEXT(2000)")
     private String content;
 }

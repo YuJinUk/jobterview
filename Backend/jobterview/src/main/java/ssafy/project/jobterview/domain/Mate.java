@@ -4,17 +4,15 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Mate {
+public class Mate extends BaseTimeEntity {
 
     @EmbeddedId
-    @Column(name = "mate_id")
     private MateId mateId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,6 +24,4 @@ public class Mate {
     @JoinColumn(name = "to_member_id")
     @MapsId("toMemberId")
     private Member toMember;
-
-
 }
