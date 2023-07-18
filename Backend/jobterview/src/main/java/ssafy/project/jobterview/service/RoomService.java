@@ -14,5 +14,7 @@ public interface RoomService {
 
     Room findByName(String roomName);
 
+    Page<Room> searchByName(String keyword, Pageable pageable);
+
     Page<Room> findAll(Pageable pageable) throws NotFoundException;
 }

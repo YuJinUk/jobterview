@@ -37,7 +37,7 @@ public class Room extends BaseTimeEntity {
     @Column(name = "room_name")
     private String roomName;
 
-    public RoomDto toRoomDto() {
+    public RoomDto convertToDto() {
         return RoomDto.builder()
                 .roomId(this.getRoomId())
                 .roomChatList(this.getRoomChatList())
