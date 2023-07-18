@@ -1,4 +1,4 @@
 package ssafy.project.jobterview.repository;
 
-public class Repository {
+public class MateRepository {
 }
