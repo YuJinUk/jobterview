@@ -2,6 +2,7 @@ package ssafy.project.jobterview.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,9 @@ import ssafy.project.jobterview.repository.UserRepository;
 @RestController
 @RequestMapping("/api")
 public class IndexController {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -36,7 +40,17 @@ public class IndexController {
     @PostMapping("/join")
     public ResponseEntity<String> join(Member member) {
         System.out.println(member);
-        System.out.println("null");
+        String rawPassword = member.getPassword();
+        String encPwd = bCryptPasswordEncoder.encode(rawPassword);
+        member.setPassword(encPwd);
+        userRepository.save(member);
+
+        return ResponseEntity.ok("check");
+    }
+
+    @PostMapping("/logingo")
+    public ResponseEntity<String> join() {
+
 
         return ResponseEntity.ok("check");
     }

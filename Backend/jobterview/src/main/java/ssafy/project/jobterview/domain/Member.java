@@ -51,7 +51,25 @@ public class Member extends BaseTimeEntity {
     @Column(name = "refresh_token")
     private String refreshToken;
 
-    @Column(name = "is_active", nullable = false)
-    @ColumnDefault("1")
-    private int isActive;
+    @Column(name = "is_active") //nullable = 뺏습니다 있으면 객체 생성 안됨
+    @ColumnDefault("1") //이게 있어서 디비 갈때는 자동으로 생길듯 안생기누,,,,
+    private Integer isActive; //요거 int=>Integer로 바꿧습니다
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "memberId=" + memberId +
+                ", receivedMessageList=" + receivedMessageList +
+                ", sentMessageList=" + sentMessageList +
+                ", roomChatList=" + roomChatList +
+                ", answerList=" + answerList +
+                ", bookmarkList=" + bookmarkList +
+                ", email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                ", mailCert=" + mailCert +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", isActive=" + isActive +
+                '}';
+    }
 }
