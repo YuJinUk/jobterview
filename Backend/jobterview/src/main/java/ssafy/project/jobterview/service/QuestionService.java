@@ -1,5 +1,7 @@
 package ssafy.project.jobterview.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ssafy.project.jobterview.domain.Category;
 import ssafy.project.jobterview.domain.Question;
 
@@ -10,9 +12,9 @@ public interface QuestionService {
 
     Question save(Question q);
     Question update(Question q);
-    List<Question> findAll();
-    Optional<Question> findAllByCategory(Category c);
+    Page<Question> findAll(Pageable pageable);
+    Page<Question> findAllByCategory(Category c, Pageable pageable);
     Question findById(Long questionId);
     void deleteById(Long questionId);
-    List<Question> findByRandom();
+    List<Question> findByRandom(int count);
 }

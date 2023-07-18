@@ -2,6 +2,8 @@ package ssafy.project.jobterview.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Category;
 import ssafy.project.jobterview.domain.Question;
@@ -31,13 +33,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> findAll() {
-        return questionRepository.findAll();
+    public Page<Question> findAll(Pageable pageable) {
+        return questionRepository.findAll(pageable);
     }
-
     @Override
-    public Optional<Question> findAllByCategory(Category c) {
-        return questionRepository.findAllByCategory(c);
+    public Page<Question> findAllByCategory(Category c, Pageable pageable) {
+        return questionRepository.searchByCategory(c, pageable);
     }
 
     @Override
@@ -51,9 +52,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> findByRandom() {
+    public List<Question> findByRandom(int count) {
         long length = questionRepository.count();
-
-        return null;
+        if(count > length) {
+            throw new IllegalArgumentException("면접 질문의 개수가 부족합니다.");
+        } else {
+            return questionRepository.searchByRandom(count);
+        }
     }
 }
