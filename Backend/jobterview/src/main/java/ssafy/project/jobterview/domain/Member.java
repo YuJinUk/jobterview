@@ -54,4 +54,8 @@ public class Member extends BaseTimeEntity {
     @Column(name = "is_active", nullable = false)
     @ColumnDefault("1")
     private int isActive;
+
+    public Member(String email) {
+        this.email = email;
+    }
 }

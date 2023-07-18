@@ -23,4 +23,12 @@ public class Bookmark extends BaseTimeEntity {
     @JoinColumn(name = "room_id")
     @MapsId("roomId")
     private Room room;
+
+    public void addBookmark(Member member, Room room) {
+        this.member = member;
+        this.room = room;
+        
+        //해당 맴버에 북마크 추가
+        member.getBookmarkList().add(this);
+    }
 }

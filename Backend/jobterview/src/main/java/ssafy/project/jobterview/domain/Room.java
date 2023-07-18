@@ -2,15 +2,14 @@ package ssafy.project.jobterview.domain;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import ssafy.project.jobterview.dto.RoomDto;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Room extends BaseTimeEntity {
@@ -37,4 +36,16 @@ public class Room extends BaseTimeEntity {
 
     @Column(name = "room_name")
     private String roomName;
+
+    public RoomDto toRoomDto() {
+        return RoomDto.builder()
+                .roomId(this.getRoomId())
+                .roomChatList(this.getRoomChatList())
+                .roomName(this.getRoomName())
+                .inMeeting(this.isInMeeting())
+                .nowMember(this.getNowMember())
+                .maxMember(this.getMaxMember())
+                .createdDate(this.getCreatedDate())
+                .build();
+    }
 }
