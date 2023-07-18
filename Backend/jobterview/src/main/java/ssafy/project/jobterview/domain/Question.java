@@ -1,10 +1,8 @@
 package ssafy.project.jobterview.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import ssafy.project.jobterview.dto.QuestionDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question extends BaseTimeEntity {
@@ -34,4 +31,25 @@ public class Question extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String content;
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Question(Category category, String content) {
+        this.category = category;
+        this.content = content;
+    }
+
+    private QuestionDto toQuestionDto(Question q) {
+        return QuestionDto.builder().
+                questionId(q.getQuestionId()).
+                category(q.getCategory().name()).
+                content(q.getContent()).
+                build();
+    }
 }
