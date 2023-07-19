@@ -21,11 +21,11 @@ public class Room extends BaseTimeEntity {
     private Long roomId;
 
     @OneToMany(mappedBy = "room")
-    private List<RoomChat> roomChatList = new ArrayList<>();
+    private List<Chat> roomChatList = new ArrayList<>();
 
-    @Column(name = "in_meeting", nullable = false)
-    @ColumnDefault("false")
-    private boolean inMeeting;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(255) default 'WAITING'")
+    private RoomStatus status;
 
     @Column(name = "now_member", nullable = false)
     @ColumnDefault("1")
@@ -53,10 +53,22 @@ public class Room extends BaseTimeEntity {
                 .roomId(this.getRoomId())
                 .roomChatList(this.getRoomChatList())
                 .roomName(this.getRoomName())
-                .inMeeting(this.isInMeeting())
                 .nowMember(this.getNowMember())
                 .maxMember(this.getMaxMember())
+                .roomStatus(this.getStatus())
                 .createdDate(this.getCreatedDate())
                 .build();
+    }
+
+    public void startMeeting() {
+        this.status = RoomStatus.MEETING;
+    }
+
+    public void waitMeeting() {
+        this.status = RoomStatus.WAITING;
+    }
+
+    public void close() {
+        this.status = RoomStatus.ENDED;
     }
 }

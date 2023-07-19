@@ -25,17 +25,17 @@ public class QRoom extends EntityPathBase<Room> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
-    public final BooleanPath inMeeting = createBoolean("inMeeting");
-
     public final NumberPath<Integer> maxMember = createNumber("maxMember", Integer.class);
 
     public final NumberPath<Integer> nowMember = createNumber("nowMember", Integer.class);
 
-    public final ListPath<RoomChat, QRoomChat> roomChatList = this.<RoomChat, QRoomChat>createList("roomChatList", RoomChat.class, QRoomChat.class, PathInits.DIRECT2);
+    public final ListPath<Chat, QChat> roomChatList = this.<Chat, QChat>createList("roomChatList", Chat.class, QChat.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> roomId = createNumber("roomId", Long.class);
 
     public final StringPath roomName = createString("roomName");
+
+    public final EnumPath<RoomStatus> status = createEnum("status", RoomStatus.class);
 
     public QRoom(String variable) {
         super(Room.class, forVariable(variable));

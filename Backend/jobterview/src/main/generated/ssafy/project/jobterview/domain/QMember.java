@@ -47,7 +47,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath refreshToken = createString("refreshToken");
 
-    public final ListPath<RoomChat, QRoomChat> roomChatList = this.<RoomChat, QRoomChat>createList("roomChatList", RoomChat.class, QRoomChat.class, PathInits.DIRECT2);
+    public final ListPath<Chat, QChat> roomChatList = this.<Chat, QChat>createList("roomChatList", Chat.class, QChat.class, PathInits.DIRECT2);
 
     public final ListPath<Message, QMessage> sentMessageList = this.<Message, QMessage>createList("sentMessageList", Message.class, QMessage.class, PathInits.DIRECT2);
 

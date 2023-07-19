@@ -28,7 +28,7 @@ public class Member extends BaseTimeEntity {
     private List<Message> sentMessageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<RoomChat> roomChatList = new ArrayList<>();
+    private List<Chat> roomChatList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Answer> answerList = new ArrayList<>();
@@ -56,7 +56,9 @@ public class Member extends BaseTimeEntity {
     @ColumnDefault("1")
     private int isActive;
 
-    public Member(String email) {
+    public Member(String email, String nickname, String password) {
         this.email = email;
+        this.nickname = nickname;
+        this.password = password;
     }
 }

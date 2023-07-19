@@ -20,6 +20,11 @@ import ssafy.project.jobterview.service.RoomService;
 public class RoomController {
 
     private final RoomService roomService;
+    
+    //상황 봐서 만들어야 하는 api
+//    @PostMapping
+//    public ResponseEntity<Void> save(){
+//    }
 
     /**
      * 특정 roomId에 해당하는 Room 정보 조회
@@ -27,8 +32,8 @@ public class RoomController {
      * @param roomId 조회할 Room의 식별자
      * @return ResponseEntity<RoomDto> 형태로 조회된 Room 정보 반환
      */
-    @GetMapping("/{roomId}")
-    public ResponseEntity<RoomDto> getRoomById(@PathVariable Long roomId) {
+    @GetMapping("/id")
+    public ResponseEntity<RoomDto> getRoomById(@RequestParam Long roomId) {
         // roomId에 해당하는 Room을 조회하고, RoomDto로 변환하여 반환
         return new ResponseEntity<>(roomService.findById(roomId).convertToDto(), HttpStatus.OK);
     }
@@ -39,8 +44,8 @@ public class RoomController {
      * @param roomName 조회할 Room의 이름
      * @return ResponseEntity<RoomDto> 형태로 조회된 Room 정보 반환
      */
-    @GetMapping("/{roomName}")
-    public ResponseEntity<RoomDto> getRoomByName(@PathVariable String roomName) {
+    @GetMapping("/name")
+    public ResponseEntity<RoomDto> getRoomByName(@RequestParam String roomName) {
         // roomName에 해당하는 Room을 조회하고, RoomDto로 변환하여 반환
         return new ResponseEntity<>(roomService.findByName(roomName).convertToDto(), HttpStatus.OK);
     }
@@ -57,9 +62,7 @@ public class RoomController {
             @RequestParam("keyword") String keyword,
             @PageableDefault(page = 0, size = 10,
                     sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Room> roomPage = roomService.searchByName(keyword, pageable);
-        Page<RoomDto> roomDtoPage = roomPage.map(Room::convertToDto);
-        return new ResponseEntity<>(roomDtoPage, HttpStatus.OK);
+        return new ResponseEntity<>(roomService.searchByName(keyword, pageable).map(Room::convertToDto), HttpStatus.OK);
     }
 
 
@@ -73,11 +76,7 @@ public class RoomController {
     public ResponseEntity<Page<RoomDto>> getRoomList(
             @PageableDefault(page = 0, size = 10,
                     sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        // 페이징된 Room 목록 조회
-        Page<Room> roomPage = roomService.findAll(pageable);
-        // Room 객체를 RoomDto로 변환하여 페이징된 RoomDto 목록 생성
-        Page<RoomDto> roomDtoPage = roomPage.map(Room::convertToDto);
         // 페이징된 RoomDto 목록과 HttpStatus.OK 반환
-        return new ResponseEntity<>(roomDtoPage, HttpStatus.OK);
+        return new ResponseEntity<>(roomService.findAll(pageable).map(Room::convertToDto), HttpStatus.OK);
     }
 }
