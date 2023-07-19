@@ -1,9 +1,11 @@
 package ssafy.project.jobterview.repository;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import ssafy.project.jobterview.domain.Category;
@@ -34,9 +36,32 @@ public class QuestionRepositoryImpl implements QuestionCustomRepository {
     @Override
     public Page<Question> searchByCategory(Category c, Pageable pageable) {
         BooleanExpression condition = question.category.eq(c);
-        return queryFactory.
+        List<Question> questionList =  queryFactory.
                 selectFrom(question)
-                .where()
+                .where(condition)
+                .orderBy(getOrderSpecifiers(pageable.getSort()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+        Long count = queryFactory.select(question.count())
+                .from(question)
+                .where(condition)
+                .fetchOne();
+        return new PageImpl<>(questionList, pageable, count);
+    }
+
+    private OrderSpecifier<?>[] getOrderSpecifiers(Sort sort) {
+        return sort.stream()
+                .map(order -> {
+                    switch (order.getDirection()) {
+                        case ASC:
+                            return question.category.asc();
+                        case DESC:
+                            return question.category.desc();
+                        default:
+                            throw new IllegalArgumentException("Invalid sort direction: " + order.getDirection());
+                    }
+                })
+                .toArray(OrderSpecifier[]::new);
     }
 }

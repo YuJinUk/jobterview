@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "answerList")
 public class Question extends BaseTimeEntity {
 
     @Id
@@ -45,6 +46,12 @@ public class Question extends BaseTimeEntity {
         this.content = content;
     }
 
+    public Question(Long questionId, Category category, String content) {
+        this.questionId = questionId;
+        this.category = category;
+        this.content = content;
+    }
+
     private QuestionDto toQuestionDto(Question q) {
         return QuestionDto.builder().
                 questionId(q.getQuestionId()).
@@ -52,4 +59,5 @@ public class Question extends BaseTimeEntity {
                 content(q.getContent()).
                 build();
     }
+
 }

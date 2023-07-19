@@ -2,6 +2,7 @@ package ssafy.project.jobterview.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import ssafy.project.jobterview.domain.Category;
 import ssafy.project.jobterview.domain.Question;
 
