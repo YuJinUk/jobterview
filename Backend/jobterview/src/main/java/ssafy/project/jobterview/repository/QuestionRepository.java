@@ -10,5 +10,5 @@ import java.util.*;
 
 @Transactional(readOnly = true)
 public interface QuestionRepository extends JpaRepository<Question, Long>, QuestionCustomRepository {
-    Optional<Question> findAllByCategory(Category c);
+
 }

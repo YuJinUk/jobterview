@@ -1,7 +1,6 @@
 package ssafy.project.jobterview.controller;
 
 import io.swagger.annotations.*;
-import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Category;
 import ssafy.project.jobterview.domain.Question;
 import ssafy.project.jobterview.dto.QuestionDto;
-import ssafy.project.jobterview.dto.ReportDto;
 import ssafy.project.jobterview.service.QuestionService;
 
 import java.util.List;
@@ -26,6 +24,11 @@ public class QuestionController {
     @Autowired
     QuestionService qs;
 
+    /**
+     * 면접 질문 등록
+     * @param quest : Front에서 작성된 질문 Dto
+     * @return
+     */
     @PostMapping
     @ApiOperation(value = "면접 질문 등록", notes = "")
     @ApiResponses({
@@ -40,6 +43,11 @@ public class QuestionController {
         return new ResponseEntity<Integer>(1, HttpStatus.OK);
     }
 
+    /**
+     * 면접 질문 수정
+     * @param quest : Front에서 수정된 질문 Dto
+     * @return
+     */
     @PutMapping
     @ApiOperation(value = "면접 질문 수정", notes = "")
     @ApiResponses({
@@ -54,6 +62,11 @@ public class QuestionController {
         return new ResponseEntity<Integer>(1, HttpStatus.OK);
     }
 
+    /**
+     * 면접 질문 목록 전체 조회
+     * @param pageable 페이징 정보
+     * @return
+     */
     @GetMapping("/list")
     @ApiOperation(value = "면접 질문 목록 조회 (페이징)", notes = "")
     @ApiResponses({
@@ -62,13 +75,20 @@ public class QuestionController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> selectAll(@ApiParam(value="페이지 정보", required = true) Pageable pageable) {
+    public ResponseEntity<?> selectAll(@PageableDefault(page = 0, size = 10,
+            sort = "selectedCnt", direction = Sort.Direction.DESC) @ApiParam(value="페이지 정보", required = true) Pageable pageable) {
         Page<Question> questionList = qs.findAll(pageable);
         return new ResponseEntity<Page<Question>>(questionList, HttpStatus.OK);
     }
 
+    /**
+     * 면접 질문 분류 목록 조회
+     * @param pageable 페이징 정보
+     * @param category 조회 할 질문 분류
+     * @return
+     */
     @GetMapping
-    @ApiOperation(value = "면접 질문 목록 조회 (페이징)", notes = "")
+    @ApiOperation(value = "면접 질문 분류 별 목록 조회 (페이징)", notes = "")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -81,6 +101,11 @@ public class QuestionController {
         return new ResponseEntity<Page<Question>>(questionList, HttpStatus.OK);
     }
 
+    /**
+     * 질문 삭제
+     * @param quest 삭제할 질문 Dto
+     * @return
+     */
     @DeleteMapping
     @ApiOperation(value = "면접 질문 삭제", notes = "")
     @ApiResponses({
@@ -94,6 +119,11 @@ public class QuestionController {
         return new ResponseEntity<Integer>(1, HttpStatus.OK);
     }
 
+    /**
+     * 랜덤 질문 선택
+     * @param count 랜덤으로 선택할 질문 개수
+     * @return
+     */
     @GetMapping("/random")
     @ApiOperation(value = "면접 질문 랜덤 선택", notes = "")
     @ApiResponses({
