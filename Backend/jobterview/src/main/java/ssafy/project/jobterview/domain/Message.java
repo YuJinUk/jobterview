@@ -2,11 +2,11 @@ package ssafy.project.jobterview.domain;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.mapping.Join;
+
+import ssafy.project.jobterview.dto.MessageDto;
 
 import javax.persistence.*;
-import java.beans.ConstructorProperties;
-import java.time.LocalDateTime;
+
 
 @Entity
 @Getter
@@ -41,5 +41,23 @@ public class Message extends BaseTimeEntity {
     @Column(name = "to_member_visible", nullable = false)
     @ColumnDefault("true")
     private boolean toMemberVisible;
+
+    public Message(Long id, Member sender, Member receiver, String content){
+        this.id=id;
+        this.sender=sender;
+        this.receiver=receiver;
+        this.content=content;
+
+
+    }
+    public MessageDto convertToDto(){
+        return MessageDto.builder()
+                .id(this.getId())
+                .sender(this.getSender())
+                .receiver(this.getReceiver())
+                .content(this.getContent())
+                .createdDate(this.getCreatedDate())
+                .build();
+    }
 
 }
