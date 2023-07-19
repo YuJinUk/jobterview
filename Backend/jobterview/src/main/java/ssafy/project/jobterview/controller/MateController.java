@@ -21,16 +21,14 @@ public class MateController {
     private final MateService mateService;
     private final MemberSerivce memberService;
 
-//    public ResponseEntity<?> (@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) {
 
-
-//        User user = userService.getUserByUserId(userId);
-//        if(passwordEncoder.matches(password, user.getPassword())) {
-//            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
-//        }
-//        return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
-   // 메이트 추가
     @PostMapping("/mate/{nickname}")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "질문 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
     public ResponseEntity<String> addMate(@PathVariable String nickname){
         Member loginMember = new Member();
         loginMember.setEmail("hello@test.com");

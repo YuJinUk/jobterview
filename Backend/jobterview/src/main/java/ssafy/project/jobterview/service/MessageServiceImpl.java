@@ -1,8 +1,11 @@
 package ssafy.project.jobterview.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Message;
+import ssafy.project.jobterview.repository.MessageQueryRepository;
 import ssafy.project.jobterview.repository.MessageRepository;
 
 import java.util.Optional;
@@ -11,34 +14,39 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
+    private final MessageQueryRepository messageQueryRepository;
     @Override
     public Message save(Message m) {
         return messageRepository.save(m);
     }
     @Override
-    public Optional<Message> findAllByToMemberVisibleAndReceiver(Message m){
-        return messageRepository.findAllByToMemberVisibleAndReceiver(m);
+    public Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable, Message m){
+        return messageQueryRepository.findAllByFromMemberVisibleAndReceiver(pageable ,m);
     }
     @Override
-    public Optional<Message> findAllByFromMemberVisibleAndSender (Message m){
-        return messageRepository.findAllByFromMemberVisibleAndSender(m);
+    public Page<Message> findAllByToMemberVisibleAndSender (Pageable pageable, Message m){
+        return messageQueryRepository.findAllByToMemberVisibleAndSender(pageable, m);
     }
 
     @Override
     public Message findById(Long id){
-        return messageRepository.findById(Long id);
+        Message m = messageRepository.findById(id).orElseThrow(()->new IllegalArgumentException());
+        return m;
     }
     @Override
-    public Message read(Long id){
-        return messageRepository.update(id);
+    public void read(Long id){
+        Message m = messageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
+        m.setRead(false); // 읽음 처리
     }
     @Override
-    public Message receiveMessageDelete (Long id){
-        messageRepository.update(id);
+    public void receiveMessageDelete (Long id){
+        Message m = messageRepository.findById(id).orElseThrow(()-> new IllegalArgumentException());
+        m.setFromMemberVisible(false);
     }
     @Override
-    public Message sendMessageDelete (Long id){
-        return messageRepository.update(id);
+    public void sendMessageDelete (Long id){
+        Message m = messageRepository.findById(id).orElseThrow(()-> new IllegalArgumentException());
+        m.setToMemberVisible(false);
     }
 
 
