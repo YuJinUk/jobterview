@@ -8,5 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
+
+    /**
+     * 특정 roomName에 해당하는 Room 정보 조회
+     *
+     * @param roomName 조회할 Room의 roomName
+     * @return Optional<Room> 형태로 조회된 Room 정보 반환
+     */
     Optional<Room> findByRoomName(String roomName);
 }

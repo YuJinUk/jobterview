@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@ToString
 public class Room extends BaseTimeEntity {
 
     @Id
@@ -37,7 +38,17 @@ public class Room extends BaseTimeEntity {
     @Column(name = "room_name")
     private String roomName;
 
-    public RoomDto toRoomDto() {
+    public Room(String roomName, int maxMember) {
+        this.roomName = roomName;
+        this.maxMember = maxMember;
+    }
+
+    /**
+     * Room 객체를 RoomDto 형태로 변환
+     * 
+     * @return 변환된 RoomDto 객체
+     */
+    public RoomDto convertToDto() {
         return RoomDto.builder()
                 .roomId(this.getRoomId())
                 .roomChatList(this.getRoomChatList())

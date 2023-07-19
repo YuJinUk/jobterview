@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class MailCert extends BaseTimeEntity{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mail_cert_id")
     private Long mailCertId;
 
