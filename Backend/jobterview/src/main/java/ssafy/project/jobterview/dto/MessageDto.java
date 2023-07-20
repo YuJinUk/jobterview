@@ -3,6 +3,8 @@ package ssafy.project.jobterview.dto;
 import lombok.*;
 import ssafy.project.jobterview.domain.Member;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -10,10 +12,7 @@ import ssafy.project.jobterview.domain.Member;
 @ToString
 public class MessageDto {
     private Long id;
-    private Member sender;
-    private Member receiver;
+    private String senderNickname;
+    private String receiverNickname;
     private String content;
-    private boolean isRead;
-    private boolean fromMemberVisible;
-    private boolean toMemberVisible;
 }

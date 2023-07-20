@@ -47,16 +47,24 @@ public class Message extends BaseTimeEntity {
         this.sender=sender;
         this.receiver=receiver;
         this.content=content;
+//        this.isRead=isRead;
+//        this.fromMemberVisible=fromMemberVisible;
+//        this.toMemberVisible=toMemberVisible;
 
 
     }
+
+
     public MessageDto convertToDto(){
         return MessageDto.builder()
                 .id(this.getId())
-                .sender(this.getSender())
-                .receiver(this.getReceiver())
+                .senderNickname(this.getSender().getNickname())
+                .receiverNickname(this.getReceiver().getNickname())
                 .content(this.getContent())
-                .createdDate(this.getCreatedDate())
+
+
+
+
                 .build();
     }
 
