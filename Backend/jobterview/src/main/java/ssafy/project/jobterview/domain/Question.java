@@ -52,7 +52,7 @@ public class Question extends BaseTimeEntity {
         this.content = content;
     }
 
-    private QuestionDto toQuestionDto(Question q) {
+    public static QuestionDto toQuestionDto(Question q) {
         return QuestionDto.builder().
                 questionId(q.getQuestionId()).
                 category(q.getCategory().name()).

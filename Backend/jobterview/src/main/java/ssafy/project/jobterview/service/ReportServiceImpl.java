@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Report;
 import ssafy.project.jobterview.domain.ReportId;
+import ssafy.project.jobterview.dto.ReportDto;
+import ssafy.project.jobterview.repository.MemberRepository;
 import ssafy.project.jobterview.repository.ReportRepository;
 
 @Service
@@ -15,14 +17,22 @@ public class ReportServiceImpl implements ReportService {
 
     private final ReportRepository reportRepository;
 
+    private final MemberRepository memberRepository;
+
+
     /**
-     * 접수된 신고 저장
-     * @param r 접수된 신고
+     * 접수된 신고 저장 
+     * Dto의 닉네임으로 Member를 조회하여 Report Entity 생성하여 저장
+     * @param r
      * @return
      */
     @Override
-    public Report save(Report r) {
-        return reportRepository.save(r);
+    public Report save(ReportDto r) {
+        Member reporter = memberRepository.findByNickname(r.getReporterNickname()).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        Member reported = memberRepository.findByNickname(r.getReportedNickname()).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        ReportId reportId = new ReportId(reporter.getMemberId(), reported.getMemberId());
+        Report report = new Report(reportId, reporter, reported, r.getReason());
+        return reportRepository.save(report);
     }
 
     /**
@@ -32,37 +42,37 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     public Page<Report> findAll(Pageable pageable) {
-        return reportRepository.findAll(pageable);
+        Page<Report> reportList = reportRepository.findAll(pageable);
+        if(reportList.isEmpty()) {
+            throw new IllegalArgumentException("신고 목록이 없음");
+        } else {
+            return reportList;
+        }
     }
 
 
     /**
-     * 피신고자 기준으로 신고 목록 조회
-     * @param reportedMember 피신고자
-     * @param pageable 페이징 정보
-     * @return 
+     * 해당 유저에 대해 접수된 신고 목록 조회
+     * @param reportedNickname
+     * @param pageable
+     * @return
      */
     @Override
-    public Page<Report> findByReportedMember(Member reportedMember, Pageable pageable) {
-//        Member m = memberRepository.findById(reported_id);
-        return reportRepository.searchByReportedMember(reportedMember, pageable);
+    public Page<Report> findAllByReportedMember(String reportedNickname, Pageable pageable) {
+        Member m = memberRepository.findByNickname(reportedNickname).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        return reportRepository.searchByReportedMember(m, pageable);
     }
 
-    /**
-     * Member 작성되면 controller에서 request로 들어온 nickname을 받아 member 객체 찾는 것으로 수정
-     */
-//    @Override
-//    public Page<Report> findByReportedMember(String nickname, Pageable pageable) {
-////        Member m = memberRepository.findByNickname(nickname);
-////        return reportRepository.findAllByReportedMember(m);
-//    }
-//
+
     /**
      * 신고 삭제
-     * @param reportId 삭제할 신고 id
+     * @param r 삭제할 신고 Dto
      */
     @Override
-    public void deleteByReportId(ReportId reportId) {
+    public void delete(ReportDto r) {
+        Member reporter = memberRepository.findByNickname(r.getReporterNickname()).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        Member reported = memberRepository.findByNickname(r.getReportedNickname()).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        ReportId reportId = new ReportId(reporter.getMemberId(), reported.getMemberId());
         reportRepository.deleteById(reportId);
     }
 }

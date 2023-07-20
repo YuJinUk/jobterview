@@ -21,9 +21,16 @@ public class ReportRepositoryImpl implements ReportCustomRepository {
     public ReportRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
+
+    /**
+     * reportedMember 대상으로 접수된 모든 신고목록 조회
+     * @param reportedMember 피신고자
+     * @param pageable 페이징 정보
+     * @return
+     */
     @Override
     public Page<Report> searchByReportedMember(Member reportedMember, Pageable pageable) {
-        BooleanExpression condition = report.reportedMember.eq(reportedMember);
+        BooleanExpression condition = report.reportedMember.memberId.eq(reportedMember.getMemberId());
         List<Report> reportList = queryFactory
                 .selectFrom(report)
                 .where(condition)

@@ -14,6 +14,7 @@ import ssafy.project.jobterview.domain.Question;
 import ssafy.project.jobterview.dto.QuestionDto;
 import ssafy.project.jobterview.service.QuestionService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(value = "면접 질문 API", tags = {"Question"})
@@ -77,8 +78,8 @@ public class QuestionController {
     })
     public ResponseEntity<?> selectAll(@PageableDefault(page = 0, size = 10,
             sort = "selectedCnt", direction = Sort.Direction.DESC) @ApiParam(value="페이지 정보", required = true) Pageable pageable) {
-        Page<Question> questionList = qs.findAll(pageable);
-        return new ResponseEntity<Page<Question>>(questionList, HttpStatus.OK);
+        Page<QuestionDto> questionDtoList = qs.findAll(pageable).map(Question::toQuestionDto);
+        return new ResponseEntity<Page<QuestionDto>>(questionDtoList, HttpStatus.OK);
     }
 
     /**
@@ -97,8 +98,8 @@ public class QuestionController {
     })
     public ResponseEntity<?> selectAllByCategory(@ApiParam(value="페이지 정보", required = true) Pageable pageable,
                                                  @PageableDefault(page=0, size=10, sort="category", direction = Sort.Direction.DESC) @ApiParam(value="분류 정보", required = true) String category) {
-        Page<Question> questionList = qs.findAllByCategory(Category.valueOf(category), pageable);
-        return new ResponseEntity<Page<Question>>(questionList, HttpStatus.OK);
+        Page<QuestionDto> questionDtoList = qs.findAllByCategory(Category.valueOf(category), pageable).map(Question::toQuestionDto);
+        return new ResponseEntity<Page<QuestionDto>>(questionDtoList, HttpStatus.OK);
     }
 
     /**
@@ -134,6 +135,10 @@ public class QuestionController {
     })
     public ResponseEntity<?> selectByRandom(@RequestParam @ApiParam(value="랜덤 선택 개수", required = true) int count) {
         List<Question> questionList = qs.findByRandom(count);
-        return new ResponseEntity<List<Question>>(questionList, HttpStatus.OK);
+        List<QuestionDto> questionDtoList = new ArrayList<>();
+        for(Question q : questionList) {
+            questionDtoList.add(Question.toQuestionDto(q));
+        }
+        return new ResponseEntity<List<QuestionDto>>(questionDtoList, HttpStatus.OK);
     }
 }

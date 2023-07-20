@@ -5,10 +5,11 @@ import org.springframework.data.domain.Pageable;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Report;
 import ssafy.project.jobterview.domain.ReportId;
+import ssafy.project.jobterview.dto.ReportDto;
 
 public interface ReportService {
-    Report save(Report r);
+    Report save(ReportDto r);
     Page<Report> findAll(Pageable pageable);
-    public Page<Report> findByReportedMember(Member reportedMember, Pageable pageable);
-    void deleteByReportId(ReportId reportId);
+    public Page<Report> findAllByReportedMember(String reportedNickname, Pageable pageable);
+    void delete(ReportDto r);
 }

@@ -6,8 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Category;
 import ssafy.project.jobterview.domain.Question;
+import ssafy.project.jobterview.dto.QuestionDto;
 import ssafy.project.jobterview.repository.QuestionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service

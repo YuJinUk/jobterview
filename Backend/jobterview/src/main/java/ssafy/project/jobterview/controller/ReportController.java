@@ -1,23 +1,28 @@
 package ssafy.project.jobterview.controller;
 
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ssafy.project.jobterview.domain.Report;
 import ssafy.project.jobterview.dto.ReportDto;
 import ssafy.project.jobterview.service.ReportService;
+
+import java.util.List;
 
 @Api(value = "신고 API", tags = {"Report"})
 @RestController
 @RequestMapping("/report")
+@RequiredArgsConstructor
 public class ReportController {
 
-    @Autowired
-    ReportService rs;
+    private final ReportService rs;
 
     /**
      * 신고 등록
@@ -33,6 +38,7 @@ public class ReportController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> register(@RequestBody @ApiParam(value="신고 정보", required = true) ReportDto report) {
+        rs.save(report);
         return new ResponseEntity<Integer>(1, HttpStatus.OK);
     }
 
@@ -51,13 +57,14 @@ public class ReportController {
     })
     public ResponseEntity<?> searchAll(@PageableDefault(page = 0, size = 10,
             sort = "reportId", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable) {
-        return new ResponseEntity<Integer>(1, HttpStatus.OK);
+        Page<ReportDto> reports = rs.findAll(pageable).map(Report::toReportDto);
+        return new ResponseEntity<Page<ReportDto>>(reports, HttpStatus.OK);
     }
 
     /**
-     * 특정 유저에게 접수된 신고 목록 조회
-     * @param pageable 페이징 정보
-     * @param nickname 검색 닉네임
+     *
+     * @param pageable
+     * @param report
      * @return
      */
     @GetMapping
@@ -68,10 +75,11 @@ public class ReportController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> searchById(@PageableDefault(page = 0, size = 10,
+    public ResponseEntity<?> searchAllById(@PageableDefault(page = 0, size = 10,
             sort = "reportId", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable,
-                                        @RequestParam @ApiParam(value="피신고자 닉네임") String nickname) {
-        return new ResponseEntity<Integer>(1, HttpStatus.OK);
+                                        @RequestParam @ApiParam(value="피신고자 정보") ReportDto report) {
+        Page<ReportDto> reports = rs.findAllByReportedMember(report.getReportedNickname(), pageable).map(Report::toReportDto);
+        return new ResponseEntity<Page<ReportDto>>(reports, HttpStatus.OK);
     }
 
     /**
@@ -88,6 +96,7 @@ public class ReportController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> delete(@RequestParam @ApiParam(value="피신고자, 신고자 정보") ReportDto report) {
+        rs.delete(report);
         return new ResponseEntity<Integer>(1, HttpStatus.OK);
     }
 }
