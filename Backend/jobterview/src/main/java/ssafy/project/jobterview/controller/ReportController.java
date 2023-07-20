@@ -61,10 +61,11 @@ public class ReportController {
         return new ResponseEntity<Page<ReportDto>>(reports, HttpStatus.OK);
     }
 
+
     /**
      *
      * @param pageable
-     * @param report
+     * @param reportedNickname 피신고자 닉네임
      * @return
      */
     @GetMapping
@@ -77,8 +78,8 @@ public class ReportController {
     })
     public ResponseEntity<?> searchAllById(@PageableDefault(page = 0, size = 10,
             sort = "reportId", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable,
-                                        @RequestParam @ApiParam(value="피신고자 정보") ReportDto report) {
-        Page<ReportDto> reports = rs.findAllByReportedMember(report.getReportedNickname(), pageable).map(Report::toReportDto);
+                                        @RequestParam @ApiParam(value="피신고자 정보") String reportedNickname) {
+        Page<ReportDto> reports = rs.findAllByReportedMember(reportedNickname, pageable).map(Report::toReportDto);
         return new ResponseEntity<Page<ReportDto>>(reports, HttpStatus.OK);
     }
 
@@ -95,7 +96,7 @@ public class ReportController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> delete(@RequestParam @ApiParam(value="피신고자, 신고자 정보") ReportDto report) {
+    public ResponseEntity<?> delete(@RequestBody @ApiParam(value="피신고자, 신고자 정보") ReportDto report) {
         rs.delete(report);
         return new ResponseEntity<Integer>(1, HttpStatus.OK);
     }
