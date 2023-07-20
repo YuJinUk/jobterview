@@ -1,12 +1,12 @@
 package ssafy.project.jobterview.domain;
 
 import lombok.*;
+import ssafy.project.jobterview.dto.ReportDto;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Report extends BaseTimeEntity {
@@ -26,4 +26,13 @@ public class Report extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String reason;
+
+    public static ReportDto toReportDto(Report r) {
+        return ReportDto.builder()
+                .reporterNickname(r.getReporter().getNickname())
+                .reportedNickname(r.getReportedMember().getNickname())
+                .reason(r.getReason())
+                .build();
+
+    }
 }
