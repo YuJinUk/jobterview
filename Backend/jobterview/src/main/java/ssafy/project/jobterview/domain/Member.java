@@ -2,6 +2,7 @@ package ssafy.project.jobterview.domain;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ public class Member extends BaseTimeEntity {
     private List<Message> sentMessageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<RoomChat> roomChatList = new ArrayList<>();
+    private List<Chat> roomChatList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Answer> answerList = new ArrayList<>();

@@ -34,12 +34,12 @@ public class Message extends BaseTimeEntity {
     @ColumnDefault("false")
     private boolean isRead;
 
-    @Column(name = "from_member_visible", nullable = false)
+    @Column(name = "sender_visible", nullable = false)
     @ColumnDefault("true")
-    private boolean fromMemberVisible;
+    private boolean senderVisible;
 
-    @Column(name = "to_member_visible", nullable = false)
+    @Column(name = "receiver_visible", nullable = false)
     @ColumnDefault("true")
-    private boolean toMemberVisible;
+    private boolean receiverVisible;
 
 }
