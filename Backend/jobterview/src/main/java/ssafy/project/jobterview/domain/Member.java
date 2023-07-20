@@ -2,6 +2,7 @@ package ssafy.project.jobterview.domain;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicInsert
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -54,6 +56,11 @@ public class Member extends BaseTimeEntity {
     @Column(name = "is_active") //nullable = 뺏습니다 있으면 객체 생성 안됨
     @ColumnDefault("1") //이게 있어서 디비 갈때는 자동으로 생길듯 안생기누,,,,
     private Integer isActive; //요거 int=>Integer로 바꿧습니다
+
+    //role 만들기
+    @Enumerated(value = EnumType.STRING)
+    @ColumnDefault("'user'")
+    private Role role;
 
     @Override
     public String toString() {

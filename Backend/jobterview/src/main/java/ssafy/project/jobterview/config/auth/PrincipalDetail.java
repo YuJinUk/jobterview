@@ -9,50 +9,52 @@ import java.util.Collection;
 
 public class PrincipalDetail implements UserDetails {
 
-    private Member member; //콤포지션
+    private Member member;
 
     public PrincipalDetail(Member member){
-        this.member = member;
+
+        this.member =member;
     }
 
-    @Override //해당 유저의 권한 리턴
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Collection<GrantedAuthority> collet = new ArrayList<>();
-//
-//        public String getAuthority(){
-//            return member.getRole;
-//        }
-        //return collect;
-        return null;
+        Collection<GrantedAuthority> collect = new ArrayList<>();
+        collect.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return member.getRole().getDescription();
+            }
+        });
+        return collect;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return member.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
