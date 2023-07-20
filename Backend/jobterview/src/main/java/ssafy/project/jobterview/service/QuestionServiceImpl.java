@@ -38,6 +38,7 @@ public class QuestionServiceImpl implements QuestionService {
         Question updateQuestion= questionRepository.findById(q.getQuestionId()).orElseThrow(() -> new IllegalArgumentException("해당 질문이 없습니다."));
         updateQuestion.setCategory(q.getCategory());
         updateQuestion.setContent(q.getContent());
+        questionRepository.save(updateQuestion);
         return updateQuestion;
     }
 

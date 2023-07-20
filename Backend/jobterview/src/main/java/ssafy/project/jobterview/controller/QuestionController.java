@@ -59,7 +59,7 @@ public class QuestionController {
     })
     public ResponseEntity<?> update(@RequestBody @ApiParam(value="면접 질문 정보", required = true) QuestionDto quest) {
         Question q = new Question(quest.getQuestionId(), Category.valueOf(quest.getCategory()), quest.getContent());
-        qs.save(q);
+        qs.update(q);
         return new ResponseEntity<Integer>(1, HttpStatus.OK);
     }
 
