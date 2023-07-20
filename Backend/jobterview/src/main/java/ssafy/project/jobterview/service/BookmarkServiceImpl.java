@@ -82,12 +82,10 @@ public class BookmarkServiceImpl implements BookmarkService{
     @Override
     @Transactional(readOnly = true)
     public Page<Bookmark> findByMember(Long memberId, Pageable pageable) {
-        Member findMember = findMemberById(memberId);
-
-        List<Bookmark> bookmarkList = bookmarkRepository.findByMember(findMember, pageable);
-        if(!bookmarkList.isEmpty()) {
-            return new PageImpl<>(bookmarkList, pageable, bookmarkList.size());
+        List<Bookmark> bookmarkList = bookmarkRepository.findByMember(memberRepository.findById(memberId).get(), pageable);
+        if (bookmarkList.isEmpty()) {
+            throw new NotFoundException("즐겨찾기한 채팅방이 없습니다.");
         }
-        throw new NotFoundException("즐겨찾기한 채팅방이 없습니다.");
+        return new PageImpl<>(bookmarkList, pageable, bookmarkList.size());
     }
 }

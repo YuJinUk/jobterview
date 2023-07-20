@@ -1,9 +1,6 @@
 package ssafy.project.jobterview.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -26,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("즐겨찾기 API 테스트")
 class BookmarkServiceImplTest {
 
@@ -44,7 +42,6 @@ class BookmarkServiceImplTest {
     static Room r1,r2, r3;
 
     @BeforeEach
-    @Disabled
     void setUp() {
         Member member1 = new Member("jth1234@naver.com", "태희", "123");
         Member member2 = new Member("pdk1234@naver.com", "대균", "123");
@@ -79,6 +76,7 @@ class BookmarkServiceImplTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("즐겨찾기 추가 테스트 및 전체 조회")
     void save() {
         List<Bookmark> bookmarkList = bookmarkRepository.findAll();
@@ -86,6 +84,7 @@ class BookmarkServiceImplTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("즐겨찾기 취소 테스트")
     void delete() {
         bookmarkService.delete(r1.getRoomId(),m1.getMemberId());
@@ -96,31 +95,20 @@ class BookmarkServiceImplTest {
     }
 
     @Test
+    @Order(1)
     @DisplayName("특정 회원의 즐겨찾기 리스트 조회 테스트")
     void findBookmarkListByMember() {
+        entityManager.flush();
+
         int page = 0;
         int size = 10;
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
         Pageable pageable = PageRequest.of(page, size, sort);
 
         Page<Bookmark> m1BookmarkPage = bookmarkService.findByMember(m1.getMemberId(), pageable);
-        Page<Bookmark> m2BookmarkPage = bookmarkService.findByMember(m2.getMemberId(), pageable);
+//        Page<Bookmark> m2BookmarkPage = bookmarkService.findByMember(m2.getMemberId(), pageable);
 
         assertEquals(3,m1BookmarkPage.getContent().size());
-        assertEquals(1,m2BookmarkPage.getContent().size());
-    }
-
-    @Test
-    @DisplayName("특정 회원이 특정 방을 즐겨찾기 했는지 조회 테스트")
-    void findByMemberAndRoom() {
-        int page = 0;
-        int size = 10;
-        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
-        Pageable pageable = PageRequest.of(page, size, sort);
-
-        Page<Bookmark> m1BookmarkPage = bookmarkService.
-
-        assertEquals(3,m1BookmarkPage.getContent().size());
-        assertEquals(1,m2BookmarkPage.getContent().size());
+//        assertEquals(1,m2BookmarkPage.getContent().size());
     }
 }

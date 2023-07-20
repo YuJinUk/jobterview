@@ -1,7 +1,6 @@
 package ssafy.project.jobterview.repository;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RoomQueryRepositoryTest {
 
     @Autowired
@@ -51,6 +51,7 @@ class RoomQueryRepositoryTest {
     }
 
     @Test
+    @Order(1)
     public void 방등록() {
         List<Room> roomList = roomRepository.findAll();
 
@@ -63,6 +64,7 @@ class RoomQueryRepositoryTest {
     }
 
     @Test
+    @Order(2)
     public void 정렬기준으로_조회() {
         //given
         int offset = 0;
@@ -94,6 +96,7 @@ class RoomQueryRepositoryTest {
     }
 
     @Test
+    @Order(3)
     public void 방이름으로_검색() {
         //given
         String keyword1 = "방";
