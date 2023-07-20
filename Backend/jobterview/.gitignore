@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### generated 폴더(QueryDsl) ###
-/generated
+generated

@@ -7,10 +7,11 @@ import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Room;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     List<Bookmark> findByMember(Member member, Pageable pageable);
 
-    Bookmark findByMemberAndRoom(Member member, Room room);
+    Optional<Bookmark> findByMemberAndRoom(Member member, Room room);
 }

@@ -12,6 +12,7 @@ import ssafy.project.jobterview.domain.Room;
 import ssafy.project.jobterview.dto.SaveChatDto;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.ChatRepository;
+import ssafy.project.jobterview.repository.MemberRepository;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class ChatServiceImpl implements ChatService{
 
     private final RoomService roomService;
     private final ChatRepository chatRepository;
+
+    private final MemberRepository memberRepository;
 
     /**
      * 채팅 저장
@@ -83,10 +86,10 @@ public class ChatServiceImpl implements ChatService{
      */
     @Override
     public Page<Chat> findByMemberId(Long memberId, Pageable pageable) {
-//        Member findMember = memberService.findById(memberId);
-        //임시로 사용할 Member 객체
-        Member tmpMember = new Member("th1563@naver.com", "정태희", "123");
-        List<Chat> chatList = chatRepository.findByMember(tmpMember);
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException("해당 유저가 존재하지 않습니다."));
+
+        List<Chat> chatList = chatRepository.findByMember(findMember);
 
         if(chatList.size() != 0) { // 채팅 목록이 존재하면
             // Page<Chat> 형태로 변환하여 반환
@@ -107,13 +110,11 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public Page<Chat> findByRoomAndMember(Long roomId, Long memberId, Pageable pageable) {
         Room findRoom = roomService.findById(roomId);
-//        Member findMember = memberService.findById(memberId);
-
-        // 임시로 사용할 맴버
-        Member tmpMember = new Member("th1563@naver.com", "정태희", "123");
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException("해당 유저가 존재하지 않습니다."));
 
         // 채팅 리스트 조회
-        List<Chat> chatList = chatRepository.findByRoomAndMember(findRoom, tmpMember);
+        List<Chat> chatList = chatRepository.findByRoomAndMember(findRoom, findMember);
 
         if(chatList.size() != 0) { // 채팅 목록이 존재하면
             // Page<RoomChat> 형태로 변환하여 반환

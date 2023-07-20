@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = {"roomChatId", "content"})
+@ToString(of = {"chatId", "content"})
 public class Chat extends BaseTimeEntity {
 
     @Id

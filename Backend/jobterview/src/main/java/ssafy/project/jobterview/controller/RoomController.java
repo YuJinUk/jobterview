@@ -65,7 +65,6 @@ public class RoomController {
         return new ResponseEntity<>(roomService.searchByName(keyword, pageable).map(Room::convertToDto), HttpStatus.OK);
     }
 
-
     /**
      * 페이징된 Room 목록 조회
      * 
