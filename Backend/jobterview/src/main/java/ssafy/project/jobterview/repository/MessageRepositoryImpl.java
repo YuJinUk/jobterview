@@ -84,14 +84,14 @@ public class MessageRepositoryImpl implements MessageCustomRepository{
         QMessage qMessage = QMessage.message;
         List<Message> messageList = queryFactory.selectFrom(qMessage)
                 .where(qMessage.fromMemberVisible.eq(true)
-                ,(qMessage.receiver.nickname.eq(nickname)))
+                        ,(qMessage.receiver.nickname.eq(nickname)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
         Long count = queryFactory.select(qMessage.count())
                 .from(qMessage)
                 .where(qMessage.fromMemberVisible.eq(true)
-                ,(qMessage.receiver.nickname.eq(nickname)))
+                        ,(qMessage.receiver.nickname.eq(nickname)))
                 .fetchOne();
 
         return new PageImpl<>(messageList,pageable, count);
@@ -111,7 +111,7 @@ public class MessageRepositoryImpl implements MessageCustomRepository{
         Long count = queryFactory.select(qMessage.count())
                 .from(qMessage)
                 .where(qMessage.toMemberVisible.eq(true)
-                        , (qMessage.sender.nickname.eq(nickname)))
+                        ,(qMessage.sender.nickname.eq(nickname)))
                 .fetchOne();
 
 
