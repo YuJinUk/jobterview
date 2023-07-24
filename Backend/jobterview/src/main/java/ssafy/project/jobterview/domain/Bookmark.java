@@ -1,12 +1,12 @@
 package ssafy.project.jobterview.domain;
 
 import lombok.*;
+import ssafy.project.jobterview.dto.BookmarkDto;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Bookmark extends BaseTimeEntity {
@@ -23,4 +23,11 @@ public class Bookmark extends BaseTimeEntity {
     @JoinColumn(name = "room_id")
     @MapsId("roomId")
     private Room room;
+
+    public BookmarkDto convertToDto() {
+        return BookmarkDto.builder()
+                .roomId(this.room.getRoomId())
+                .memberId(this.member.getMemberId())
+                .build();
+    }
 }
