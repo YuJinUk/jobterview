@@ -6,6 +6,9 @@ import ssafy.project.jobterview.domain.Member;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
+
+    public Member findByEmail(String email);
+
     Optional<Member> findByNickname(String nickname);
 }
 
