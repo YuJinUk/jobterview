@@ -1,6 +1,7 @@
 package ssafy.project.jobterview.domain;
 
 import lombok.*;
+import ssafy.project.jobterview.dto.MateDto;
 
 import javax.persistence.*;
 
@@ -8,7 +9,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Mate extends BaseTimeEntity {
 
     @EmbeddedId
@@ -23,6 +23,19 @@ public class Mate extends BaseTimeEntity {
     @JoinColumn(name = "to_member_id")
     @MapsId("toMemberId")
     private Member toMember;
+
+    public Mate(MateId mateId, Member fromMember, Member toMember){
+        this.mateId=mateId;
+        this.fromMember=fromMember;
+        this.toMember=toMember;
+    }
+    public MateDto convertToDto(){
+        return MateDto.builder()
+                .mateId(this.getMateId())
+                .fromMember(this.getFromMember())
+                .toMember(this.getToMember())
+                .build();
+    }
 
 
 
