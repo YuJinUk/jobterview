@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ssafy.project.jobterview.Dto.LoginFormDto;
+import ssafy.project.jobterview.dto.LoginFormDto;
 import ssafy.project.jobterview.domain.Member;
 
 import javax.servlet.http.HttpServletRequest;
