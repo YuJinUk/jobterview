@@ -1,5 +1,7 @@
 package ssafy.project.jobterview.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ssafy.project.jobterview.domain.Bookmark;
 import ssafy.project.jobterview.domain.Room;
@@ -16,4 +18,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * @return Optional<Room> 형태로 조회된 Room 정보 반환
      */
     Optional<Room> findByRoomName(String roomName);
+
+    Page<Room> findByRoomNameContains(Pageable pageable, String keyword);
 }

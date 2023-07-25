@@ -107,9 +107,13 @@ class RoomQueryRepositoryTest {
         Pageable pageable = PageRequest.of(0, 100, sort);
 
         //when
-        List<Room> roomList1 = roomQueryRepository.searchByName(keyword1, pageable).getContent();
-        List<Room> roomList2 = roomQueryRepository.searchByName(keyword2, pageable).getContent();
-        List<Room> roomList3 = roomQueryRepository.searchByName(keyword3, pageable).getContent();
+//        List<Room> roomList1 = roomQueryRepository.searchByName(keyword1, pageable).getContent();
+//        List<Room> roomList2 = roomQueryRepository.searchByName(keyword2, pageable).getContent();
+//        List<Room> roomList3 = roomQueryRepository.searchByName(keyword3, pageable).getContent();
+
+        List<Room> roomList1 = roomRepository.findByRoomNameContains(pageable, keyword1).getContent();
+        List<Room> roomList2 = roomRepository.findByRoomNameContains(pageable, keyword2).getContent();
+        List<Room> roomList3 = roomRepository.findByRoomNameContains(pageable, keyword3).getContent();
 
         //then
         assertEquals(8,roomList1.size());
