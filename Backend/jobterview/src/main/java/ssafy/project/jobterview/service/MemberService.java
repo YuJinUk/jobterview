@@ -1,5 +1,7 @@
 package ssafy.project.jobterview.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.UpdatePasswordDto;
@@ -14,4 +16,6 @@ public interface MemberService {
     Optional<Member> findByNickname(String nickname);
 
     public void quit(String email);
+
+    public Page<Member> findByNicknameContains(Pageable pageable, String keyword);
 }

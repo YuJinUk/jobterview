@@ -3,6 +3,8 @@ package ssafy.project.jobterview.domain;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import ssafy.project.jobterview.dto.MemberDto;
+import ssafy.project.jobterview.dto.QuestionDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -84,5 +86,12 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
+    }
+
+    public static MemberDto toMemberDto(Member m) {
+        return MemberDto.builder()
+                .email(m.getEmail())
+                .nickname(m.getNickname())
+                .build();
     }
 }

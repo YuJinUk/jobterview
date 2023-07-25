@@ -2,6 +2,8 @@ package ssafy.project.jobterview.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
@@ -38,5 +40,10 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberRepository.findByEmail(email);
         member.setIsActive(0); // 탈퇴된 상태로 변경
         memberRepository.save(member);
+    }
+
+    @Override
+    public Page<Member> findByNicknameContains(Pageable pageable, String keyword) {
+        return memberRepository.findByNicknameContains(pageable, keyword);
     }
 }
