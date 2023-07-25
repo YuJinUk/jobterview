@@ -117,7 +117,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .antMatchers("/admin/**").access("hasRole('admin')")
-                .anyRequest().authenticated()
+                //  .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/auth/login")
@@ -131,14 +131,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(customLogoutSuccessHandler) // 로그아웃 성공 후 리다이렉트할 URL 설정
                 .invalidateHttpSession(true) // HTTP 세션 무효화
                 .deleteCookies("JSESSIONID") // 로그아웃 시 쿠키 삭제
-                .clearAuthentication(true)// 현재 인증 정보 삭제
-                .and()
+                .clearAuthentication(true);// 현재 인증 정보 삭제
+                /*.and()
                         .oauth2Login()
                         .successHandler(customAuthenticationSuccessHandler)
                         .failureUrl("/auth/ok")		// 로그인 실패 시 /loginForm으로 이동
                         .userInfoEndpoint()		// 로그인 성공 후 사용자정보를 가져온다
                         .userService(principalOauth2UserService);	//사용자정보를 처리할 때 사용한다
-
+*/
         //http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
         //중복 로그인

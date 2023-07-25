@@ -1,4 +1,4 @@
-package ssafy.project.jobterview.Dto;
+package ssafy.project.jobterview.dto;
 
 import lombok.*;
 
