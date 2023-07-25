@@ -108,6 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/member/emailConfirm").permitAll() // 이메일 전송 URL 허용
                 .antMatchers("/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/oauth2/**").permitAll()
