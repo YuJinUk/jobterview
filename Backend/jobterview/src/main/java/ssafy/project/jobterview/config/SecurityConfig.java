@@ -108,6 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/member/emailConfirm").permitAll() // 이메일 전송 URL 허용
                 .antMatchers("/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/oauth2/**").permitAll()
@@ -116,7 +117,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/ok").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                .antMatchers("/admin/**").access("hasRole('admin')")
+                //.antMatchers("/admin/**").access("hasRole('admin')")
                 //  .anyRequest().authenticated()
                 .and()
                 .formLogin()

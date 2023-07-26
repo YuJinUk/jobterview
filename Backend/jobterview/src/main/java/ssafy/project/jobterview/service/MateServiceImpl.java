@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Mate;
-import ssafy.project.jobterview.domain.MateId;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.dto.MateDto;
 import ssafy.project.jobterview.repository.MateRepository;

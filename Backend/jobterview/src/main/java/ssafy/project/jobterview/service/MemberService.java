@@ -18,4 +18,12 @@ public interface MemberService {
     public void quit(String email);
 
     public Page<Member> findByNicknameContains(Pageable pageable, String keyword);
+<<<<<<< HEAD
+=======
+    public Page<Member> findByEmailContains(Pageable pageable, String keyword);
+
+    public Page<Member> findAll(Pageable pageable);
+
+    public void update(String email);
+>>>>>>> 4cfa8b4 (관리자, 메이트, 쪽지 완성)
 }

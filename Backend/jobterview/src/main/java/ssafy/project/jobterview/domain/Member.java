@@ -81,6 +81,7 @@ public class Member extends BaseTimeEntity {
                 ", isActive=" + isActive +
                 '}';
     }
+
     public Member(String email, String nickname, String password) {
         this.email = email;
         this.nickname = nickname;
