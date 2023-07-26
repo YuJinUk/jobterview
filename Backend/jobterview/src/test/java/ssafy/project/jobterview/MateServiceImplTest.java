@@ -42,7 +42,7 @@ class MateServiceImplTest {
 
 
     static Member m1,m2,m3,m4,m5, m6;
-    static MateDto mate1,mate2, mate3;
+    static MateDto mate1,mate2, mate3, mateDto;
     static MateId mateId;
 
     @BeforeEach
@@ -78,12 +78,14 @@ class MateServiceImplTest {
     @Order(3)
     @DisplayName("메이트 취소 테스트")
     void delete() {
-        Member member1 = new Member("jth1234@naver.com", "태희", "123");
-        Member member2 = new Member("pdk1234@naver.com", "대균", "123");
-        MateDto m= new MateDto(mateId,member1,member2);
-        mateService.delete(m);
+
+        // 할 때 위에 setup에 save 하는 부분 주석하고 해야함
+        MateId mateId = new MateId(m1.getMemberId(),m2.getMemberId());
+        MateDto mateDto = new MateDto(mateId, m1, m2);
+        mateService.save(mateDto);
+        mateService.delete(mateDto);
         List<Mate> mateList = mateRepository.findAll();
-        assertEquals(1,mateList.size());
+        assertEquals(0,mateList.size());
     }
 
     @Test
@@ -96,8 +98,6 @@ class MateServiceImplTest {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Mate> matePage = mateService.findAllByMate(pageable, "태희");
-
-
         assertEquals(1,matePage.getContent().size());
 
     }

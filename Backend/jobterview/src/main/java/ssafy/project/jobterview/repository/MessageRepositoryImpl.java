@@ -70,7 +70,6 @@ import org.springframework.data.domain.Pageable;
 import ssafy.project.jobterview.domain.Message;
 import ssafy.project.jobterview.domain.QMessage;
 
-
 import java.util.List;
 
 public class MessageRepositoryImpl implements MessageCustomRepository{

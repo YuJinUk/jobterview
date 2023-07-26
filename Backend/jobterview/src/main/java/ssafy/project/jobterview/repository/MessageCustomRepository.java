@@ -2,7 +2,6 @@ package ssafy.project.jobterview.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Message;
 
 public interface MessageCustomRepository {

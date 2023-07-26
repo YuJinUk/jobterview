@@ -2,8 +2,6 @@ package ssafy.project.jobterview.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Message;
 import ssafy.project.jobterview.dto.MessageDto;
 

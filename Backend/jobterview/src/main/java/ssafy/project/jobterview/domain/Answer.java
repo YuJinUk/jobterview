@@ -1,6 +1,7 @@
 package ssafy.project.jobterview.domain;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 //
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicInsert
 public class Answer extends BaseTimeEntity {
 
     @Id @GeneratedValue
