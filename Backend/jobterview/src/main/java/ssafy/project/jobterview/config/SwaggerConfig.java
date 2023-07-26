@@ -14,8 +14,6 @@ import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.List;
-
 
 /**
  * API 문서 관련 swagger2 설정 정의.
@@ -32,33 +30,4 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
-    // 스켈레톤 코드에 있던 부분
-//    private ApiKey apiKey() {
-//        return new ApiKey(SECURITY_SCHEMA_NAME, "Authorization", "header");
-//    }
-//
-//    private SecurityContext securityContext() {
-//        return SecurityContext.builder()
-//                .securityReferences(defaultAuth())
-//                .build();
-//    }
-//
-//    public static final String SECURITY_SCHEMA_NAME = "JWT";
-//    public static final String AUTHORIZATION_SCOPE_GLOBAL = "global";
-//    public static final String AUTHORIZATION_SCOPE_GLOBAL_DESC = "accessEverything";
-//
-//    private List<SecurityReference> defaultAuth() {
-//        AuthorizationScope authorizationScope = new AuthorizationScope(AUTHORIZATION_SCOPE_GLOBAL, AUTHORIZATION_SCOPE_GLOBAL_DESC);
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//        authorizationScopes[0] = authorizationScope;
-//        return newArrayList(new SecurityReference(SECURITY_SCHEMA_NAME, authorizationScopes));
-//    }
-//
-//    @Bean
-//    UiConfiguration uiConfig() {
-//        return UiConfigurationBuilder.builder()
-////                .supportedSubmitMethods(newArrayList("get").toArray(new String[0])) // try it 기능 활성화 범위
-////                .operationsSorter(METHOD)
-//                .build();
-//    }
 }

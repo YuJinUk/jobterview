@@ -1,10 +1,8 @@
 package ssafy.project.jobterview.domain;
 
 import lombok.*;
-import ssafy.project.jobterview.dto.MateDto;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Getter
@@ -27,8 +25,5 @@ public class Mate extends BaseTimeEntity {
     private Member toMember;
 
 
-    private Mate toMateEntity(MateDto matedto){
-        return Mate.builder()
 
-    }
 }

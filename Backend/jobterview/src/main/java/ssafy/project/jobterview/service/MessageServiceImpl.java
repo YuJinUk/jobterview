@@ -4,28 +4,33 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Message;
-import ssafy.project.jobterview.repository.MessageQueryRepository;
+import ssafy.project.jobterview.dto.MessageDto;
+import ssafy.project.jobterview.repository.MemberRepository;
 import ssafy.project.jobterview.repository.MessageRepository;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
-    private final MessageQueryRepository messageQueryRepository;
+    private final MemberRepository memberRepository;
+
     @Override
-    public Message save(Message m) {
-        return messageRepository.save(m);
+    public void save(MessageDto mDto) {
+        Member Sender = memberRepository.findByNickname(mDto.getReceiverNickname()).orElseThrow(() -> new IllegalArgumentException());
+        Member Receiver = memberRepository.findByNickname(mDto.getReceiverNickname()).orElseThrow(()->new IllegalArgumentException());
+        Message message = new Message(0L,Sender,Receiver, mDto.getContent());
+        messageRepository.save(message);
     }
     @Override
-    public Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable, Message m){
-        return messageQueryRepository.findAllByFromMemberVisibleAndReceiver(pageable ,m);
+    public Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable, String nickname){
+        return messageRepository.findAllByFromMemberVisibleAndReceiver(pageable ,nickname);
     }
     @Override
-    public Page<Message> findAllByToMemberVisibleAndSender (Pageable pageable, Message m){
-        return messageQueryRepository.findAllByToMemberVisibleAndSender(pageable, m);
+    public Page<Message> findAllByToMemberVisibleAndSender (Pageable pageable, String nickname){
+        return messageRepository.findAllByToMemberVisibleAndSender(pageable,nickname);
     }
 
     @Override
@@ -34,19 +39,23 @@ public class MessageServiceImpl implements MessageService {
         return m;
     }
     @Override
-    public void read(Long id){
+    public Message read(Long id){
         Message m = messageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
         m.setRead(false); // 읽음 처리
+        messageRepository.save(m);
+        return m;
     }
     @Override
     public void receiveMessageDelete (Long id){
         Message m = messageRepository.findById(id).orElseThrow(()-> new IllegalArgumentException());
         m.setFromMemberVisible(false);
+        messageRepository.save(m);
     }
     @Override
     public void sendMessageDelete (Long id){
         Message m = messageRepository.findById(id).orElseThrow(()-> new IllegalArgumentException());
         m.setToMemberVisible(false);
+        messageRepository.save(m);
     }
 
 
