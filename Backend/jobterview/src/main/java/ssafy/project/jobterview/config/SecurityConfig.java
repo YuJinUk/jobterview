@@ -37,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SecurityConfig( PrincipalDetailService principalDetailService,
                           @Lazy PrincipalOauth2UserService principalOauth2UserService,
                           @Lazy BCryptPasswordEncoder bCryptPasswordEncoder
+
     ) {
         this.principalDetailService = principalDetailService;
         this.principalOauth2UserService = principalOauth2UserService;
@@ -150,4 +151,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+
 }
+

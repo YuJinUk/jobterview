@@ -46,8 +46,6 @@ public class MemberServiceImpl implements MemberService{
     public Page<Member> findByNicknameContains(Pageable pageable, String keyword) {
         return memberRepository.findByNicknameContains(pageable, keyword);
     }
-<<<<<<< HEAD
-=======
     @Override
     public Page<Member> findByEmailContains(Pageable pageable, String keyword) {
         return memberRepository.findByEmailContains(pageable, keyword);
@@ -71,5 +69,4 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.save(member);
 
     }
->>>>>>> 4cfa8b4 (관리자, 메이트, 쪽지 완성)
 }

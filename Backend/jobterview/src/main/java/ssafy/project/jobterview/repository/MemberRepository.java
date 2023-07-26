@@ -13,11 +13,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     public Member findByEmail(String email);
 
     Optional<Member> findByNickname(String nickname);
-    
+
+
     Page<Member> findByNicknameContains(Pageable pageable, String keyword);
+    Page<Member> findByEmailContains(Pageable pageable, String keyword);
 
-    Optional<Member> findByMemberId(Member memberId);
+    Page<Member> findAll(Pageable pageable);
 }
-
-
 
