@@ -34,13 +34,13 @@ public class Message extends BaseTimeEntity {
     @ColumnDefault("false")
     private boolean isRead;
 
-    @Column(name = "sender_visible", nullable = false)
+    @Column(name = "from_member_visible", nullable = false)
     @ColumnDefault("true")
-    private boolean senderVisible;
+    private boolean fromMemberVisible;
 
-    @Column(name = "receiver_visible", nullable = false)
+    @Column(name = "to_member_visible", nullable = false)
     @ColumnDefault("true")
-    private boolean receiverVisible;
+    private boolean toMemberVisible;
 
     public Message(Long id, Member sender, Member receiver, String content,boolean fromMemberVisible, boolean toMemberVisible){
         this.id=id;
@@ -48,7 +48,7 @@ public class Message extends BaseTimeEntity {
         this.receiver=receiver;
         this.content=content;
         this.fromMemberVisible=fromMemberVisible;
-       this.toMemberVisible=toMemberVisible;
+        this.toMemberVisible=toMemberVisible;
 
 
     }
@@ -60,36 +60,6 @@ public class Message extends BaseTimeEntity {
                 .senderNickname(this.getSender().getNickname())
                 .receiverNickname(this.getReceiver().getNickname())
                 .content(this.getContent())
-
-
-
-
                 .build();
     }
-
-    public Message(Long id, Member sender, Member receiver, String content,boolean fromMemberVisible, boolean toMemberVisible){
-        this.id=id;
-        this.sender=sender;
-        this.receiver=receiver;
-        this.content=content;
-        this.fromMemberVisible=fromMemberVisible;
-       this.toMemberVisible=toMemberVisible;
-
-
-    }
-
-
-    public MessageDto convertToDto(){
-        return MessageDto.builder()
-                .id(this.getId())
-                .senderNickname(this.getSender().getNickname())
-                .receiverNickname(this.getReceiver().getNickname())
-                .content(this.getContent())
-
-
-
-
-                .build();
-    }
-
 }
