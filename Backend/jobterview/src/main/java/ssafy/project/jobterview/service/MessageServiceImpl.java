@@ -19,11 +19,12 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void save(MessageDto mDto) {
-        Member Sender = memberRepository.findByNickname(mDto.getReceiverNickname()).orElseThrow(() -> new IllegalArgumentException());
+        Member Sender = memberRepository.findByNickname(mDto.getSenderNickname()).orElseThrow(() -> new IllegalArgumentException());
         Member Receiver = memberRepository.findByNickname(mDto.getReceiverNickname()).orElseThrow(()->new IllegalArgumentException());
-        Message message = new Message(0L,Sender,Receiver, mDto.getContent());
+        Message message = new Message(0L,Sender,Receiver, mDto.getContent(),true,true);
         messageRepository.save(message);
     }
+
     @Override
     public Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable, String nickname){
         return messageRepository.findAllByFromMemberVisibleAndReceiver(pageable ,nickname);
@@ -41,7 +42,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Message read(Long id){
         Message m = messageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
-        m.setRead(false); // 읽음 처리
+        m.setRead(true); // 읽음 처리
         messageRepository.save(m);
         return m;
     }

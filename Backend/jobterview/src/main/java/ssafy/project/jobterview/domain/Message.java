@@ -3,11 +3,12 @@ package ssafy.project.jobterview.domain;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import org.hibernate.annotations.DynamicInsert;
 import ssafy.project.jobterview.dto.MessageDto;
 
 import javax.persistence.*;
 
-
+@DynamicInsert
 @Entity
 @Getter
 @Setter
@@ -42,14 +43,13 @@ public class Message extends BaseTimeEntity {
     @ColumnDefault("true")
     private boolean receiverVisible;
 
-    public Message(Long id, Member sender, Member receiver, String content){
+    public Message(Long id, Member sender, Member receiver, String content,boolean fromMemberVisible, boolean toMemberVisible){
         this.id=id;
         this.sender=sender;
         this.receiver=receiver;
         this.content=content;
-//        this.isRead=isRead;
-//        this.fromMemberVisible=fromMemberVisible;
-//        this.toMemberVisible=toMemberVisible;
+        this.fromMemberVisible=fromMemberVisible;
+       this.toMemberVisible=toMemberVisible;
 
 
     }

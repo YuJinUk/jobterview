@@ -27,7 +27,7 @@ public class MessageController {
     @GetMapping("/me")
     @ApiOperation(value = "받은 메세지 목록")
     public ResponseEntity<Page<MessageDto>> getFromMessageByNickname(@PageableDefault(page = 0, size = 10,
-            sort = "createdDate", direction = Sort.Direction.DESC)Pageable pageable, String nickname){
+            sort = "createdDate", direction = Sort.Direction.DESC)Pageable pageable, @RequestParam String nickname){
         Page<Message> messagePage = messageService.findAllByFromMemberVisibleAndReceiver(pageable,nickname);
         Page<MessageDto> messageDtoPage = messagePage.map(Message::convertToDto);
         return new ResponseEntity<>(messageDtoPage, HttpStatus.OK);
@@ -36,7 +36,7 @@ public class MessageController {
     @GetMapping("/send")
     @ApiOperation(value = "보낸 메세지 목록")
     public ResponseEntity<Page<MessageDto>> getToMessageByNickname(@PageableDefault(page = 0, size = 10,
-            sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable, String nickname){
+            sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam String nickname){
         Page<Message> messagePage = messageService.findAllByToMemberVisibleAndSender(pageable,nickname);
         Page<MessageDto> messageDtoPage = messagePage.map(Message::convertToDto);
         return new ResponseEntity<>(messageDtoPage, HttpStatus.OK);
@@ -58,13 +58,13 @@ public class MessageController {
         return new ResponseEntity<Message>(m, HttpStatus.OK);
     }
     // 받은 메세지 삭제
-    @PutMapping("/from/{messageId}")
+    @PutMapping("/from/{id}")
     @ApiOperation(value = "받은 메세지 삭제")
     public void fromMessageDelete(@PathVariable Long id){
         messageService.receiveMessageDelete(id);
     }
     // 보낸 메세지 삭제
-    @PutMapping("/to/{messageId}")
+    @PutMapping("/to/{id}")
     @ApiOperation(value = "보낸 메세지 삭제")
     public void toMessageDelete(@PathVariable Long id){
         messageService.sendMessageDelete(id);
