@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ssafy.project.jobterview.domain.Room;
-import ssafy.project.jobterview.dto.RoomDto;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.RoomQueryRepository;
 import ssafy.project.jobterview.repository.RoomRepository;
@@ -18,18 +17,6 @@ public class RoomServiceImpl implements RoomService{
 
     private final RoomRepository roomRepository;
     private final RoomQueryRepository roomQueryRepository;
-
-
-    /*@Override
-    public Room save(Room room) {
-        String roomName = room.getRoomName();
-        Optional<Room> findRoom = roomRepository.findByRoomName(roomName);
-
-        if(findRoom.isEmpty()) {
-            return roomRepository.save(room);
-        }
-        throw new IllegalArgumentException("해당 이름의 방이 이미 존재합니다.");
-    }*/
 
     /**
      * 특정 roomId에 해당하는 Room 정보 조회

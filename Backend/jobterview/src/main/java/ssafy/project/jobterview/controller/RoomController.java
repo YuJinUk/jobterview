@@ -20,11 +20,6 @@ import ssafy.project.jobterview.service.RoomService;
 public class RoomController {
 
     private final RoomService roomService;
-    
-    //상황 봐서 만들어야 하는 api
-//    @PostMapping
-//    public ResponseEntity<Void> save(){
-//    }
 
     /**
      * 특정 roomId에 해당하는 Room 정보 조회
@@ -60,8 +55,7 @@ public class RoomController {
     @GetMapping("/search")
     public ResponseEntity<Page<RoomDto>> searchRoomsByName(
             @RequestParam("keyword") String keyword,
-            @PageableDefault(page = 0, size = 10,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(page = 0, size = 10,sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(roomService.searchByName(keyword, pageable).map(Room::convertToDto), HttpStatus.OK);
     }
 
@@ -73,8 +67,7 @@ public class RoomController {
      */
     @GetMapping
     public ResponseEntity<Page<RoomDto>> getRoomList(
-            @PageableDefault(page = 0, size = 10,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         // 페이징된 RoomDto 목록과 HttpStatus.OK 반환
         return new ResponseEntity<>(roomService.findAll(pageable).map(Room::convertToDto), HttpStatus.OK);
     }

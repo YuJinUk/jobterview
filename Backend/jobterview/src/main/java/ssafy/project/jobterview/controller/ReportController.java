@@ -55,8 +55,9 @@ public class ReportController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> searchAll(@PageableDefault(page = 0, size = 10,
-            sort = "reportId", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable) {
+    public ResponseEntity<?> searchAll(
+            @PageableDefault(page = 0, size = 10, sort = "reportId", direction = Sort.Direction.ASC)
+            @ApiParam(value="페이지 정보", required = true) Pageable pageable) {
         Page<ReportDto> reports = rs.findAll(pageable).map(Report::toReportDto);
         return new ResponseEntity<Page<ReportDto>>(reports, HttpStatus.OK);
     }
@@ -76,9 +77,10 @@ public class ReportController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> searchAllById(@PageableDefault(page = 0, size = 10,
-            sort = "reportId", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable,
-                                        @RequestParam @ApiParam(value="피신고자 정보") String reportedNickname) {
+    public ResponseEntity<?> searchAllById(
+            @PageableDefault(page = 0, size = 10, sort = "reportId", direction = Sort.Direction.ASC)
+            @ApiParam(value="페이지 정보", required = true) Pageable pageable,
+            @RequestParam @ApiParam(value="피신고자 정보") String reportedNickname) {
         Page<ReportDto> reports = rs.findAllByReportedMember(reportedNickname, pageable).map(Report::toReportDto);
         return new ResponseEntity<Page<ReportDto>>(reports, HttpStatus.OK);
     }

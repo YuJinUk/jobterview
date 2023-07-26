@@ -30,6 +30,7 @@ public class BookmarkController {
     public ResponseEntity<Void> add(
             @PathVariable(name = "roomId") Long roomId,
             @PathVariable(name = "memberId") Long memberId) {
+        bookmarkService.add(roomId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

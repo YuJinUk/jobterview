@@ -23,7 +23,6 @@ public class ChatServiceImpl implements ChatService{
 
     private final RoomService roomService;
     private final ChatRepository chatRepository;
-
     private final MemberRepository memberRepository;
 
     /**

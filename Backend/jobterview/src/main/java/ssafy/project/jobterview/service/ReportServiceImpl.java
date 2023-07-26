@@ -16,9 +16,7 @@ import ssafy.project.jobterview.repository.ReportRepository;
 public class ReportServiceImpl implements ReportService {
 
     private final ReportRepository reportRepository;
-
     private final MemberRepository memberRepository;
-
 
     /**
      * 접수된 신고 저장 
@@ -28,8 +26,9 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     public Report save(ReportDto r) {
-        Member reporter = memberRepository.findByNickname(r.getReporterNickname()).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
-        Member reported = memberRepository.findByNickname(r.getReportedNickname()).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        Member reporter = getMember(r.getReporterNickname());
+        Member reported = getMember(r.getReportedNickname());
+
         ReportId reportId = new ReportId(reporter.getMemberId(), reported.getMemberId());
         Report report = new Report(reportId, reporter, reported, r.getReason());
         return reportRepository.save(report);
@@ -50,7 +49,6 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
-
     /**
      * 해당 유저에 대해 접수된 신고 목록 조회
      * @param reportedNickname
@@ -59,10 +57,9 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     public Page<Report> findAllByReportedMember(String reportedNickname, Pageable pageable) {
-        Member m = memberRepository.findByNickname(reportedNickname).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        Member m = getMember(reportedNickname);
         return reportRepository.searchByReportedMember(m, pageable);
     }
-
 
     /**
      * 신고 삭제
@@ -70,9 +67,14 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     public void delete(ReportDto r) {
-        Member reporter = memberRepository.findByNickname(r.getReporterNickname()).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
-        Member reported = memberRepository.findByNickname(r.getReportedNickname()).orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        Member reporter = getMember(r.getReporterNickname());
+        Member reported = getMember(r.getReportedNickname());
         ReportId reportId = new ReportId(reporter.getMemberId(), reported.getMemberId());
         reportRepository.deleteById(reportId);
+    }
+
+    private Member getMember(String nickname) {
+        return memberRepository.findByNickname(nickname)
+                .orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
     }
 }
