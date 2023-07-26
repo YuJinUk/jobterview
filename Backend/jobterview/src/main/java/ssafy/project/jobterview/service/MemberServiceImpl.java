@@ -27,17 +27,19 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email);
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("일치하는 회원이 존재하지 않습니다."));
     }
 
     @Override
-    public Optional<Member> findByNickname(String nickname) {
-        return memberRepository.findByNickname(nickname);
+    public Member findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname)
+                .orElseThrow(() -> new NotFoundException("일치하는 회원이 존재하지 않습니다."));
     }
 
     @Override
     public void quit(String email) {
-        Member member = memberRepository.findByEmail(email);
+        Member member = this.findByEmail(email);
         member.setIsActive(0); // 탈퇴된 상태로 변경
         memberRepository.save(member);
     }

@@ -45,11 +45,14 @@ public class MemberController {
     public ResponseEntity<?> join(@RequestBody @ApiParam(value="회원 가입 정보", required = true) MemberDto memberDto) {
         String rawPassword = memberDto.getPassword();
         String encPwd = bCryptPasswordEncoder.encode(rawPassword);
+
         memberDto.setPassword(encPwd);
         Member member = new Member(memberDto.getEmail(), memberDto.getNickname(), memberDto.getPassword());
-        ms.save(member);
-//        return ResponseEntity.ok("check");
-        return new ResponseEntity<Member>(member, HttpStatus.OK);
+
+        //맴버 저장
+        Member saveMember = ms.save(member);
+        //저장된 맴버 반환
+        return new ResponseEntity<>(saveMember, HttpStatus.OK);
     }
 
     /**
