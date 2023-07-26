@@ -18,4 +18,8 @@ public interface MemberService {
     public void quit(String email);
 
     public Page<Member> findByNicknameContains(Pageable pageable, String keyword);
+    public Page<Member> findAll(Pageable pageable);
+
+    Page<Member> findByEmailContains(Pageable pageable, String keyword);
+    public void update(String email);
 }

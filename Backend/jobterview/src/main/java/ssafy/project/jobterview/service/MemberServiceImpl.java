@@ -1,15 +1,10 @@
 package ssafy.project.jobterview.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
-import ssafy.project.jobterview.dto.MemberDto;
-import ssafy.project.jobterview.dto.UpdatePasswordDto;
-import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
 
 import java.util.Optional;
@@ -45,5 +40,29 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Page<Member> findByNicknameContains(Pageable pageable, String keyword) {
         return memberRepository.findByNicknameContains(pageable, keyword);
+    }
+
+    @Override
+    public Page<Member> findAll(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Member> findByEmailContains(Pageable pageable, String keyword) {
+        return memberRepository.findByEmailContains(pageable, keyword);
+    }
+
+    @Override
+    public void update(String email) {
+        Member member = findByEmail(email);
+        int a = member.getIsActive();
+        if(a==1){
+            member.setIsActive(2);
+        }
+        else if(a==2){
+            member.setIsActive(1);
+        }
+        memberRepository.save(member);
+
     }
 }
