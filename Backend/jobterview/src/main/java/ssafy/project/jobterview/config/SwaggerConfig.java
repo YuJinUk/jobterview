@@ -13,9 +13,12 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+<<<<<<< HEAD
+=======
 
 import java.util.List;
 
+>>>>>>> 2b09c9f6a2c43a6ec25aadd53eea008331e1bcef
 /**
  * API 문서 관련 swagger2 설정 정의.
  */
@@ -31,6 +34,8 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
+<<<<<<< HEAD
+=======
     // 스켈레톤 코드에 있던 부분
 //    private ApiKey apiKey() {
 //        return new ApiKey(SECURITY_SCHEMA_NAME, "Authorization", "header");
@@ -60,4 +65,5 @@ public class SwaggerConfig {
 ////                .operationsSorter(METHOD)
 //                .build();
 //    }
+>>>>>>> 2b09c9f6a2c43a6ec25aadd53eea008331e1bcef
 }

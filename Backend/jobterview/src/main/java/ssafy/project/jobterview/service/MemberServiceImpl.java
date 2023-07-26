@@ -46,4 +46,27 @@ public class MemberServiceImpl implements MemberService{
     public Page<Member> findByNicknameContains(Pageable pageable, String keyword) {
         return memberRepository.findByNicknameContains(pageable, keyword);
     }
+    @Override
+    public Page<Member> findByEmailContains(Pageable pageable, String keyword) {
+        return memberRepository.findByEmailContains(pageable, keyword);
+    }
+
+    @Override
+    public Page<Member> findAll(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
+
+    @Override
+    public void update(String email) {
+        Member member = findByEmail(email);
+        int a = member.getIsActive();
+        if(a==1){
+            member.setIsActive(2);
+        }
+        else if(a==2){
+            member.setIsActive(1);
+        }
+        memberRepository.save(member);
+
+    }
 }
