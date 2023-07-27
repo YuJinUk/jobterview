@@ -35,18 +35,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="index in Array.from({ length: count }, (_, index) => index)" :key="index">
+                            <!-- <tr v-for="index in Array.from({ length: count }, (_, index) => index)" :key="index">
                                 <td>{{ index }}</td>
                                 <td>{{ index }}</td>
                                 <td>{{ index }}</td>
+                            </tr> -->
+                            <tr v-for="data in receivedData" :key="data.id">
+                                <td>{{ data.content }}</td>
+                                <td>{{ data.receiverNickname }}</td>
+                                <td>{{ data.senderNickname }}</td>
                             </tr>
                         </tbody>
                     </table>
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
                             <li class="page-item" :class="{ 'disabled': currentReceivePage === 1 }">
-                                <a class="page-link" href="#" @click="changeReceivePage(1)"
-                                    aria-label="first">
+                                <a class="page-link" href="#" @click="changeReceivePage(1)" aria-label="first">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
@@ -84,8 +88,7 @@
                                 </a>
                             </li>
                             <li class="page-item" :class="{ 'disabled': currentReceivePage === totalPages }">
-                                <a class="page-link" href="#" @click="changeReceivePage(totalPages)"
-                                    aria-label="Last">
+                                <a class="page-link" href="#" @click="changeReceivePage(totalPages)" aria-label="Last">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
@@ -125,7 +128,9 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { ref, computed } from 'vue';
+
 
 export default {
     name: 'MessageList',
@@ -137,22 +142,35 @@ export default {
     },
     setup() {
         const count = 13;
-        let currentReceivePage = ref(5);
-        let totalPages = ref(10);
+        let currentReceivePage = ref(1);
+        let totalPages = ref(1);
+        let receivedData = ref([]);
 
         let pageRange = computed(() => {
-            return Array.from({length : 3}, (_, index) => currentReceivePage.value-1 + index);
+            return Array.from({ length: 3 }, (_, index) => currentReceivePage.value - 1 + index);
         })
 
         let lastPageRange = computed(() => {
-            if(totalPages.value == 2) {
+            if (totalPages.value == 2) {
                 return [1, 2];
             } else {
                 return Array.from({ length: currentReceivePage.value - (currentReceivePage.value - 2) + 1 }, (_, index) => currentReceivePage.value - 2 + index);
             }
         })
 
-        function fetchReceiveMessage() {
+        async function fetchReceiveMessage() {
+            await axios.create({
+                baseURL: "http://localhost:8080",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+            }).get(`/message/me?nickname=reporter&page=${currentReceivePage.value-1}`)
+            .then((response) => {
+                totalPages.value = response.data.totalPages;
+                console.log(response.data);
+                console.log(response.data.content);
+                receivedData.value = response.data.content;
+            })
             return 1;
         }
 
@@ -168,6 +186,7 @@ export default {
             totalPages,
             pageRange,
             lastPageRange,
+            receivedData,
             fetchReceiveMessage,
             changeReceivePage,
         };
@@ -175,6 +194,8 @@ export default {
 }
 </script>
 
-<style>.pagination {
+<style>
+.pagination {
     justify-content: center;
-}</style>
+}
+</style>
