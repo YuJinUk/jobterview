@@ -4,14 +4,15 @@
             <div class="col-3">
                 <input type="text" id="searchMessage" class="form-control">
             </div>
-            <div class="col-2">
+            <div class="col-1">
                 <button type="submit" class="btn btn-primary">검색</button>
             </div>
-        </div>
-        <div class="row justify-content-end mt-3">
             <div class="col-2">
                 <button type="submit" class="btn btn-primary">쪽지 작성</button>
             </div>
+        </div>
+        <div class="row justify-content-end mt-3">
+
         </div>
         <div class="row justify-content-center mt-5">
             <ul class="nav nav-tabs" id="messageTab" role="tablist">
@@ -35,11 +36,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr v-for="index in Array.from({ length: count }, (_, index) => index)" :key="index">
-                                <td>{{ index }}</td>
-                                <td>{{ index }}</td>
-                                <td>{{ index }}</td>
-                            </tr> -->
                             <tr v-for="data in receivedData" :key="data.id">
                                 <td>{{ data.content }}</td>
                                 <td>{{ data.receiverNickname }}</td>
@@ -171,7 +167,6 @@ export default {
                 console.log(response.data.content);
                 receivedData.value = response.data.content;
             })
-            return 1;
         }
 
         function changeReceivePage(pageNumber) {
