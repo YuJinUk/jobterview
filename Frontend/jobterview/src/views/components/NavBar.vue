@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <a class="navbar-brand" href="#">JOBTERVIEW</a>
         <!-- 로그인 안 했을 때 -->
         <!-- <div class="collapse navbar-collapse" id="navbarNav">
@@ -15,15 +15,23 @@
         <!-- 로그인 했을 때 -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <svg class="vector" width="32" height="32" viewBox="0 0 40 40" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M20 40L17.1 37.1226C6.8 26.9428 0 20.2289 0 11.9891C0 5.2752 4.84 0 11 0C14.48 0 17.82 1.76567 20 4.55586C22.18 1.76567 25.52 0 29 0C35.16 0 40 5.2752 40 11.9891C40 20.2289 33.2 26.9428 22.9 37.1444L20 40Z"
-                        fill="black" />
-                </svg>
-                <font-awesome-icon :icon="['faUserSecret', 'users']" />
+                <li class="nav-item">
+                    <p class="  login-nickname">이상우 님</p>
+                </li>
+                    <div class="dropdown">
+                    <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
+                    <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+                        aria-labelledby="dropdownIcon">
+                        <a class="dropdown-item" href="#">비밀번호 변경</a>
+                        <a class="dropdown-item" href="#">회원 탈퇴</a>
+                    </div>
+                </div>
+                <li class="nav-item"><i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
+                <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
+
             </ul>
         </div>
+
     </nav>
 </template>
 
@@ -32,6 +40,29 @@
 export default {
     name: 'NavBar',
     components: {
+
+    },
+    data() {
+        return {
+            isDropdownOpen: false
+        };
+    },
+    methods: {
+        toggleDropdown() {
+            this.isDropdownOpen = !this.isDropdownOpen;
+        },
+        closeDropdown(event) {
+            const target = event.target;
+            if (!target.closest(".dropdown")) {
+                this.isDropdownOpen = false;
+            }
+        }
+    },
+    mounted() {
+        window.addEventListener("click", this.closeDropdown);
+    },
+    beforeUnmount() {
+        window.removeEventListener("click", this.closeDropdown);
     }
 }
 
@@ -42,6 +73,28 @@ export default {
     border-style: outset;
 }
 
+.login-nickname {
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+    margin-bottom: 0px;
+}
+
+.navbar .dropdown {
+    margin-top: 4px;
+    margin-bottom: 0px;
+    margin-right:30px;
+} 
+
+.login-nickname {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.nav-item {
+    margin-right: 20px;
+    text-align: center;
+}
+
 .navbar .navbar-brand {
     color: #0f4471;
     font: 700 24px/24px "Lato", sans-serif;
@@ -49,14 +102,14 @@ export default {
 }
 
 .navbar .container-login {
-    padding: 12px 0px 12px 0px;
+    padding: 6px 0px 6px 0px;
     margin-left: auto;
     margin-right: 25px;
 }
 
 .navbar .container-register {
     background: #0f4471;
-    padding: 12px 18px 12px 18px;
+    padding: 6px 12px 6px 12px;
     margin-left: auto;
     margin-right: 25px;
 }

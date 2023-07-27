@@ -1,29 +1,19 @@
 <template>
-  <NavBar/>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <router-view/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './views/HelloWorld.vue'
-import NavBar from './views/components/NavBar.vue'
-
-
 
 export default {
   name: 'App',
+
   components: {
-    NavBar,
-    HelloWorld,
-  }
+  },
+
+  data: () => ({
+    //
+  }),
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>
