@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" style="width: 1080px;">
         <div class="row justify-content-center mt-3">
             <div class="col-3">
                 <input type="text" id="searchMessage" class="form-control">
