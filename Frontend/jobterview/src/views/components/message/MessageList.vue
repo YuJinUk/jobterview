@@ -137,7 +137,6 @@ export default {
         this.fetchReceiveMessage();
     },
     setup() {
-        const count = 13;
         let currentReceivePage = ref(1);
         let totalPages = ref(1);
         let receivedData = ref([]);
@@ -176,7 +175,6 @@ export default {
         }
 
         return {
-            count,
             currentReceivePage,
             totalPages,
             pageRange,
