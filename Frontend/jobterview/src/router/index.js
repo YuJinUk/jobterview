@@ -1,24 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import AiView from '../views/AiView.vue';
-import ChatRoomView from '../views/ChatRoomView.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+
+import commonRouter from './commonRouter';
+import aiRouter from './aiRouter';
 
 const routes = [
-    {
-        path: '/',
-        component: HomeView,
-    },
-    {
-        path: '/ai',
-        component: AiView,
-    },
-    {
-        path: '/chat',
-        component: ChatRoomView,
-    }
+    ...commonRouter,
+    ...aiRouter,
   ];
-  
-  export default createRouter({
+
+// 라우터 생성
+export default createRouter({
     history: createWebHistory(),
-    routes,
-  });
+    routes
+});
