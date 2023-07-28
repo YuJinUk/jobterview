@@ -7,12 +7,19 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import Vuex from 'vuex';
+import axios from 'axios';
+import router from './router'
 
 library.add(faUserSecret);
 
 const app = createApp(App);
+app.use(Vuex);
+app.use(router);
 app.use(BootstrapVue3);
 app.component('font-awesome-icon', FontAwesomeIcon);
+app.config.productionTip = false;
+app.config.globalProperties.$axios = axios;
 app.mount('#app');
 
 
