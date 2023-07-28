@@ -32,3 +32,20 @@ logging.level:
   org.hibernate.SQL: debug
 #  org.hibernate.type: trace
 
+mail:
+  smtp:
+    timeout: 5000
+    auth: true
+    starttls:
+      required: true
+      enable: true
+    socketFactory:
+      class: javax.net.ssl.SSLSocketFactory
+      fallback: false
+      port: 465
+    port: 465
+    host: smtp.gmail.com
+
+AdminMail:
+  id: jobterview1@gmail.com
+  password: sfktdjrnyxckwdka

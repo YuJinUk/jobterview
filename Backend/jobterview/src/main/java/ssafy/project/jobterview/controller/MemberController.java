@@ -15,6 +15,7 @@ import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.UpdatePasswordDto;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
+import ssafy.project.jobterview.service.EmailService;
 import ssafy.project.jobterview.service.MemberService;
 
 import java.util.List;
@@ -121,5 +122,14 @@ public class MemberController {
             sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value="검색할 닉네임 키워드", required = true) String keyword) {
         Page<MemberDto> members = ms.findByNicknameContains(pageable, keyword).map(Member::toMemberDto);
         return new ResponseEntity<>(members, HttpStatus.OK);
+    }
+
+    @Autowired
+    private EmailService es;
+    @PostMapping("/emailConfirm")
+    @ApiOperation(value = "이메일 전송", notes = "")
+    public String emailConfirm(@RequestParam String email) throws Exception {
+        String confirm = es.sendSimpleMessage(email);
+        return confirm;
     }
 }

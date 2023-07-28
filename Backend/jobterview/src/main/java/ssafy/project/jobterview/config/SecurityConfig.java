@@ -105,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //      http.exceptionHandling()
 //              .accessDeniedHandler(jwtAccessDeniedHandler);
 
-        http.cors();
+//        http.cors();
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -121,6 +121,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/admin/**").access("hasRole('admin')")
                 //  .anyRequest().authenticated()
                 .and()
+                .cors()
+                .and()
                 .formLogin()
                 .loginPage("/auth/login")
                 .usernameParameter("email")
@@ -134,6 +136,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true) // HTTP 세션 무효화
                 .deleteCookies("JSESSIONID") // 로그아웃 시 쿠키 삭제
                 .clearAuthentication(true);// 현재 인증 정보 삭제
+
                 /*.and()
                         .oauth2Login()
                         .successHandler(customAuthenticationSuccessHandler)
