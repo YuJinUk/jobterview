@@ -3,12 +3,9 @@ package ssafy.project.jobterview.domain;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.mapping.Join;
 import ssafy.project.jobterview.dto.MessageDto;
 
 import javax.persistence.*;
-import java.beans.ConstructorProperties;
-import java.time.LocalDateTime;
 
 @DynamicInsert
 @Entity
@@ -52,7 +49,10 @@ public class Message extends BaseTimeEntity {
         this.content=content;
         this.fromMemberVisible=fromMemberVisible;
         this.toMemberVisible=toMemberVisible;
+
+
     }
+
 
     public MessageDto convertToDto(){
         return MessageDto.builder()
@@ -62,6 +62,4 @@ public class Message extends BaseTimeEntity {
                 .content(this.getContent())
                 .build();
     }
-
-
 }

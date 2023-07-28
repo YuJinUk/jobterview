@@ -95,3 +95,4 @@ public class Member extends BaseTimeEntity {
                 .build();
     }
 }
+

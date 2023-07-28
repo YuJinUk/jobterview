@@ -62,7 +62,7 @@ public class AdminController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> searchByEmail(@PageableDefault(page = 0, size = 10,
-            sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value="검색할 닉네임 키워드", required = true) String keyword) {
+            sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value="검색할 이메일 키워드", required = true) String keyword) {
         Page<MemberDto> members = memberService.findByEmailContains(pageable, keyword).map(Member::toMemberDto);
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
@@ -160,7 +160,7 @@ public class AdminController {
      * @param pageable 페이징 및 정렬 정보
      * @return Page<ChatDto>형태로 조회된 채팅 목록과 HttpStatus.OK 반환
      */
-    @GetMapping("/chat/{roomId}")
+    @GetMapping("/chat/room/{roomId}")
     @ApiOperation(value = "특정 방 채팅 조회", notes = "")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
