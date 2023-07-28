@@ -12,4 +12,5 @@ public class MessageDto {
     private String senderNickname;
     private String receiverNickname;
     private String content;
+    private LocalDateTime createdDate;
 }
