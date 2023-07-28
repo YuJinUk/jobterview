@@ -60,6 +60,7 @@ public class Message extends BaseTimeEntity {
                 .senderNickname(this.getSender().getNickname())
                 .receiverNickname(this.getReceiver().getNickname())
                 .content(this.getContent())
+                .createdDate(this.getCreatedDate())
                 .build();
     }
 }
