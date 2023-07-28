@@ -10,7 +10,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
 import Vuex from 'vuex';
 import axios from 'axios';
-import router from './router'
+import router from './router/index'
 
 library.add(faUserSecret);
 

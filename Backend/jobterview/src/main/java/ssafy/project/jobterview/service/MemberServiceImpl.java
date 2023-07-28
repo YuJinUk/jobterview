@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
 
 import java.util.Optional;
@@ -64,6 +65,5 @@ public class MemberServiceImpl implements MemberService{
             member.setIsActive(1);
         }
         memberRepository.save(member);
-
     }
 }
