@@ -2,6 +2,8 @@ package ssafy.project.jobterview.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
