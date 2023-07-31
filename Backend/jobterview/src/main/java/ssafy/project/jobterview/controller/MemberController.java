@@ -53,10 +53,25 @@ public class MemberController {
         memberDto.setPassword(encPwd);
         Member member = new Member(memberDto.getEmail(), memberDto.getNickname(), memberDto.getPassword());
 
+        if(ms.findByNickname(member.getNickname())==null && ms.findByEmail(member.getEmail())==null){
         //맴버 저장
         Member saveMember = ms.save(member);
         //저장된 맴버 반환
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
+        }
+        // 가입된 닉네임이 있다면
+        else if(ms.findByEmail(member.getEmail())==null&&ms.findByNickname(member.getNickname())!=null){
+            return new ResponseEntity<>("중복된 닉네임입니다.",HttpStatus.BAD_REQUEST);
+        }
+        // 가입된 이메일이 있다면
+        else if(ms.findByEmail(member.getEmail())!=null&&ms.findByNickname(member.getNickname())==null){
+            return new ResponseEntity<>("중복된 이메일입니다.",HttpStatus.BAD_REQUEST);
+        }
+        // 이메일과 닉네임 둘 다 중복된다면
+        else{
+            return new ResponseEntity<>("중복된 이메일과 닉네임입니다.",HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     /**
