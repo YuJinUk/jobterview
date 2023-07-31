@@ -40,7 +40,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2User.getAttribute("email");
         Role role = Role.user;
 
-        Member byUsername = memberRepository.findByEmail(email);
+        Member byUsername = memberRepository.findByEmail(email).orElseThrow();
         System.out.println(username);
         System.out.println(role);
         System.out.println(email);

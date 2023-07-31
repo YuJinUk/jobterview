@@ -1,13 +1,14 @@
 <template>
-    
+    <MessageList/>
 </template>
 
 <script>
+import MessageList from '@/views/components/message/MessageList';
 
 export default {
-    name: 'MessagePage',
+    name: 'MessageView',
     components: {
-        
+        MessageList,
     },
 }
 

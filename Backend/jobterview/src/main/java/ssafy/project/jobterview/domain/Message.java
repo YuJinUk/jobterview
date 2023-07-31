@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import ssafy.project.jobterview.dto.MessageDto;
+import ssafy.project.jobterview.util.DateTimeUtil;
 
 import javax.persistence.*;
 
@@ -60,7 +61,7 @@ public class Message extends BaseTimeEntity {
                 .senderNickname(this.getSender().getNickname())
                 .receiverNickname(this.getReceiver().getNickname())
                 .content(this.getContent())
-                .createdDate(this.getCreatedDate())
+                .createdDate(DateTimeUtil.LocalDateTimeToString(this.getCreatedDate()))
                 .build();
     }
 }

@@ -10,7 +10,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
 import Vuex from 'vuex';
 import axios from 'axios';
-import router from './router'
+import router from './router/index';
+import store from '@/store/store';
 
 library.add(faUserSecret);
 
@@ -21,6 +22,7 @@ app.use(BootstrapVue3);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.config.productionTip = false;
 app.config.globalProperties.$axios = axios;
+app.use(store);
 app.mount('#app');
 
 

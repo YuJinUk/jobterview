@@ -1,24 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import AiView from '../views/AiView.vue';
-import ChatRoomView from '../views/ChatRoomView.vue';
+import messageRouter from './messageRouter';
+import commonRouter from './commonRouter';
+import joinRouter from './joinRouter';
 
 const routes = [
-    {
-        path: '/',
-        component: HomeView,
-    },
-    {
-        path: '/ai',
-        component: AiView,
-    },
-    {
-        path: '/chat',
-        component: ChatRoomView,
-    }
-  ];
-  
-  export default createRouter({
+    ...commonRouter,
+    ...messageRouter,
+    ...joinRouter,
+];
+
+export default createRouter({
     history: createWebHistory(),
     routes,
-  });
+});
