@@ -3,9 +3,9 @@ package ssafy.project.jobterview.config.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class SocialAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -26,9 +26,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 
 
+
         // 인증 정보로부터 사용자 정보 추출
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        //System.out.println((PrincipalDetail)userDetails.getNickname());
+
         String username2 = userDetails.getUsername();
 
 
@@ -42,11 +43,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         responseData.put("roles", roles);
         responseData.put("message", "로그인 성공");
 
+
+
         // 뷰로 데이터 전달
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonData = objectMapper.writeValueAsString(responseData);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(jsonData);
+
+
+
+        setDefaultTargetUrl("http://localhost:8081?email="+username2);
+        super.onAuthenticationSuccess(request, response, authentication);
     }
 
 

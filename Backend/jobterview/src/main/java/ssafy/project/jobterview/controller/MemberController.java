@@ -8,6 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Member;
@@ -44,6 +46,7 @@ public class MemberController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> join(@RequestBody @ApiParam(value="회원 가입 정보", required = true) MemberDto memberDto) {
+
         String rawPassword = memberDto.getPassword();
         String encPwd = bCryptPasswordEncoder.encode(rawPassword);
 
@@ -106,8 +109,8 @@ public class MemberController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> myInfo(@RequestBody @ApiParam(value="현재 로그인 한 회원 정보", required = true) MemberDto memberDto) {
-        Member member = ms.findByEmail(memberDto.getEmail());
+    public ResponseEntity<?> myInfo(@RequestParam @ApiParam(value="현재 로그인 한 회원 정보", required = true) String email) {
+        Member member = ms.findByEmail(email);
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
     @GetMapping
@@ -123,6 +126,9 @@ public class MemberController {
         Page<MemberDto> members = ms.findByNicknameContains(pageable, keyword).map(Member::toMemberDto);
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
+
+
+
 
     @Autowired
     private EmailService es;
