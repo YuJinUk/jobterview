@@ -6,12 +6,8 @@
     <div id="mainBox">
       <div id="categoryBox">
         <ul class="categoryList">
-          <li
-            v-for="category in categories"
-            :key="category.id"
-            @click="selectCategory(category)"
-          >
-            {{ category.name }}
+          <li v-for="category in categoryList" :key="category" @click="changeCategory">
+            {{ category.display }}
           </li>
         </ul>
       </div>
@@ -19,15 +15,15 @@
       <div id="contentBox">
         <div id="questionbox">
           <ul class="questionList">
-            <li v-for="question in questions" :key="question.id">
+            <li v-for="question in questionList" :key="question.questionId">
               <p>{{ question.content }}</p>
-              <font-awesome-icon icon="fa-solid fa-check" />
+              <font-awesome-icon class="checkIcon" icon="fa-solid fa-check" />
             </li>
           </ul>
         </div>
         <div id="buttonBox">
           <p>총 4개 중</p>
-          <p>{{ selectedQuestion.length }}</p>
+          <p>{{ selectedQuestionsLength }}</p>
           <p>개의 질문을 선택하셨습니다.</p>
           <button>다음</button>
         </div>
@@ -37,51 +33,53 @@
 </template>
 
 <script>
-// import { mapGetters }from 'vuex';
+import { onMounted, computed, ref } from "vue";
+import { useStore } from "vuex";
 
 export default {
-  data() {
+  setup() {
+    const store = useStore();
+
+    //data
+    const selectedQuestions = ref([]);
+    const selectedCategory = ref({ name: "VISION", display: "비전 / 목표 질문" });
+    const categoryList = ref([
+        { name: "VISION", display: "비전 / 목표 질문" },
+        { name: "ADAPT", display: "적응력 질문" },
+        { name: "VALUES", display: "가치관 질문" },
+        { name: "PRESSURE", display: "압박 질문" },
+        { name: "JOB", display: "직무 질문" },
+      ]);
+
+      const selectedQuestionsLength = () => selectedQuestions.value.length;
+
+    //onMounted
+    onMounted(() => {
+      console.log(selectedCategory.value);
+      store.dispatch("roomStore/setCategoryAndQuestionList", selectedCategory.value.name);
+    });
+
     return {
-      headText: "연습할 질문을 선택해주세요.",
-      selectedCategory: { id: 1, name: "비전/목표 질문" },
-      categories: [
-        { id: 1, name: "비전/목표 질문" },
-        { id: 2, name: "적응력 질문" },
-        { id: 3, name: "가치관 질문" },
-        { id: 4, name: "압박 질문" },
-        { id: 5, name: "직무 질문" },
-      ],
-      selectedQuestion: [],
-      questions: [
-        { id: 1, content: "입사 후 포부가 무엇입니까?" },
-        { id: 2, content: "입사 5년 후, 10년 후 자신의 모습은 어떨 것이라고 생각합니까?" },
-        { id: 3, content: "본인의 직업관은 무엇입니까?" },
-        { id: 4, content: "당신에게 일이 왜 중요합니까?" },
-        { id: 5, content: "직장은 어떤 면을 보고 선택합니까?" },
-        { id: 6, content: "해당 직무를 선택한 이유가 무엇입니까?" },
-        { id: 7, content: "현재 해당 산업군의 시장 동향에 대해 어떻게 생각합니까?"},
-        { id: 8, content: "앞으로의 발전 계획이 어떻게 됩니까?" },
-      ],
-      allQuestionSelected: false,
+      //data
+      selectedQuestions,
+      selectedCategory,
+      categoryList,
+
+      //computed
+      selectedQuestionsLength,
+      questionList: computed(() => store.getters["roomStore/getQuestionList"]),
     };
   },
-  methods: {
-    selectCategory(category) {
-      this.selectedCategory = category;
-    },
-  },
-  // computed: {
-  //   ...mapGetters(['getCategory']),
-  //   categories() {
-  //       return this.getCategory;
-  //   }
-  // }
 };
 </script>
 
 <style scoped>
 li {
   list-style: none;
+}
+
+.checkIcon {
+  margin-right: 15px; 
 }
 
 #container {
@@ -165,11 +163,11 @@ li {
 .questionList li {
   width: 650px;
   height: 50px;
- 
+
   color: #0f4471;
 
   border-radius: 10px;
-  
+
   margin: 18px 0;
   padding-left: 15px;
 
@@ -180,11 +178,11 @@ li {
   background-color: whitesmoke;
 }
 
-.questionList li p{
+.questionList li p {
   margin: 0;
 }
 
-.questionList li i{
+.questionList li i {
   width: 100px;
   height: 100px;
 }

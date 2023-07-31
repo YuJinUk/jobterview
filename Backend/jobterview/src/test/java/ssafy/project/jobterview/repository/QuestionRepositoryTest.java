@@ -27,12 +27,12 @@ public class QuestionRepositoryTest {
         qs.save(new Question(Category.ADAPT, "2. 적응력"));
         qs.save(new Question(Category.VALUES, "3. 가치관"));
         qs.save(new Question(Category.PRESSURE, "4. 압박"));
-        qs.save(new Question(Category.TASK, "5. 직무"));
+        qs.save(new Question(Category.JOB, "5. 직무"));
         qs.save(new Question(Category.VISION, "6. 비전"));
         qs.save(new Question(Category.ADAPT, "7. 적응력"));
         qs.save(new Question(Category.VALUES, "8. 가치관"));
         qs.save(new Question(Category.PRESSURE, "9. 압박"));
-        qs.save(new Question(Category.TASK, "10. 직무"));
+        qs.save(new Question(Category.JOB, "10. 직무"));
     }
 
     @Test

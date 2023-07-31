@@ -15,12 +15,14 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import Vuex from 'vuex';
 import axios from 'axios';
 import router from './router/index'
+import store from '@/store/store'
 
 library.add(faUserSecret);
 library.add(fas);
 
 const app = createApp(App);
 app.use(Vuex);
+app.use(store);
 app.use(router);
 app.use(BootstrapVue3);
 app.component('font-awesome-icon', FontAwesomeIcon);

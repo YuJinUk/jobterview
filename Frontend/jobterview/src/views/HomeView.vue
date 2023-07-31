@@ -16,7 +16,7 @@
 
       <div id="useState">
         <p>현재</p>
-        <p id="numOfUser">{{ numOfUser }}</p>
+        <p id="numOfUser">{{ totalMemberCnt }}</p>
         <p>명의 메이트가 이용중입니다!</p>
       </div>
 
@@ -33,13 +33,22 @@
 </template>
 
 <script>
+import {computed, onMounted} from 'vue';
+import {useStore} from 'vuex';
+
 export default {
-  name: "HomeView",
-  data() {
+  setup() {
+    const store = useStore();
+    //onMounted
+    onMounted(() => {
+      store.dispatch('homeStore/setTotalMemberCnt');
+    })
+
     return {
-      numOfUser: "301,223",
-    };
-  },
+      //computed
+      totalMemberCnt: computed(() => store.getters['homeStore/getTotalMemberCnt']),
+    }
+  }
 };
 </script>
 

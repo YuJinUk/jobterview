@@ -25,9 +25,8 @@ import ssafy.project.jobterview.service.*;
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
+
     private final MemberService memberService;
-    private final QuestionService questionService;
-    private final ReportService reportService;
     private final ChatService chatService;
     private final RoomService roomService;
 
@@ -36,6 +35,12 @@ public class AdminController {
     public ResponseEntity<Page<MemberDto>> findAllMember (@PageableDefault(page = 0, size = 10,
             sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(memberService.findAll(pageable).map(Member::toMemberDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/members/cnt")
+    @ApiOperation(value="전체 회원 수 조회")
+    public ResponseEntity<Long> getAllMemberCnt() {
+        return new ResponseEntity<>(memberService.getAllActiveMemberCount(), HttpStatus.OK);
     }
 
     @GetMapping("/members/{nickname}")
@@ -174,7 +179,4 @@ public class AdminController {
                     sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(chatService.findByRoomId(roomId, pageable).map(Chat::convertToDto), HttpStatus.OK);
     }
-
-
-
 }

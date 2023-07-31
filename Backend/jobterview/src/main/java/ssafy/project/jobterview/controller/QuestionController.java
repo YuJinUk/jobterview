@@ -100,8 +100,11 @@ public class QuestionController {
     })
     public ResponseEntity<?> selectAllByCategory(
             @PageableDefault(page=0, size=10, sort="category", direction = Sort.Direction.DESC)
-            @ApiParam(value="페이지 정보", required = true) Pageable pageable,
-            @ApiParam(value="분류 정보", required = true) String category) {
+            @ApiParam(value="페이지 정보") Pageable pageable,
+            @ApiParam(value="분류 정보", required = true)
+            @RequestParam String category) {
+        System.out.println(category);
+
         Page<QuestionDto> questionDtoList = qs.findAllByCategory(Category.valueOf(category), pageable).map(Question::toQuestionDto);
         return new ResponseEntity<Page<QuestionDto>>(questionDtoList, HttpStatus.OK);
     }
