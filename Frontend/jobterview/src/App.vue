@@ -1,7 +1,6 @@
 <template>
   <NavBar/>
   <router-view />
-  <router-link to="/message">메시지</router-link>
 </template>
 
 <script>
