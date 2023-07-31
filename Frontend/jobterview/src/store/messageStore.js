@@ -10,6 +10,10 @@ export default {
         totalSendPage: 1,
         currentReceivePage: 1,
         currentSendPage: 1,
+        readContent: null,
+        readCreatedDate: null,
+        readSenderNickname: null,
+        readReceiverNickname: null,
     },
     mutations: {
         SET_RECEIVE_MESSAGE: (state, messages) => {
@@ -30,6 +34,18 @@ export default {
         SET_CURRENT_SEND_PAGE: (state, pageNum) => {
             state.currentSendPage = pageNum;
         },
+        SET_READ_CONTENT: (state, content) => {
+            state.readContent = content;
+        },
+        SET_READ_CREATED_DATE: (state, createdDate) => {
+            state.readCreatedDate = createdDate;
+        },
+        SET_READ_SENDER_NICKNAME: (state, senderNickname) => {
+            state.readSenderNickname = senderNickname;
+        },
+        SET_READ_RECEIVER_NICKNAME: (state, receiverNickname) => {
+            state.readReceiverNickname = receiverNickname;
+        }
     },
     getters: {
         getReceiveMessage: function (state) {
@@ -57,8 +73,6 @@ export default {
                 ({data}) => {
                     commit('SET_RECEIVE_MESSAGE', data.content);
                     commit('SET_TOTAL_RECEIVE_PAGE', data.totalPages);
-                    console.log(data);
-                    console.log(page);
                 },
                 (error) => {
                     console.log(error);
@@ -69,7 +83,6 @@ export default {
                 ({data}) => {
                     commit('SET_SEND_MESSAGE', data.content);
                     commit('SET_TOTAL_SEND_PAGE', data.totalPages);
-                    console.log(data.content);
                 },
                 (error) => {
                     console.log(error);

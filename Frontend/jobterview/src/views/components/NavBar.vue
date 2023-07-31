@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">JOBTERVIEW</a>
+        <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
         <!-- 로그인 안 했을 때 -->
         <!-- <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
@@ -26,9 +26,9 @@
                         <a class="dropdown-item" href="#">회원 탈퇴</a>
                     </div>
                 </div>
+                <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
                 <li class="nav-item"><i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
                 <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
-
             </ul>
         </div>
 
@@ -56,6 +56,12 @@ export default {
             if (!target.closest(".dropdown")) {
                 this.isDropdownOpen = false;
             }
+        },
+        toMessage() {
+            this.$router.push({name: "MessageList"});
+        },
+        toMain() {
+            this.$router.push({name: "Home"});
         }
     },
     mounted() {

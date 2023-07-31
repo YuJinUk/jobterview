@@ -37,7 +37,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="data in receiveMessage" :key="data.id">
-                                <td>{{ data.content }}</td>
+                                <td @click="toReadMessage(data, 'receive')">{{ data.content }}</td>
                                 <td>{{ data.createdDate }}</td>
                                 <td>{{ data.senderNickname }}</td>
                             </tr>
@@ -103,7 +103,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="data in sendMessage" :key="data.id">
-                                <td>{{ data.content }}</td>
+                                <td @click="toReadMessage(data, 'send')">{{ data.content }}</td>
                                 <td>{{ data.createdDate }}</td>
                                 <td>{{ data.receiverNickname }}</td>
                             </tr>
@@ -164,6 +164,7 @@
 </template>
 
 <script>
+import router from '@/router';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
@@ -225,13 +226,25 @@ export default {
         // 화면에서 페이지 누르면 현재 페이지 변경
         function changeSendPage(pageNumber) {
             store.commit('messageStore/SET_CURRENT_SEND_PAGE', pageNumber);
-            console.log(currentSendPage.value);
             fetchSendMessage();
         }
 
 
         async function fetchSendMessage() {
             await store.dispatch('messageStore/getSendMessages', { nickname: 'reporter', page: currentSendPage.value - 1 });
+        }
+
+        function toReadMessage(data, isReceive) {
+            store.commit('messageStore/SET_READ_CONTENT', data.content);
+            store.commit('messageStore/SET_READ_CREATED_DATE', data.createdDate);
+            store.commit('messageStore/SET_READ_SENDER_NICKNAME', data.senderNickname);
+            store.commit('messageStore/SET_READ_RECEIVER_NICKNAME', data.receiverNickname);
+            console.log(data);
+            router.push({name: 'MessageRead', params: { category: isReceive}});
+        }
+
+        function toSendMessage() {
+            // router.push({name: 'MessageSend'});
         }
 
         return {
@@ -249,6 +262,8 @@ export default {
             sendMessage,
             fetchSendMessage,
             changeSendPage,
+            toReadMessage,
+            toSendMessage,
         };
     }
 }
