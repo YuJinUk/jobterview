@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +30,15 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+
+
+    //예시 코두 입니다
     @GetMapping("/ok")
-    public ResponseEntity<?> index() {
-
-
-        return new ResponseEntity<String>("로그아웃 성공", HttpStatus.OK);
+    public ResponseEntity<?> ok(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String useremail = authentication.getName(); //요러면 이제 유저의 이메일을 가져 옵니다
+        System.out.println(useremail);
+        return new ResponseEntity<String>(useremail, HttpStatus.OK);
     }
 
     @PostMapping("/login")
