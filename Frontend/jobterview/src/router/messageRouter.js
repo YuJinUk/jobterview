@@ -16,11 +16,11 @@ const messageRouter = [
                 name: 'MessageRead',
                 component: () => import('@/views/components/message/MessageRead'),
             },
-            // {
-            //     path: 'send',
-            //     name: 'MessageSend',
-            //     component: () => import('@/views/components/message/MessageSend'),
-            // },
+            {
+                path: 'send',
+                name: 'MessageSend',
+                component: () => import('@/views/components/message/MessageSend'),
+            },
         ],
     },
 ];
