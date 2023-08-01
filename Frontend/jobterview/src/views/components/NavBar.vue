@@ -1,42 +1,55 @@
 <template>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
-        <!-- 로그인 안 했을 때 -->
-        <!-- <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <div class="container-login navbar-light">
-                    <button type="button" class="btn btn-link" id="login">로그인</button>
-                </div>
-                <div class="container-register navbar-light">
-                    <button type="button" class="btn btn-link" id="register">회원가입</button>
-                </div>
-            </ul>
-        </div> -->
+        
         <!-- 로그인 했을 때 -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <p class="  login-nickname">이상우 님</p>
-                </li>
-                    <div class="dropdown">
-                    <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
-                    <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
-                        aria-labelledby="dropdownIcon">
-                        <a class="dropdown-item" href="#">비밀번호 변경</a>
-                        <a class="dropdown-item" href="#">회원 탈퇴</a>
+        
+            <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <p class="  login-nickname">{{loginNickname}}</p>
+                    </li>
+                        <div class="dropdown">
+                        <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
+                        <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+                            aria-labelledby="dropdownIcon">
+                            <a class="dropdown-item" href="#">비밀번호 변경</a>
+                            <a class="dropdown-item" href="#">회원 탈퇴</a>
+                            <a class="dropdown-item" @click="logout">로그아웃</a>
+                        </div>
                     </div>
-                </div>
-                <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
-                <li class="nav-item"><i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
-                <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
-            </ul>
-        </div>
+                    <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
+                    <li class="nav-item"><i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
+                    <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
+                </ul>
+            </div> 
+       
+
+        <!-- 로그인 안 했을 때 -->
+  
+            <div v-else class="collapse navbar-collapse" id="navbarNav" >
+                <ul class="navbar-nav ms-auto">
+                    <div class="container-login navbar-light">
+                        <button type="button" class="btn btn-link" id="login" @click="toLogin()">로그인</button>
+                    </div>
+                    <div class="container-register navbar-light">
+                        <button type="button" class="btn btn-link" id="register">회원가입</button>
+                    </div>
+                </ul>
+            </div>
+            
+
+        
+        
+        
+        
 
     </nav>
 </template>
 
 <script>
-
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
     name: 'NavBar',
     components: {
@@ -44,7 +57,7 @@ export default {
     },
     data() {
         return {
-            isDropdownOpen: false
+            isDropdownOpen: false,
         };
     },
     methods: {
@@ -62,14 +75,35 @@ export default {
         },
         toMain() {
             this.$router.push({name: "Home"});
-        }
+        },
+        toLogin() {
+            this.$router.push({name: "LoginMember"});
+        },
+        logout() {
+
+            this.$store.dispatch("loginStore/UserLogout");
+    },
     },
     mounted() {
         window.addEventListener("click", this.closeDropdown);
     },
     beforeUnmount() {
         window.removeEventListener("click", this.closeDropdown);
-    }
+    },
+    computed: {
+    ...mapGetters(["loginStore/getLogin"]),
+    ...mapState("loginStore", ["isLogin"]),
+    ...mapState("loginStore", ["loginNickname"]),
+
+    getUser() {
+      if (this.isLogin) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
+
 }
 
 </script>

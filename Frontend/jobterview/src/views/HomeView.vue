@@ -34,6 +34,7 @@
 </template>
 
 <script>
+
 export default {
     name: "HomeView",
     data() {
@@ -41,6 +42,13 @@ export default {
             numOfUser: '301,223',
         }
     },
+    created() {
+    const nickname = this.$route.query.nickname;
+    if (nickname) {
+      
+      this.$store.commit('loginStore/SET_Login', nickname);
+        }
+    }, 
 }
 </script>
 
