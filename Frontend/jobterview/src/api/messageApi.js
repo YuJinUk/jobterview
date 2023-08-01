@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import apiTest from "./apitest";
+=======
+import {apiTest} from "./apiTest";
+>>>>>>> Stashed changes
 
 // 수신 메시지 조회
 async function receiveMessageList({nickname, page}, success, fail) {
