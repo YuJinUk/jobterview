@@ -12,6 +12,9 @@ const store = createStore({
     plugins: [
         createPersistedState()
     ],
+    state: {
+        bannerText: '공지사항입니다.', 
+      },
 });
 
 export default store;

@@ -3,29 +3,65 @@
     <div id="headTextBox">
       {{ headText }}
     </div>
+
     <div id="mainBox">
+      <!-- 카테고리 목록 -->
       <div id="categoryBox">
         <ul class="categoryList">
-          <li v-for="category in categoryList" :key="category" @click="changeCategory">
+          <li
+            v-for="category in categoryList"
+            :key="category"
+            :class="{ selectedCategory: category.selected }"
+            @click="changeCategory(category)"
+          >
             {{ category.display }}
+            <font-awesome-icon
+              v-if="category.cnt > 0"
+              class="checkIcon"
+              icon="fa-solid fa-check"
+            />
           </li>
         </ul>
       </div>
+
+      <!-- 세로 선 -->
       <div id="line"></div>
+
+      <!-- 질문 목록과 버튼 -->
       <div id="contentBox">
+        <!-- 질문 목록 -->
         <div id="questionbox">
           <ul class="questionList">
-            <li v-for="question in questionList" :key="question.questionId">
+            <li
+              v-for="question in categorizedQuestionList"
+              :key="question.questionId"
+              :class="{ selectedQuestion: question.selected }"
+              @click="selectQuestion(question)"
+            >
               <p>{{ question.content }}</p>
-              <font-awesome-icon class="checkIcon" icon="fa-solid fa-check" />
+
+              <font-awesome-icon
+                class="minusIcon"
+                v-if="question.selected"
+                icon="fa-solid fa-minus"
+              />
+              <font-awesome-icon
+                class="plusIcon"
+                v-else
+                icon="fa-solid fa-plus"
+              />
             </li>
           </ul>
         </div>
+        <!-- 버튼 -->
         <div id="buttonBox">
-          <p>총 4개 중</p>
+          <p>총 4개 중&nbsp;</p>
           <p>{{ selectedQuestionsLength }}</p>
           <p>개의 질문을 선택하셨습니다.</p>
-          <button>다음</button>
+
+          <router-link to="/permission">
+            <button :class="{ activeButton: isAllSelected }">다음</button>
+        </router-link>
         </div>
       </div>
     </div>
@@ -35,159 +71,136 @@
 <script>
 import { onMounted, computed, ref } from "vue";
 import { useStore } from "vuex";
+import { getQuestionListAPI } from "@/api/roomApi";
 
 export default {
   setup() {
     const store = useStore();
 
-    //data
-    const selectedQuestions = ref([]);
-    const selectedCategory = ref({ name: "VISION", display: "비전 / 목표 질문" });
+    //data/////////////////////////////////////////////////////////////////////////////////////
+    const headText = ref("연습할 질문을 선택해주세요.");
+
     const categoryList = ref([
-        { name: "VISION", display: "비전 / 목표 질문" },
-        { name: "ADAPT", display: "적응력 질문" },
-        { name: "VALUES", display: "가치관 질문" },
-        { name: "PRESSURE", display: "압박 질문" },
-        { name: "JOB", display: "직무 질문" },
-      ]);
+      { name: "VISION", display: "비전/목표 질문", selected: true, cnt: 0 },
+      { name: "ADAPT", display: "적응력 질문", selected: false, cnt: 0 },
+      { name: "VALUES", display: "가치관 질문", selected: false, cnt: 0 },
+      { name: "PRESSURE", display: "압박 질문", selected: false, cnt: 0 },
+      { name: "JOB", display: "직무 질문", selected: false, cnt: 0 },
+    ]);
+    let categorizedQuestionList = ref([]);
+    const allQuestionList = ref([]);
 
-      const selectedQuestionsLength = () => selectedQuestions.value.length;
+    const selectedQuestions = ref([]);
+    const isAllSelected = ref(false);
 
-    //onMounted
-    onMounted(() => {
-      console.log(selectedCategory.value);
-      store.dispatch("roomStore/setCategoryAndQuestionList", selectedCategory.value.name);
+    //computed/////////////////////////////////////////////////////////////////////////////////////
+    //선택된 질문의 갯수 반환
+    const selectedQuestionsLength = computed(
+      () => selectedQuestions.value.length
+    );
+
+    //methods/////////////////////////////////////////////////////////////////////////////////////
+    //전체 질문 목록중에 특정 카테고리로 분류
+    const categorizeQuestion = (categoryName) => {
+      categorizedQuestionList.value = allQuestionList.value.filter(
+        (question) => question.category === categoryName
+      );
+    };
+
+    //카테고리 선택시 해당 카테고리만 selected true;
+    const changeCategory = (category) => {
+      //선택된 카테고리 true
+      category.selected = true;
+
+      //선택된 카테고리의 질문만 분류
+      categorizeQuestion(category.name);
+
+      //선택되지 않은 카테고리 false
+      const list = categoryList.value;
+      for (let i = 0; i < list.length; i++) {
+        if (list[i] !== category) {
+          list[i].selected = false;
+        }
+      }
+      categoryList.value = list;
+    };
+
+    //질문 선택시 선택된 질문 목록에 추가
+    const selectQuestion = (question) => {
+      //이미 선택한 질문인 경우
+      if (selectedQuestions.value.includes(question)) {
+        //해당 질문 삭제
+        selectedQuestions.value = selectedQuestions.value.filter(
+          (value) => value !== question
+        );
+
+        //카테고리 선택 카운트 감소
+        for (let i = 0; i < categoryList.value.length; i++) {
+          if (categoryList.value[i].name === question.category) {
+            categoryList.value[i].cnt--;
+          }
+        }
+        //질문 선택 취소
+        question.selected = false;
+        isAllSelected.value = false;
+        return;
+      }
+
+      //4개 미만인 경우
+      if (selectedQuestions.value.length < 4) {
+        selectedQuestions.value.push(question);
+
+        //카테고리 선택 카운트 증가
+        for (let i = 0; i < categoryList.value.length; i++) {
+          if (categoryList.value[i].name === question.category) {
+            categoryList.value[i].cnt++;
+          }
+        }
+
+        question.selected = true;
+      }
+
+      //4개인경우 store 갱신
+      if (selectedQuestions.value.length === 4) {
+        isAllSelected.value = true;
+        store.dispatch("setSelectedQuestions", selectedQuestions.value);
+      }
+    };
+
+    //onMounted/////////////////////////////////////////////////////////////////////////////////////
+    onMounted(async () => {
+      //전체 질문 목록 가져오는 api 실행
+      await getQuestionListAPI(
+        ({ data }) => {
+          //가져온 질문 목록에 selected 추가
+          allQuestionList.value = data.map((question) => {
+            return { ...question, selected: false };
+          });
+          categorizeQuestion("VISION");
+        },
+        //에러 발생시
+        (error) => console.log(error)
+      );
     });
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     return {
       //data
+      headText,
       selectedQuestions,
-      selectedCategory,
       categoryList,
+      isAllSelected,
+      categorizedQuestionList,
+
+      //method
+      changeCategory,
+      selectQuestion,
 
       //computed
       selectedQuestionsLength,
-      questionList: computed(() => store.getters["roomStore/getQuestionList"]),
     };
   },
 };
 </script>
 
-<style scoped>
-li {
-  list-style: none;
-}
-
-.checkIcon {
-  margin-right: 15px; 
-}
-
-#container {
-  width: 1080px;
-  height: 750px;
-  display: block;
-  margin: 0 auto;
-
-  display: block;
-  align-items: center;
-  justify-content: center;
-}
-
-#headTextBox {
-  text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  color: #0f4471;
-
-  padding: 40px 0;
-}
-
-#mainBox {
-  width: 1024px;
-  height: 500px;
-  background-color: #f0f0f0;
-
-  margin: 0 auto;
-  border-radius: 10px;
-
-  display: flex;
-}
-
-#categoryBox {
-  width: 200px;
-}
-
-.categoryList {
-  margin: 0;
-  padding: 60px 0 60px 60px;
-
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.categoryList li {
-  padding: 0px 0px;
-
-  font-size: 18px;
-  color: #0f4471;
-}
-
-#line {
-  width: 5%;
-  height: 80%;
-
-  margin: auto 0;
-
-  border-right: 1px solid #0f4471;
-}
-
-#questionbox {
-  background-color: wheat;
-  width: 725px;
-  height: 350px;
-
-  margin: 50px 0 0 0;
-}
-
-.questionList {
-  width: 100%;
-  height: 100%;
-
-  overflow: auto;
-}
-
-.questionList li {
-  width: 650px;
-  height: 50px;
-
-  color: #0f4471;
-
-  border-radius: 10px;
-
-  margin: 18px 0;
-  padding-left: 15px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  background-color: whitesmoke;
-}
-
-.questionList li p {
-  margin: 0;
-}
-
-.questionList li i {
-  width: 100px;
-  height: 100px;
-}
-
-#buttonBox {
-  display: flex;
-}
-</style>
+<style scoped src="@/css/aiQuestionView.css" />

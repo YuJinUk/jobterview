@@ -44,11 +44,20 @@ public class QuestionServiceImpl implements QuestionService {
 
     /**
      * 질문 목록 전체 조회
+     * @return 조회된 질문 목록
+     */
+    @Override
+    public List<Question> findAll() {
+        return questionRepository.findAll();
+    }
+
+    /**
+     * 질문 목록 전체 조회
      * @param pageable : 페이징 정보 
      * @return 조회된 질문 목록 (페이지당 10개)
      */
     @Override
-    public Page<Question> findAll(Pageable pageable) {
+    public Page<Question> findAllWithPaging(Pageable pageable) {
         return questionRepository.findAll(pageable);
     }
 

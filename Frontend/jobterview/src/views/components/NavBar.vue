@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">JOBTERVIEW</a>
+        <a class="navbar-brand" href="/">JOBTERVIEW</a>
         <!-- 로그인 안 했을 때 -->
         <!-- <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
