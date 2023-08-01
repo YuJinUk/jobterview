@@ -1,7 +1,7 @@
 
 const joinRouter=[
 {
-    path:'/join',
+    path:'/member/Join',
     name: 'join',
     component : () => import('@/views/components/Join.vue')
     

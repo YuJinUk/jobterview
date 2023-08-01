@@ -2,7 +2,7 @@
   <NavBar/>
   <router-view />
   <router-link to="/message">메시지</router-link>
-  <router-link to="/member">회원가입</router-link>
+  <router-link to="/member/join">회원가입</router-link>
 </template>
 
 <script>

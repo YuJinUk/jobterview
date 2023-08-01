@@ -8,18 +8,19 @@
                     <input type="text" id="email" style="border-radius: 5px;" v-model="email" placeholder="이메일">
                 </div>
                 <div class="form-group">
+                    <label for="nickname"></label>
+                    <input type="text" id="nickname" style="border-radius: 5px;" v-model="nickname" placeholder="닉네임">
+                </div>
+                <div class="form-group">
                     <label for="password"></label>
                     <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="비밀번호">
                 </div>
                 <div class="form-group">
                     <label for="passwordCheck"></label>
                     <input type="password" id="passwordCheck" style="border-radius: 5px;" v-model="passwordCheck" placeholder="비밀번호 확인">
-                    <span class="badge badge-danger mt-1" v-if="passwordCheck">비밀번호와 일치하지 않습니다.</span>
+                    <span style="color:#ffffff; font-size:small" v-if="passwordCheck!=password">비밀번호와 일치하지 않습니다.</span>
                 </div>
-                <div class="form-group">
-                    <label for="nickname"></label>
-                    <input type="text" id="nickname" style="border-radius: 5px;" v-model="nickname" placeholder="닉네임">
-                </div>
+               
                 <button class="button col-8" @click="submit" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">가입완료</button>
             </div>
 
@@ -28,6 +29,7 @@
 </template>
 <script>
 import { join } from "@/api/joinApi";
+
 export default {
     name:'joinForm',
     data(){
@@ -35,7 +37,8 @@ export default {
             email:"",
             password:"",
             passwordCheck:"",
-            nickname:""
+            nickname:"",
+            CheckPassword:true,
         };
     },
     methods: {
@@ -49,31 +52,32 @@ export default {
 
             
             else{
-              
             let member = {
                 email: this.email,
                 password: this.password,
                 nickname: this.nickname,
             };
-            }
-            async function doJoin(){
+           
             await join(member, (response) => {
                 console.log(response);
             },
             (error) => {
                 console.log(error);
             });
+            
+ 
+
             }
-   
 
+
+            }
 
         }
 
-        }
 
         
   
-}}
+}
 </script>
 <style>
 .totalForm{
