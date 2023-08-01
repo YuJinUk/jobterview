@@ -1,4 +1,4 @@
-import apiTest  from "./apiTest";
+import apiTest from "./apitest";
 
 // 수신 메시지 조회
 async function receiveMessageList({nickname, page}, success, fail) {
