@@ -1,24 +1,14 @@
 <template>
     <div class="container" style="width: 1080px;">
-        <div class="row justify-content-center mt-3">
-            <div class="col-3">
-                <input type="text" id="searchMessage" class="form-control">
-            </div>
-            <div class="col-1">
-                <button type="submit" class="btn btn-primary">검색</button>
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-primary">쪽지 작성</button>
-            </div>
-        </div>
         <div class="row justify-content-end mt-3">
-
+            <button class="btn btn-primary col-1" @click="toSendMessage()" id="write">작성</button>     
         </div>
-        <div class="row justify-content-center mt-5">
+        <div class="row justify-content-center1">
             <ul class="nav nav-tabs" id="messageTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="receive-tab" data-bs-toggle="tab" data-bs-target="#receive"
-                        type="button" role="tab" aria-controls="receive" aria-selected="true" @click="changeReceivePage(1)">받은 쪽지함</button>
+                        type="button" role="tab" aria-controls="receive" aria-selected="true"
+                        @click="changeReceivePage(1)">받은 쪽지함</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="send-tab" data-bs-toggle="tab" data-bs-target="#send" type="button"
@@ -33,6 +23,7 @@
                                 <th class="col-6 ">내용</th>
                                 <th class="col-2">수신 일자</th>
                                 <th class="col-2">보낸 사람</th>
+                                <th class="col-1"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,6 +31,8 @@
                                 <td @click="toReadMessage(data, 'receive')">{{ data.content }}</td>
                                 <td>{{ data.createdDate }}</td>
                                 <td>{{ data.senderNickname }}</td>
+                                <td><button class="btn btn-danger deleteButton"
+                                        @click="deleteReceiveMessage(data)">삭제</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -54,7 +47,7 @@
                                 <a class="page-link" href="#" @click="changeReceivePage(currentReceivePage - 1)"
                                     aria-label="Previous">
                                     <span aria-hidden="true">&lt;</span>
-                                </a>    
+                                </a>
                             </li>
                             <template v-if="currentReceivePage === 1">
                                 <li v-for="firstPageNumber in Math.min(totalReceivePage, 3)" :key="firstPageNumber"
@@ -99,6 +92,7 @@
                                 <th class="col-6 ">내용</th>
                                 <th class="col-2">송신 일자</th>
                                 <th class="col-2">받는 사람</th>
+                                <th class="col-1"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,6 +100,8 @@
                                 <td @click="toReadMessage(data, 'send')">{{ data.content }}</td>
                                 <td>{{ data.createdDate }}</td>
                                 <td>{{ data.receiverNickname }}</td>
+                                <td><button class="btn btn-danger deleteButton" @click="deleteSendMessage(data)">삭제</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -120,7 +116,7 @@
                                 <a class="page-link" href="#" @click="changeSendPage(currentSendPage - 1)"
                                     aria-label="Previous">
                                     <span aria-hidden="true">&lt;</span>
-                                </a>    
+                                </a>
                             </li>
                             <template v-if="currentSendPage === 1">
                                 <li v-for="firstPageNumber in Math.min(totalSendPage, 3)" :key="firstPageNumber"
@@ -150,8 +146,7 @@
                                 </a>
                             </li>
                             <li class="page-item" :class="{ 'disabled': currentSendPage === totalSendPage }">
-                                <a class="page-link" href="#" @click="changeSendPage(totalSendPage)"
-                                    aria-label="Last">
+                                <a class="page-link" href="#" @click="changeSendPage(totalSendPage)" aria-label="Last">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
@@ -167,12 +162,9 @@
 import router from '@/router';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-
+import { deleteReceivedMessage, deleteSentMessage } from '@/api/messageApi';
 export default {
     name: 'MessageList',
-    components: {
-
-    },
     mounted() {
         this.fetchReceiveMessage();
         this.fetchSendMessage();
@@ -208,7 +200,7 @@ export default {
 
 
         async function fetchReceiveMessage() {
-            await store.dispatch('messageStore/getReceiveMessages', {nickname: 'reporter', page: currentReceivePage.value - 1});
+            await store.dispatch('messageStore/getReceiveMessages', { nickname: 'reporter', page: currentReceivePage.value - 1 });
         }
 
         let sendPageRange = computed(() => {
@@ -239,12 +231,42 @@ export default {
             store.commit('messageStore/SET_READ_CREATED_DATE', data.createdDate);
             store.commit('messageStore/SET_READ_SENDER_NICKNAME', data.senderNickname);
             store.commit('messageStore/SET_READ_RECEIVER_NICKNAME', data.receiverNickname);
+            store.commit('messageStore/SET_READ_ID', data.id);
             console.log(data);
-            router.push({name: 'MessageRead', params: { category: isReceive}});
+            router.push({ name: 'MessageRead', params: { category: isReceive } });
         }
 
         function toSendMessage() {
-            // router.push({name: 'MessageSend'});
+            router.push({ name: 'MessageSend' });
+        }
+
+        async function deleteReceiveMessage(data) {
+            if(!confirm("삭제하시겠습니까?")) {
+                console.log('취소');
+            } else {
+                console.log(data.id);
+                deleteReceivedMessage(data.id, (response) => {
+                    console.log(response);
+                    fetchReceiveMessage();
+                }, (error) => {
+                    console.log(error);
+                })
+            }
+            
+        }
+
+        async function deleteSendMessage(data) {
+            if(!confirm("삭제하시겠습니까?")) {
+                console.log('취소');
+            } else {
+                console.log(data.id);
+                deleteSentMessage(data.id, (response) => {
+                    console.log(response);
+                    fetchSendMessage();
+                }, (error) => {
+                    console.log(error);
+                })
+            }
         }
 
         return {
@@ -264,6 +286,8 @@ export default {
             changeSendPage,
             toReadMessage,
             toSendMessage,
+            deleteReceiveMessage,
+            deleteSendMessage,
         };
     }
 }
@@ -272,5 +296,14 @@ export default {
 <style>
 .pagination {
     justify-content: center;
+}
+
+.deleteButton {
+    border-radius: 10px;
+}
+
+#write {
+    background-color: #0f4471;
+    font: 700 16px/18px "Lato", sans-serif;
 }
 </style>

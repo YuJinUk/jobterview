@@ -1,5 +1,5 @@
-import { sendMessageAPI, receiveMessageAPI } from '@/api/messageApi';
-
+import { sendMessageList, receiveMessageList, postMessage } from '@/api/messageApi';
+import router from '@/router';
 
 export default {
     namespaced: true,
@@ -14,6 +14,8 @@ export default {
         readCreatedDate: null,
         readSenderNickname: null,
         readReceiverNickname: null,
+        readId: null,
+        replyNickname: null,
     },
     mutations: {
         SET_RECEIVE_MESSAGE: (state, messages) => {
@@ -45,6 +47,12 @@ export default {
         },
         SET_READ_RECEIVER_NICKNAME: (state, receiverNickname) => {
             state.readReceiverNickname = receiverNickname;
+        },
+        SET_READ_ID: (state, id) => {
+            state.readId = id;
+        },
+        SET_REPLY_NICKNAME: (state, nickname) => {
+            state.replyNickname = nickname;
         }
     },
     getters: {
@@ -69,7 +77,7 @@ export default {
     },
     actions: {
         async getReceiveMessages({ commit }, {nickname, page}) {
-            await receiveMessageAPI({nickname, page},
+            await receiveMessageList({nickname, page},
                 ({data}) => {
                     commit('SET_RECEIVE_MESSAGE', data.content);
                     commit('SET_TOTAL_RECEIVE_PAGE', data.totalPages);
@@ -79,7 +87,7 @@ export default {
                 })
         },
         async getSendMessages({ commit }, {nickname, page}) {
-            await sendMessageAPI({nickname, page},
+            await sendMessageList({nickname, page},
                 ({data}) => {
                     commit('SET_SEND_MESSAGE', data.content);
                     commit('SET_TOTAL_SEND_PAGE', data.totalPages);
@@ -87,8 +95,17 @@ export default {
                 (error) => {
                     console.log(error);
                 })
-        },
-
+        },     
+        async postMessages(context, message) {
+            await postMessage(message, ({data}) => {
+                console.log(data);
+                router.push({name:"MessageList"});
+            },
+            (error) => {
+                console.log(error);
+                alert("존재하지 않는 유저입니다");
+            })
+        }   
     }
 }
 
