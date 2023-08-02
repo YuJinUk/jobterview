@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Member;
@@ -48,6 +50,7 @@ public class MemberController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> join(@RequestBody @ApiParam(value="회원 가입 정보", required = true) MemberDto memberDto) {
+
         String rawPassword = memberDto.getPassword();
         String encPwd = bCryptPasswordEncoder.encode(rawPassword);
 
@@ -110,8 +113,13 @@ public class MemberController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
+<<<<<<< HEAD
     public ResponseEntity<?> myInfo(@RequestBody @ApiParam(value="현재 로그인 한 회원 정보", required = true) MemberDto memberDto) {
         Member member = memberService.findByEmail(memberDto.getEmail());
+=======
+    public ResponseEntity<?> myInfo(@RequestParam @ApiParam(value="현재 로그인 한 회원 정보", required = true) String email) {
+        Member member = ms.findByEmail(email);
+>>>>>>> dev
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
     @GetMapping
@@ -128,10 +136,25 @@ public class MemberController {
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
+<<<<<<< HEAD
+=======
+
+
+
+    @Autowired
+    private EmailService es;
+>>>>>>> dev
     @PostMapping("/emailConfirm")
     @ApiOperation(value = "이메일 전송", notes = "")
     public String emailConfirm(@RequestParam String email) throws Exception {
         String confirm = emailService.sendSimpleMessage(email);
         return confirm;
+    }
+
+    @PutMapping("/emailauth")
+    @ApiOperation(value = "이메일 인증", notes = "")
+    public ResponseEntity<?> emailAuth(@RequestParam String email) throws Exception {
+        ms.emailAuth(email);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 }

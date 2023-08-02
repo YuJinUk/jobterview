@@ -44,6 +44,7 @@ public class MessageController {
     @PostMapping
     @ApiOperation(value = "메세지 작성")
     public ResponseEntity<?> sendMessage(@RequestBody MessageDto mDto){
+        System.out.println(mDto);
         messageService.save(mDto);
         return new ResponseEntity<>(mDto, HttpStatus.OK);
     }

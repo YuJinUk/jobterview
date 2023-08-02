@@ -14,12 +14,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import ssafy.project.jobterview.config.auth.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Configuration
@@ -35,9 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public SecurityConfig( PrincipalDetailService principalDetailService,
-                          @Lazy PrincipalOauth2UserService principalOauth2UserService,
-                          @Lazy BCryptPasswordEncoder bCryptPasswordEncoder
-
+                           @Lazy PrincipalOauth2UserService principalOauth2UserService,
+                           @Lazy BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         this.principalDetailService = principalDetailService;
         this.principalOauth2UserService = principalOauth2UserService;
@@ -54,6 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
+    @Autowired
+    private SocialAuthenticationSuccessHandler socialAuthenticationSuccessHandler;
+
 
 
     @Override
@@ -68,16 +72,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOrigin("http://localhost:8081"); // 허용할 Origin 설정, *은 모든 Origin 허용
+//        configuration.addAllowedMethod("*"); // 모든 HTTP Method 허용
+//        configuration.addAllowedHeader("*"); // 모든 HTTP Header 허용
+//        configuration.setAllowCredentials(true); // 'Access-Control-Allow-Credentials'를 true로 설정
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
+
+    // CacheControlFilter 빈 등록
     @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*"); // 허용할 Origin 추가
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
+    public CacheControlFilter cacheControlFilter() {
+        return new CacheControlFilter();
     }
+
+
 
 
     // 시큐리티가 대신 로그인해주는데 password를 가로채는데
@@ -104,47 +117,59 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //      http.exceptionHandling()
 //              .accessDeniedHandler(jwtAccessDeniedHandler);
-
-//        http.cors();
         http
+                .headers()
+                .cacheControl().disable(); // 캐싱 금지 설정 추가
+        http.cors();
+        http
+                .addFilterBefore(cacheControlFilter(), SecurityContextHolderAwareRequestFilter.class)
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/member/emailConfirm").permitAll() // 이메일 전송 URL 허용
                 .antMatchers("/oauth2/**").permitAll()
+<<<<<<< HEAD
                 .antMatchers(HttpMethod.POST, "/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.PUT, "/oauth2/**").permitAll()
                 //.antMatchers(HttpMethod.POST,"/auth/logout").permitAll()
                 .antMatchers("/auth/ok").permitAll()
+=======
+                .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
+>>>>>>> dev
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                //.antMatchers("/admin/**").access("hasRole('admin')")
-                //  .anyRequest().authenticated()
-                .and()
-                .cors()
+                .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/auth/login")
+                .loginPage("http://localhost:8081/user/login")
                 .usernameParameter("email")
                 .loginProcessingUrl("/auth/login")
                 .successHandler(customAuthenticationSuccessHandler)
                 .failureHandler(customAuthenticationFailureHandler)
                 .and()
                 .logout()
-                .logoutUrl("/auth/logout") // 로그아웃 URL 설정
-                .logoutSuccessHandler(customLogoutSuccessHandler) // 로그아웃 성공 후 리다이렉트할 URL 설정
+                .logoutUrl("/auth/logout")
+                .addLogoutHandler((request, response, authentication) -> {
+                    // 사실 굳이 내가 세션 무효화하지 않아도 됨.
+                    // LogoutFilter가 내부적으로 해줌.
+                    HttpSession session = request.getSession();
+                    if (session != null) {
+                        session.invalidate();
+                    }
+                })
+                .logoutSuccessHandler(customLogoutSuccessHandler)// 로그아웃 URL 설정
+                .clearAuthentication(true)// 현재 인증 정보 삭제
                 .invalidateHttpSession(true) // HTTP 세션 무효화
-                .deleteCookies("JSESSIONID") // 로그아웃 시 쿠키 삭제
-                .clearAuthentication(true);// 현재 인증 정보 삭제
+                .deleteCookies("JSESSIONID","remember-me") // 로그아웃 시 쿠키 삭제
+                .and()
+                .oauth2Login()
 
-                /*.and()
-                        .oauth2Login()
-                        .successHandler(customAuthenticationSuccessHandler)
-                        .failureUrl("/auth/ok")		// 로그인 실패 시 /loginForm으로 이동
-                        .userInfoEndpoint()		// 로그인 성공 후 사용자정보를 가져온다
-                        .userService(principalOauth2UserService);	//사용자정보를 처리할 때 사용한다
-*/
-        //http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService)
+
+                .and()
+                .successHandler(socialAuthenticationSuccessHandler);
+
 
         //중복 로그인
         http.sessionManagement()
@@ -152,4 +177,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
 
     }
+<<<<<<< HEAD
 }
+=======
+
+
+}
+>>>>>>> dev
