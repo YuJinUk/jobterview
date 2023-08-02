@@ -58,7 +58,7 @@ public class Member extends BaseTimeEntity {
 
     //role 만들기
     @Enumerated(value = EnumType.STRING)
-    @ColumnDefault("'ROLE_user'")
+    @ColumnDefault("'ROLE_new'")
     private Role role;
 
     @Override

@@ -21,4 +21,6 @@ public interface MemberService {
 
     public void update(String email);
 
+    public void emailAuth(String email);
+
 }
