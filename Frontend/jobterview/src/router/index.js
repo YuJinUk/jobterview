@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { createRouter, createWebHistory } from 'vue-router'
 
 import messageRouter from './messageRouter';
@@ -6,9 +5,9 @@ import commonRouter from './commonRouter';
 import aiRouter from './aiRouter';
 import roomRouter from './roomRouter';
 import memberRouter from './memberRouter';
-import EmailAuth from '@/views/EmailAuth';
 import authRouter from './authRouter';
 import joinRouter from './joinRouter';
+import adminRouter from  './adminRouter';
 
 const routes = [
     ...commonRouter,
@@ -18,6 +17,7 @@ const routes = [
     ...messageRouter,
     ...authRouter,
     ...joinRouter,
+    ...adminRouter,
     {
         path: '/emailauth/:email',
         name: 'EmailAuth',
