@@ -18,11 +18,6 @@ const routes = [
     ...authRouter,
     ...joinRouter,
     ...adminRouter,
-    {
-        path: '/emailauth/:email',
-        name: 'EmailAuth',
-        component: EmailAuth,
-    },
   ];
 
 // 라우터 생성
