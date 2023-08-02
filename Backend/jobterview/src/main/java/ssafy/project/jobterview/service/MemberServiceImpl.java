@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
 
@@ -64,6 +65,13 @@ public class MemberServiceImpl implements MemberService{
         else if(a==2){
             member.setIsActive(1);
         }
+        memberRepository.save(member);
+    }
+
+    @Override
+    public void emailAuth(String email) {
+        Member member = findByEmail(email);
+        member.setRole(Role.ROLE_user);
         memberRepository.save(member);
     }
 }

@@ -52,11 +52,11 @@ public class MemberController {
 
         memberDto.setPassword(encPwd);
         Member member = new Member(memberDto.getEmail(), memberDto.getNickname(), memberDto.getPassword());
+
+        //맴버 저장
         Member saveMember = ms.save(member);
         //저장된 맴버 반환
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
-
-
     }
 
     /**
@@ -137,5 +137,12 @@ public class MemberController {
     public String emailConfirm(@RequestParam String email) throws Exception {
         String confirm = es.sendSimpleMessage(email);
         return confirm;
+    }
+
+    @PutMapping("/emailauth")
+    @ApiOperation(value = "이메일 인증", notes = "")
+    public ResponseEntity<?> emailAuth(@RequestParam String email) throws Exception {
+        ms.emailAuth(email);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 }
