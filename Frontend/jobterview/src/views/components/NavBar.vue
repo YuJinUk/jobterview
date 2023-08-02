@@ -33,7 +33,7 @@
                         <button type="button" class="btn btn-link" id="login" @click="toLogin()">로그인</button>
                     </div>
                     <div class="container-register navbar-light">
-                        <button type="button" class="btn btn-link" id="register">회원가입</button>
+                        <button type="button" class="btn btn-link" id="register" @click="toJoin()">회원가입</button>
                     </div>
                 </ul>
             </div>
@@ -78,6 +78,9 @@ export default {
         },
         toLogin() {
             this.$router.push({name: "LoginMember"});
+        },
+        toJoin() {
+            this.$router.push({name: "Join"});
         },
         logout() {
 

@@ -60,7 +60,7 @@ public class MemberController {
     }
 
     @GetMapping("/nicknameCheck")
-    @ApiOperation(value="닉네임이 일치하는 회원이 있다면 true 반환",notes="")
+    @ApiOperation(value="닉네임이 일치하는 회원이 있다면 false 반환",notes="")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -71,14 +71,14 @@ public class MemberController {
         Member member = null;
         try {
             member= ms.findByNickname(nickname);
-            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return new ResponseEntity<>(1, HttpStatus.OK);
         }
     }
 
     @GetMapping("/emailCheck")
-    @ApiOperation(value="이메일이 일치하는 회원이 있다면 true 반환",notes="")
+    @ApiOperation(value="이메일이 일치하는 회원이 있다면 false 반환",notes="")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),

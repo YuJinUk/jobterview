@@ -102,7 +102,7 @@ export default {
                 nickname: this.nickname,};
                 await join(member, (response) => {
                 console.log(response);
-                alert("회원가입이 완료 되었습니다.")
+                alert("등록하신 메일로 인증메일이 전송 되었습니다.")
                 this.$router.push({name:'Home'});
             },
             (error) => {
