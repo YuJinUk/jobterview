@@ -1,24 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import AiView from '../views/AiView.vue';
-import ChatRoomView from '../views/ChatRoomView.vue';
+import messageRouter from './messageRouter';
+import commonRouter from './commonRouter';
+import EmailAuth from '@/views/EmailAuth';
+import authRouter from './authRouter';
+import joinRouter from './joinRouter';
 
 const routes = [
+    ...commonRouter,
+    ...messageRouter,
     {
-        path: '/',
-        component: HomeView,
+        path: '/emailauth/:email',
+        name: 'EmailAuth',
+        component: EmailAuth,
     },
-    {
-        path: '/ai',
-        component: AiView,
-    },
-    {
-        path: '/chat',
-        component: ChatRoomView,
-    }
-  ];
-  
-  export default createRouter({
+    ...authRouter,
+    ...joinRouter,
+];
+
+export default createRouter({
     history: createWebHistory(),
     routes,
-  });
+});

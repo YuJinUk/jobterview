@@ -42,18 +42,25 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
         return collect;
     }
 
-//    public String getNickname() {
-//        return member.getNickname();
-//    }
 
     @Override
     public String getPassword() {
-        return member.getPassword();
+        try {
+            String password = member.getPassword();
+            return password;
+        } catch (Exception e) {
+            return "123";
+        }
     }
 
     @Override
     public String getUsername() {
-        return member.getEmail();
+        try {
+            String email= member.getEmail();
+            return email;
+        } catch (Exception e) {
+            return "123";
+        }
     }
 
 

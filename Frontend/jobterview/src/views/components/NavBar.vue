@@ -1,38 +1,109 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="#">JOBTERVIEW</a>
-        <!-- 로그인 안 했을 때 -->
-        <!-- <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <div class="container-login navbar-light">
-                    <button type="button" class="btn btn-link" id="login">로그인</button>
-                </div>
-                <div class="container-register navbar-light">
-                    <button type="button" class="btn btn-link" id="register">회원가입</button>
-                </div>
-            </ul>
-        </div> -->
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
+        
         <!-- 로그인 했을 때 -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <svg class="vector" width="32" height="32" viewBox="0 0 40 40" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M20 40L17.1 37.1226C6.8 26.9428 0 20.2289 0 11.9891C0 5.2752 4.84 0 11 0C14.48 0 17.82 1.76567 20 4.55586C22.18 1.76567 25.52 0 29 0C35.16 0 40 5.2752 40 11.9891C40 20.2289 33.2 26.9428 22.9 37.1444L20 40Z"
-                        fill="black" />
-                </svg>
-                <font-awesome-icon :icon="['faUserSecret', 'users']" />
-            </ul>
-        </div>
+        
+            <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <p class="  login-nickname">{{loginNickname}}</p>
+                    </li>
+                        <div class="dropdown">
+                        <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
+                        <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+                            aria-labelledby="dropdownIcon">
+                            <a class="dropdown-item" href="#">비밀번호 변경</a>
+                            <a class="dropdown-item" href="#">회원 탈퇴</a>
+                            <a class="dropdown-item" @click="logout">로그아웃</a>
+                        </div>
+                    </div>
+                    <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
+                    <li class="nav-item"><i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
+                    <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
+                </ul>
+            </div> 
+       
+
+        <!-- 로그인 안 했을 때 -->
+  
+            <div v-else class="collapse navbar-collapse" id="navbarNav" >
+                <ul class="navbar-nav ms-auto">
+                    <div class="container-login navbar-light">
+                        <button type="button" class="btn btn-link" id="login" @click="toLogin()">로그인</button>
+                    </div>
+                    <div class="container-register navbar-light">
+                        <button type="button" class="btn btn-link" id="register">회원가입</button>
+                    </div>
+                </ul>
+            </div>
+            
+
+        
+        
+        
+        
+
     </nav>
 </template>
 
 <script>
-
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
     name: 'NavBar',
     components: {
-    }
+
+    },
+    data() {
+        return {
+            isDropdownOpen: false,
+        };
+    },
+    methods: {
+        toggleDropdown() {
+            this.isDropdownOpen = !this.isDropdownOpen;
+        },
+        closeDropdown(event) {
+            const target = event.target;
+            if (!target.closest(".dropdown")) {
+                this.isDropdownOpen = false;
+            }
+        },
+        toMessage() {
+            this.$router.push({name: "MessageList"});
+        },
+        toMain() {
+            this.$router.push({name: "Home"});
+        },
+        toLogin() {
+            this.$router.push({name: "LoginMember"});
+        },
+        logout() {
+
+            this.$store.dispatch("loginStore/UserLogout");
+    },
+    },
+    mounted() {
+        window.addEventListener("click", this.closeDropdown);
+    },
+    beforeUnmount() {
+        window.removeEventListener("click", this.closeDropdown);
+    },
+    computed: {
+    ...mapGetters(["loginStore/getLogin"]),
+    ...mapState("loginStore", ["isLogin"]),
+    ...mapState("loginStore", ["loginNickname"]),
+
+    getUser() {
+      if (this.isLogin) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
+
 }
 
 </script>
@@ -42,6 +113,28 @@ export default {
     border-style: outset;
 }
 
+.login-nickname {
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+    margin-bottom: 0px;
+}
+
+.navbar .dropdown {
+    margin-top: 4px;
+    margin-bottom: 0px;
+    margin-right:30px;
+} 
+
+.login-nickname {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.nav-item {
+    margin-right: 20px;
+    text-align: center;
+}
+
 .navbar .navbar-brand {
     color: #0f4471;
     font: 700 24px/24px "Lato", sans-serif;
@@ -49,14 +142,14 @@ export default {
 }
 
 .navbar .container-login {
-    padding: 12px 0px 12px 0px;
+    padding: 6px 0px 6px 0px;
     margin-left: auto;
     margin-right: 25px;
 }
 
 .navbar .container-register {
     background: #0f4471;
-    padding: 12px 18px 12px 18px;
+    padding: 6px 12px 6px 12px;
     margin-left: auto;
     margin-right: 25px;
 }

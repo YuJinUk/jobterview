@@ -1,5 +1,6 @@
 package ssafy.project.jobterview.domain;
 
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,7 +40,6 @@ public class Mate extends BaseTimeEntity {
                 .toMember(this.getToMember())
                 .build();
     }
-
 
 
 }

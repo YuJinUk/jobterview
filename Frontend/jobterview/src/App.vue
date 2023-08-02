@@ -1,26 +1,17 @@
 <template>
-  <NavBar/>
+  <router-link to="/member/join">회원가입</router-link>
+  <NavBar />
   <router-view />
 </template>
 
 <script>
-import NavBar from './views/components/NavBar.vue'
-
+import NavBar from "./views/components/NavBar.vue";
 
 export default {
-  name: 'App',
+  name: "App",
+
   components: {
     NavBar,
-  }
-}
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>

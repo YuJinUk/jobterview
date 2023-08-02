@@ -8,6 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Member;
@@ -15,6 +17,7 @@ import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.UpdatePasswordDto;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
+import ssafy.project.jobterview.service.EmailService;
 import ssafy.project.jobterview.service.MemberService;
 
 import java.util.List;
@@ -43,6 +46,7 @@ public class MemberController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> join(@RequestBody @ApiParam(value="회원 가입 정보", required = true) MemberDto memberDto) {
+
         String rawPassword = memberDto.getPassword();
         String encPwd = bCryptPasswordEncoder.encode(rawPassword);
 
@@ -105,8 +109,8 @@ public class MemberController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> myInfo(@RequestBody @ApiParam(value="현재 로그인 한 회원 정보", required = true) MemberDto memberDto) {
-        Member member = ms.findByEmail(memberDto.getEmail());
+    public ResponseEntity<?> myInfo(@RequestParam @ApiParam(value="현재 로그인 한 회원 정보", required = true) String email) {
+        Member member = ms.findByEmail(email);
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
     @GetMapping
@@ -121,5 +125,24 @@ public class MemberController {
             sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value="검색할 닉네임 키워드", required = true) String keyword) {
         Page<MemberDto> members = ms.findByNicknameContains(pageable, keyword).map(Member::toMemberDto);
         return new ResponseEntity<>(members, HttpStatus.OK);
+    }
+
+
+
+
+    @Autowired
+    private EmailService es;
+    @PostMapping("/emailConfirm")
+    @ApiOperation(value = "이메일 전송", notes = "")
+    public String emailConfirm(@RequestParam String email) throws Exception {
+        String confirm = es.sendSimpleMessage(email);
+        return confirm;
+    }
+
+    @PutMapping("/emailauth")
+    @ApiOperation(value = "이메일 인증", notes = "")
+    public ResponseEntity<?> emailAuth(@RequestParam String email) throws Exception {
+        ms.emailAuth(email);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 }
