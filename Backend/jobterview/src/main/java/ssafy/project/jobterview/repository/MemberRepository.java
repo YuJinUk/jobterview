@@ -22,5 +22,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findByEmailContains(Pageable pageable, String keyword);
 
     Page<Member> findAll(Pageable pageable);
+
+    Long countByIsActiveTrue();
 }
 

@@ -11,5 +11,4 @@ public enum Role {
     ROLE_new("ROLE_new");
 
     private String description;
-
 }

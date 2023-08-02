@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import ssafy.project.jobterview.dto.MemberDto;
-import ssafy.project.jobterview.dto.QuestionDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
