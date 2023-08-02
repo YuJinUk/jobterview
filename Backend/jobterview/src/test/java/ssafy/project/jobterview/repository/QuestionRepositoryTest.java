@@ -56,7 +56,7 @@ public class QuestionRepositoryTest {
     @Order(3)
     void findAllTest() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Question> q = qs.findAll(pageable);
+        Page<Question> q = qs.findAllWithPaging(pageable);
         assertThat(q.getTotalElements()).isEqualTo(10L);
         assertThat(q.getTotalPages()).isEqualTo(1);
     }
@@ -77,7 +77,7 @@ public class QuestionRepositoryTest {
     void deleteTest() {
         qs.deleteById(50L);
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Question> q = qs.findAll(pageable);
+        Page<Question> q = qs.findAllWithPaging(pageable);
         assertThat(q.getTotalElements()).isEqualTo(9L);
         assertThat(q.getTotalPages()).isEqualTo(1);
     }

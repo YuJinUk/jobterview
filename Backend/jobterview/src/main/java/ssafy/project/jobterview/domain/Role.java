@@ -10,5 +10,4 @@ public enum Role {
     user("user");
 
     private String description;
-
 }

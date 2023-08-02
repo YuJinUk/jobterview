@@ -111,9 +111,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/member/emailConfirm").permitAll() // 이메일 전송 URL 허용
                 .antMatchers("/oauth2/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
-                .antMatchers(HttpMethod.DELETE,"/oauth2/**").permitAll()
-                .antMatchers(HttpMethod.PUT,"/oauth2/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/oauth2/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/oauth2/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/oauth2/**").permitAll()
                 //.antMatchers(HttpMethod.POST,"/auth/logout").permitAll()
                 .antMatchers("/auth/ok").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
@@ -152,8 +152,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
 
     }
-
-
-
 }
-
