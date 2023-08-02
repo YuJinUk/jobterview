@@ -16,7 +16,7 @@ import java.util.List;
 public class Question extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "question_id")
     private Long questionId;
 

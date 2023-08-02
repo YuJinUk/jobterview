@@ -1,4 +1,5 @@
 package ssafy.project.jobterview.domain;
+
 public enum Category {
-    VISION, ADAPT, VALUES, PRESSURE, TASK
+    VISION, ADAPT, VALUES, PRESSURE, JOB
 }

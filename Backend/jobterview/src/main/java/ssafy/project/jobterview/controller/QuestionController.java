@@ -69,7 +69,7 @@ public class QuestionController {
      * @param pageable 페이징 정보
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping("/list/paging")
     @ApiOperation(value = "면접 질문 목록 조회 (페이징)", notes = "")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -77,11 +77,29 @@ public class QuestionController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> selectAll(
+    public ResponseEntity<?> selectAllWithPaging(
             @PageableDefault(page = 0, size = 10, sort = "selectedCnt", direction = Sort.Direction.DESC)
             @ApiParam(value="페이지 정보", required = true) Pageable pageable) {
-        Page<QuestionDto> questionDtoList = qs.findAll(pageable).map(Question::toQuestionDto);
+        Page<QuestionDto> questionDtoList = qs.findAllWithPaging(pageable).map(Question::toQuestionDto);
         return new ResponseEntity<Page<QuestionDto>>(questionDtoList, HttpStatus.OK);
+    }
+
+    /**
+     * 면접 질문 목록 전체 조회
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "질문 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> selectAll() {
+        List<QuestionDto> questionDtoList = qs.findAll().stream()
+                                              .map(Question::toQuestionDto)
+                                              .collect(Collectors.toList());
+        return new ResponseEntity<List<QuestionDto>>(questionDtoList, HttpStatus.OK);
     }
 
     /**
@@ -100,8 +118,11 @@ public class QuestionController {
     })
     public ResponseEntity<?> selectAllByCategory(
             @PageableDefault(page=0, size=10, sort="category", direction = Sort.Direction.DESC)
-            @ApiParam(value="페이지 정보", required = true) Pageable pageable,
-            @ApiParam(value="분류 정보", required = true) String category) {
+            @ApiParam(value="페이지 정보") Pageable pageable,
+            @ApiParam(value="분류 정보", required = true)
+            @RequestParam String category) {
+        System.out.println(category);
+
         Page<QuestionDto> questionDtoList = qs.findAllByCategory(Category.valueOf(category), pageable).map(Question::toQuestionDto);
         return new ResponseEntity<Page<QuestionDto>>(questionDtoList, HttpStatus.OK);
     }

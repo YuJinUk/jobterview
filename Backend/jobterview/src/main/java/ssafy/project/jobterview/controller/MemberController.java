@@ -1,6 +1,7 @@
 package ssafy.project.jobterview.controller;
 
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,13 +25,16 @@ import java.util.List;
 
 @Api(value = "회원 API", tags = {"Member"})
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private MemberService ms;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final MemberService memberService;
+
+    private final EmailService emailService;
 
     /**
      * 회원 가입 (등록)
@@ -54,7 +58,7 @@ public class MemberController {
         Member member = new Member(memberDto.getEmail(), memberDto.getNickname(), memberDto.getPassword());
 
         //맴버 저장
-        Member saveMember = ms.save(member);
+        Member saveMember = memberService.save(member);
         //저장된 맴버 반환
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
     }
@@ -111,7 +115,7 @@ public class MemberController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> quit(@RequestBody @ApiParam(value="탈퇴할 회원 정보", required = true) MemberDto memberDto) {
-        ms.quit(memberDto.getEmail());
+        memberService.quit(memberDto.getEmail());
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
@@ -129,10 +133,10 @@ public class MemberController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> updatePassword(@RequestBody @ApiParam(value="비밀번호 수정할 회원 정보", required = true) UpdatePasswordDto updatePasswordDto) {
-        Member member = ms.findByEmail(updatePasswordDto.getEmail());
+        Member member = memberService.findByEmail(updatePasswordDto.getEmail());
         if(bCryptPasswordEncoder.matches(updatePasswordDto.getPassword(), member.getPassword())){
             member.setPassword(bCryptPasswordEncoder.encode(updatePasswordDto.getNewPassword()));
-            ms.save(member);
+            memberService.save(member);
             return new ResponseEntity<>(updatePasswordDto, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(updatePasswordDto, HttpStatus.BAD_REQUEST);
@@ -147,8 +151,13 @@ public class MemberController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
+<<<<<<< HEAD
+    public ResponseEntity<?> myInfo(@RequestBody @ApiParam(value="현재 로그인 한 회원 정보", required = true) MemberDto memberDto) {
+        Member member = memberService.findByEmail(memberDto.getEmail());
+=======
     public ResponseEntity<?> myInfo(@RequestParam @ApiParam(value="현재 로그인 한 회원 정보", required = true) String email) {
         Member member = ms.findByEmail(email);
+>>>>>>> dev
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
     @GetMapping
@@ -161,19 +170,22 @@ public class MemberController {
     })
     public ResponseEntity<?> searchByNickname(@PageableDefault(page = 0, size = 10,
             sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value="검색할 닉네임 키워드", required = true) String keyword) {
-        Page<MemberDto> members = ms.findByNicknameContains(pageable, keyword).map(Member::toMemberDto);
+        Page<MemberDto> members = memberService.findByNicknameContains(pageable, keyword).map(Member::toMemberDto);
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
+<<<<<<< HEAD
+=======
 
 
 
     @Autowired
     private EmailService es;
+>>>>>>> dev
     @PostMapping("/emailConfirm")
     @ApiOperation(value = "이메일 전송", notes = "")
     public String emailConfirm(@RequestParam String email) throws Exception {
-        String confirm = es.sendSimpleMessage(email);
+        String confirm = emailService.sendSimpleMessage(email);
         return confirm;
     }
 
