@@ -34,6 +34,7 @@
                     </div>
                     <div class="container-register navbar-light">
                         <button type="button" class="btn btn-link" id="register" @click="toJoin()">회원가입</button>
+
                     </div>
                 </ul>
             </div>
@@ -82,6 +83,7 @@ export default {
         toJoin() {
             this.$router.push({name: "Join"});
         },
+
         logout() {
 
             this.$store.dispatch("loginStore/UserLogout");

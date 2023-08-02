@@ -9,7 +9,6 @@ async function checkEmail(email,success,fail){
 }
 async function checkNickname(nickname,success,fail){
     await apiTest.get(`/member/nicknameCheck?nickname=${nickname}`,nickname).then(success).catch(fail);
-
 }
 
 
