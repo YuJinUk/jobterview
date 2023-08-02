@@ -130,7 +130,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
-                .anyRequest().authenticated()
+                //.anyRequest().authenticated()
+
                 .and()
                 .formLogin()
                 .loginPage("http://localhost:8081/user/login")
