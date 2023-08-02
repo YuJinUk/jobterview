@@ -14,12 +14,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import ssafy.project.jobterview.config.auth.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Configuration
@@ -82,7 +84,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        return source;
 //    }
 
-
+    // CacheControlFilter 빈 등록
+    @Bean
+    public CacheControlFilter cacheControlFilter() {
+        return new CacheControlFilter();
+    }
 
 
 
@@ -116,6 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cacheControl().disable(); // 캐싱 금지 설정 추가
         http.cors();
         http
+                .addFilterBefore(cacheControlFilter(), SecurityContextHolderAwareRequestFilter.class)
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/oauth2/**").permitAll()
@@ -123,7 +130,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
-                //.anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("http://localhost:8081/user/login")
@@ -133,11 +140,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(customAuthenticationFailureHandler)
                 .and()
                 .logout()
-                .logoutUrl("/auth/logout") // 로그아웃 URL 설정
+                .logoutUrl("/auth/logout")
+                .addLogoutHandler((request, response, authentication) -> {
+                    // 사실 굳이 내가 세션 무효화하지 않아도 됨.
+                    // LogoutFilter가 내부적으로 해줌.
+                    HttpSession session = request.getSession();
+                    if (session != null) {
+                        session.invalidate();
+                    }
+                })
+                .logoutSuccessHandler(customLogoutSuccessHandler)// 로그아웃 URL 설정
                 .clearAuthentication(true)// 현재 인증 정보 삭제
                 .invalidateHttpSession(true) // HTTP 세션 무효화
                 .deleteCookies("JSESSIONID","remember-me") // 로그아웃 시 쿠키 삭제
-                .logoutSuccessHandler(customLogoutSuccessHandler)// 로그아웃 성공 후 리다이렉트할 URL 설정
                 .and()
                 .oauth2Login()
 

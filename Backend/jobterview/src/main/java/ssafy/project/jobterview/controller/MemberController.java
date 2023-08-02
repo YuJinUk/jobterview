@@ -52,11 +52,11 @@ public class MemberController {
 
         memberDto.setPassword(encPwd);
         Member member = new Member(memberDto.getEmail(), memberDto.getNickname(), memberDto.getPassword());
+
         //맴버 저장
         Member saveMember = ms.save(member);
         //저장된 맴버 반환
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
-
     }
 
     /**

@@ -4,13 +4,13 @@
 <script>
 import { onMounted } from 'vue';
 import {    useRoute } from 'vue-router';
-import apitest  from '@/api/apitest';
+import { apiTest }  from '@/api/apiTest';
 export default {
     name: 'EmailAuth',
     setup() {
         const route = useRoute();
         onMounted(() => {
-            apitest.put(`/member/emailauth?email=${route.params.email}`, (response) => {
+            apiTest.put(`/member/emailauth?email=${route.params.email}`, (response) => {
                 console.log(response);
             }, 
             (error) => {
