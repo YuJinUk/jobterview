@@ -1,6 +1,5 @@
 <template>
   <top-banner/>
-  <router-link to="/member/join">회원가입</router-link>
   <NavBar />
   <router-view />
 </template>

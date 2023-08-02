@@ -63,6 +63,44 @@ public class MemberController {
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
     }
 
+    @GetMapping("/nicknameCheck")
+    @ApiOperation(value="닉네임이 일치하는 회원이 있다면 0 반환",notes="")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "질문 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> checkByNickname(@ApiParam(value="중복 닉네임 체크", required = true)@RequestParam String nickname){
+        Member member = null;
+        try {
+            member= ms.findByNickname(nickname);
+            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/emailCheck")
+    @ApiOperation(value="이메일이 일치하는 회원이 있다면 0 반환",notes="")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "질문 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> checkByEmail(@ApiParam(value="중복 이메일 체크", required = true)@RequestParam String email){
+        Boolean check;
+        Member member = null;
+        try {
+            member= ms.findByEmail(email);
+            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+    }
+
+
     /**
      * 회원 탈퇴 (회원 상태를 탈퇴로 수정, 실제로 DB에서 삭제는 안함)
      * @param memberDto 탈퇴할 회원 정보
