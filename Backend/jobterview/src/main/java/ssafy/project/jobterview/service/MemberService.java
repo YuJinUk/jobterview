@@ -21,10 +21,10 @@ public interface MemberService {
 
     void update(String email);
 
-<<<<<<< HEAD
+
     Long getAllActiveMemberCount();
-=======
+
     public void emailAuth(String email);
 
->>>>>>> dev
+
 }

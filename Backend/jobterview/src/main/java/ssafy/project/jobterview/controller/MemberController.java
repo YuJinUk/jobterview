@@ -74,7 +74,7 @@ public class MemberController {
     public ResponseEntity<?> checkByNickname(@ApiParam(value="중복 닉네임 체크", required = true)@RequestParam String nickname){
         Member member = null;
         try {
-            member= ms.findByNickname(nickname);
+            member= memberService.findByNickname(nickname);
             return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
@@ -93,7 +93,7 @@ public class MemberController {
         Boolean check;
         Member member = null;
         try {
-            member= ms.findByEmail(email);
+            member= memberService.findByEmail(email);
             return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
@@ -151,13 +151,8 @@ public class MemberController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-<<<<<<< HEAD
     public ResponseEntity<?> myInfo(@RequestBody @ApiParam(value="현재 로그인 한 회원 정보", required = true) MemberDto memberDto) {
         Member member = memberService.findByEmail(memberDto.getEmail());
-=======
-    public ResponseEntity<?> myInfo(@RequestParam @ApiParam(value="현재 로그인 한 회원 정보", required = true) String email) {
-        Member member = ms.findByEmail(email);
->>>>>>> dev
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
     @GetMapping
@@ -174,14 +169,6 @@ public class MemberController {
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
-<<<<<<< HEAD
-=======
-
-
-
-    @Autowired
-    private EmailService es;
->>>>>>> dev
     @PostMapping("/emailConfirm")
     @ApiOperation(value = "이메일 전송", notes = "")
     public String emailConfirm(@RequestParam String email) throws Exception {
@@ -192,7 +179,7 @@ public class MemberController {
     @PutMapping("/emailauth")
     @ApiOperation(value = "이메일 인증", notes = "")
     public ResponseEntity<?> emailAuth(@RequestParam String email) throws Exception {
-        ms.emailAuth(email);
+        memberService.emailAuth(email);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 }
