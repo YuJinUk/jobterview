@@ -1,5 +1,5 @@
-import {apiTest2} from "./apiTest";
-import {apiTest3} from "./apiTest";
+import {apiTest2} from "./apitest";
+import {apiTest3} from "./apitest";
 
 
 //로칼로긴

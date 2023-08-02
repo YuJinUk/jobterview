@@ -81,6 +81,7 @@ export default {
                 ({data}) => {
                     commit('SET_RECEIVE_MESSAGE', data.content);
                     commit('SET_TOTAL_RECEIVE_PAGE', data.totalPages);
+
                 },
                 (error) => {
                     console.log(error);
