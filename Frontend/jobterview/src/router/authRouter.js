@@ -23,6 +23,11 @@ const loginRouter = [
             // },
         ],
     },
+    {
+        path: '/emailauth/:email',
+        name: 'EmailAuth',
+        component: () => import('@/views/EmailAuth'),
+    },
 ];
 
 export default loginRouter;

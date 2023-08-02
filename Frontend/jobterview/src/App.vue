@@ -1,19 +1,19 @@
 <template>
-  <router-link to="/member/join">회원가입</router-link>
-  <NavBar/>
+  <top-banner/>
+  <NavBar />
   <router-view />
 </template>
 
 <script>
-import NavBar from './views/components/NavBar.vue'
-
-
+import NavBar from "./views/components/NavBar.vue";
+import TopBanner from './views/components/TopBanner.vue'
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     NavBar,
+    TopBanner,
   }
 }
 </script>

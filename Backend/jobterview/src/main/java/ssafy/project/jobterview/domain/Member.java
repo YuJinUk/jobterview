@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import ssafy.project.jobterview.dto.MemberDto;
-import ssafy.project.jobterview.dto.QuestionDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -58,7 +57,7 @@ public class Member extends BaseTimeEntity {
 
     //role 만들기
     @Enumerated(value = EnumType.STRING)
-    @ColumnDefault("'ROLE_user'")
+    @ColumnDefault("'ROLE_new'")
     private Role role;
 
     @Override

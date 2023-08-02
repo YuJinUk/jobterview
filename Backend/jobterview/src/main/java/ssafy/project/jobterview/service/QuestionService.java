@@ -12,7 +12,8 @@ public interface QuestionService {
 
     Question save(Question q);
     Question update(Question q);
-    Page<Question> findAll(Pageable pageable);
+    List<Question> findAll();
+    Page<Question> findAllWithPaging(Pageable pageable);
     Page<Question> findAllByCategory(Category c, Pageable pageable);
     Question findById(Long questionId);
     void deleteById(Long questionId);

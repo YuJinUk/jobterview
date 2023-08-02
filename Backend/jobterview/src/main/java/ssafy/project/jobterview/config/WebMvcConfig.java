@@ -12,7 +12,11 @@ public class WebMvcConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+<<<<<<< HEAD
+//        configuration.addAllowedOrigin("*");
+=======
          configuration.addAllowedOrigin("http://localhost:8081");
+>>>>>>> dev
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");

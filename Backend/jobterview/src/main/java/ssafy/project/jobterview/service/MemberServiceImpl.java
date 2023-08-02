@@ -5,10 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
+<<<<<<< HEAD
+=======
+import ssafy.project.jobterview.domain.Role;
+>>>>>>> dev
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -65,5 +67,17 @@ public class MemberServiceImpl implements MemberService{
             member.setIsActive(1);
         }
         memberRepository.save(member);
+    }
+
+    @Override
+    public void emailAuth(String email) {
+        Member member = findByEmail(email);
+        member.setRole(Role.ROLE_user);
+        memberRepository.save(member);
+    }
+
+    @Override
+    public Long getAllActiveMemberCount() {
+        return memberRepository.countByIsActiveTrue();
     }
 }
