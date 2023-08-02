@@ -1,4 +1,4 @@
-import apiTest from './apiTest';
+import apiTest from './apitest';
 
 // 전체 맴버 수 조회
 async function getTotalMemberCntAPI(success, fail) {

@@ -1,4 +1,4 @@
-import apiTest from "./apiTest";
+import apiTest from "./apitest";
 
 //카테고리 목록 조회
 async function getMemberListAPI({ page, size, sort }, success, fail) {
