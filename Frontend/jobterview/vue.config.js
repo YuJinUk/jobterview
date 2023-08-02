@@ -6,5 +6,12 @@ module.exports = defineConfig({
     vuetify: {
 			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
 		}
-  }
+  },
+  devServer: {
+    proxy: 'http://localhost:8080', // 서버 주소에 맞게 수정
+  },
+  transpileDependencies: [
+    'vuetify'
+  ]
+
 })

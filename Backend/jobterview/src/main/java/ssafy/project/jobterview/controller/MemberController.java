@@ -8,6 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Member;
@@ -44,6 +46,7 @@ public class MemberController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> join(@RequestBody @ApiParam(value="회원 가입 정보", required = true) MemberDto memberDto) {
+
         String rawPassword = memberDto.getPassword();
         String encPwd = bCryptPasswordEncoder.encode(rawPassword);
 
@@ -55,6 +58,44 @@ public class MemberController {
         //저장된 맴버 반환
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
     }
+
+    @GetMapping("/nicknameCheck")
+    @ApiOperation(value="닉네임이 일치하는 회원이 있다면 true 반환",notes="")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "질문 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> checkByNickname(@ApiParam(value="중복 닉네임 체크", required = true)@RequestParam String nickname){
+        Member member = null;
+        try {
+            member= ms.findByNickname(nickname);
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/emailCheck")
+    @ApiOperation(value="이메일이 일치하는 회원이 있다면 true 반환",notes="")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "질문 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> checkByEmail(@ApiParam(value="중복 이메일 체크", required = true)@RequestParam String email){
+        Boolean check;
+        Member member = null;
+        try {
+            member= ms.findByEmail(email);
+            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+    }
+
 
     /**
      * 회원 탈퇴 (회원 상태를 탈퇴로 수정, 실제로 DB에서 삭제는 안함)
@@ -106,8 +147,8 @@ public class MemberController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> myInfo(@RequestBody @ApiParam(value="현재 로그인 한 회원 정보", required = true) MemberDto memberDto) {
-        Member member = ms.findByEmail(memberDto.getEmail());
+    public ResponseEntity<?> myInfo(@RequestParam @ApiParam(value="현재 로그인 한 회원 정보", required = true) String email) {
+        Member member = ms.findByEmail(email);
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
     @GetMapping
@@ -124,6 +165,9 @@ public class MemberController {
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
+
+
+
     @Autowired
     private EmailService es;
     @PostMapping("/emailConfirm")
@@ -131,5 +175,12 @@ public class MemberController {
     public String emailConfirm(@RequestParam String email) throws Exception {
         String confirm = es.sendSimpleMessage(email);
         return confirm;
+    }
+
+    @PutMapping("/emailauth")
+    @ApiOperation(value = "이메일 인증", notes = "")
+    public ResponseEntity<?> emailAuth(@RequestParam String email) throws Exception {
+        ms.emailAuth(email);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 }

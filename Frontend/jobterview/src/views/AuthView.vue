@@ -4,6 +4,6 @@
 
 <script>
 export default {
-    name: 'MessageView',
+    name: 'AuthView',
 }
 </script>

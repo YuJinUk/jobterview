@@ -52,16 +52,13 @@ public class Member extends BaseTimeEntity {
     @JoinColumn(name = "mail_cert_id")
     private MailCert mailCert;
 
-    @Column(name = "refresh_token")
-    private String refreshToken;
-
     @Column(name = "is_active") //nullable = 뺏습니다 있으면 객체 생성 안됨
     @ColumnDefault("1") //이게 있어서 디비 갈때는 자동으로 생길듯 안생기누,,,,
     private Integer isActive; //요거 int=>Integer로 바꿧습니다
 
     //role 만들기
     @Enumerated(value = EnumType.STRING)
-    @ColumnDefault("'user'")
+    @ColumnDefault("'ROLE_new'")
     private Role role;
 
     @Override
@@ -77,7 +74,6 @@ public class Member extends BaseTimeEntity {
                 ", nickname='" + nickname + '\'' +
                 ", password='" + password + '\'' +
                 ", mailCert=" + mailCert +
-                ", refreshToken='" + refreshToken + '\'' +
                 ", isActive=" + isActive +
                 '}';
     }
