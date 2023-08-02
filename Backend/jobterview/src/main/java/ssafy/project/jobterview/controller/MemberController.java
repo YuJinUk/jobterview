@@ -142,6 +142,7 @@ public class MemberController {
     @PutMapping("/emailauth")
     @ApiOperation(value = "이메일 인증", notes = "")
     public ResponseEntity<?> emailAuth(@RequestParam String email) throws Exception {
+        ms.emailAuth(email);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 }
