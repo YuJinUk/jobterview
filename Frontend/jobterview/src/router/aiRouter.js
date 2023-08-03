@@ -1,4 +1,4 @@
-import AiQuestionView from '@/views/AI/AiQuestionView'
+import AiQuestionView from '@/views/ai/AiQuestionView'
 
 const aiRouter = [
   {
