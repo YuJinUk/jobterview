@@ -3,7 +3,7 @@
 </template>
 <script>
 import { onMounted } from 'vue';
-import {    useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { apiTest }  from '@/api/apiTest';
 export default {
     name: 'EmailAuth',

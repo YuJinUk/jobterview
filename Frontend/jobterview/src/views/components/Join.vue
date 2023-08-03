@@ -107,7 +107,8 @@ export default {
                 };
                 await join(member, (response) => {
                     console.log(response);
-                    sendEmail(member.email, () => {
+                    sendEmail(member.email, (response) => {
+                        console.log(response);
                         alert("등록하신 메일로 인증메일이 전송 되었습니다.")
                     }, (error) => {
                         console.log(error);

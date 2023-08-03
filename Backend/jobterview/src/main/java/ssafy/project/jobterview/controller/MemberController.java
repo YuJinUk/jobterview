@@ -169,11 +169,11 @@ public class MemberController {
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
-    @PostMapping("/emailConfirm")
+    @PostMapping("/emailconfirm")
     @ApiOperation(value = "이메일 전송", notes = "")
-    public String emailConfirm(@RequestParam String email) throws Exception {
+    public ResponseEntity<?> emailConfirm(@RequestParam String email) throws Exception {
         String confirm = emailService.sendSimpleMessage(email);
-        return confirm;
+        return new ResponseEntity<>(confirm, HttpStatus.OK);
     }
 
     @PutMapping("/emailauth")
