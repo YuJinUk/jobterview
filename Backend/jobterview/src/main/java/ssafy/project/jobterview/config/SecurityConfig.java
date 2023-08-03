@@ -130,14 +130,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                     .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                    .antMatchers("/auth/loginpage").permitAll()
+                    .antMatchers("/admin/members/cnt").permitAll()
+                    .antMatchers(HttpMethod.GET,"/member/nicknameCheck").permitAll()git
+                    .antMatchers(HttpMethod.GET,"/member/emailCheck").permitAll()
                     .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
                     .anyRequest().authenticated()
 
                 .and()
                 .formLogin()
-                    .loginPage("/auth/loginpage")
-                    //.loginPage("http://localhost:8081/auth/login")
                     .usernameParameter("email")
                     .loginProcessingUrl("/auth/login")
                     .successHandler(customAuthenticationSuccessHandler)

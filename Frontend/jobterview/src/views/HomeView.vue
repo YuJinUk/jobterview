@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted} from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -42,7 +42,10 @@ export default {
     //onMounted
     onMounted(() => {
       store.dispatch("homeStore/setTotalMemberCnt");
+
+  
     });
+
 
     return {
       //computed
@@ -51,6 +54,15 @@ export default {
       ),
     };
   },
+
+  created() {
+    const nickname = this.$route.query.nickname;
+    if (nickname) {
+      
+      this.$store.commit('loginStore/SET_Login', nickname);
+        }
+    }, 
+
 };
 </script>
 
