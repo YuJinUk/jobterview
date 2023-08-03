@@ -39,6 +39,7 @@ import { useStore } from "vuex";
 export default {
   setup() {
     const store = useStore();
+    
     //onMounted
     onMounted(() => {
       store.dispatch("homeStore/setTotalMemberCnt");
@@ -46,6 +47,7 @@ export default {
 
     return {
       //computed
+      //현재 활동중인 모든 맴버 수 가져오기
       totalMemberCnt: computed(
         () => store.getters["homeStore/getTotalMemberCnt"]
       ),

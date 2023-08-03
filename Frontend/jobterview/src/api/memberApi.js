@@ -1,6 +1,6 @@
-import apiTest from "./apiTest";
+import {apiTest} from "./apiTest";
 
-//카테고리 목록 조회
+//맴버 목록 조회
 async function getMemberListAPI({ page, size, sort }, success, fail) {
   await apiTest
     .get(`/admin/members?page=${page-1}&size=${size}&sort=${sort}`)

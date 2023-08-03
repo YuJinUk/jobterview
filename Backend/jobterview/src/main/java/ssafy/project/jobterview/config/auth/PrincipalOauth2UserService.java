@@ -1,9 +1,5 @@
 package ssafy.project.jobterview.config.auth;
 
-<<<<<<< HEAD
-=======
-import com.fasterxml.jackson.databind.ObjectMapper;
->>>>>>> dev
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,19 +14,13 @@ import ssafy.project.jobterview.repository.MemberRepository;
 import ssafy.project.jobterview.service.MemberService;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-<<<<<<< HEAD
-    private final MemberService memberService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-=======
     private MemberRepository memberRepository;
-
     private MemberService memberService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -40,7 +30,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.memberService = memeberService;
     }
->>>>>>> dev
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -48,12 +37,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         String provider = userRequest.getClientRegistration().getRegistrationId();    //google
-<<<<<<< HEAD
-        String providerId = oAuth2User.getAttribute("sub");
-        String username = provider+"_"+providerId;              // 사용자가 입력한 적은 없지만 만들어준다
-=======
->>>>>>> dev
-
         String uuid = UUID.randomUUID().toString().substring(0, 6);
         String password = bCryptPasswordEncoder.encode("패스워드"+uuid);  // 사용자가 입력한 적은 없지만 만들어준다
         String email = "";
@@ -63,18 +46,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         String providerId = oAuth2User.getAttribute("sub");
         String username = provider+"_"+providerId;  			// 사용자가 입력한 적은 없지만 만들어준다
-
-<<<<<<< HEAD
-        Member byUsername = memberService.findByEmail(email);
-        System.out.println(username);
-        System.out.println(role);
-        System.out.println(email);
-
-        //DB에 없는 사용자라면 회원가입처리
-        if(byUsername == null){
-            byUsername.setEmail(email);
-            memberService.save(byUsername);
-=======
 
         if(provider.equals("google")){
 
@@ -113,7 +84,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             return new PrincipalDetail(newMember, oAuth2User.getAttributes());
         }else{
             return new PrincipalDetail(byUsername, oAuth2User.getAttributes());
->>>>>>> dev
         }
 
     }

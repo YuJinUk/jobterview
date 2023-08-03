@@ -12,6 +12,4 @@ async function checkNickname(nickname,success,fail){
     await apiTest.get(`/member/nicknameCheck?nickname=${nickname}`,nickname).then(success).catch(fail);
 }
 
-
-
 export {join,checkEmail,checkNickname};

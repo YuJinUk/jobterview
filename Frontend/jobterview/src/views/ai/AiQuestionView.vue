@@ -156,7 +156,6 @@ export default {
             categoryList.value[i].cnt++;
           }
         }
-
         question.selected = true;
       }
 

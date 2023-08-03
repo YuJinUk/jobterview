@@ -126,19 +126,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/oauth2/**").permitAll()
-<<<<<<< HEAD
-                .antMatchers(HttpMethod.POST, "/oauth2/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/oauth2/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/oauth2/**").permitAll()
-                //.antMatchers(HttpMethod.POST,"/auth/logout").permitAll()
-                .antMatchers("/auth/ok").permitAll()
-=======
                 .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
->>>>>>> dev
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
-                //.anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST, "/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
+//                .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
+//                .anyRequest().authenticated()
 
                 .and()
                 .formLogin()
@@ -178,10 +172,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
 
     }
-<<<<<<< HEAD
 }
-=======
-
-
-}
->>>>>>> dev

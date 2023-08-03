@@ -5,10 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
-<<<<<<< HEAD
-=======
 import ssafy.project.jobterview.domain.Role;
->>>>>>> dev
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
 
@@ -78,6 +75,6 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Long getAllActiveMemberCount() {
-        return memberRepository.countByIsActiveTrue();
+        return memberRepository.countByIsActive(1);
     }
 }

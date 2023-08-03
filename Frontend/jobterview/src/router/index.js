@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 import { createRouter, createWebHistory } from 'vue-router'
-
 import messageRouter from './messageRouter';
 import commonRouter from './commonRouter';
 import aiRouter from './aiRouter';
