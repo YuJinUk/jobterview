@@ -30,15 +30,15 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-
     private PrincipalDetailService principalDetailService;
     private PrincipalOauth2UserService principalOauth2UserService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    ;
 
     @Autowired
-    public SecurityConfig( PrincipalDetailService principalDetailService,
-                           @Lazy PrincipalOauth2UserService principalOauth2UserService,
-                           @Lazy BCryptPasswordEncoder bCryptPasswordEncoder
+    public SecurityConfig(PrincipalDetailService principalDetailService,
+                          @Lazy PrincipalOauth2UserService principalOauth2UserService,
+                          @Lazy BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         this.principalDetailService = principalDetailService;
         this.principalOauth2UserService = principalOauth2UserService;
@@ -59,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private SocialAuthenticationSuccessHandler socialAuthenticationSuccessHandler;
 
 
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -67,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder encodePwd(){
+    public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
 
@@ -89,8 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CacheControlFilter cacheControlFilter() {
         return new CacheControlFilter();
     }
-
-
 
 
     // 시큐리티가 대신 로그인해주는데 password를 가로채는데
@@ -130,39 +127,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                     .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                    .antMatchers("/auth/loginpage").permitAll()
+                    .antMatchers("/admin/members/cnt").permitAll()
+                    .antMatchers(HttpMethod.GET,"/member/nicknameCheck").permitAll()
+                    .antMatchers(HttpMethod.GET,"/member/emailCheck").permitAll()
+                    .antMatchers(HttpMethod.POST, "/member/emailconfirm").permitAll()
+                    .antMatchers(HttpMethod.PUT, "/member/emailauth").permitAll()
+                    .antMatchers("/emailauth/**").permitAll()
                     .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
                     .anyRequest().authenticated()
-
                 .and()
                 .formLogin()
-                    .loginPage("/auth/loginpage")
-                    //.loginPage("http://localhost:8081/auth/login")
-                    .usernameParameter("email")
-                    .loginProcessingUrl("/auth/login")
-                    .successHandler(customAuthenticationSuccessHandler)
-                    .failureHandler(customAuthenticationFailureHandler)
+                .usernameParameter("email")
+                .loginProcessingUrl("/auth/login")
+                .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
                 .and()
                 .logout()
-                    .logoutUrl("/auth/logout")
-                    .addLogoutHandler((request, response, authentication) -> {
-                        // 사실 굳이 내가 세션 무효화하지 않아도 됨.
-                        // LogoutFilter가 내부적으로 해줌.
-                        HttpSession session = request.getSession();
-                        if (session != null) {
-                            session.invalidate();
-                        }
-                    })
-                    .logoutSuccessHandler(customLogoutSuccessHandler)// 로그아웃 URL 설정
-                    .clearAuthentication(true)// 현재 인증 정보 삭제
-                    .invalidateHttpSession(true) // HTTP 세션 무효화
-                    .deleteCookies("JSESSIONID","remember-me") // 로그아웃 시 쿠키 삭제
+                .logoutUrl("/auth/logout")
+                .addLogoutHandler((request, response, authentication) -> {
+                    // 사실 굳이 내가 세션 무효화하지 않아도 됨.
+                    // LogoutFilter가 내부적으로 해줌.
+                    HttpSession session = request.getSession();
+                    if (session != null) {
+                        session.invalidate();
+                    }
+                })
+                .logoutSuccessHandler(customLogoutSuccessHandler)// 로그아웃 URL 설정
+                .clearAuthentication(true)// 현재 인증 정보 삭제
+                .invalidateHttpSession(true) // HTTP 세션 무효화
+                .deleteCookies("JSESSIONID", "remember-me") // 로그아웃 시 쿠키 삭제
                 .and()
                 .oauth2Login()
-                    .userInfoEndpoint()
-                    .userService(principalOauth2UserService)
-                    .and()
-                    .successHandler(socialAuthenticationSuccessHandler);
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService)
+                .and()
+                .successHandler(socialAuthenticationSuccessHandler);
 
 
         //중복 로그인
@@ -171,10 +170,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
 
     }
-
 }
-
-
-
-
-

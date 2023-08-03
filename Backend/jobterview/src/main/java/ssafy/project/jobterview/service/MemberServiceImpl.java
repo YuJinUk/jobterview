@@ -75,6 +75,6 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Long getAllActiveMemberCount() {
-        return memberRepository.countByIsActiveTrue();
+        return memberRepository.countByIsActive(1);
     }
 }

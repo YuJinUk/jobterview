@@ -33,24 +33,38 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted} from "vue";
 import { useStore } from "vuex";
 
 export default {
   setup() {
     const store = useStore();
+    
     //onMounted
     onMounted(() => {
       store.dispatch("homeStore/setTotalMemberCnt");
+
+  
     });
+
 
     return {
       //computed
+      //현재 활동중인 모든 맴버 수 가져오기
       totalMemberCnt: computed(
         () => store.getters["homeStore/getTotalMemberCnt"]
       ),
     };
   },
+
+  created() {
+    const nickname = this.$route.query.nickname;
+    if (nickname) {
+      
+      this.$store.commit('loginStore/SET_Login', nickname);
+        }
+    }, 
+
 };
 </script>
 

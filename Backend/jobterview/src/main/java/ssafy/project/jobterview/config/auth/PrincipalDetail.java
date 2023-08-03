@@ -16,7 +16,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
     private Member member;
     private Map<String, Object> attributes;
 
-
     public PrincipalDetail(Member member){
         this.member =member;
     }
@@ -27,8 +26,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
         this.member = member;
         this.attributes = attributes;
     }
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -41,7 +38,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
         });
         return collect;
     }
-
 
     @Override
     public String getPassword() {
@@ -63,9 +59,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
         }
     }
 
-
-
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -85,8 +78,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
     public boolean isEnabled() {
         return true;
     }
-
-
 
     /**
      * OAuth2User 구현

@@ -29,11 +29,8 @@ import java.util.List;
 @RequestMapping("/member")
 public class MemberController {
 
-
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private final MemberService memberService;
-
     private final EmailService emailService;
 
     /**
@@ -151,6 +148,7 @@ public class MemberController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
+
     public ResponseEntity<?> myInfo(@RequestBody @ApiParam(value="현재 로그인 한 회원 정보", required = true) MemberDto memberDto) {
         Member member = memberService.findByEmail(memberDto.getEmail());
         return new ResponseEntity<>(member, HttpStatus.OK);
@@ -169,11 +167,11 @@ public class MemberController {
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
-    @PostMapping("/emailConfirm")
+    @PostMapping("/emailconfirm")
     @ApiOperation(value = "이메일 전송", notes = "")
-    public String emailConfirm(@RequestParam String email) throws Exception {
+    public ResponseEntity<?> emailConfirm(@RequestParam String email) throws Exception {
         String confirm = emailService.sendSimpleMessage(email);
-        return confirm;
+        return new ResponseEntity<>(confirm, HttpStatus.OK);
     }
 
     @PutMapping("/emailauth")
