@@ -7,6 +7,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component
@@ -16,8 +17,13 @@ public class RequestLoggingFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String requestURL = httpRequest.getRequestURL().toString();
+        String method = httpRequest.getMethod();
+        String remoteAddr = httpRequest.getRemoteAddr();
+
         // 로깅 작업 수행 (예: 로깅 라이브러리 사용)
-        System.out.println("Incoming request: " + request);
+        System.out.println("Incoming request - Method: " + method + ", URL: " + requestURL + ", Remote Addr: " + remoteAddr);
 
         // 다음 필터로 체인을 진행하거나 요청을 처리합니다.
         chain.doFilter(request, response);
