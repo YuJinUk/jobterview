@@ -27,6 +27,9 @@ public class PrincipalDetailService implements UserDetailsService {
 
         try {
             Member principal = memberService.findByEmail(email);
+            if(principal.getRole().toString().equals("ROLE_new")){
+                principal =null;
+            }
             return new PrincipalDetail(principal);
         } catch (Exception e) {
             Member principal =null;
