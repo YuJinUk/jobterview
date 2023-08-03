@@ -1,6 +1,7 @@
 package ssafy.project.jobterview.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -58,6 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SocialAuthenticationSuccessHandler socialAuthenticationSuccessHandler;
 
+    @Autowired
+    private RequestLoggingFilter requestLoggingFilter;
 
 
     @Override
@@ -169,6 +172,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maximumSessions(1) //세션 최대 허용 수
                 .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
 
+    }
+    @Bean
+    public FilterRegistrationBean<RequestLoggingFilter> loggingFilter() {
+        FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(requestLoggingFilter);
+        // 필터 순서를 원하는대로 조정할 수 있습니다.
+        registrationBean.setOrder(1);
+        return registrationBean;
     }
 
 
