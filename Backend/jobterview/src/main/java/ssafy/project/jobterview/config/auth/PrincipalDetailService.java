@@ -14,7 +14,7 @@ import ssafy.project.jobterview.service.MemberService;
 @RequiredArgsConstructor
 public class PrincipalDetailService implements UserDetailsService {
 
-    private MemberService memberService;
+    private final MemberService memberService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

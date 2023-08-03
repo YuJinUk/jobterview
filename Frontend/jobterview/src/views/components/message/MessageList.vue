@@ -177,7 +177,9 @@ export default {
 
         const currentSendPage = computed(() => store.state.messageStore.currentSendPage);
         const totalSendPage = computed(() => store.state.messageStore.totalSendPage);
-        const sendMessage = computed(() => store.state.messageStore.sendMessage);
+        const sendMessage = computed(() => store.state.messageStore.sendMessage);   
+
+        const nickname = computed(() => store.state.loginStore.loginNickname);
 
         let receivePageRange = computed(() => {
             return Array.from({ length: 3 }, (_, index) => currentReceivePage.value - 1 + index);
@@ -200,7 +202,7 @@ export default {
 
 
         async function fetchReceiveMessage() {
-            await store.dispatch('messageStore/getReceiveMessages', { nickname: 'reporter', page: currentReceivePage.value - 1 });
+            await store.dispatch('messageStore/getReceiveMessages', { nickname: nickname.value, page: currentReceivePage.value - 1 });
         }
 
         let sendPageRange = computed(() => {
@@ -223,7 +225,7 @@ export default {
 
 
         async function fetchSendMessage() {
-            await store.dispatch('messageStore/getSendMessages', { nickname: 'reporter', page: currentSendPage.value - 1 });
+            await store.dispatch('messageStore/getSendMessages', { nickname: nickname.value, page: currentSendPage.value - 1 });
         }
 
         function toReadMessage(data, isReceive) {

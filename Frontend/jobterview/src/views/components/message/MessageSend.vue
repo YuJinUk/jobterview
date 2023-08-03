@@ -21,7 +21,7 @@
 
 <script>
 //import router from '@/router';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -33,6 +33,7 @@ export default {
         const store = useStore();
         const receiverNickname = ref('');
         const content = ref('');
+        const nickname = computed(() => store.state.loginStore.loginNickname);
 
         function sendMessage() {
             if (confirm("메시지를 전송하시겠습니까?")) {
@@ -40,7 +41,7 @@ export default {
                     alert("메시지는 1자 이상 500자 이하여야 합니다.");
                 } else {
                     const message = {
-                        senderNickname: 'reporter',
+                        senderNickname: nickname.value,
                         receiverNickname: receiverNickname.value,
                         content: content.value,
                     };
