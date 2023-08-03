@@ -131,6 +131,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                     .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .antMatchers("/auth/loginpage").permitAll()
+                    .antMatchers(HttpMethod.GET,"/member/nicknameCheck").permitAll()
+                    .antMatchers(HttpMethod.GET,"/member/emailCheck").permitAll()
                     .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
                     .anyRequest().authenticated()
 
