@@ -129,6 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .antMatchers("/health_check").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
                 .anyRequest().authenticated()
                 .and()
