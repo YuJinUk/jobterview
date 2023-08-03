@@ -81,7 +81,7 @@ export default {
             this.$router.push({name: "LoginMember"});
         },
         toJoin() {
-            this.$router.push({name: "Join"});
+            this.$router.push({name: "join"});
         },
 
         logout() {
