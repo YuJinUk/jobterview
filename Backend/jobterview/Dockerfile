@@ -5,7 +5,7 @@ FROM adoptopenjdk:11-jre-hotspot
 WORKDIR /app
 
 # 빌드된 jar 파일을 Docker 이미지에 복사
-COPY build/libs/jobterview-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY build/libs/jobterview-0.0.1-SNAPSHOT.jar app.jar
 
 # 어플리케이션 실행
 CMD ["java", "-jar", "app.jar"]
