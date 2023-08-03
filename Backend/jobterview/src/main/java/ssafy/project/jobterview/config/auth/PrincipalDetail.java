@@ -13,11 +13,11 @@ import java.util.Map;
 @Getter
 public class PrincipalDetail implements UserDetails, OAuth2User {
 
-    private Member member;
+    private final Member member;
     private Map<String, Object> attributes;
 
-    public PrincipalDetail(Member member){
-        this.member =member;
+    public PrincipalDetail(Member member) {
+        this.member = member;
     }
 
     //OAuth2User : OAuth2 로그인 시 사용
@@ -52,7 +52,7 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
     @Override
     public String getUsername() {
         try {
-            String email= member.getEmail();
+            String email = member.getEmail();
             return email;
         } catch (Exception e) {
             return "123";
@@ -81,7 +81,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
 
     /**
      * OAuth2User 구현
-     * @return
      */
     @Override
     public Map<String, Object> getAttributes() {
@@ -90,7 +89,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
 
     /**
      * OAuth2User 구현
-     * @return
      */
     @Override
     public String getName() {

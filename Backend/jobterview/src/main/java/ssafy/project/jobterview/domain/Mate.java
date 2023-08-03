@@ -11,7 +11,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Mate extends BaseTimeEntity {
 
@@ -28,17 +27,14 @@ public class Mate extends BaseTimeEntity {
     @MapsId("toMemberId")
     private Member toMember;
 
-    public Mate(MateId mateId, Member fromMember, Member toMember){
-        this.mateId=mateId;
-        this.fromMember=fromMember;
-        this.toMember=toMember;
+    public Mate(MateId mateId, Member fromMember, Member toMember) {
+        this.mateId = mateId;
+        this.fromMember = fromMember;
+        this.toMember = toMember;
     }
-    public MateDto convertToDto(){
-        return MateDto.builder()
-                .mateId(this.getMateId())
-                .fromMember(this.getFromMember())
-                .toMember(this.getToMember())
-                .build();
+
+    public MateDto convertToDto() {
+        return MateDto.builder().mateId(this.getMateId()).fromMember(this.getFromMember()).toMember(this.getToMember()).build();
     }
 
 

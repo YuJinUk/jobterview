@@ -13,8 +13,8 @@ import ssafy.project.jobterview.repository.MemberRepository;
 @Service
 @RequiredArgsConstructor
 public class MateServiceImpl implements MateService {
+
     private final MateRepository mateRepository;
-    private final MemberRepository memberRepository;
 
     // 메이트 추가
     @Override

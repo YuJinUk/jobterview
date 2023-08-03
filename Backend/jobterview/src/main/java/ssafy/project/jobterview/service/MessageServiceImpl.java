@@ -14,13 +14,14 @@ import ssafy.project.jobterview.repository.MessageRepository;
 @Service
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
+
     private final MessageRepository messageRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Override
     public void save(MessageDto mDto) {
-        Member Sender = memberRepository.findByNickname(mDto.getSenderNickname()).orElseThrow(() -> new IllegalArgumentException());
-        Member Receiver = memberRepository.findByNickname(mDto.getReceiverNickname()).orElseThrow(()->new IllegalArgumentException());
+        Member Sender = memberService.findByNickname(mDto.getSenderNickname());
+        Member Receiver = memberService.findByNickname(mDto.getReceiverNickname());
         Message message = new Message(0L,Sender,Receiver, mDto.getContent(),true,true);
         messageRepository.save(message);
     }
@@ -36,28 +37,26 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message findById(Long id){
-        Message m = messageRepository.findById(id).orElseThrow(()->new IllegalArgumentException());
-        return m;
+        return messageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
     }
+
     @Override
     public Message read(Long id){
-        Message m = messageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
-        m.setRead(true); // 읽음 처리
-        messageRepository.save(m);
-        return m;
+        Message findMessage = findById(id);
+        findMessage.read(); // 읽음 처리
+        messageRepository.save(findMessage);
+        return findMessage;
     }
     @Override
     public void receiveMessageDelete (Long id){
-        Message m = messageRepository.findById(id).orElseThrow(()-> new IllegalArgumentException());
-        m.setFromMemberVisible(false);
-        messageRepository.save(m);
+        Message findMessage = findById(id);
+        findMessage.changeFromMemberVisible(false);
+        messageRepository.save(findMessage);
     }
     @Override
     public void sendMessageDelete (Long id){
-        Message m = messageRepository.findById(id).orElseThrow(()-> new IllegalArgumentException());
-        m.setToMemberVisible(false);
-        messageRepository.save(m);
+        Message findMessage = findById(id);
+        findMessage.changeToMemberVisible(false);
+        messageRepository.save(findMessage);
     }
-
-
 }

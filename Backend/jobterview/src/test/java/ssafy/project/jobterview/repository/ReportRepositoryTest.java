@@ -65,6 +65,7 @@ public class ReportRepositoryTest {
         assertThat(reports.getTotalElements()).isEqualTo(2L);
         assertThat(reports.getTotalPages()).isEqualTo(1);
     }
+
     @Test
     @DisplayName("2. findAllByReportedMember")
     @Order(2)

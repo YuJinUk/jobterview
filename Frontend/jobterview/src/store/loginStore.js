@@ -28,9 +28,11 @@ export default {
         getLogin: function (state) {
             return state.isLogin;
         },
+        getLoginMemberNickname: function (state) {
+            return state.loginNickname;
+        },
     },
     actions: {
-      
         async setLoginUser({ commit }, user) {
           await loginAPI(user,
               ({data}) => {

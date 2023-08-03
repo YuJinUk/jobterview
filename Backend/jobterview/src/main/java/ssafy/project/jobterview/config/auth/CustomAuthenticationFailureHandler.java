@@ -16,8 +16,7 @@ import java.util.Map;
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         // 에러 메시지 생성
         String errorMessage = "아이디 또는 비밀번호가 올바르지 않습니다.";
 
@@ -31,6 +30,4 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(jsonData);
     }
-
-
 }

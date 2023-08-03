@@ -59,9 +59,10 @@
           <p>{{ selectedQuestionsLength }}</p>
           <p>개의 질문을 선택하셨습니다.</p>
 
-          <router-link to="/permission">
+          <!-- <router-link :to="{ name: 'Permission' }">
             <button :class="{ activeButton: isAllSelected }">다음</button>
-        </router-link>
+          </router-link> -->
+          <button :class="{ activeButton: isAllSelected }">다음</button>
         </div>
       </div>
     </div>
@@ -71,7 +72,7 @@
 <script>
 import { onMounted, computed, ref } from "vue";
 import { useStore } from "vuex";
-import { getQuestionListAPI } from "@/api/roomApi";
+import { getQuestionListAPI } from "@/api/questionApi";
 
 export default {
   setup() {
@@ -163,7 +164,10 @@ export default {
       //4개인경우 store 갱신
       if (selectedQuestions.value.length === 4) {
         isAllSelected.value = true;
-        store.dispatch("setSelectedQuestions", selectedQuestions.value);
+        store.dispatch(
+          "roomStore/setSelectedQuestions",
+          selectedQuestions.value
+        );
       }
     };
 

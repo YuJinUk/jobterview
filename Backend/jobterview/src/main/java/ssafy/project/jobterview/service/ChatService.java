@@ -6,10 +6,10 @@ import ssafy.project.jobterview.domain.Chat;
 import ssafy.project.jobterview.dto.SaveChatDto;
 
 public interface ChatService {
-    
+
     //채팅 저장
     void save(SaveChatDto dto);
-    
+
     //모든 채팅 목록 조회
     Page<Chat> findAll(Pageable pageable);
 

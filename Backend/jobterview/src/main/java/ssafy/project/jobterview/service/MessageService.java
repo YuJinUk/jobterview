@@ -13,13 +13,15 @@ public interface MessageService {
 
     // 눌렀을 경우 쪽지 읽음 처리
     Message read(Long id);
+
     // 받은 쪽지 삭제
-    void receiveMessageDelete (Long id);
+    void receiveMessageDelete(Long id);
+
     // 보낸 쪽지 삭제
     void sendMessageDelete(Long id);
 
     // 받은 쪽지 전체 보기
-    Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable,String nickname);
+    Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable, String nickname);
 
     // 읽은 쪽지 전체 보기
     Page<Message> findAllByToMemberVisibleAndSender(Pageable pageable, String nickname);

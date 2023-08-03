@@ -21,10 +21,10 @@
       </div>
 
       <div id="buttonBox">
-        <router-link to="/ai/question">
+        <router-link :to="{ name: 'AiQuestion'}">
           <button>AI 면접 준비</button>
         </router-link>
-        <router-link to="/room/list">
+        <router-link :to="{ name: 'RoomList'}">
           <button>메이트 찾기</button>
         </router-link>
       </div>
@@ -46,7 +46,6 @@ export default {
 
   
     });
-
 
     return {
       //computed

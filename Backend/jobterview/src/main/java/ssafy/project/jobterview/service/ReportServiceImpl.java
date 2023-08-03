@@ -17,10 +17,12 @@ public class ReportServiceImpl implements ReportService {
 
     private final ReportRepository reportRepository;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     /**
-     * 접수된 신고 저장 
+     * 접수된 신고 저장
      * Dto의 닉네임으로 Member를 조회하여 Report Entity 생성하여 저장
+     *
      * @param r
      * @return
      */
@@ -36,13 +38,14 @@ public class ReportServiceImpl implements ReportService {
 
     /**
      * 모든 신고 목록 조회
+     *
      * @param pageable 페이징 정보
      * @return
      */
     @Override
     public Page<Report> findAll(Pageable pageable) {
         Page<Report> reportList = reportRepository.findAll(pageable);
-        if(reportList.isEmpty()) {
+        if (reportList.isEmpty()) {
             throw new IllegalArgumentException("신고 목록이 없음");
         } else {
             return reportList;
@@ -51,6 +54,7 @@ public class ReportServiceImpl implements ReportService {
 
     /**
      * 해당 유저에 대해 접수된 신고 목록 조회
+     *
      * @param reportedNickname
      * @param pageable
      * @return
@@ -63,6 +67,7 @@ public class ReportServiceImpl implements ReportService {
 
     /**
      * 신고 삭제
+     *
      * @param r 삭제할 신고 Dto
      */
     @Override
@@ -74,7 +79,6 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private Member getMember(String nickname) {
-        return memberRepository.findByNickname(nickname)
-                .orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
+        return memberService.findByNickname(nickname);
     }
 }

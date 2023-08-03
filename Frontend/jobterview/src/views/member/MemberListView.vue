@@ -54,9 +54,12 @@
 <script>
 import { onMounted, ref } from "vue";
 import { getMemberListAPI } from "@/api/memberApi";
+import { useStore } from "vuex";
 
 export default {
   setup() {
+    const store = useStore;
+
     let members = ref([]);
     let totalPages = ref(1); //전체 페이지
     let curPage = ref(1); //현재 페이지
@@ -95,7 +98,7 @@ export default {
       curPage.value = page;
       getMembers(page, size, sort);
     };
-  //페이지네이션///////////////////////////////////////////////////////////
+  //페이지네이션 끝/////////////////////////////////////////////////////////
 
     const getMembers = async ( page = 1, size = 12, sort = "createdDate,desc" ) => {
       await getMemberListAPI(
@@ -103,6 +106,9 @@ export default {
         ({ data }) => {
           totalPages.value = data.totalPages;
           members.value = data.content;
+          const userNickname = store.getters['loginStore/getLoginMemberNickname'];
+
+          members.value = members.value.filter(member => member.nickname !== userNickname);
         },
         (error) => {
           console.log(error);

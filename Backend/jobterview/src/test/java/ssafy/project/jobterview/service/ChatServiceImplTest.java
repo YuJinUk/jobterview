@@ -27,6 +27,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("채팅 API 테스트")
 class ChatServiceImplTest {
 
+    static Long mId1, mId2, rId1, rId2;
+    static Pageable pageable;
     @Autowired
     EntityManager entityManager;
     @Autowired
@@ -37,9 +39,6 @@ class ChatServiceImplTest {
     ChatService chatService;
     @Autowired
     ChatRepository chatRepository;
-
-    static Long mId1, mId2, rId1, rId2;
-    static Pageable pageable;
 
     @BeforeEach
     void setUp() {
@@ -97,8 +96,8 @@ class ChatServiceImplTest {
         Page<Chat> room1Chat = chatService.findByRoomId(rId1, pageable);
         Page<Chat> room2Chat = chatService.findByRoomId(rId2, pageable);
 
-        assertEquals(5,room1Chat.getContent().size());
-        assertEquals(3,room2Chat.getContent().size());
+        assertEquals(5, room1Chat.getContent().size());
+        assertEquals(3, room2Chat.getContent().size());
     }
 
     @Test
@@ -107,8 +106,8 @@ class ChatServiceImplTest {
         Page<Chat> member1Chat = chatService.findByMemberId(mId1, pageable);
         Page<Chat> member2Chat = chatService.findByMemberId(mId2, pageable);
 
-        assertEquals(5,member1Chat.getContent().size());
-        assertEquals(3,member2Chat.getContent().size());
+        assertEquals(5, member1Chat.getContent().size());
+        assertEquals(3, member2Chat.getContent().size());
     }
 
     @Test

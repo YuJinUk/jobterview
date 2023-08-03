@@ -1,7 +1,6 @@
 package ssafy.project.jobterview.config.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +13,7 @@ import ssafy.project.jobterview.service.MemberService;
 @RequiredArgsConstructor
 public class PrincipalDetailService implements UserDetailsService {
 
-    private MemberService memberService;
+    private final MemberService memberService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -28,7 +27,5 @@ public class PrincipalDetailService implements UserDetailsService {
             Member principal = null;
             return new PrincipalDetail(principal);
         }
-
-
     }
 }

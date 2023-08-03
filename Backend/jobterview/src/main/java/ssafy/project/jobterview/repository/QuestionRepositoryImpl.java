@@ -57,24 +57,4 @@ public class QuestionRepositoryImpl implements QuestionCustomRepository {
                 .fetchOne();
         return new PageImpl<>(questionList, pageable, count);
     }
-//
-//    /**
-//     * Pageable 객체에서 sort가 오름차순인지 내림차순인지 판단
-//     * @param sort Pageable 객체의 Sort
-//     * @return 오름차순 / 내림차순
-//     */
-//    private OrderSpecifier<?>[] getOrderSpecifiers(Sort sort) {
-//        return sort.stream()
-//                .map(order -> {
-//                    switch (order.getDirection()) {
-//                        case ASC:
-//                            return question.category.asc();
-//                        case DESC:
-//                            return question.category.desc();
-//                        default:
-//                            throw new IllegalArgumentException("Invalid sort direction: " + order.getDirection());
-//                    }
-//                })
-//                .toArray(OrderSpecifier[]::new);
-//    }
 }
