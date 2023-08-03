@@ -19,6 +19,10 @@ import ssafy.project.jobterview.dto.RoomDto;
 @RestController
 @RequestMapping("/")
 public class MainController {
+    @GetMapping("/")
+    public ResponseEntity<String> home(){
+        return new ResponseEntity<>("welcome Test BackEnd", HttpStatus.OK);
+    }
     @GetMapping("/health_check")
     public ResponseEntity<String> health_check(){
         return new ResponseEntity<>("health_check", HttpStatus.OK);
