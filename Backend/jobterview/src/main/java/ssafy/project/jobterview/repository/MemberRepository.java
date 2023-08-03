@@ -12,10 +12,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByEmail(String email);
 
-
-
     Optional<Member> findByNickname(String nickname);
-
 
     Page<Member> findByNicknameContains(Pageable pageable, String keyword);
 
@@ -23,6 +20,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Page<Member> findAll(Pageable pageable);
 
-    Long countByIsActiveTrue();
+    Long countByIsActive(int isActive);
 }
 

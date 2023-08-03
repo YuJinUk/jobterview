@@ -20,11 +20,9 @@ public interface MemberService {
     Page<Member> findAll(Pageable pageable);
 
     void update(String email);
-
-
+    
     Long getAllActiveMemberCount();
 
     public void emailAuth(String email);
-
 
 }

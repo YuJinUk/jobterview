@@ -58,11 +58,13 @@ import { getMemberListAPI } from "@/api/memberApi";
 export default {
   setup() {
     let members = ref([]);
-    let totalPages = ref(1);
-    let curPage = ref(1);
-    let curStartingPage = ref(1);
-    let visiblePageNumbers = ref();
+    let totalPages = ref(1); //전체 페이지
+    let curPage = ref(1); //현재 페이지
+    let curStartingPage = ref(1); //첫번째 표시될 페이지
+    let visiblePageNumbers = ref(); //표시될 페이지 수
 
+    //페이지네이션///////////////////////////////////////////////////////////
+    //다음 페이지로
     let toNextPage = () => {
       if (Math.floor(totalPages.value / 5) * 5 >= curStartingPage.value) {
         curStartingPage.value += 5;
@@ -71,6 +73,7 @@ export default {
       }
     };
 
+    //이전 페이지로
     let topPreviousPage = () => {
       if (curStartingPage.value > 5) {
         curStartingPage.value -= 5;
@@ -79,6 +82,7 @@ export default {
       }
     };
 
+    //표시될 페이지
     let setVisiblePageNumbers = () => {
       visiblePageNumbers.value = Math.min(
         totalPages.value,
@@ -86,16 +90,14 @@ export default {
       );
     };
 
+    //페이지 변경
     const changePage = (page = 1, size = 12, sort = "createdDate,desc") => {
       curPage.value = page;
       getMembers(page, size, sort);
     };
+  //페이지네이션///////////////////////////////////////////////////////////
 
-    const getMembers = async (
-      page = 1,
-      size = 12,
-      sort = "createdDate,desc"
-    ) => {
+    const getMembers = async ( page = 1, size = 12, sort = "createdDate,desc" ) => {
       await getMemberListAPI(
         { page, size, sort },
         ({ data }) => {
@@ -109,8 +111,8 @@ export default {
     };
 
     onMounted(async () => {
-      await getMembers();
-      setVisiblePageNumbers();
+      await getMembers(); //맴버 가져오기
+      setVisiblePageNumbers() //페이지 갱신
     });
 
     return {

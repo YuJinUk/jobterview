@@ -3,6 +3,7 @@ import { getTotalMemberCntAPI } from '@/api/homeApi'
 const homeStore = {
     namespaced: true,
     state: {
+        //현재 활동중인 모든 사용자 수
         totalMemberCnt: 0,
     },
     getters: {
