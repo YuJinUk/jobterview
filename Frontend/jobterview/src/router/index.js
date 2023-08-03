@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import messageRouter from './messageRouter';
 import commonRouter from './commonRouter';
+import store from '@/store/store.js'; 
 import aiRouter from './aiRouter';
 import roomRouter from './roomRouter';
 import memberRouter from './memberRouter';
-import EmailAuth from '@/views/EmailAuth';
 import authRouter from './authRouter';
 import joinRouter from './joinRouter';
+import adminRouter from  './adminRouter';
 
 const routes = [
     ...commonRouter,
@@ -16,15 +17,28 @@ const routes = [
     ...messageRouter,
     ...authRouter,
     ...joinRouter,
-    {
-        path: '/emailauth/:email',
-        name: 'EmailAuth',
-        component: EmailAuth,
-    },
+    ...adminRouter,
   ];
 
-// 라우터 생성
-export default createRouter({
+const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
 });
+
+router.beforeEach((to, from, next) => {
+    console.log(store.getters.isLogin);
+    if (
+      !store.getters.isLogin &&
+      to.path != '/auth/login' && to.path != '/' && to.path != '/member/Join'
+    ) {
+      next('/auth/login');
+      console.log(store.getters.isLogin);
+    } else {
+        console.log(to.path);   
+      next(); // 다음 라우트로 진행
+      //console.log(store.state.isLogin);
+    }
+  });
+
+  export default router;
+

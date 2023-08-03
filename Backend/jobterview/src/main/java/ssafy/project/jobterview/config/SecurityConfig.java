@@ -30,15 +30,15 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-
     private PrincipalDetailService principalDetailService;
     private PrincipalOauth2UserService principalOauth2UserService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    ;
 
     @Autowired
-    public SecurityConfig( PrincipalDetailService principalDetailService,
-                           @Lazy PrincipalOauth2UserService principalOauth2UserService,
-                           @Lazy BCryptPasswordEncoder bCryptPasswordEncoder
+    public SecurityConfig(PrincipalDetailService principalDetailService,
+                          @Lazy PrincipalOauth2UserService principalOauth2UserService,
+                          @Lazy BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         this.principalDetailService = principalDetailService;
         this.principalOauth2UserService = principalOauth2UserService;
@@ -59,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private SocialAuthenticationSuccessHandler socialAuthenticationSuccessHandler;
 
 
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -67,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder encodePwd(){
+    public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
 
@@ -89,8 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CacheControlFilter cacheControlFilter() {
         return new CacheControlFilter();
     }
-
-
 
 
     // 시큐리티가 대신 로그인해주는데 password를 가로채는데
@@ -125,18 +122,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(cacheControlFilter(), SecurityContextHolderAwareRequestFilter.class)
                 .csrf().disable()
                 .authorizeRequests()
+
                 .antMatchers("/oauth2/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/oauth2/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/**").permitAll()
-//                .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
-//                .anyRequest().authenticated()
-
+                .antMatchers("/admin/members/cnt").permitAll()
+                .antMatchers(HttpMethod.GET, "/member/nicknameCheck").permitAll()
+                .antMatchers(HttpMethod.GET, "/member/emailCheck").permitAll()
+                .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("http://localhost:8081/user/login")
                 .usernameParameter("email")
                 .loginProcessingUrl("/auth/login")
                 .successHandler(customAuthenticationSuccessHandler)
@@ -155,13 +152,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(customLogoutSuccessHandler)// 로그아웃 URL 설정
                 .clearAuthentication(true)// 현재 인증 정보 삭제
                 .invalidateHttpSession(true) // HTTP 세션 무효화
-                .deleteCookies("JSESSIONID","remember-me") // 로그아웃 시 쿠키 삭제
+                .deleteCookies("JSESSIONID", "remember-me") // 로그아웃 시 쿠키 삭제
                 .and()
                 .oauth2Login()
-
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService)
-
                 .and()
                 .successHandler(socialAuthenticationSuccessHandler);
 

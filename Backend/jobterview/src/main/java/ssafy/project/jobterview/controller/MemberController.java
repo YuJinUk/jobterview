@@ -29,11 +29,8 @@ import java.util.List;
 @RequestMapping("/member")
 public class MemberController {
 
-
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private final MemberService memberService;
-
     private final EmailService emailService;
 
     /**
