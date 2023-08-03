@@ -35,4 +35,4 @@ export default {
 };
 </script>
 
-<style scoped src="@/css/permissionView.css" />
+<style scoped src="@/css/permissionView.css"/>

@@ -27,7 +27,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     console.log(store.getters.isLogin);
-    if (
+    if (  
       !store.getters.isLogin &&
       to.path != '/auth/login' && to.path != '/' && to.path != '/member/Join' && !to.path.startsWith('/emailauth/')
     ) {
