@@ -113,7 +113,6 @@ public class MemberController {
     @GetMapping("/me")
     @ApiOperation(value = "현재 로그인 한 회원 정보 조회", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
-
     public ResponseEntity<?> myInfo(@RequestBody @ApiParam(value = "현재 로그인 한 회원 정보", required = true) MemberDto memberDto) {
         Member member = memberService.findByEmail(memberDto.getEmail());
         return new ResponseEntity<>(member, HttpStatus.OK);
