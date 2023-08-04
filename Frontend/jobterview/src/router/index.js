@@ -8,16 +8,27 @@ import memberRouter from './memberRouter';
 import authRouter from './authRouter';
 import joinRouter from './joinRouter';
 import adminRouter from  './adminRouter';
+import {apiUrlPrefix} from "../config/config.js";
+
+// 모든 라우트 경로 앞에 '/testfe'를 추가합니다.
+function prependTestfePath(routes) {
+  return routes.map(route => {
+    return {
+      ...route,
+      path: `${apiUrlPrefix}${route.path}`
+    };
+  });
+}
 
 const routes = [
-    ...commonRouter,
-    ...aiRouter,
-    ...roomRouter,
-    ...memberRouter,
-    ...messageRouter,
-    ...authRouter,
-    ...joinRouter,
-    ...adminRouter,
+    ...prependTestfePath(commonRouter),
+    ...prependTestfePath(aiRouter),
+    ...prependTestfePath(roomRouter),
+    ...prependTestfePath(memberRouter),
+    ...prependTestfePath(messageRouter),
+    ...prependTestfePath(authRouter),
+    ...prependTestfePath(joinRouter),
+    ...prependTestfePath(adminRouter),
   ];
 
 const router = createRouter({
@@ -29,9 +40,9 @@ router.beforeEach((to, from, next) => {
     console.log(store.getters.isLogin);
     if (  
       !store.getters.isLogin &&
-      to.path != '/auth/login' && to.path != '/' && to.path != '/member/Join' && !to.path.startsWith('/emailauth/')
+      to.path != `${apiUrlPrefix}/auth/login` && to.path != `${apiUrlPrefix}/` && to.path != `${apiUrlPrefix}/member/Join` && !to.path.startsWith(`/emailauth/`)
     ) {
-      next('/auth/login');
+      next(`${apiUrlPrefix}/auth/login`);
       console.log(store.getters.isLogin);
     } else {
         console.log(to.path);   
