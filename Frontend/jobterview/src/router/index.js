@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
     console.log(store.getters.isLogin);
     if (  
       !store.getters.isLogin &&
-      to.path != `${apiUrlPrefix}/auth/login` && to.path != `${apiUrlPrefix}/` && to.path != `${apiUrlPrefix}/member/Join` && !to.path.startsWith(`/emailauth/`)
+      to.path != `${apiUrlPrefix}/auth/login` && to.path != `${apiUrlPrefix}/` && to.path != `${apiUrlPrefix}/member/Join` && !to.path.startsWith(`${apiUrlPrefix}/emailauth/`)
     ) {
       next(`${apiUrlPrefix}/auth/login`);
       console.log(store.getters.isLogin);
