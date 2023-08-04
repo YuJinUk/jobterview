@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
 //@EnableOAuth2Clien
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final PrincipalDetailService principalDetailService;
     private final PrincipalOauth2UserService principalOauth2UserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;

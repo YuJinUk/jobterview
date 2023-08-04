@@ -10,8 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Mate;
+import ssafy.project.jobterview.domain.MateId;
+import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.dto.MateDto;
 import ssafy.project.jobterview.service.MateService;
+import ssafy.project.jobterview.service.MemberService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,14 +25,16 @@ import ssafy.project.jobterview.service.MateService;
 public class MateController {
 
     private final MateService mateService;
+    private final MemberService memberService;
 
     // 메이트 신청하기
     @PostMapping
     @ApiOperation(value = "메이트 추가")
     @ApiModelProperty(hidden = true)
-    public ResponseEntity<?> sendMate(@RequestBody MateDto mateDto) {
-        mateService.save(mateDto);
-        return new ResponseEntity<>(mateDto, HttpStatus.OK);
+    public ResponseEntity<?> sendMate(@RequestBody String fromNickname,
+                                      @RequestBody String toNickname) {
+        MateDto savedMateDto = mateService.save(fromNickname, toNickname);
+        return new ResponseEntity<>(savedMateDto, HttpStatus.OK);
     }
 
     // 메이트 삭제하기
@@ -46,4 +54,14 @@ public class MateController {
         return new ResponseEntity<>(mateDtoPage, HttpStatus.OK);
     }
 
+    @GetMapping("/list")
+    @ApiOperation(value = "해당 맴버가 등록한 메이트 목록 조회")
+    public ResponseEntity<List<MateDto>> findAllByFromMember(@RequestParam String nickname) {
+        Member findMember = memberService.findByNickname(nickname);
+        List<MateDto> mateDtoPage = mateService.findByFromMember(findMember)
+                .stream()
+                .map(Mate::convertToDto)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(mateDtoPage, HttpStatus.OK);
+    }
 }
