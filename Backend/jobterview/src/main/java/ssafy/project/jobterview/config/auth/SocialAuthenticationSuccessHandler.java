@@ -3,6 +3,7 @@ package ssafy.project.jobterview.config.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +29,9 @@ import java.util.stream.Collectors;
 public class SocialAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final MemberService memberService;
+    private final Environment env;
+
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -45,7 +49,7 @@ public class SocialAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             e.printStackTrace();
         }
         String encodedNickname = URLEncoder.encode(usernickname, StandardCharsets.UTF_8);
-        setDefaultTargetUrl("http://localhost:8081?nickname=" + encodedNickname);
+        setDefaultTargetUrl(env.getProperty("varialbles.feUri")+"?nickname=" + encodedNickname);
         super.onAuthenticationSuccess(request, response, authentication);
     }
 

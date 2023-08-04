@@ -5,7 +5,9 @@ async function join(member,success,fail){
     ).then(success).catch(fail);
 }
 async function checkEmail(email,success,fail){
-    await apiTest.get(`/member/emailCheck?email=${email}`,email).then(success).catch(fail);
+    console.log(email);
+    console.log(apiTest);
+    await apiTest.get(`/member/emailCheck?email=${email}`).then(success).catch(fail);
 
 }
 async function checkNickname(nickname,success,fail){
