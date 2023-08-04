@@ -45,19 +45,11 @@ public class Room extends BaseTimeEntity {
 
     /**
      * Room 객체를 RoomDto 형태로 변환
-     * 
+     *
      * @return 변환된 RoomDto 객체
      */
     public RoomDto convertToDto() {
-        return RoomDto.builder()
-                .roomId(this.getRoomId())
-                .roomChatList(this.getRoomChatList())
-                .roomName(this.getRoomName())
-                .nowMember(this.getNowMember())
-                .maxMember(this.getMaxMember())
-                .roomStatus(this.getStatus())
-                .createdDate(this.getCreatedDate())
-                .build();
+        return RoomDto.builder().roomId(this.getRoomId()).roomChatList(this.getRoomChatList()).roomName(this.getRoomName()).nowMember(this.getNowMember()).maxMember(this.getMaxMember()).roomStatus(this.getStatus()).createdDate(this.getCreatedDate()).build();
     }
 
     public void startMeeting() {

@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 @SpringBootApplication
 public class JobterviewApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(JobterviewApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(JobterviewApplication.class, args);
+    }
 }

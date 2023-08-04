@@ -29,9 +29,11 @@
 
                 
                 <br>
-                <br>
-                
-                <div style="display: flex; justify-content: center; align-items: center;"> 
+                <div style="display: flex; justify-content: center; align-items: center; "> 
+                    <button class="button col-4" @click="join" style="margin-right:6px; background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">회원가입</button>
+                    <button class="button col-4" @click="findPassword" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">비밀번호 찾기</button>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center; margin-top:8px;"> 
                     <button class="button col-8" @click="login" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">로그인</button>
                 </div>
                 
@@ -43,7 +45,6 @@
 <script>
 
 export default {
-
     data(){
         return {
       email: "",
@@ -57,13 +58,17 @@ export default {
         email: this.email,
         password: this.password,
         };
-
         const frm = new FormData();
         frm.append("email", user.email);
         frm.append("password", user.password);
         this.$store.dispatch("loginStore/setLoginUser", frm);
-        
-        }
+        },
+    join(){
+        this.$router.push({name: "Join"});
+    },
+    findPassword(){
+        this.$router.push({name: "FindPassword"})
+    }
     }
 }
 </script>

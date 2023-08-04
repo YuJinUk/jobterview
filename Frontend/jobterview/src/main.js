@@ -16,11 +16,13 @@ import Vuex from "vuex";
 import axios from "axios";
 import router from "./router/index";
 import store from "@/store/store";
-
+// import io from 'socket.io-client';
 library.add(faUserSecret);
 library.add(fas);
-
+// const socket = io("ws://localhost:8081");
 const app = createApp(App);
+// app.config.globalProperties.$socket = socket;
+// console.log(socket);
 app.use(Vuex);
 app.use(store);
 app.use(router);

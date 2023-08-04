@@ -1,6 +1,5 @@
 package ssafy.project.jobterview.config.auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -19,11 +18,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-                                Authentication authentication) throws IOException, ServletException {
-
-        System.out.println("delete");
-        //request.getSession().invalidate();
-
+                                Authentication authentication) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
@@ -44,6 +39,5 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
                 }
             }
         }
-        //System.out.println(authentication != null && authentication.isAuthenticated());
     }
 }

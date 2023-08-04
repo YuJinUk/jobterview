@@ -11,7 +11,12 @@ async function checkEmail(email,success,fail){
 async function checkNickname(nickname,success,fail){
     await apiTest.get(`/member/nicknameCheck?nickname=${nickname}`,nickname).then(success).catch(fail);
 }
+async function sendEmail(email, success, fail) {
+    await apiTest.post(`/member/emailconfirm?email=${email}`).then(success).catch(fail);
+}
 
+async function sendPasswordEmail(email, success, fail){
+    await apiTest.post(`/member/passwordEmailConfirm?email=${email}`).then(success).catch(fail);
+}
 
-
-export {join,checkEmail,checkNickname};
+export {join,checkEmail,checkNickname,sendEmail,sendPasswordEmail};

@@ -11,6 +11,8 @@ public interface MemberService {
 
     Member findByNickname(String nickname);
 
+    Member findById(Long id);
+
     void quit(String email);
 
     Page<Member> findByNicknameContains(Pageable pageable, String keyword);
@@ -21,10 +23,12 @@ public interface MemberService {
 
     void update(String email);
 
-
     Long getAllActiveMemberCount();
 
-    public void emailAuth(String email);
+    Page<Member> getAllActiveMember(Pageable pageable);
+
+    void emailAuth(String email);
+
 
 
 }

@@ -1,7 +1,6 @@
 package ssafy.project.jobterview;
 
 
-
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +30,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("메이트 API 테스트")
 class MateServiceImplTest {
 
+    static Member m1, m2, m3, m4, m5, m6;
+    static MateDto mate1, mate2, mate3, mateDto;
+    static MateId mateId;
     @Autowired
     EntityManager entityManager;
     @Autowired
@@ -39,11 +41,6 @@ class MateServiceImplTest {
     MateService mateService;
     @Autowired
     MateRepository mateRepository;
-
-
-    static Member m1,m2,m3,m4,m5, m6;
-    static MateDto mate1,mate2, mate3, mateDto;
-    static MateId mateId;
 
     @BeforeEach
     void setUp() {
@@ -61,9 +58,9 @@ class MateServiceImplTest {
         m5 = memberRepository.save(member5);
         m6 = memberRepository.save(member6);
 
-         MateId mateId = new MateId(m1.getMemberId(),m2.getMemberId());
-         MateDto mateDto = new MateDto(mateId, member1, member2);
-         mateService.save(mateDto);
+        MateId mateId = new MateId(m1.getMemberId(), m2.getMemberId());
+        MateDto mateDto = new MateDto(mateId, member1, member2);
+        mateService.save(mateDto);
     }
 
     @Test
@@ -71,7 +68,7 @@ class MateServiceImplTest {
     @DisplayName("메이트 추가 테스트 및 전체 조회")
     void save() {
         List<Mate> mateList = mateRepository.findAll();
-        assertEquals(1,mateList.size());
+        assertEquals(1, mateList.size());
     }
 
     @Test
@@ -80,12 +77,12 @@ class MateServiceImplTest {
     void delete() {
 
         // 할 때 위에 setup에 save 하는 부분 주석하고 해야함
-        MateId mateId = new MateId(m1.getMemberId(),m2.getMemberId());
+        MateId mateId = new MateId(m1.getMemberId(), m2.getMemberId());
         MateDto mateDto = new MateDto(mateId, m1, m2);
         mateService.save(mateDto);
         mateService.delete(mateDto);
         List<Mate> mateList = mateRepository.findAll();
-        assertEquals(0,mateList.size());
+        assertEquals(0, mateList.size());
     }
 
     @Test
@@ -98,7 +95,7 @@ class MateServiceImplTest {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Mate> matePage = mateService.findAllByMate(pageable, "태희");
-        assertEquals(1,matePage.getContent().size());
+        assertEquals(1, matePage.getContent().size());
 
     }
 }

@@ -21,10 +21,10 @@
       </div>
 
       <div id="buttonBox">
-        <router-link to="/ai/question">
+        <router-link :to="{ name: 'AiQuestion'}">
           <button>AI 면접 준비</button>
         </router-link>
-        <router-link to="/room/list">
+        <router-link :to="{ name: 'RoomList'}">
           <button>메이트 찾기</button>
         </router-link>
       </div>
@@ -33,24 +33,37 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted} from "vue";
 import { useStore } from "vuex";
 
 export default {
   setup() {
     const store = useStore();
+    
     //onMounted
     onMounted(() => {
       store.dispatch("homeStore/setTotalMemberCnt");
+
+  
     });
 
     return {
       //computed
+      //현재 활동중인 모든 맴버 수 가져오기
       totalMemberCnt: computed(
         () => store.getters["homeStore/getTotalMemberCnt"]
       ),
     };
   },
+
+  created() {
+    const nickname = this.$route.query.nickname;
+    if (nickname) {
+      
+      this.$store.commit('loginStore/SET_Login', nickname);
+        }
+    }, 
+
 };
 </script>
 

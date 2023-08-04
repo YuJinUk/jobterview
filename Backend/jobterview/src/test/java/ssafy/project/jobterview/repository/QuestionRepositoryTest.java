@@ -13,6 +13,7 @@ import ssafy.project.jobterview.service.QuestionService;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 @Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -88,7 +89,7 @@ public class QuestionRepositoryTest {
     void randomTest() {
         int count = 4;
         List<Question> q = qs.findByRandom(4);
-        for(Question que : q) {
+        for (Question que : q) {
             System.out.println(que.getContent());
         }
         assertThat(q.size()).isEqualTo(4);

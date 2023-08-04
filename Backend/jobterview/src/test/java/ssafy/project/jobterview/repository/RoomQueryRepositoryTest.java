@@ -30,14 +30,14 @@ class RoomQueryRepositoryTest {
     @BeforeEach
     void setUp() {
         //Room instance 생성
-        Room room1 = new Room("1번방",5);
-        Room room2 = new Room("2번방",5);
-        Room room3 = new Room("3번방",5);
-        Room room4 = new Room("4번방",5);
-        Room room5 = new Room("5번방",5);
-        Room room6 = new Room("11번방",5);
-        Room room7 = new Room("12번방",5);
-        Room room8 = new Room("13번방",5);
+        Room room1 = new Room("1번방", 5);
+        Room room2 = new Room("2번방", 5);
+        Room room3 = new Room("3번방", 5);
+        Room room4 = new Room("4번방", 5);
+        Room room5 = new Room("5번방", 5);
+        Room room6 = new Room("11번방", 5);
+        Room room7 = new Room("12번방", 5);
+        Room room8 = new Room("13번방", 5);
 
         //등록
         roomRepository.save(room1);
@@ -55,7 +55,7 @@ class RoomQueryRepositoryTest {
     public void 방등록() {
         List<Room> roomList = roomRepository.findAll();
 
-        assertEquals(8,roomList.size());
+        assertEquals(8, roomList.size());
 
         Room room10 = new Room("14번방", 5);
         Room savedRoom = roomRepository.save(room10);
@@ -86,12 +86,9 @@ class RoomQueryRepositoryTest {
         List<Room> descIdList = roomRepository.findAll(PageRequest.of(offset, pageSize, Sort.by(desc, orderById))).getContent();
 
         //then
-        assertTrue(oldestDateList.get(0).getCreatedDate()
-                .isBefore(oldestDateList.get(7).getCreatedDate()));
-        assertTrue((descIdList.get(0).getRoomId() > descIdList.get(1).getRoomId())
-                &&(descIdList.get(1).getRoomId() > descIdList.get(2).getRoomId())
-                &&(descIdList.get(2).getRoomId() > descIdList.get(3).getRoomId()));
-        assertEquals("5번방",descNameList.get(0).getRoomName());
+        assertTrue(oldestDateList.get(0).getCreatedDate().isBefore(oldestDateList.get(7).getCreatedDate()));
+        assertTrue((descIdList.get(0).getRoomId() > descIdList.get(1).getRoomId()) && (descIdList.get(1).getRoomId() > descIdList.get(2).getRoomId()) && (descIdList.get(2).getRoomId() > descIdList.get(3).getRoomId()));
+        assertEquals("5번방", descNameList.get(0).getRoomName());
 
     }
 
@@ -116,8 +113,8 @@ class RoomQueryRepositoryTest {
         List<Room> roomList3 = roomRepository.findByRoomNameContains(pageable, keyword3).getContent();
 
         //then
-        assertEquals(8,roomList1.size());
-        assertEquals(4,roomList2.size());
-        assertEquals(2,roomList3.size());
+        assertEquals(8, roomList1.size());
+        assertEquals(4, roomList2.size());
+        assertEquals(2, roomList3.size());
     }
 }

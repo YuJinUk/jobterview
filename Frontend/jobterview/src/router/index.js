@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 import messageRouter from './messageRouter';
 import commonRouter from './commonRouter';
 import store from '@/store/store.js'; 
@@ -28,9 +27,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     console.log(store.getters.isLogin);
-    if (
+    if (  
       !store.getters.isLogin &&
-      to.path != '/auth/login' && to.path != '/' && to.path != '/member/Join'
+      to.path != '/auth/login' && to.path != '/' && to.path != '/member/Join' && !to.path.startsWith('/emailauth/') &&
+      to.path != '/member/findPassword'
     ) {
       next('/auth/login');
       console.log(store.getters.isLogin);

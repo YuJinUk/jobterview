@@ -4,7 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-//
+
 @Entity
 @Getter
 @Setter
@@ -13,7 +13,8 @@ import javax.persistence.*;
 @DynamicInsert
 public class Answer extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "answer_id")
     private Long answerId;
 

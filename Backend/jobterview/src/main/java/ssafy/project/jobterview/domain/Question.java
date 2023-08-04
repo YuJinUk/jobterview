@@ -1,6 +1,9 @@
 package ssafy.project.jobterview.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import ssafy.project.jobterview.dto.QuestionDto;
 
@@ -33,14 +36,6 @@ public class Question extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public Question(Category category, String content) {
         this.category = category;
         this.content = content;
@@ -58,6 +53,14 @@ public class Question extends BaseTimeEntity {
                 category(q.getCategory().name()).
                 content(q.getContent()).
                 build();
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
 }

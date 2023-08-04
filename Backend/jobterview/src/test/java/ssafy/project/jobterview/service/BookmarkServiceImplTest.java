@@ -27,6 +27,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("즐겨찾기 API 테스트")
 class BookmarkServiceImplTest {
 
+    static Member m1, m2, m3, m4, m5, m6;
+    static Room r1, r2, r3;
     @Autowired
     EntityManager entityManager;
     @Autowired
@@ -37,9 +39,6 @@ class BookmarkServiceImplTest {
     BookmarkRepository bookmarkRepository;
     @Autowired
     RoomRepository roomRepository;
-
-    static Member m1,m2,m3,m4,m5, m6;
-    static Room r1,r2, r3;
 
     @BeforeEach
     void setUp() {
@@ -80,18 +79,18 @@ class BookmarkServiceImplTest {
     @DisplayName("즐겨찾기 추가 테스트 및 전체 조회")
     void save() {
         List<Bookmark> bookmarkList = bookmarkRepository.findAll();
-        assertEquals(8,bookmarkList.size());
+        assertEquals(8, bookmarkList.size());
     }
 
     @Test
     @Order(3)
     @DisplayName("즐겨찾기 취소 테스트")
     void delete() {
-        bookmarkService.delete(r1.getRoomId(),m1.getMemberId());
-        bookmarkService.delete(r3.getRoomId(),m2.getMemberId());
+        bookmarkService.delete(r1.getRoomId(), m1.getMemberId());
+        bookmarkService.delete(r3.getRoomId(), m2.getMemberId());
 
         List<Bookmark> bookmarkList = bookmarkRepository.findAll();
-        assertEquals(6,bookmarkList.size());
+        assertEquals(6, bookmarkList.size());
     }
 
     @Test
@@ -108,7 +107,7 @@ class BookmarkServiceImplTest {
         Page<Bookmark> m1BookmarkPage = bookmarkService.findByMember(m1.getMemberId(), pageable);
 //        Page<Bookmark> m2BookmarkPage = bookmarkService.findByMember(m2.getMemberId(), pageable);
 
-        assertEquals(3,m1BookmarkPage.getContent().size());
+        assertEquals(3, m1BookmarkPage.getContent().size());
 //        assertEquals(1,m2BookmarkPage.getContent().size());
     }
 }

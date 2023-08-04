@@ -16,9 +16,8 @@ const roomStore = {
   },
   actions: {
     //선택된 질문 목록 갱신
-    setSelectedQuestions({ commit }, { questions }) {
+    setSelectedQuestions({ commit }, questions)  {
       commit("SET_SELECTED_QUESTIONS", questions);
-      console.log(questions);
     },
   }
 };

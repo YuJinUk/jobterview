@@ -3,7 +3,6 @@ package ssafy.project.jobterview.dto;
 import lombok.*;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
