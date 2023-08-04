@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:8060";
+const apiUrl = "https://i9a701.p.ssafy.io/testbe";
 const apiUrlPrefix = "/testfe";
 module.exports ={apiUrl,apiUrlPrefix};
 // export const apiKey = "YOUR_API_KEY";
