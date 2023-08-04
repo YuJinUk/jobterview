@@ -2,6 +2,7 @@ const roomStore = {
   namespaced: true,
   state: {
     selectedQuestions: [],
+    enterRoomName : null, 
   },
   getters: {
     //선택된 질문 목록 반환
@@ -13,6 +14,9 @@ const roomStore = {
     SET_SELECTED_QUESTIONS(state, questions) {
       state.selectedQuestions = questions;
     },
+    SET_ROOM_NAME(state, roomName) {
+      state.enterRoomName = roomName;
+    }
   },
   actions: {
     //선택된 질문 목록 갱신
