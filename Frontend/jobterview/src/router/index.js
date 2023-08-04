@@ -10,8 +10,8 @@ import joinRouter from './joinRouter';
 import adminRouter from  './adminRouter';
 import {apiUrlPrefix} from "../config/config.js";
 
-// 모든 라우트 경로 앞에 '/testfe'를 추가합니다.
-function prependTestfePath(routes) {
+// 모든 라우트 경로 앞에 apiUrlPrefix를 추가합니다.
+function RouteChange(routes) {
   return routes.map(route => {
     return {
       ...route,
@@ -21,14 +21,14 @@ function prependTestfePath(routes) {
 }
 
 const routes = [
-    ...prependTestfePath(commonRouter),
-    ...prependTestfePath(aiRouter),
-    ...prependTestfePath(roomRouter),
-    ...prependTestfePath(memberRouter),
-    ...prependTestfePath(messageRouter),
-    ...prependTestfePath(authRouter),
-    ...prependTestfePath(joinRouter),
-    ...prependTestfePath(adminRouter),
+    ...RouteChange(commonRouter),
+    ...RouteChange(aiRouter),
+    ...RouteChange(roomRouter),
+    ...RouteChange(memberRouter),
+    ...RouteChange(messageRouter),
+    ...RouteChange(authRouter),
+    ...RouteChange(joinRouter),
+    ...RouteChange(adminRouter),
   ];
 
 const router = createRouter({
