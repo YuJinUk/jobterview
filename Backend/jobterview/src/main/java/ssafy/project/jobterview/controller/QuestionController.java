@@ -1,7 +1,7 @@
 package ssafy.project.jobterview.controller;
 
 import io.swagger.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,20 +14,20 @@ import ssafy.project.jobterview.domain.Question;
 import ssafy.project.jobterview.dto.QuestionDto;
 import ssafy.project.jobterview.service.QuestionService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Api(value = "면접 질문 API", tags = {"Question"})
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/question")
 public class QuestionController {
 
-    @Autowired
-    QuestionService qs;
+    private final QuestionService questionService;
 
     /**
      * 면접 질문 등록
+     *
      * @param quest : Front에서 작성된 질문 Dto
      * @return
      */
@@ -39,14 +39,15 @@ public class QuestionController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> register(@RequestBody @ApiParam(value="면접 질문 정보", required = true) QuestionDto quest) {
+    public ResponseEntity<?> register(@RequestBody @ApiParam(value = "면접 질문 정보", required = true) QuestionDto quest) {
         Question q = new Question(Category.valueOf(quest.getCategory()), quest.getContent());
-        qs.save(q);
-        return new ResponseEntity<Integer>(1, HttpStatus.OK);
+        questionService.save(q);
+        return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
     /**
      * 면접 질문 수정
+     *
      * @param quest : Front에서 수정된 질문 Dto
      * @return
      */
@@ -58,18 +59,19 @@ public class QuestionController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> update(@RequestBody @ApiParam(value="면접 질문 정보", required = true) QuestionDto quest) {
+    public ResponseEntity<?> update(@RequestBody @ApiParam(value = "면접 질문 정보", required = true) QuestionDto quest) {
         Question q = new Question(quest.getQuestionId(), Category.valueOf(quest.getCategory()), quest.getContent());
-        qs.update(q);
-        return new ResponseEntity<Integer>(1, HttpStatus.OK);
+        questionService.update(q);
+        return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
     /**
      * 면접 질문 목록 전체 조회
+     *
      * @param pageable 페이징 정보
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping("/list/paging")
     @ApiOperation(value = "면접 질문 목록 조회 (페이징)", notes = "")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -77,15 +79,35 @@ public class QuestionController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> selectAll(
+    public ResponseEntity<?> selectAllWithPaging(
             @PageableDefault(page = 0, size = 10, sort = "selectedCnt", direction = Sort.Direction.DESC)
-            @ApiParam(value="페이지 정보", required = true) Pageable pageable) {
-        Page<QuestionDto> questionDtoList = qs.findAll(pageable).map(Question::toQuestionDto);
-        return new ResponseEntity<Page<QuestionDto>>(questionDtoList, HttpStatus.OK);
+            @ApiParam(value = "페이지 정보", required = true) Pageable pageable) {
+        Page<QuestionDto> questionDtoList = questionService.findAllWithPaging(pageable).map(Question::toQuestionDto);
+        return new ResponseEntity<>(questionDtoList, HttpStatus.OK);
+    }
+
+    /**
+     * 면접 질문 목록 전체 조회
+     *
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "질문 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> selectAll() {
+        List<QuestionDto> questionDtoList = questionService.findAll().stream()
+                .map(Question::toQuestionDto)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(questionDtoList, HttpStatus.OK);
     }
 
     /**
      * 면접 질문 분류 목록 조회
+     *
      * @param pageable 페이징 정보
      * @param category 조회 할 질문 분류
      * @return
@@ -99,15 +121,17 @@ public class QuestionController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> selectAllByCategory(
-            @PageableDefault(page=0, size=10, sort="category", direction = Sort.Direction.DESC)
-            @ApiParam(value="페이지 정보", required = true) Pageable pageable,
-            @ApiParam(value="분류 정보", required = true) String category) {
-        Page<QuestionDto> questionDtoList = qs.findAllByCategory(Category.valueOf(category), pageable).map(Question::toQuestionDto);
-        return new ResponseEntity<Page<QuestionDto>>(questionDtoList, HttpStatus.OK);
+            @PageableDefault(page = 0, size = 10, sort = "category", direction = Sort.Direction.DESC)
+            @ApiParam(value = "페이지 정보") Pageable pageable,
+            @ApiParam(value = "분류 정보", required = true)
+            @RequestParam String category) {
+        Page<QuestionDto> questionDtoList = questionService.findAllByCategory(Category.valueOf(category), pageable).map(Question::toQuestionDto);
+        return new ResponseEntity<>(questionDtoList, HttpStatus.OK);
     }
 
     /**
      * 질문 삭제
+     *
      * @param quest 삭제할 질문 Dto
      * @return
      */
@@ -119,13 +143,14 @@ public class QuestionController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> delete(@RequestBody @ApiParam(value="면접 질문 정보", required = true) QuestionDto quest) {
-        qs.deleteById(quest.getQuestionId());
-        return new ResponseEntity<Integer>(1, HttpStatus.OK);
+    public ResponseEntity<?> delete(@RequestBody @ApiParam(value = "면접 질문 정보", required = true) QuestionDto quest) {
+        questionService.deleteById(quest.getQuestionId());
+        return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
     /**
      * 랜덤 질문 선택
+     *
      * @param count 랜덤으로 선택할 질문 개수
      * @return
      */
@@ -137,17 +162,11 @@ public class QuestionController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> selectByRandom(@RequestParam @ApiParam(value="랜덤 선택 개수", required = true) int count) {
-//        List<Question> questionList = qs.findByRandom(count);
-//        List<QuestionDto> questionDtoList = new ArrayList<>();
-//        for(Question q : questionList) {
-//            questionDtoList.add(Question.toQuestionDto(q));
-//        }
-
-        List<QuestionDto> questionDtoList = qs.findByRandom(count)
-                                            .stream()
-                                            .map(Question::toQuestionDto)
-                                            .collect(Collectors.toList());
+    public ResponseEntity<?> selectByRandom(@RequestParam @ApiParam(value = "랜덤 선택 개수", required = true) int count) {
+        List<QuestionDto> questionDtoList = questionService.findByRandom(count)
+                .stream()
+                .map(Question::toQuestionDto)
+                .collect(Collectors.toList());
 
         return new ResponseEntity<List<QuestionDto>>(questionDtoList, HttpStatus.OK);
     }

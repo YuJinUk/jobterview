@@ -13,6 +13,7 @@ import ssafy.project.jobterview.service.QuestionService;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 @Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -27,12 +28,12 @@ public class QuestionRepositoryTest {
         qs.save(new Question(Category.ADAPT, "2. 적응력"));
         qs.save(new Question(Category.VALUES, "3. 가치관"));
         qs.save(new Question(Category.PRESSURE, "4. 압박"));
-        qs.save(new Question(Category.TASK, "5. 직무"));
+        qs.save(new Question(Category.JOB, "5. 직무"));
         qs.save(new Question(Category.VISION, "6. 비전"));
         qs.save(new Question(Category.ADAPT, "7. 적응력"));
         qs.save(new Question(Category.VALUES, "8. 가치관"));
         qs.save(new Question(Category.PRESSURE, "9. 압박"));
-        qs.save(new Question(Category.TASK, "10. 직무"));
+        qs.save(new Question(Category.JOB, "10. 직무"));
     }
 
     @Test
@@ -56,7 +57,7 @@ public class QuestionRepositoryTest {
     @Order(3)
     void findAllTest() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Question> q = qs.findAll(pageable);
+        Page<Question> q = qs.findAllWithPaging(pageable);
         assertThat(q.getTotalElements()).isEqualTo(10L);
         assertThat(q.getTotalPages()).isEqualTo(1);
     }
@@ -77,7 +78,7 @@ public class QuestionRepositoryTest {
     void deleteTest() {
         qs.deleteById(50L);
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Question> q = qs.findAll(pageable);
+        Page<Question> q = qs.findAllWithPaging(pageable);
         assertThat(q.getTotalElements()).isEqualTo(9L);
         assertThat(q.getTotalPages()).isEqualTo(1);
     }
@@ -88,7 +89,7 @@ public class QuestionRepositoryTest {
     void randomTest() {
         int count = 4;
         List<Question> q = qs.findByRandom(4);
-        for(Question que : q) {
+        for (Question que : q) {
             System.out.println(que.getContent());
         }
         assertThat(q.size()).isEqualTo(4);

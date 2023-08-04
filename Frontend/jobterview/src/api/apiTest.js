@@ -1,9 +1,10 @@
-
 import axios from "axios";
+import {apiUrl} from "../config/config.js";
+
 
 // API 개발 사용 헤더 및 URL 설정
 const apiTest = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: apiUrl,
     headers: {
         "Content-Type": "application/json;charset=utf-8",
     },
@@ -11,11 +12,11 @@ const apiTest = axios.create({
 });
 
 const apiTest2 = axios.create({
-   baseURL: "http://localhost:8080",
+   baseURL: apiUrl,
 });
 
 const apiTest3 = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: apiUrl,
     withCredentials: true,
   });
  

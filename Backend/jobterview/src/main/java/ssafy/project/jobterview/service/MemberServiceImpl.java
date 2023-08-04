@@ -9,8 +9,6 @@ import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
@@ -35,9 +33,15 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("일치하는 회원이 존재하지 않습니다."));
+    }
+
+    @Override
     public void quit(String email) {
         Member member = this.findByEmail(email);
-        member.setIsActive(0); // 탈퇴된 상태로 변경
+        member.changeRole(Role.ROLE_WITHDRAWN); // 탈퇴된 상태로 변경
         memberRepository.save(member);
     }
 
@@ -58,12 +62,12 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void update(String email) {
         Member member = findByEmail(email);
-        int a = member.getIsActive();
-        if(a==1){
-            member.setIsActive(2);
+        Role memberRole = member.getRole();
+        if(memberRole == Role.ROLE_MEMBER){
+            member.changeRole(Role.ROLE_WITHDRAWN);
         }
-        else if(a==2){
-            member.setIsActive(1);
+        else if(memberRole == Role.ROLE_WITHDRAWN){
+            member.changeRole(Role.ROLE_MEMBER);
         }
         memberRepository.save(member);
     }
@@ -71,7 +75,18 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void emailAuth(String email) {
         Member member = findByEmail(email);
-        member.setRole(Role.ROLE_user);
+        member.changeRole(Role.ROLE_MEMBER);
         memberRepository.save(member);
+    }
+
+    @Override
+    public Long getAllActiveMemberCount() {
+        Long count = memberRepository.countByRole(Role.ROLE_MEMBER);
+        return count;
+    }
+
+    @Override
+    public Page<Member> getAllActiveMember(Pageable pageable) {
+        return memberRepository.findByRole(Role.ROLE_MEMBER, pageable);
     }
 }

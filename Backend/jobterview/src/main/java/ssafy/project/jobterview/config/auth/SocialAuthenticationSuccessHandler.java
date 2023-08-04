@@ -1,7 +1,9 @@
 package ssafy.project.jobterview.config.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,55 +25,31 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class SocialAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    @Autowired
-    private MemberService memberService;
+    private final MemberService memberService;
+    private final Environment env;
+
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-
-
-
-
         // 인증 정보로부터 사용자 정보 추출
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         String username2 = userDetails.getUsername();
         String usernickname = "";
         try {
-            Member loginMemeber = memberService.findByEmail(username2);
-            usernickname = loginMemeber.getNickname();
+            Member loginMember = memberService.findByEmail(username2);
+            usernickname = loginMember.getNickname();
 
         } catch (Exception e) {
-            //Member loginMemeber =null;
+            e.printStackTrace();
         }
-
-
-//
-//        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.toList());
-
-
-        //뷰에 전달할 데이터 생성
-//        Map<String, Object> responseData = new HashMap<>();
-//        responseData.put("email", username2);
-//        responseData.put("roles", roles);
-//        responseData.put("message", "로그인 성공");
-//
-//
-//
-//         //뷰로 데이터 전달
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String jsonData = objectMapper.writeValueAsString(responseData);
-//        response.setContentType("application/json;charset=UTF-8");
-//        response.getWriter().write(jsonData);
-
-        //String userroll = roles.get(0);
-        String encodedNickname = URLEncoder.encode(usernickname, StandardCharsets.UTF_8.toString());
-        setDefaultTargetUrl("http://localhost:8081?nickname="+encodedNickname);
+        String encodedNickname = URLEncoder.encode(usernickname, StandardCharsets.UTF_8);
+        setDefaultTargetUrl(env.getProperty("varialbles.feUri")+"?nickname=" + encodedNickname);
         super.onAuthenticationSuccess(request, response, authentication);
     }
 

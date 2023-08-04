@@ -22,7 +22,7 @@ public class ChatController {
 
     /**
      * 채팅 저장
-     * 
+     *
      * @param saveChatDto 저장할 채팅 정보
      * @return 저장 성공시 HttpStatus.OK 반환
      */
@@ -34,61 +34,49 @@ public class ChatController {
 
     /**
      * 모든 채팅 목록 조회
-     * 
+     *
      * @param pageable 페이징 및 정렬 정보
      * @return Page<ChatDto>형태로 조회된 채팅 목록과 HttpStatus.OK 반환
      */
     @GetMapping
-    public ResponseEntity<Page<ChatDto>> getAllChats(
-            @PageableDefault(page = 0, size = 50,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<ChatDto>> getAllChats(@PageableDefault(page = 0, size = 50, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(chatService.findAll(pageable).map(Chat::convertToDto), HttpStatus.OK);
     }
 
     /**
      * 특정 Member의 채팅 목록 조회
-     * 
+     *
      * @param memberId Member id
      * @param pageable 페이징 및 정렬 정보
      * @return Page<ChatDto>형태로 조회된 채팅 목록과 HttpStatus.OK 반환
      */
     @GetMapping("/member/{memberId}")
-    public ResponseEntity<Page<ChatDto>> getMemberChats(
-            @PathVariable(name = "memberId") Long memberId,
-            @PageableDefault(page = 0, size = 50,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return new ResponseEntity<>(chatService.findByMemberId(memberId,pageable).map(Chat::convertToDto), HttpStatus.OK);
+    public ResponseEntity<Page<ChatDto>> getMemberChats(@PathVariable(name = "memberId") Long memberId, @PageableDefault(page = 0, size = 50, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        return new ResponseEntity<>(chatService.findByMemberId(memberId, pageable).map(Chat::convertToDto), HttpStatus.OK);
     }
 
     /**
      * 특정 Room의 채팅 목록 조회
      *
-     * @param roomId Room id
+     * @param roomId   Room id
      * @param pageable 페이징 및 정렬 정보
      * @return Page<ChatDto>형태로 조회된 채팅 목록과 HttpStatus.OK 반환
      */
     @GetMapping("/room/{roomId}")
-    public ResponseEntity<Page<ChatDto>> getRoomChats(
-            @PathVariable(name = "roomId") Long roomId,
-            @PageableDefault(page = 0, size = 50,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<ChatDto>> getRoomChats(@PathVariable(name = "roomId") Long roomId, @PageableDefault(page = 0, size = 50, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(chatService.findByRoomId(roomId, pageable).map(Chat::convertToDto), HttpStatus.OK);
     }
 
     /**
      * 특정 Room의 특정 Member의 채팅 목록 조회
      *
-     * @param roomId Room id
+     * @param roomId   Room id
      * @param memberId Member id
      * @param pageable 페이징 및 정렬 정보
      * @return Page<ChatDto>형태로 조회된 채팅 목록과 HttpStatus.OK 반환
      */
     @GetMapping("/{roomId}/{memberId}")
-    public ResponseEntity<Page<ChatDto>> getRoomAndMemberChats(
-            @PathVariable(name = "roomId") Long roomId,
-            @PathVariable(name = "memberId") Long memberId,
-            @PageableDefault(page = 0, size = 50,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<ChatDto>> getRoomAndMemberChats(@PathVariable(name = "roomId") Long roomId, @PathVariable(name = "memberId") Long memberId, @PageableDefault(page = 0, size = 50, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(chatService.findByRoomAndMember(roomId, memberId, pageable).map(Chat::convertToDto), HttpStatus.OK);
     }
 }

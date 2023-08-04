@@ -8,7 +8,8 @@
                 </div>
                 <div class="form-group">
                     <label for="content">내용</label>
-                    <textarea class="form-control" id="content" rows="15" placeholder="내용 입력..." v-model="content"></textarea>
+                    <textarea class="form-control" id="content" rows="15" placeholder="내용 입력..."
+                        v-model="content"></textarea>
                 </div>
             </form>
         </div>
@@ -20,7 +21,7 @@
 
 <script>
 //import router from '@/router';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -32,15 +33,21 @@ export default {
         const store = useStore();
         const receiverNickname = ref('');
         const content = ref('');
+        const nickname = computed(() => store.state.loginStore.loginNickname);
 
         function sendMessage() {
             if (confirm("메시지를 전송하시겠습니까?")) {
-                const message = {
-                    senderNickname: 'reporter',
-                    receiverNickname: receiverNickname.value,
-                    content: content.value,
-                };
-                store.dispatch('messageStore/postMessages', message);
+                if (content.value.length <= 0 || content.value.length >= 500) {
+                    alert("메시지는 1자 이상 500자 이하여야 합니다.");
+                } else {
+                    const message = {
+                        senderNickname: nickname.value,
+                        receiverNickname: receiverNickname.value,
+                        content: content.value,
+                    };
+                    store.dispatch('messageStore/postMessages', message);
+                }
+
                 // router.push({ name: 'MessageList' });
             }
 

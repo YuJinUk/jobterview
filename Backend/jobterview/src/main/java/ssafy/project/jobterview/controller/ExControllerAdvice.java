@@ -9,6 +9,7 @@ import ssafy.project.jobterview.domain.ErrorResult;
 
 @RestControllerAdvice(annotations = RestController.class)
 public class ExControllerAdvice {
+
     @ExceptionHandler
     public ResponseEntity<ErrorResult> handleAllException(Exception e) {
         ErrorResult errorResult = new ErrorResult(e.getMessage());

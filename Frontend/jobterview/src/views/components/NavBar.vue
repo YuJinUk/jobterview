@@ -20,7 +20,7 @@
                     </div>
                     <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
                     <li class="nav-item"><i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
-                    <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
+                    <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
                 </ul>
             </div> 
        
@@ -33,7 +33,8 @@
                         <button type="button" class="btn btn-link" id="login" @click="toLogin()">로그인</button>
                     </div>
                     <div class="container-register navbar-light">
-                        <button type="button" class="btn btn-link" id="register">회원가입</button>
+                        <button type="button" class="btn btn-link" id="register" @click="toJoin()">회원가입</button>
+
                     </div>
                 </ul>
             </div>
@@ -73,12 +74,19 @@ export default {
         toMessage() {
             this.$router.push({name: "MessageList"});
         },
+        toMemberList() {
+            this.$router.push({name: "MemberList"});
+        },
         toMain() {
             this.$router.push({name: "Home"});
         },
         toLogin() {
             this.$router.push({name: "LoginMember"});
         },
+        toJoin() {
+            this.$router.push({name: "Join"});
+        },
+
         logout() {
 
             this.$store.dispatch("loginStore/UserLogout");
@@ -108,7 +116,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .navbar {
     border-style: outset;
 }

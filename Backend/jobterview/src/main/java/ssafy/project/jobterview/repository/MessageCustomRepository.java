@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import ssafy.project.jobterview.domain.Message;
 
 public interface MessageCustomRepository {
-    public Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable,String nickname);
-    public Page<Message> findAllByToMemberVisibleAndSender(Pageable pageable, String nickname);
+    Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable, String nickname);
+
+    Page<Message> findAllByToMemberVisibleAndSender(Pageable pageable, String nickname);
 }

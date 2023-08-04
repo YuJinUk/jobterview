@@ -18,24 +18,31 @@ import ssafy.project.jobterview.domain.Room;
 import ssafy.project.jobterview.dto.ChatDto;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.RoomDto;
-import ssafy.project.jobterview.service.*;
+import ssafy.project.jobterview.service.ChatService;
+import ssafy.project.jobterview.service.MemberService;
+import ssafy.project.jobterview.service.RoomService;
 
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
+
     private final MemberService memberService;
-    private final QuestionService questionService;
-    private final ReportService reportService;
     private final ChatService chatService;
     private final RoomService roomService;
 
     @GetMapping("/members")
-    @ApiOperation(value="전체 회원 목록")
-    public ResponseEntity<Page<MemberDto>> findAllMember (@PageableDefault(page = 0, size = 10,
+    @ApiOperation(value = "전체 회원 목록")
+    public ResponseEntity<Page<MemberDto>> findAllMember(@PageableDefault(page = 0, size = 10,
             sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(memberService.findAll(pageable).map(Member::toMemberDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/members/cnt")
+    @ApiOperation(value = "전체 회원 수 조회")
+    public ResponseEntity<Long> getAllMemberCnt() {
+        return new ResponseEntity<>(memberService.getAllActiveMemberCount(), HttpStatus.OK);
     }
 
     @GetMapping("/members/{nickname}")
@@ -47,7 +54,7 @@ public class AdminController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> searchByNickname(@PageableDefault(page = 0, size = 10,
-            sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value="검색할 닉네임 키워드", required = true) String keyword) {
+            sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value = "페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value = "검색할 닉네임 키워드", required = true) String keyword) {
         Page<MemberDto> members = memberService.findByNicknameContains(pageable, keyword).map(Member::toMemberDto);
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
@@ -61,8 +68,10 @@ public class AdminController {
             @ApiResponse(code = 404, message = "질문 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> searchByEmail(@PageableDefault(page = 0, size = 10,
-            sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value="페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value="검색할 이메일 키워드", required = true) String keyword) {
+    public ResponseEntity<?> searchByEmail(
+            @PageableDefault(page = 0, size = 10, sort = "nickname", direction = Sort.Direction.ASC)
+            @ApiParam(value = "페이지 정보", required = true) Pageable pageable,
+            @RequestParam @ApiParam(value = "검색할 이메일 키워드", required = true) String keyword) {
         Page<MemberDto> members = memberService.findByEmailContains(pageable, keyword).map(Member::toMemberDto);
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
@@ -70,16 +79,16 @@ public class AdminController {
 
     @PutMapping("/members")
     @ApiOperation(value = "회원 활성화 / 비활성화")
-    public void activeUpdate (@RequestParam String email){
+    public void activeUpdate(@RequestParam String email) {
         memberService.update(email);
     }
 
     /**
      * 특정 keyword를 roomName에 포함하는 Room 목록 조회
      *
-     * @param keyword roomName이 포함하는지 조회할 검색어
+     * @param keyword  roomName이 포함하는지 조회할 검색어
      * @param pageable 페이징 및 정렬 정보
-     * @return ResponseEntity<Page<RoomDto>> 형태로 페이징된 Room 목록 반환
+     * @return ResponseEntity<Page < RoomDto>> 형태로 페이징된 Room 목록 반환
      */
     @GetMapping("/room")
     @ApiOperation(value = "채팅방 검색", notes = "")
@@ -101,7 +110,7 @@ public class AdminController {
      * 페이징된 Room 목록 조회
      *
      * @param pageable 페이징 및 정렬 정보
-     * @return ResponseEntity<Page<RoomDto>> 형태로 페이징된 Room 목록 반환
+     * @return ResponseEntity<Page < RoomDto>> 형태로 페이징된 Room 목록 반환
      */
     @GetMapping("/room/date")
     @ApiOperation(value = "전체 채팅방 조회", notes = "")
@@ -117,6 +126,7 @@ public class AdminController {
         // 페이징된 RoomDto 목록과 HttpStatus.OK 반환
         return new ResponseEntity<>(roomService.findAll(pageable).map(Room::convertToDto), HttpStatus.OK);
     }
+
     @GetMapping("/chat")
     @ApiOperation(value = "모든 채팅 조회", notes = "")
     @ApiResponses({
@@ -150,13 +160,13 @@ public class AdminController {
             @PathVariable(name = "memberId") Long memberId,
             @PageableDefault(page = 0, size = 50,
                     sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return new ResponseEntity<>(chatService.findByMemberId(memberId,pageable).map(Chat::convertToDto), HttpStatus.OK);
+        return new ResponseEntity<>(chatService.findByMemberId(memberId, pageable).map(Chat::convertToDto), HttpStatus.OK);
     }
 
     /**
      * 특정 Room의 채팅 목록 조회
      *
-     * @param roomId Room id
+     * @param roomId   Room id
      * @param pageable 페이징 및 정렬 정보
      * @return Page<ChatDto>형태로 조회된 채팅 목록과 HttpStatus.OK 반환
      */
@@ -174,7 +184,4 @@ public class AdminController {
                     sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(chatService.findByRoomId(roomId, pageable).map(Chat::convertToDto), HttpStatus.OK);
     }
-
-
-
 }

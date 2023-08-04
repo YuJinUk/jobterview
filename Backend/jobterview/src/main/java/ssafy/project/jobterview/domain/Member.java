@@ -1,19 +1,19 @@
 package ssafy.project.jobterview.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import ssafy.project.jobterview.dto.MemberDto;
-import ssafy.project.jobterview.dto.QuestionDto;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @DynamicInsert
@@ -52,14 +52,22 @@ public class Member extends BaseTimeEntity {
     @JoinColumn(name = "mail_cert_id")
     private MailCert mailCert;
 
-    @Column(name = "is_active") //nullable = 뺏습니다 있으면 객체 생성 안됨
-    @ColumnDefault("1") //이게 있어서 디비 갈때는 자동으로 생길듯 안생기누,,,,
-    private Integer isActive; //요거 int=>Integer로 바꿧습니다
-
-    //role 만들기
     @Enumerated(value = EnumType.STRING)
-    @ColumnDefault("'ROLE_new'")
+    @ColumnDefault("'ROLE_NEW'")
     private Role role;
+
+    public Member(String email, String nickname, String password) {
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+    }
+
+    public static MemberDto toMemberDto(Member m) {
+        return MemberDto.builder()
+                .email(m.getEmail())
+                .nickname(m.getNickname())
+                .build();
+    }
 
     @Override
     public String toString() {
@@ -74,21 +82,18 @@ public class Member extends BaseTimeEntity {
                 ", nickname='" + nickname + '\'' +
                 ", password='" + password + '\'' +
                 ", mailCert=" + mailCert +
-                ", isActive=" + isActive +
                 '}';
     }
 
-    public Member(String email, String nickname, String password) {
-        this.email = email;
-        this.nickname = nickname;
+    public void insertPassword(String password) {
         this.password = password;
     }
 
-    public static MemberDto toMemberDto(Member m) {
-        return MemberDto.builder()
-                .email(m.getEmail())
-                .nickname(m.getNickname())
-                .build();
+    /**
+     * 맴버 권한 변환
+     */
+    public void changeRole(Role role) {
+        this.role = role;
     }
 }
 

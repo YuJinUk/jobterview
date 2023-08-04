@@ -2,7 +2,6 @@ package ssafy.project.jobterview.dto;
 
 
 import lombok.*;
-import ssafy.project.jobterview.domain.MailCert;
 
 @Getter
 @Setter

@@ -1,6 +1,9 @@
 package ssafy.project.jobterview.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import ssafy.project.jobterview.dto.ReportDto;
 
 import javax.persistence.*;
