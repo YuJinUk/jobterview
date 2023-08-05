@@ -3,5 +3,4 @@ const apiUrl = "https://i9a701.p.ssafy.io/testbe";
 //prefix url 집에서 테스트시에는 /로함면됨.
 const apiUrlPrefix = "/testfe";
 
-
-module.exports ={apiUrl,apiUrlPrefix};
+module.exports = { apiUrl, apiUrlPrefix };
