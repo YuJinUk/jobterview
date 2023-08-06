@@ -8,6 +8,7 @@ import memberRouter from './memberRouter';
 import authRouter from './authRouter';
 import joinRouter from './joinRouter';
 import adminRouter from  './adminRouter';
+import mateRouter from './mateRouter'
 
 const routes = [
     ...commonRouter,
@@ -18,6 +19,7 @@ const routes = [
     ...authRouter,
     ...joinRouter,
     ...adminRouter,
+    ...mateRouter,
   ];
 
 const router = createRouter({

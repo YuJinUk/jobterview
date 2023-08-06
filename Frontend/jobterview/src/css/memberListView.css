@@ -1,0 +1,138 @@
+.search {
+  position: relative;
+  width: 100%;
+  min-width: 170px;
+  max-width: 230px;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+img {
+  position: absolute;
+  width: 17px;
+  top: 11px;
+  right: 12px;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+#container {
+  width: 50%;
+  margin: 0 auto;
+
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+#navBox {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  margin: 20px 0 20px 180px;
+  padding: 0 100px 0 50px;
+}
+
+.mateButton {
+  background-color: #083358;
+  pointer-events: all;
+
+  margin: 5px 0px 0 0px;
+
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  width: 100px;
+  height: 35px;
+
+  transition: all 0.15s ease-in-out;
+}
+
+.pagination {
+  width: 500px;
+}
+
+.emptyMate p{
+  width: 250px;
+  margin: 50px auto;
+  font-size: 18px;
+}
+
+.listBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 10px 0;
+}
+
+.list {
+  width: 1080px;
+  height: 500px;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+.memberBox, .mateBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 15%;
+}
+
+.member, .mate{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nickname {
+  width: 130px;
+  margin: 0 10px;
+
+  font-size: 18px;
+}
+
+.icon {
+  font-size: 18px;
+  margin: 0 10px;
+}
+
+.mateIcon {
+  color: green;
+}
+
+.isMate {
+  color: red;
+}
+
+#pageBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

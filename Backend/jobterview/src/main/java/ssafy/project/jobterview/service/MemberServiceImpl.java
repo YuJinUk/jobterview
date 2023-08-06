@@ -49,6 +49,13 @@ public class MemberServiceImpl implements MemberService{
     public Page<Member> findByNicknameContains(Pageable pageable, String keyword) {
         return memberRepository.findByNicknameContains(pageable, keyword);
     }
+
+    @Override
+    public Page<Member> findByNicknameContainsAndRole(Pageable pageable, String keyword) {
+        return memberRepository.findByNicknameContainsAndRole(pageable, keyword, Role.ROLE_MEMBER);
+    }
+
+
     @Override
     public Page<Member> findByEmailContains(Pageable pageable, String keyword) {
         return memberRepository.findByEmailContains(pageable, keyword);
