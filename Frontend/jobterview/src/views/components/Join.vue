@@ -80,6 +80,9 @@ export default {
                 if(this.email.includes(" ")){
                     alert("이메일에 공백을 사용할 수 없습니다.");
                 }
+                else if(this.isValidEmail==false){
+                    alert("이메일 형식에 맞지 않습니다.");
+                }
                 else{
                 if (response.data == 1) {
                     alert("사용가능한 이메일입니다.");
