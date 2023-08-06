@@ -31,16 +31,18 @@ export default {
     methods: {
       async submit() {
                    await checkEmail(this.email,(response)=>{
-                    if(response.data==1){
+                    if(response.data==0){
                         sendPasswordEmail(this.email, () => {
                             alert("등록하신 메일로 인증메일이 전송 되었습니다.");           
                          }, (error) => {
                              console.log(error);
                          });
                     }
-                    else{
+                    (error)=>{
                        alert("존재하지 않는 이메일입니다.");
+                       console.log(error);
       }});}
+
        }
 }
 </script>
