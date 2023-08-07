@@ -16,7 +16,7 @@ import tempfile
 from keras.models import load_model
 
 def video2wav(video_path, output = "wav"):
-    video_path = "C:/Users/SSAFY/Desktop/S09P12A701/Backend/ML/BE/dataset/" + video_path
+    video_path = "C:/Users/SSAFY/Desktop/S09P12A701/ML/BE/dataset/" + video_path
     filename, ext = os.path.splitext(video_path)
     subprocess.call(["ffmpeg", "-y", "-i", video_path, f"{filename}.{output}"],
                     stdout=subprocess.DEVNULL,
