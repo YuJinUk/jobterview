@@ -15,7 +15,7 @@ public interface MateService {
     MateDto save(String fromMemberNickname, String toMemberNickname);
 
     // 메이트 끊기
-    void delete(MateDto mateDto);
+    void delete(String fromMemberNickname, String toMemberNickname);
     
     //페이징 처리된 메이트 찾기
     Page<Mate> findAllByMate(Pageable pageable, String nickname);
