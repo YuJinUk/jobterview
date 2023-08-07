@@ -18,9 +18,11 @@ public class MateRepositoryImpl implements MateCustomRepository{
     public Page<Mate> findAllByFromMember(Pageable pageable, String nickname){
         QMate qMate= QMate.mate;
         List<Mate> mateList = queryFactory.selectFrom(qMate)
-                .where(qMate.fromMember.nickname.eq(nickname)).offset(pageable.getOffset())
+                .where(qMate.fromMember.nickname.eq(nickname))
+                .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+
         Long count = queryFactory.select(qMate.count())
                 .from(qMate)
                 .where(qMate.fromMember.nickname.eq(nickname))
@@ -28,8 +30,4 @@ public class MateRepositoryImpl implements MateCustomRepository{
 
         return new PageImpl<>(mateList,pageable, count);
     }
-
-
-
 }
-
