@@ -2,10 +2,13 @@
 varialbles:
 # 백엔드가 동작할 포트
   port: 8060
-#  cors허용해줄 fe코드
-  feUri: http://localhost:3060
+
+##  cors허용해줄 fe코드
+  feUri: https://i9a701.p.ssafy.io/testfe
+
 #  리다이렉트할때 쓸 변수
-  beUri: http://localhost:${varialbles.port}
+  # beUri: http://localhost:${varialbles.port}
+  beUri: https://i9a701.p.ssafy.io/testbe
 
 #여기서부터 설정파일
 server:
@@ -24,7 +27,7 @@ spring:
       matching-strategy: ant_path_matcher
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
 
@@ -39,6 +42,7 @@ spring:
           google:
             client-id: 682444755899-3eqgd34dqavn8mq0us3q4e0lf09pbc4v.apps.googleusercontent.com
             client-secret: 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
+            redirect-uri: ${varialbles.beUri}/login/oauth2/code/google
             scope:
               - email
               - profile

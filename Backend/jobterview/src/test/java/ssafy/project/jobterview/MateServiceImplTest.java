@@ -29,8 +29,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("메이트 API 테스트")
 class MateServiceImplTest {
-
+//
 //    static Member m1, m2, m3, m4, m5, m6;
+//    static MateDto mate1, mate2, mate3, mateDto;
+//    static MateId mateId;
 //    @Autowired
 //    EntityManager entityManager;
 //    @Autowired
@@ -97,7 +99,7 @@ class MateServiceImplTest {
 //        List<Mate> mateList = mateRepository.findAll();
 //        assertEquals(0, mateList.size());
 //    }
-
+//
 //    @Test
 //    @DisplayName("메이트 리스트 조회 테스트")
 //    void findAllByMate() {
@@ -109,6 +111,20 @@ class MateServiceImplTest {
 //
 //        Page<Mate> matePage = mateService.findAllByMate(pageable, "th");
 //
-//        assertEquals(4, matePage.getContent().size());
+//        for (Mate mate : matePage.getContent()) {
+//            System.out.println("toString : " + mate.toString());
+//        }
+//
+//        assertEquals(2, matePage.getContent().size());
+//    }
+//
+//    @Test
+//    @DisplayName("페이징 없는 메이트 리스트 조회 테스트")
+//    void findByFromMemberWithoutPaging() {
+//        List<Mate> matePage = mateService.findByFromMember(m1);
+//
+//        for(Mate mate : matePage) {
+//            System.out.println("mate toString" + mate.toString());
+//        }
 //    }
 }
