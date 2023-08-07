@@ -53,7 +53,7 @@ public class Member extends BaseTimeEntity {
     private MailCert mailCert;
 
     @Enumerated(value = EnumType.STRING)
-    @ColumnDefault("'ROLE_NEW'")
+    @ColumnDefault("'ROLE_UNVERIFIED'")
     private Role role;
 
     public Member(String email, String nickname, String password) {
