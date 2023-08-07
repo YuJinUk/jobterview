@@ -18,6 +18,7 @@ executor2 = ThreadPoolExecutor(10)
 executor3 = ThreadPoolExecutor(10)
 executor4 = ThreadPoolExecutor(10)
 
+
 def process_video_and_audio(video_data, audio_info, num):
     
     with open(f'dataset/video_data{num}.mp4', 'wb') as f:
@@ -100,7 +101,7 @@ def upload1():
         audio_file = request.files.get('audio')
         # print(audio_file)
         audio_file.save('dataset/audio_data1.wav') # binary data type
-        audio, sr = process_audio('dataset/audio_data1.wav','C:/Users/SSAFY/Desktop/S09P12A701/ML/BE/dataset', 'new_audio1.wav')
+        audio, sr = process_audio('dataset/audio_data1.wav', './', 'new_audio1.wav')
         # print(audio, sr)
         
         # plt.figure(figsize=(10, 12))  # 전체 그림 크기를 조정
@@ -163,8 +164,11 @@ def upload2():
         
         # audio_analysis
         audio_file = request.files.get('audio')
-        audio_file.save('dataset/audio_data2.wav') # binary data type
-        audio, sr = process_audio('dataset/audio_data2.wav','C:/Users/SSAFY/Desktop/S09P12A701/ML/BE/dataset', 'new_audio2.wav')
+        # audio_file.save('dataset/audio_data2.wav') # binary data type
+        audio_data = audio_file.read()
+        with open('dataset/audio_data1.wav', 'wb') as f:
+            f.write(audio_data)
+        audio, sr = process_audio('dataset/audio_data2.wav', './', 'new_audio2.wav')
         
         audio_info = {
             'sample_rate': sr,  # 샘플 레이트 등의 정보
@@ -190,7 +194,7 @@ def upload3():
         # audio_analysis
         audio_file = request.files.get('audio')
         audio_file.save('dataset/audio_data3.wav') # binary data type
-        audio, sr = process_audio('dataset/audio_data3.wav','C:/Users/SSAFY/Desktop/S09P12A701/ML/BE/dataset', 'new_audio3.wav')
+        audio, sr = process_audio('dataset/audio_data3.wav','./', 'new_audio3.wav')
         
         audio_info = {
             'sample_rate': sr,  # 샘플 레이트 등의 정보
@@ -216,7 +220,7 @@ def upload4():
         # audio_analysis
         audio_file = request.files.get('audio')
         audio_file.save('dataset/audio_data4.wav') # binary data type
-        audio, sr = process_audio('dataset/audio_data4.wav','C:/Users/SSAFY/Desktop/S09P12A701/ML/BE/dataset', 'new_audio4.wav')
+        audio, sr = process_audio('dataset/audio_data4.wav','./', 'new_audio4.wav')
         
         audio_info = {
             'sample_rate': sr,  # 샘플 레이트 등의 정보
