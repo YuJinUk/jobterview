@@ -5,15 +5,12 @@ export default {
   namespaced: true,
   state: {
     selectedQuestions: [],
-
     receiveRooms: null,
     totalReceivePage: 1,
     currentReceivePage: 1,
     readRoomName: null,
     readNowMember: null,
     readMaxMember: null,
-
- 
   },
   getters: {
     //선택된 질문 목록 반환
@@ -44,7 +41,6 @@ export default {
     SET_SELECTED_QUESTIONS(state, questions) {
       state.selectedQuestions = questions;
     },
-
     SET_RECEIVE_ROOMS: (state, rooms) => {
       console.log("tt");
       console.log(rooms);

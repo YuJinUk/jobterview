@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 import router from '@/router';
+import { useStore } from 'vuex';
 export default {
     name: "RoomPermission",
     setup() {
-        const route = useRoute();
+        const store = useStore();
         const headText = ref("마이크와 카메라를 준비중입니다.");
 
         function toRoomList() {
@@ -40,7 +40,8 @@ export default {
         }
 
         function enterRoom() {
-            router.push({name: "RoomMeeting", roomId: route.params.roomId});
+            store.commit("roomStore/SET_ROOM_NAME", "Test Room");
+            router.push({name: "RoomMeeting"});
         }   
         return {
             headText,

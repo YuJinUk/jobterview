@@ -1,6 +1,6 @@
-import RoomListView from '@/views/room/RoomListView'
-import RoomPermission from '@/views/room/RoomPermission'
-import RoomMeeting from '@/views/room/RoomMeeting'
+import RoomListView from '@/views/components/room/RoomListView'
+import RoomPermission from '@/views/components/room/RoomPermission'
+import RoomMeeting from '@/views/components/room/RoomMeeting'
 const roomRouter = [
   {
     path: '/room/list',

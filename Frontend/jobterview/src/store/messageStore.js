@@ -92,7 +92,7 @@ export default {
                 ({data}) => {
                     commit('SET_SEND_MESSAGE', data.content);
                     commit('SET_TOTAL_SEND_PAGE', data.totalPages);
-                    commit('SET_CURRENT_RECEIVE_PAGE', page + 1);
+                    commit('SET_CURRENT_RECEIVE_PAGE', page + 1);   
                 },
                 (error) => {
                     console.log(error);
