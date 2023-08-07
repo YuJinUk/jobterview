@@ -5,7 +5,7 @@ const memberRouter = [
     path: '/member/list',
     name: 'MemberList',
     component: MemberListView,
-  },
+  }
 ];
 
 export default memberRouter;

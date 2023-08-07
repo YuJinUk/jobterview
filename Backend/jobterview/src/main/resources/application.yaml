@@ -2,8 +2,10 @@
 varialbles:
 # 백엔드가 동작할 포트
   port: 8060
+
 ##  cors허용해줄 fe코드
   feUri: https://i9a701.p.ssafy.io/testfe
+
 #  리다이렉트할때 쓸 변수
   # beUri: http://localhost:${varialbles.port}
   beUri: https://i9a701.p.ssafy.io/testbe

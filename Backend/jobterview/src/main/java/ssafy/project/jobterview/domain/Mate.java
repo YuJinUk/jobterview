@@ -1,16 +1,14 @@
 package ssafy.project.jobterview.domain;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ssafy.project.jobterview.dto.MateDto;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Mate extends BaseTimeEntity {
 

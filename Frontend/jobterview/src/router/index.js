@@ -8,6 +8,7 @@ import memberRouter from './memberRouter';
 import authRouter from './authRouter';
 import joinRouter from './joinRouter';
 import adminRouter from  './adminRouter';
+import mateRouter from './mateRouter'
 import {apiUrlPrefix} from "../config/config.js";
 
 // 모든 라우트 경로 앞에 apiUrlPrefix를 추가합니다.
@@ -29,6 +30,7 @@ const routes = [
     ...RouteChange(authRouter),
     ...RouteChange(joinRouter),
     ...RouteChange(adminRouter),
+    ...RouteChange(mateRouter),
   ];
 
 const router = createRouter({

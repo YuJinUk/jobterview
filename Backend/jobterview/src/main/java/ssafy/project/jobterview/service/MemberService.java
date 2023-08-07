@@ -17,6 +17,8 @@ public interface MemberService {
 
     Page<Member> findByNicknameContains(Pageable pageable, String keyword);
 
+    Page<Member> findByNicknameContainsAndRole(Pageable pageable, String keyword);
+
     Page<Member> findByEmailContains(Pageable pageable, String keyword);
 
     Page<Member> findAll(Pageable pageable);
