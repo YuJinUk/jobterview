@@ -200,7 +200,9 @@ methods: {
         console.log(this.videoData.chunks)
         try {
             // 비디오와 오디오 데이터를 Flask로 전송
-            const response = await axios.post(this.localhost + 'api/upload/1', formData);
+            console.log('---------------------------------------------------')
+            const response = await axios.post(this.localhost + 'api/upload/1', formData)
+            console.log('---------------------------------------------------')
 
             // Flask에서 받은 응답 데이터를 resultData에 저장
             this.resultData = response.data;
