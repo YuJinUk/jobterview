@@ -1,9 +1,9 @@
 const { defineConfig } = require("@vue/cli-service");
-const {apiUrl} = require("./src/config/config.js");
+const {apiUrl, apiUrlPrefix} = require("./src/config/config.js");
 
 module.exports = defineConfig({
   transpileDependencies: true,
-
+  publicPath: apiUrlPrefix,
   pluginOptions: {
     vuetify: {
       // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader

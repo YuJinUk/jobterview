@@ -2,6 +2,7 @@ package ssafy.project.jobterview.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,9 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
-    @Autowired
-    JavaMailSender emailSender;
 
+    private final JavaMailSender emailSender;
+    private final Environment env;
 //    public static final String ePw = createKey();
 
     private MimeMessage createMessage(String to)throws Exception{
@@ -37,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<div style='font-size:130%'>";
 //        msgg+= "CODE : <strong>";
 //        msgg+= ePw+"</strong><div><br/> ";
-        msgg+= "<strong><a href=\"http://localhost:8081/emailauth/" + to + "\">인증하기</a></strong></div><br/>";
+        msgg+= "<strong><a href=\""+env.getProperty("varialbles.feUri")+"/emailauth/" + to + "\">인증하기</a></strong></div><br/>";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
         message.setFrom(new InternetAddress("jobterview1.gmail.com","JOBTERVIEW"));//보내는 사람
