@@ -1,6 +1,6 @@
 <template>
-    <video ref="remote" autoplay playsinline width="300" height="180"></video>
-    <p class="text-center" style="width: 300px;">{{ info.nickname }}</p>
+    <video ref="remote" autoplay playsinline width="300" height="180" style="border-radius: 10%;"></video>
+    <p class="text-center">{{ info.nickname }}</p>
 </template>
 <script>
 export default {

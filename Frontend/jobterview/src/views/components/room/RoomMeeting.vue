@@ -1,8 +1,8 @@
 <template>
-  <div class="container-wrapper">
+  <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
-        <video ref="video" autoplay width="480" height="360"></video>
+        <video ref="video" autoplay width="480" height="360" style="border-radius: 10%;"></video>
         <p class="text-center">{{ nickname }}</p>
         <p class="h2 text-center">
           <i v-if="camera" class="bi bi-camera-video-fill mx-3" @click="cameraClick"></i>
@@ -20,10 +20,19 @@
     </div>
   </div>
   <div class="container-chatting">
-    <div class="userList">
-      <p>asds</p>
+    <div class="user-list"> 
+      <p><span>참여자 ({{ users.length + 1}})</span></p>
+      <div class="user-nickname">
+        <p><i class="bi bi-person-fill"></i><span>{{ nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
+        <p v-for="user in users" :key="user.id"><i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
+      </div>
     </div>
-    <div class="chatting"></div>
+    <div class="chatting">
+      <p><span>실시간 채팅</span></p>
+      <div class="chat-list">
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -226,5 +235,69 @@ export default {
   left: 80%;
   top: 15%;
   position: absolute;
+}
+
+.user-list {
+  background-color: #EAEAEA;
+  border-radius: 5px;
+  width: 300px;
+  height: 320px;
+  right: 20px;
+}
+
+.user-list div {
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  width: 250px;
+  height: 245px;
+  position: absolute;
+  top: 50px;
+  left: 25px;
+}
+
+.user-list > p {
+  position: absolute;
+  left: 25px;
+  top: 15px;
+}
+.user-nickname p {
+  position: relative;
+  left : 10px;
+  top: 10px;
+}
+
+.user-nickname span {
+  position: relative;
+  left : 10px;
+}
+
+.user-nickname .report {
+  position: absolute;
+  right: 40px;
+}
+
+.chatting {
+  background-color: #EAEAEA;
+  border-radius: 5px;
+  width: 300px;
+  height: 400px;
+  right: 20px;
+}
+
+.chatting div {
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  width: 250px;
+  height: 300px;
+  position: relative;
+  top: 10px;
+  left: 25px;
+  overflow-y: auto;
+}
+
+.chatting > p {
+  position: relative;
+  left: 25px;
+  top: 15px;
 }
 </style>
