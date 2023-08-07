@@ -33,7 +33,7 @@ export default {
     name: "RoomPermission",
     setup() {
         // const store = useStore();
-        const headText = ref("마이크와 카메라d를 준비중입니다.");
+        const headText = ref("마이크와 카메라를 준비중입니다.");
 
         function toRoomList() {
             router.push({name: "RoomList"});
