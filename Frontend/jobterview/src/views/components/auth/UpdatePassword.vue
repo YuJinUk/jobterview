@@ -4,8 +4,13 @@
             <div id="joinForm">
                 <h1 style="color:#ffffff; text-align:center;"><b>비밀번호 변경</b></h1>
                 <div class="form-group">
+                    <label for="nowPassword"></label>
+                    <input type="password" id="nowPassword" style="border-radius: 5px;" v-model="nowPassword" placeholder="현재 비밀번호">
+                </div>
+                <div class="form-group">
                     <label for="password"></label>
-                    <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="비밀번호">
+                    <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="새 비밀번호" @input="passwordLengthCheck" >
+                    <span style="color:#ffffff; font-size:small" v-if="!passwordLength">8~15자로 입력해주세요.</span>
                 </div>
                 <div class="form-group">
                     <label for="passwordCheck"></label>
@@ -19,52 +24,66 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 <script>
-import { passwordUpdate } from "@/api/memberApi";
-
+import { updatePassword } from "@/api/memberApi";
+import { useStore } from 'vuex';
+import { ref,computed } from 'vue';
 export default {
     name: 'updateForm',
-    data() {
-        return {
-            email: "",
-            password: "",
-            passwordCheck: "",
-        };
-    },
-    methods: {
-        async submit() {
+    setup() {
+        const store = useStore();
+        const nowPassword=ref('');
+        const password=ref('');
+        const passwordCheck=ref('');
+        const passwordLength=ref(true);
+        const loginMemberNickname = computed(()=>store.state.loginStore.loginNickname);
 
-            if (this.passwordCheck != this.password) {
+        const passwordLengthCheck=() =>{
+            if(password.value.length>15||password.value.length<8){
+                passwordLength.value=false;
+            }
+            else{
+                passwordLength.value=true;
+            }
+        }
+        const submit= async()=>{
+            if (password.value != passwordCheck.value) {
                 alert("비밀번호를 확인해주세요.");
             }
+            else if(!passwordLength.value){
+                alert("비밀번호를 8~15자로 설정해주세요.");
+            }
+            else if (password.value.includes(" ")){
+                alert("비밀번호에 공백이 들어갈 수 없습니다.")
+            }
             else {
-                let member = {
-                    email: this.email,
-                    password: this.password,
+                const member = {
+                    nickname: loginMemberNickname.value,
+                    password: nowPassword.value,
+                    newPassword:password.value,
                 };
-                await passwordUpdate(member, () => {         
+                await updatePassword(member, () => {         
                     alert("새로운 비밀번호로 로그인해주세요.");
                     this.$router.push({ name: 'Home' });
                 },
                     (error) => {
+                        alert("현재 비밀번호가 일치하지 않습니다.")
                         console.log(error);
                     });
-
-
-
-
             }
 
         }
-
-
-
-
-
-
+        return{
+            nowPassword,
+            password,
+            passwordCheck,
+            loginMemberNickname,
+            passwordLength,
+            passwordLengthCheck,
+            submit,
+        };
     }
 }
 </script>
@@ -77,9 +96,7 @@ export default {
     width: 100%;
     height: 600px;
     background-color: #0F4471;
-
 }
-
 #joinForm {
     display: block;
     align-items: center;

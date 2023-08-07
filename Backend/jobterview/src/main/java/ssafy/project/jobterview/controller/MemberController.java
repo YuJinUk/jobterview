@@ -36,13 +36,10 @@ public class MemberController {
     @ApiOperation(value = "회원 등록", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
     public ResponseEntity<?> join(@RequestBody @ApiParam(value = "회원 가입 정보", required = true) MemberDto memberDto) {
-
         String rawPassword = memberDto.getPassword();
         String encPwd = bCryptPasswordEncoder.encode(rawPassword);
-
         memberDto.setPassword(encPwd);
         Member member = new Member(memberDto.getEmail(), memberDto.getNickname(), memberDto.getPassword());
-
         //맴버 저장
         Member saveMember = memberService.save(member);
         //저장된 맴버 반환
@@ -56,12 +53,24 @@ public class MemberController {
         Member member = null;
         try {
             member = memberService.findByNickname(nickname);
-            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(0, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
         }
     }
 
+    @GetMapping("/findEmailByNickname")
+    @ApiOperation(value = "닉네임이 일치하는 회원이 있다면 0 반환", notes = "")
+    @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
+    public ResponseEntity<?> findEmailByNickname(@ApiParam(value = "중복 닉네임 체크", required = true) @RequestParam String nickname) {
+        Member member = null;
+        try {
+            member = memberService.findByNickname(nickname);
+            return new ResponseEntity<>(member.getEmail(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+    }
     @GetMapping("/emailCheck")
     @ApiOperation(value = "이메일이 일치하는 회원이 있다면 0 반환", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
@@ -70,12 +79,11 @@ public class MemberController {
         Member member = null;
         try {
             member = memberService.findByEmail(email);
-            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(0, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
         }
     }
-
     /**
      * 회원 탈퇴 (회원 상태를 탈퇴로 수정, 실제로 DB에서 삭제는 안함)
      *
@@ -89,7 +97,6 @@ public class MemberController {
         memberService.quit(memberDto.getEmail());
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
-
     /**
      * 비밀번호 수정
      *
@@ -100,7 +107,7 @@ public class MemberController {
     @ApiOperation(value = "비밀번호 수정", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
     public ResponseEntity<?> updatePassword(@RequestBody @ApiParam(value = "비밀번호 수정할 회원 정보", required = true) UpdatePasswordDto updatePasswordDto) {
-        Member member = memberService.findByEmail(updatePasswordDto.getEmail());
+        Member member = memberService.findByNickname(updatePasswordDto.getNickname());
         if (bCryptPasswordEncoder.matches(updatePasswordDto.getPassword(), member.getPassword())) {
             member.insertPassword(bCryptPasswordEncoder.encode(updatePasswordDto.getNewPassword()));
             memberService.save(member);
@@ -110,6 +117,7 @@ public class MemberController {
         }
     }
 
+
     @GetMapping("/me")
     @ApiOperation(value = "현재 로그인 한 회원 정보 조회", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
@@ -117,6 +125,9 @@ public class MemberController {
         Member member = memberService.findByEmail(memberDto.getEmail());
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
+
+
+
 
     @GetMapping
     @ApiOperation(value = "회원 검색", notes = "")

@@ -113,7 +113,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public String sendPasswordMessage(String to) throws Exception {
         // TODO Auto-generated method stub
-        MimeMessage message = createMessage(to);
+        MimeMessage message = createPasswordMessage(to);
         try {
             emailSender.send(message);
         } catch (MailException es) {
