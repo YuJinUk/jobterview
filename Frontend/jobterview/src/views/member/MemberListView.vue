@@ -22,10 +22,15 @@
       </router-link>
     </div>
 
+    <div v-if="(members.length == 0)" class="emptyMate">
+      <p>등록된 유저가 없습니다!</p>
+    </div>
+
     <!-- 맴버 목록 -->
-    <div class="listBox">
+    <div v-else class="listBox">
       <div class="empty"></div>
       <ul class="list">
+        
         <li v-for="member in members" :key="member.nickname" class="memberBox">
           <div class="member">
             <p class="nickname">{{ member.nickname }}</p>
