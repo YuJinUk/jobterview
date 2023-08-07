@@ -20,6 +20,8 @@ public interface MateService {
     //페이징 처리된 메이트 찾기
     Page<Mate> findAllByMate(Pageable pageable, String nickname);
 
+    Page<Mate> searchToMember(Pageable pageable, String fromMemberNickname, String keyword);
+
     //메이트 찾기
     List<Mate> findByFromMember(Member fromMember);
 }

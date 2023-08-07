@@ -76,4 +76,20 @@ public class MateController {
 
         return new ResponseEntity<>(mateDtoList, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    @ApiOperation(value = "해당 맴버의 특정 키워드를 닉네임에 포함하는 메이트 검색")
+    public ResponseEntity<Page<MateDto>> searchByKeyword(
+            @PageableDefault(page = 0, size = 50, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam String fromNickname,
+            @RequestParam String keyword) {
+
+        System.out.println("searchByKeyword called");
+
+        Page<MateDto> mateDtoList =  mateService.searchToMember(pageable, fromNickname, keyword)
+                .map(Mate::convertToDto);
+
+        System.out.println("mateDtoList Size : " + mateDtoList.getContent().size());
+        return new ResponseEntity<>(mateDtoList, HttpStatus.OK);
+    }
 }

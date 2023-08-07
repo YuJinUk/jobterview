@@ -1,6 +1,8 @@
 .search {
   position: relative;
-  width: 300px;
+  width: 100%;
+  min-width: 170px;
+  max-width: 230px;
 }
 
 input {
@@ -24,7 +26,7 @@ li {
 }
 
 #container {
-  width: 1080px;
+  width: 50%;
   margin: 0 auto;
 
   display: block;
@@ -61,6 +63,12 @@ li {
 }
 .pagination {
   width: 500px;
+}
+
+.emptyMate p{
+  width: 250px;
+  margin: 50px auto;
+  font-size: 18px;
 }
 
 .listBox {

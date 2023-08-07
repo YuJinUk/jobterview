@@ -8,6 +8,14 @@ async function getMateListWithPagingApi({ page, size, sort, nickname }, success,
     .catch(fail);
 }
 
+//메이트 검색
+async function searchMateListWithPagingApi({ page, size, sort, fromNickname, keyword }, success, fail) {
+  await apiTest
+    .get(`/mate/search?page=${page-1}&size=${size}&sort=${sort}&fromNickname=${fromNickname}&keyword=${keyword}`)
+    .then(success)
+    .catch(fail);
+}
+
 //메이트 목록 조회 페이징 없음
 async function getMateListApi({ nickname }, success, fail) {
   await apiTest
@@ -32,4 +40,4 @@ async function breakMateApi({ fromNickname, toNickname }, success, fail) {
     .catch(fail);
 }
 
-export { getMateListWithPagingApi, getMateListApi, makeMateApi, breakMateApi };
+export { getMateListWithPagingApi, getMateListApi, makeMateApi, breakMateApi, searchMateListWithPagingApi };

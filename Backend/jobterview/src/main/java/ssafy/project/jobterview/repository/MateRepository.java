@@ -15,5 +15,7 @@ public interface MateRepository extends JpaRepository<Mate, Member>, MateCustomR
 
     Page<Mate> findByFromMember(Member fromMember,Pageable pageable);
 
+    Page<Mate> findByFromMemberAndToMember_NicknameContaining(Member fromMember, String nickname, Pageable pageable);
+
     Optional<Mate> findByFromMemberAndToMember(Member fromMember, Member toMember);
 }

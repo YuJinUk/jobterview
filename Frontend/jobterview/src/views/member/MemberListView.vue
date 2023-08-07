@@ -100,7 +100,10 @@ export default {
     //페이지네이션///////////////////////////////////////////////////////////
     //다음 페이지로
     let toNextPage = () => {
-      if (Math.floor(totalPages.value / 5) * 5 >= curStartingPage.value) {
+      console.log(Math.floor(totalPages.value / 5) * 5);
+      console.log(curStartingPage.value);
+
+      if (Math.floor(totalPages.value / 5) -1  * 5 >= curStartingPage.value) {
         curStartingPage.value += 5;
         curPage.value = curStartingPage.value;
         setVisiblePageNumbers();
@@ -155,7 +158,7 @@ export default {
       router.push({ name: "MessageSend" });
     };
 
-    //해당 맴버와 메이트 관게 설정///////////////////////////////////////////////////////
+    //해당 맴버와 메이트 관계 설정///////////////////////////////////////////////////////
     async function switchMate(member) {
       const fromNickname = loginMemberNickname.value;
       const toNickname = member.nickname;

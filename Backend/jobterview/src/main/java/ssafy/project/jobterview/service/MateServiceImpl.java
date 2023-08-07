@@ -21,6 +21,9 @@ public class MateServiceImpl implements MateService {
     private final MateRepository mateRepository;
     private final MemberService memberService;
 
+    public MateServiceImpl() {
+    }
+
     // 메이트 추가
     @Override
     public void save(MateDto mateDto){
@@ -80,4 +83,11 @@ public class MateServiceImpl implements MateService {
         }
         return findMateList;
     }
+
+    @Override
+    public Page<Mate> searchToMember(Pageable pageable, String fromMemberNickname, String keyword) {
+        Member fromMember = memberService.findByNickname(fromMemberNickname);
+        return mateRepository.findByFromMemberAndToMember_NicknameContaining(fromMember, keyword, pageable);
+    }
+
 }

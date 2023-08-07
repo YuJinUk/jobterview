@@ -22,56 +22,61 @@
       </router-link>
     </div>
 
-    <!-- 메이트 목록 -->
-    <div class="listBox">
-      <div class="empty"></div>
-
-      <ul class="list">
-        <li v-for="mate in searchedMates" :key="mate.toMember.nickname" class="mateBox">
-          <div class="mate">
-            <p class="nickname">{{ mate.toMember.nickname }}</p>
-            <font-awesome-icon
-              icon="fa-solid fa-envelope"
-              class="icon messageIcon"
-              @click="toSend(mate.toMember.nickname)"
-            />
-            <font-awesome-icon
-              icon="fa-solid fa-user-group"
-              class="icon mateIcon"
-              :class="{ isMate: mate.isMate }"
-              @click="switchMate(mate)"
-            />
-          </div>
-        </li>
-      </ul>
-      <div class="empty"></div>
+    <div v-if="(mates.length == 0)" class="emptyMate">
+      <p>등록된 메이트가 없습니다!</p>
     </div>
+    <div v-else>
+      <!-- 메이트 목록 -->
+      <div class="listBox">
+        <div class="empty"></div>
 
-    <!-- 페이지네이션 -->
-    <nav aria-label="Page navigation example" id="pageBox">
-      <ul class="pagination">
-        <li class="page-item" @click="topPreviousPage">
-          <a class="page-link" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li
-          class="page-item"
-          v-for="page in visiblePageNumbers"
-          :key="page"
-          @click="changePage(page)"
-        >
-          <a class="page-link" v-if="page >= curStartingPage">
-            {{ page }}
-          </a>
-        </li>
-        <li class="page-item" @click="toNextPage">
-          <a class="page-link" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+        <ul class="list">
+          <li v-for="mate in mates" :key="mate.toMember.nickname" class="mateBox">
+            <div class="mate">
+              <p class="nickname">{{ mate.toMember.nickname }}</p>
+              <font-awesome-icon
+                icon="fa-solid fa-envelope"
+                class="icon messageIcon"
+                @click="toSend(mate.toMember.nickname)"
+              />
+              <font-awesome-icon
+                icon="fa-solid fa-user-group"
+                class="icon mateIcon"
+                :class="{ isMate: mate.isMate }"
+                @click="switchMate(mate)"
+              />
+            </div>
+          </li>
+        </ul>
+        <div class="empty"></div>
+      </div>
+
+      <!-- 페이지네이션 -->
+      <nav aria-label="Page navigation example" id="pageBox">
+        <ul class="pagination">
+          <li class="page-item" @click="topPreviousPage">
+            <a class="page-link" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li
+            class="page-item"
+            v-for="page in visiblePageNumbers"
+            :key="page"
+            @click="changePage(page)"
+          >
+            <a class="page-link" v-if="page >= curStartingPage">
+              {{ page }}
+            </a>
+          </li>
+          <li class="page-item" @click="toNextPage">
+            <a class="page-link" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </template>
   
@@ -79,7 +84,7 @@
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
-import { makeMateApi, breakMateApi, getMateListWithPagingApi } from "@/api/mateApi";
+import { makeMateApi, breakMateApi, getMateListWithPagingApi, searchMateListWithPagingApi } from "@/api/mateApi";
 
 export default {
   setup() {
@@ -90,7 +95,6 @@ export default {
 
     let loginMemberNickname = ref({}); //로그인 유저
     let mates = ref([]); //메이트 목록
-    let searchedMates = ref([]); //메이트 목록
 
     let totalPages = ref(1); //전체 페이지
     let curPage = ref(1); //현재 페이지
@@ -138,7 +142,7 @@ export default {
       router.push({ name: "MessageSend" });
     };
 
-    //해당 맴버와 메이트 관게 설정///////////////////////////////////
+    //해당 맴버와 메이트 관계 설정///////////////////////////////////
     async function switchMate(mate) {
       const fromNickname = loginMemberNickname.value;
       const toNickname = mate.toMember.nickname;
@@ -170,7 +174,6 @@ export default {
           mates.value = mates.value.map((mate) => {
             return { ...mate, isMate: true };
           });
-          searchedMates.value = mates.value;
           setVisiblePageNumbers();
         },
         (error) => {
@@ -181,38 +184,33 @@ export default {
 
     //메이트 검색어로 조회/////////////////////////////////////////////////////
     async function searchMate(page = 1) {
-      console.log('savedKeyword',savedKeyword.value)
-      console.log('page',page)
-      console.log('스타트페이지',((page-1)*12) )
-      console.log('마지막페이지',(page*12) )
-      
       savedKeyword.value = searchQuery.value.trim();
       searchQuery.value = '';
 
       //검색어가 존재하지 않은 경우
       if(savedKeyword.value === '') {
-        getMates(loginMemberNickname.value,page);
+        await getMates(loginMemberNickname.value,page);
         setVisiblePageNumbers();
       
       //검색어가 존재하는 경우
       } else {
-        console.log("검색어 있음")
+        await searchMateListWithPagingApi(
+          {page, size: 12, sort: 'createdDate,desc', fromNickname: loginMemberNickname.value, keyword: savedKeyword.value},
+          ({data}) => {
+            totalPages.value = data.totalPages;
+            mates.value = data.content; //일단 배열에 한번 넣고
 
-        searchedMates.value = mates.value.filter(
-          (mate) => {
-            if(mate.isMate === true && mate.toMember.nickname.includes(savedKeyword.value)) {
-              return mate
-            }
-          })
-
-          console.log(searchedMates.value);
-
-          searchedMates.value = searchedMates.value.slice(((page-1)*12),Math.min(searchedMates.value.size,(page*12)));
-
-          console.log(searchedMates.value.size)
-
+            //목록에 메이트 확인 속성 추가
+            mates.value = mates.value.map((mate) => {
+              return { ...mate, isMate: true };
+            });
+            setVisiblePageNumbers();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
           setVisiblePageNumbers();
-           console.log(searchedMates.value);
       }
     }
 
@@ -232,7 +230,6 @@ export default {
       //맴버
       loginMemberNickname,
       mates,
-      searchedMates,
       switchMate,
 
       //쪽지
@@ -252,5 +249,5 @@ export default {
 };
 </script>
   
-  <style scoped src="@/css/memberListView.css">
+<style scoped src="@/css/memberListView.css">
 </style>
