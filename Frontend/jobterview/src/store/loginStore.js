@@ -41,7 +41,7 @@ export default {
                     } else {
                       alert("로그인 성공!");
                       commit("SET_LOGIN_USER", data);
-                      router.push("/");
+                      router.push({name:"Home"});
                     }
               },
               (error) => {
@@ -54,7 +54,7 @@ export default {
               document.cookie = "JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
               alert("로그아웃");
               commit("User_Logout");
-              router.push("/");
+              router.push({name:"Home"});
             },
             (error) => {
                 console.log(error);
