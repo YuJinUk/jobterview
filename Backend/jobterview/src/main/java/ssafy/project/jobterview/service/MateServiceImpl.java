@@ -21,9 +21,6 @@ public class MateServiceImpl implements MateService {
     private final MateRepository mateRepository;
     private final MemberService memberService;
 
-    public MateServiceImpl() {
-    }
-
     // 메이트 추가
     @Override
     public void save(MateDto mateDto){
