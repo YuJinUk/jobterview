@@ -19,7 +19,7 @@
       <UserVideo :info="user"></UserVideo>
     </div>
   </div>
-  <div class="container-chatting">
+  <div class="container-chatting" style="overflow-x: hidden;">
     <div class="user-list"> 
       <p><span>참여자 ({{ users.length + 1}})</span></p>
       <div class="user-nickname">
@@ -27,11 +27,24 @@
         <p v-for="user in users" :key="user.id"><i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
       </div>
     </div>
-    <div class="chatting">
+    <div class="chatting mt-3">
       <p><span>실시간 채팅</span></p>
       <div class="chat-list">
-
+        <div v-for="chat in chats" :key="chat.id">
+          <p class="chat-nickname">{{ chat.nickname }} 님의 채팅</p>
+          <p class="chat-content">{{ chat.content }}</p>
+        </div>
       </div>
+      <div class="row mt-4 chat-input">
+        <div class="col-7">
+          <input type="text" class="form-control" placeholder="채팅 입력..." v-model="chatContent" @keydown.enter.prevent="sendChat()">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-secondary" @click="sendChat()">입력</button>
+        </div>
+      </div>
+
+
     </div>
   </div>
 </template>
@@ -111,7 +124,9 @@ export default {
       camera: true,
       chat: false,
       roomName: "",
-      users: [],
+      users: [], // 참여자 객체 저장하는 배열
+      chats: [], // 채팅 객체 저장하는 배열
+      chatContent: "", // 채팅 내용
       pcs: {},
       maxNum: 0,
     };
@@ -214,6 +229,16 @@ export default {
         console.log(e);
       }
     },
+    sendChat() {
+      let chat = {
+        nickname: this.nickname,
+        content: this.chatContent,
+      }
+      if(chat.content != "") {
+        this.chats.push(chat);
+        this.chatContent = "";
+      }
+    },
   },
 };
 </script>
@@ -247,7 +272,7 @@ export default {
   right: 20px;
 }
 
-.user-list div {
+.user-list > div {
   background-color: #FFFFFF;
   border-radius: 5px;
   width: 250px;
@@ -282,18 +307,20 @@ export default {
   background-color: #EAEAEA;
   border-radius: 5px;
   width: 300px;
-  height: 400px;
+  height: 370px;
+  top: 30px;
   right: 20px;
 }
 
-.chatting div {
+.chat-list {
   background-color: #FFFFFF;
   border-radius: 5px;
   width: 250px;
-  height: 300px;
+  height: 250px;
   position: relative;
   top: 10px;
   left: 25px;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -301,5 +328,22 @@ export default {
   position: relative;
   left: 25px;
   top: 15px;
+}
+
+.chat-input {
+  position: relative;
+  left: 25px;
+}
+
+.chat-nickname {
+  font-size: 8px;
+  height: 8px;
+  position: relative;
+  left: 8px;
+}
+
+.chat-content {
+  position: relative;
+  left: 8px;
 }
 </style>
