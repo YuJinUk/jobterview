@@ -11,7 +11,6 @@
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
           <i class="bi bi-box-arrow-right mx-3"></i>
         </p>
-
         <!-- <button @click="debug">디버그 버튼</button> -->
       </div>
     </div>
