@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from concurrent.futures import ThreadPoolExecutor
-from lib.deepface_video import facial_expression_and_eye_movements
-from lib.voice_analysis import process_audio, audio_normalization
+from customLib.deepface_video import facial_expression_and_eye_movements
+from customLib.voice_analysis import process_audio, audio_normalization
 import numpy as np
 import os
 from scipy.io import wavfile
