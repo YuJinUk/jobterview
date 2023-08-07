@@ -80,7 +80,6 @@ export default {
                 if(this.email.includes(" ")){
                     alert("이메일에 공백을 사용할 수 없습니다.");
                 }
-
                 else if(!this.email){
                     alert("이메일을 입력해주세요.")
                 }
@@ -95,6 +94,7 @@ export default {
                 else{
                     alert("중복된 이메일입니다");
                 }
+                console.log(response);
             } (error) => {
                 alert("오류가 발생했습니다.")
                 console.log(error);
@@ -109,11 +109,6 @@ export default {
                 else if(!this.nickname){
                     alert("닉네임을 입력해주세요.")
                 }
-
-                if(this.nickanme.includes(" ")){
-                    alert("닉네임에 공백을 사용할 수 없습니다.")
-                }
-
                 else{
                 if (response.data == 1) {
                     alert("사용가능한 닉네임입니다.");
