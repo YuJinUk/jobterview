@@ -156,7 +156,7 @@ def audio_normalization(audio, sr, audio_path):
         'happy' : 0
     }
     
-    basic_model = load_model('lib/model.h5')
+    basic_model = load_model('customLib/model.h5')
     new_audio = preprocess(audio_path)
     prediction = basic_model.predict(new_audio)
     
