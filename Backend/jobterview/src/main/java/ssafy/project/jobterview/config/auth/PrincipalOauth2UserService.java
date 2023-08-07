@@ -53,16 +53,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             name = (String) profile.get("nickname");
             name = name + "10";
             email = (String) kakaoAccount.get("email");
-
-<<<<<<< Updated upstream
             try {
                 byUsername = memberService.findByEmail(email);
             } catch (Exception e) {
                 byUsername = null;
             }
-=======
->>>>>>> Stashed changes
-
         }
 
         //DB에 없는 사용자라면 회원가입처리

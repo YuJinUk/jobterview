@@ -4,7 +4,7 @@
     <div v-if="showModal">
       <div class="loginform-group">
                     <label for="방이름"></label>
-                    <input type="text" id="email" style="border-radius: 5px; height: 50px;" v-model="ceateRoomName" placeholder="방이름" size="70">
+                    <input type="text" id="email" style="border-radius: 5px; height: 50px;" v-model="createRoomName" placeholder="방이름" size="70">
                 </div>
                 <div class="loginform-group">
                     <label for="최대인원수"></label>
@@ -188,7 +188,7 @@ export default {
     return {
       showModal: false,
       createMaxMember:"",
-      ceateRoomName:"",
+      createRoomName:"",
 
       };
     },
@@ -201,9 +201,8 @@ export default {
       this.showModal = false;
     },
     start(){
-          this.$store.commit('roomStore/SET_READ_ROOMNAME', this.ceateRoomName);
+          this.$store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
           this.$store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
-          console.log(this.ceateRoomName);
           router.push({ name: 'RoomPermission' });
         }
 
@@ -252,7 +251,7 @@ export default {
         }
 
         // function start(){
-        //   store.commit('roomStore/SET_READ_ROOMNAME', this.ceateRoomName);
+        //   store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
         //   store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
         //   console.log(this.createMaxMember);
         //   router.push({ name: 'RoomPermission' });
