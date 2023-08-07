@@ -8,12 +8,12 @@ const roomRouter = [
     component: RoomListView,
   },
   {
-    path: '/room/permission/:roomId',
+    path: '/room/permission',
     name: 'RoomPermission',
     component: RoomPermission,
   },
   {
-    path: '/room/meeting/:roomId',
+    path: '/room/meeting',
     name: 'RoomMeeting',
     component: RoomMeeting,
   }

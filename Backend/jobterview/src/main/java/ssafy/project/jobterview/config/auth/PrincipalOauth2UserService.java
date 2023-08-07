@@ -54,11 +54,14 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             name = name + "10";
             email = (String) kakaoAccount.get("email");
 
+<<<<<<< Updated upstream
             try {
                 byUsername = memberService.findByEmail(email);
             } catch (Exception e) {
                 byUsername = null;
             }
+=======
+>>>>>>> Stashed changes
 
         }
 
