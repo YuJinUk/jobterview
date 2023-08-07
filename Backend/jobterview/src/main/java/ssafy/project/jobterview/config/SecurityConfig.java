@@ -2,6 +2,7 @@ package ssafy.project.jobterview.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -46,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.principalOauth2UserService = principalOauth2UserService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -98,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .antMatchers("/health_check").permitAll()
                 .antMatchers("/admin/members/cnt").permitAll()
                 .antMatchers(HttpMethod.GET, "/member/nicknameCheck").permitAll()
                 .antMatchers(HttpMethod.GET, "/member/emailCheck").permitAll()
@@ -140,7 +141,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
 
     }
-        @Bean
+    @Bean
     public FilterRegistrationBean<RequestLoggingFilter> loggingFilter() {
         FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(requestLoggingFilter);
