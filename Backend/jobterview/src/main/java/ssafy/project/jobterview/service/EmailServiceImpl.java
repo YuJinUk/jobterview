@@ -36,7 +36,7 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
         msgg+= "<h3 style='color:blue;'>회원가입 인증 링크입니다.</h3>";
         msgg+= "<div style='font-size:130%'>";
-//        msgg+= "CODE : <strong>";
+//        msgg+= "CODE : <strong>"; 
 //        msgg+= ePw+"</strong><div><br/> ";
         msgg+= "<strong><a href=\""+env.getProperty("varialbles.feUri")+"/emailauth/" + to + "\">인증하기</a></strong></div><br/>";
         msgg+= "</div>";
