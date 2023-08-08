@@ -1,9 +1,7 @@
 package ssafy.project.jobterview.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ssafy.project.jobterview.domain.Room;
 import ssafy.project.jobterview.dto.RoomDto;
 import ssafy.project.jobterview.service.RoomService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -42,9 +43,14 @@ public class RoomController {
      * @return ResponseEntity<RoomDto> 형태로 조회된 Room 정보 반환
      */
     @GetMapping("/name")
-    public ResponseEntity<RoomDto> getRoomByName(@RequestParam String roomName) {
-        // roomName에 해당하는 Room을 조회하고, RoomDto로 변환하여 반환
-        return new ResponseEntity<>(roomService.findByName(roomName).convertToDto(), HttpStatus.OK);
+    public ResponseEntity<Integer> getRoomByName(@RequestParam String roomName) {
+        System.out.println(roomName);
+        Room room = roomService.findByName(roomName);
+        if(room==null){
+            return new ResponseEntity<>(0, HttpStatus.OK);
+        }
+        System.out.println("동일이름 발견");
+        return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
     /**
@@ -58,7 +64,16 @@ public class RoomController {
     public ResponseEntity<Page<RoomDto>> searchRoomsByName(
             @RequestParam("keyword") String keyword,
             @PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return new ResponseEntity<>(roomService.searchByName(keyword, pageable).map(Room::convertToDto), HttpStatus.OK);
+
+        
+        Page<Room> roomList = roomService.searchByName(keyword,pageable);
+        if(roomList==null){
+            List<RoomDto> emptyList = new ArrayList<>(); // 비어있는 리스트 생성
+            Page<RoomDto> emptyPage = new PageImpl<>(emptyList, pageable, 0);
+            return new ResponseEntity<>(emptyPage, HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>(roomList.map(Room::convertToDto), HttpStatus.OK);
     }
 
     /**
@@ -71,6 +86,14 @@ public class RoomController {
     public ResponseEntity<Page<RoomDto>> getRoomList(
             @PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         // 페이징된 RoomDto 목록과 HttpStatus.OK 반환
-        return new ResponseEntity<>(roomService.findAll(pageable).map(Room::convertToDto), HttpStatus.OK);
+        Page<Room> roomList = roomService.findAll(pageable);
+        if(roomList==null){
+            List<RoomDto> emptyList = new ArrayList<>(); // 비어있는 리스트 생성
+            Page<RoomDto> emptyPage = new PageImpl<>(emptyList, pageable, 0);
+            return new ResponseEntity<>(emptyPage, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(roomList.map(Room::convertToDto), HttpStatus.OK);
     }
+
 }
