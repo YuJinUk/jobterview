@@ -23,6 +23,6 @@ app.config.productionTip = false;
 app.config.globalProperties.$axios = axios;
 
 app.config.globalProperties.localhost = "http://localhost:5000/";
-app.config.globalProperties.second = 10;
+app.config.globalProperties.second = 1;
 
 app.mount('#app');

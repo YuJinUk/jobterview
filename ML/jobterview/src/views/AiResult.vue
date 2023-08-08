@@ -1,49 +1,45 @@
 <template>
   <div>
     <div class="border-box">
-    <div class="page-numbers">
-      <button
-        class="page-button"
-        v-for="page in 4"
-        :key="page"
-        @click="goToPage(page)"
-      >{{ page }}</button>
+
+      <!-- 번호 -->
+      <div class="page-numbers">
+        <button
+          class="page-button"
+          v-for="page in 4"
+          :key="page"
+          @click="goToPage(page)"
+        >{{ page }}</button>
+      </div>
+      <!-- 번호 -->
+
+      <!-- 안쪽 컨테이너 -->
+      <div class="innerContainer">
+
+        <!-- 1번 -->
+        <div class="dataBox" v-if="pagenum === 1">
+          <GoogleChart />
+        </div>
+
+        <!-- 2번 -->
+        <div class="dataBox" v-if="pagenum === 2">
+          <GoogleCharttwo />
+        </div>
+
+        <!-- 3번 -->
+        <div class="dataBox" v-if="pagenum === 3">
+          <GoogleChartthree />
+        </div>
+
+        <!-- 4번 -->
+        <div class="dataBox" v-if="pagenum === 4">
+          <GoogleChartfour />
+        </div>
+
+      </div>
+      <!-- 안쪽 컨테이너 -->
+      
     </div>
-    <ul>
-      <div
-        class="container mt-5 text-center"
-        style="height: 500px; border: 2px solid #ccc; margin: 0px;"
-        v-if="pagenum === 1"
-      >
-        <GoogleChart />
-      </div>
-      <div
-        class="container mt-5 text-center"
-        style="height: 500px;"
-        v-if="pagenum === 2"
-      >
-        <GoogleCharttwo />
-      </div>
-      <div
-        class="container mt-5 text-center"
-        style="height: 500px;"
-        v-if="pagenum === 3"
-      >
-        <GoogleChartthree />
-      </div>
-      <div
-        class="container mt-5 text-center"
-        style="height: 500px;"
-        v-if="pagenum === 4"
-      >
-        <GoogleChartfour />
-      </div>
-    </ul>
-  </div>
-    <!-- <div>
-      <button @click="changePage(-1)">prev</button>
-      <button @click="changePage(1)">next</button>
-    </div> -->
   </div>
 </template>
 
@@ -84,36 +80,48 @@ export default {
 };
 </script>
 
-<style>
-.page-numbers {
-  display: flex;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  margin-left: 10px;
-  border-bottom: 2px solid #2980b9;
+<style scoped>
+.border-box {
   padding: 10px;
 }
 
+.page-numbers {
+width: 1080px;
+
+  display: flex;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.innerContainer {
+  width: 1080px;
+  height: 550px;
+
+  background-color: rgb(232, 232, 232);
+
+  border: 2px solid #0F4471; 
+
+  margin: 10px auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .page-button {
-  background-color: #3498db;
+  background-color: #0F4471;
   color: white;
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
   margin-right: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
   width: 50px;
 }
 
 .page-button:hover {
-  background-color: #2980b9;
+  background-color: #316fa5;
+  transform: scale( 0.95 );
 }
 
-.border-box {
-  border-top: 2px solid #ccc; /* 테두리 스타일 설정 */
-  padding: 10px; /* 내용과 테두리 사이의 여백 설정 */
-  /* 다른 스타일 설정 */
-  background-color: #0f4471;
-}
 </style>
