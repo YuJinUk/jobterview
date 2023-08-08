@@ -224,7 +224,7 @@ export default {
       this.roomName = this.readRoomName;
       this.maxNum = this.readMaxMember;
       this.roomPassword = this.readRoomPassword;
-      this.$store.commit('messageStore/EMPTY_READ_ROOM_PASSWORD');
+      this.$store.commit('roomStore/EMPTY_READ_ROOM_PASSWORD');
       this.$socket.emit("join_room", {
         //all user 시작하는거임 //offer도 저기서 완성시키고 보냄
         // store의 로그인 닉네임, url parameter의 roomNumber 받아오기
