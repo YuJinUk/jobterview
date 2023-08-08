@@ -74,7 +74,7 @@
             <!-- 끝 -->
 
             <div>
-              <button @click="toggleBookmark()">닫기</button>
+              <button @click="toggleBookmark()" class="closeButton">닫기</button>
             </div>
           </ul>
         </li>
@@ -187,7 +187,7 @@ export default {
 </script>
 
 <style scoped>
-button {
+.closeButton {
   background-color: #fff;
   color: black;
   border: 1px solid #083358;
@@ -281,12 +281,12 @@ button {
   text-decoration: none !important;
 }
 
-.roomName {
+/* .roomName {
     width: 85%;
     margin-right: 10%;
     white-space: nowrap;
     overflow: hidden;
   text-overflow: ellipsis;
-}
+} */
 
 </style>
