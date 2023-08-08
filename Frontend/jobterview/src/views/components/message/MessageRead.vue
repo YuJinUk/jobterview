@@ -1,4 +1,6 @@
 <template>
+    <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="this.receiverNickname"
+        :reportedNickname="this.senderNickname"></ReportModal>
     <div class="container">
         <!-- 수신 메시지 조회 -->
         <div v-if="$route.params.category == 'receive'">
@@ -14,7 +16,9 @@
                 </div>
                 <div class="row d-flex justify-content-center mt-4">
                     <button class="btn btn-primary col-1" @click="toSend(this.senderNickname)">답장</button>
-                    <p class="col-3"></p>
+                    <p class="col-1"></p>
+                    <button class="btn btn-danger col-1" @click="showModal()">신고</button>
+                    <p class="col-1"></p>
                     <button class="btn btn-danger col-1" @click="deleteReceiveMessage(this.id)">삭제</button>
                 </div>
             </div>
@@ -41,13 +45,14 @@
 
 <script>
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import router from '@/router';
 import { deleteSentMessage, deleteReceivedMessage } from '@/api/messageApi';
+import ReportModal from '../ReportModal.vue';
 export default {
     name: "MessageRead",
     components: {
-
+        ReportModal,
     },
     mounted() {
 
@@ -59,7 +64,7 @@ export default {
         const senderNickname = computed(() => store.state.messageStore.readSenderNickname);
         const receiverNickname = computed(() => store.state.messageStore.readReceiverNickname);
         const id = computed(() => store.state.messageStore.readId);
-
+        const displayModal = ref(false);
 
         async function deleteReceiveMessage(id) {
             if (!confirm("삭제하시겠습니까?")) {
@@ -92,7 +97,17 @@ export default {
 
         function toSend(nickname) {
             store.commit("messageStore/SET_REPLY_NICKNAME", nickname);
-            router.push({name: "MessageSend"});
+            router.push({ name: "MessageSend" });
+        }
+
+
+        function showModal() {
+            displayModal.value = true;
+        }
+
+        function hideModal() {
+            console.log("hide");
+            displayModal.value = false;
         }
 
         return {
@@ -104,6 +119,9 @@ export default {
             deleteReceiveMessage,
             deleteSendMessage,
             toSend,
+            showModal,
+            hideModal,
+            displayModal,
         };
 
     }

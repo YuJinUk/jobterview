@@ -3,14 +3,12 @@
         <div class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="text-center">신고하기</h5>
-                        <button type="button" @click="closeModal">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                    <!-- <div class="modal-header">
+                        
+                    </div> -->
                     <div class="modal-body">
-                        <p>신고 대상 : {{ reportedNickname }}</p>
+                        <h5 class="text-center text-danger"><i class="bi bi-exclamation-circle-fill"></i>  신고하기</h5>
+                        <p class="mt-3">신고할 사용자 : {{ reportedNickname }}</p>
                         <textarea class="form-control" rows="5" v-model="reason" placeholder="신고 사유 입력..."></textarea>
                     </div>
                     <div class="modal-footer">
@@ -52,12 +50,12 @@ export default {
                 reason: this.reason,
             }
             console.log(report);
-            await postReportAPI(report, ({data}) => {
-                console.log(data);
+            await postReportAPI(report, () => {
+                alert("신고가 접수되었습니다.");
             }, 
             (error) => {
                 console.log(error);
-            })
+            });
             this.closeModal();
         }
     }

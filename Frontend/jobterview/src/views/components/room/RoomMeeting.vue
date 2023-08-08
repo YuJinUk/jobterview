@@ -1,5 +1,5 @@
 <template>
-  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reportNickname="reportNickname" :reportedNickname="nickname"></ReportModal>
+  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="reportNickname" :reportedNickname="nickname"></ReportModal>
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
