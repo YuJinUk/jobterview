@@ -1,4 +1,7 @@
 <template>
+  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="reportNickname"
+    :reportedNickname="nickname"></ReportModal>
+  <h2 class="text-center mt-3" style="font-family: Arial, Helvetica, sans-serif;">{{ readRoomName }}</h2>
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
@@ -9,9 +12,8 @@
           <i v-else class="bi bi-camera-video-off-fill mx-3" @click="cameraClick"></i>
           <i v-if="mic" @click="muteClick" class="bi bi-mic-fill mx-3"></i>
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
-          <i class="bi bi-box-arrow-right mx-3"></i>
+          <i class="bi bi-box-arrow-right mx-3" @click="exitRoom"></i>
         </p>
-
         <!-- <button @click="debug">디버그 버튼</button> -->
       </div>
     </div>
@@ -19,30 +21,51 @@
       <UserVideo :info="user"></UserVideo>
     </div>
   </div>
-  <div class="container-chatting">
-    <div class="user-list"> 
-      <p><span>참여자 ({{ users.length + 1}})</span></p>
+  <div class="container-chatting" style="overflow-x: hidden;">
+    <div class="user-list">
+      <p><span>참여자 ({{ users.length + 1 }})</span></p>
       <div class="user-nickname">
-        <p><i class="bi bi-person-fill"></i><span>{{ nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
-        <p v-for="user in users" :key="user.id"><i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
+        <p><i class="bi bi-person-fill"></i><span>{{ nickname }}</span><i
+            class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
+        <p v-for="user in users" :key="user.id"><i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span>
+          <i class="bi bi-exclamation-triangle-fill text-danger report" @click="showModal(user.nickname)"></i>
+        </p>
       </div>
     </div>
-    <div class="chatting">
+    <div class="chatting mt-3">
       <p><span>실시간 채팅</span></p>
       <div class="chat-list">
-
+        <div v-for="chat in chats" :key="chat.id">
+          <p class="chat-nickname">{{ chat.nickname }} 님의 채팅</p>
+          <p class="chat-content">{{ chat.content }}</p>
+        </div>
       </div>
+      <div class="row mt-4 chat-input">
+        <div class="col-7">
+          <input type="text" class="form-control" placeholder="채팅 입력..." v-model="chatContent"
+            @keydown.enter.prevent="sendChat()">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-secondary" @click="sendChat()">입력</button>
+        </div>
+      </div>
+
+
     </div>
   </div>
 </template>
 
 <script>
 import UserVideo from "./UserVideo.vue";
+import ReportModal from "../ReportModal";
 import { mapState } from "vuex";
+import router from "@/router";
+
 export default {
   name: "RoomMeeting",
   components: {
     UserVideo,
+    ReportModal,
   },
   computed: {
     ...mapState("loginStore", ["loginNickname"]),
@@ -112,9 +135,13 @@ export default {
       chat: false,
       roomName: "",
       roomPassword:"",
-      users: [],
+      users: [], // 참여자 객체 저장하는 배열
+      chats: [], // 채팅 객체 저장하는 배열
+      chatContent: "", // 채팅 내용
       pcs: {},
       maxNum: 0,
+      displayModal: false,
+      reportNickname: "",
     };
   },
   props: {
@@ -219,7 +246,34 @@ export default {
         console.log(e);
       }
     },
-  },
+    sendChat() {
+      let chat = {
+        nickname: this.nickname,
+        content: this.chatContent,
+      }
+      if (chat.content != "") {
+        this.chats.push(chat);
+        this.chatContent = "";
+      }
+      this.autoScroll();
+    },
+    showModal(nickname) {
+      this.reportNickname = nickname;
+      this.displayModal = true;
+    },
+    hideModal() {
+      this.displayModal = false;
+    },
+    exitRoom() {
+      if (confirm("퇴장하시겠습니까?")) {
+        router.push({ name: "RoomList" });
+      }
+    },
+    autoScroll() {
+      const scrollableDiv = document.getElementsByClassName("chat-list")[0];
+      scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+    },
+  },  
 };
 </script>
 
@@ -252,7 +306,7 @@ export default {
   right: 20px;
 }
 
-.user-list div {
+.user-list>div {
   background-color: #FFFFFF;
   border-radius: 5px;
   width: 250px;
@@ -262,20 +316,21 @@ export default {
   left: 25px;
 }
 
-.user-list > p {
+.user-list>p {
   position: absolute;
   left: 25px;
   top: 15px;
 }
+
 .user-nickname p {
   position: relative;
-  left : 10px;
+  left: 10px;
   top: 10px;
 }
 
 .user-nickname span {
   position: relative;
-  left : 10px;
+  left: 10px;
 }
 
 .user-nickname .report {
@@ -287,24 +342,43 @@ export default {
   background-color: #EAEAEA;
   border-radius: 5px;
   width: 300px;
-  height: 400px;
+  height: 370px;
+  top: 30px;
   right: 20px;
 }
 
-.chatting div {
+.chat-list {
   background-color: #FFFFFF;
   border-radius: 5px;
   width: 250px;
-  height: 300px;
+  height: 250px;
   position: relative;
   top: 10px;
   left: 25px;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
-.chatting > p {
+.chatting>p {
   position: relative;
   left: 25px;
   top: 15px;
+}
+
+.chat-input {
+  position: relative;
+  left: 25px;
+}
+
+.chat-nickname {
+  font-size: 8px;
+  height: 8px;
+  position: relative;
+  left: 8px;
+}
+
+.chat-content {
+  position: relative;
+  left: 8px;
 }
 </style>

@@ -4,6 +4,7 @@ varialbles:
   port: 8060
 #  cors허용해줄 fe코드
   feUri: http://localhost:3060
+# feUri: http://localhost:8081
 #  리다이렉트할때 쓸 변수
   beUri: http://localhost:${varialbles.port}
 
@@ -78,4 +79,4 @@ mail:
 
 AdminMail:
   id: jobterview1@gmail.com
-  password: sfktdjrnyxckwdka
+  password: onzkacghyhqoznpq

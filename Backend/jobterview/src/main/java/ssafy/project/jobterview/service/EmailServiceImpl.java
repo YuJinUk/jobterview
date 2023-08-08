@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<div style='font-size:130%'>";
 //        msgg+= "CODE : <strong>";
 //        msgg+= ePw+"</strong><div><br/> ";
-        msgg+= "<strong><a href=\"http://localhost:8081/emailauth/" + to + "\">인증하기</a></strong></div><br/>";
+        msgg+= "<strong><a href=\"http://localhost:3060/emailauth/" + to + "\">인증하기</a></strong></div><br/>";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
         message.setFrom(new InternetAddress("jobterview1.gmail.com","JOBTERVIEW"));//보내는 사람
