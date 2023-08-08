@@ -1,4 +1,5 @@
 <template>
+  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="reportNickname" :reportedNickname="nickname"></ReportModal>
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
@@ -11,7 +12,6 @@
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
           <i class="bi bi-box-arrow-right mx-3"></i>
         </p>
-
         <!-- <button @click="debug">디버그 버튼</button> -->
       </div>
     </div>
@@ -20,11 +20,14 @@
     </div>
   </div>
   <div class="container-chatting" style="overflow-x: hidden;">
-    <div class="user-list"> 
-      <p><span>참여자 ({{ users.length + 1}})</span></p>
+    <div class="user-list">
+      <p><span>참여자 ({{ users.length + 1 }})</span></p>
       <div class="user-nickname">
-        <p><i class="bi bi-person-fill"></i><span>{{ nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
-        <p v-for="user in users" :key="user.id"><i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
+        <p><i class="bi bi-person-fill"></i><span>{{ nickname }}</span><i
+            class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
+        <p v-for="user in users" :key="user.id"><i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span>
+          <i class="bi bi-exclamation-triangle-fill text-danger report" @click="showModal(user.nickname)"></i>
+        </p>
       </div>
     </div>
     <div class="chatting mt-3">
@@ -37,7 +40,8 @@
       </div>
       <div class="row mt-4 chat-input">
         <div class="col-7">
-          <input type="text" class="form-control" placeholder="채팅 입력..." v-model="chatContent" @keydown.enter.prevent="sendChat()">
+          <input type="text" class="form-control" placeholder="채팅 입력..." v-model="chatContent"
+            @keydown.enter.prevent="sendChat()">
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-secondary" @click="sendChat()">입력</button>
@@ -51,11 +55,14 @@
 
 <script>
 import UserVideo from "./UserVideo.vue";
+import ReportModal from "../ReportModal";
 import { mapState } from "vuex";
+
 export default {
   name: "RoomMeeting",
   components: {
     UserVideo,
+    ReportModal,
   },
   computed: {
     ...mapState("loginStore", ["loginNickname"]),
@@ -129,6 +136,8 @@ export default {
       chatContent: "", // 채팅 내용
       pcs: {},
       maxNum: 0,
+      displayModal: false,
+      reportNickname: "",
     };
   },
   props: {
@@ -234,11 +243,18 @@ export default {
         nickname: this.nickname,
         content: this.chatContent,
       }
-      if(chat.content != "") {
+      if (chat.content != "") {
         this.chats.push(chat);
         this.chatContent = "";
       }
     },
+    showModal(nickname) {
+      this.reportNickname = nickname;
+      this.displayModal = true;
+    },
+    hideModal() {
+      this.displayModal = false;
+    }
   },
 };
 </script>
@@ -272,7 +288,7 @@ export default {
   right: 20px;
 }
 
-.user-list > div {
+.user-list>div {
   background-color: #FFFFFF;
   border-radius: 5px;
   width: 250px;
@@ -282,20 +298,21 @@ export default {
   left: 25px;
 }
 
-.user-list > p {
+.user-list>p {
   position: absolute;
   left: 25px;
   top: 15px;
 }
+
 .user-nickname p {
   position: relative;
-  left : 10px;
+  left: 10px;
   top: 10px;
 }
 
 .user-nickname span {
   position: relative;
-  left : 10px;
+  left: 10px;
 }
 
 .user-nickname .report {
@@ -324,7 +341,7 @@ export default {
   overflow-y: auto;
 }
 
-.chatting > p {
+.chatting>p {
   position: relative;
   left: 25px;
   top: 15px;
