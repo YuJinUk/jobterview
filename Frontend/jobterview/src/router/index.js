@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
     if (  
       !store.getters.isLogin &&
       to.path != '/auth/login' && to.path != '/' && to.path != '/member/Join' && !to.path.startsWith('/emailauth/') &&
-      to.path != '/member/findPassword'
+      to.path != '/member/findPassword'&&!to.path.startsWith('/member/resetPassword/')
     ) {
       next('/auth/login');
       console.log(store.getters.isLogin);

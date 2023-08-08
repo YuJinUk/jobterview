@@ -1,8 +1,8 @@
-<template>
+<!-- <template>
     <div>
         <div class="totalForm">
             <div id="joinForm">
-                <h1 style="color:#ffffff; text-align:center;"><b>비밀번호 변경</b></h1>
+                <h1 style="color:#ffffff; text-align:center;"><b>비밀번호 확인</b></h1>
                 <div class="form-group">
                     <label for="password"></label>
                     <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="비밀번호" @input="passwordLengthCheck" >
@@ -16,11 +16,18 @@
     </div>
 </template>
 <script>
-import { updatePassword } from "@/api/memberApi";
 import { useStore } from 'vuex';
 import { ref,computed } from 'vue';
 export default {
     name: 'updateForm',
+    data(){
+        return {
+            password:"",
+        }
+    }
+    methods : {
+
+    }
     setup() {
         const store = useStore();
         const password=ref('');
@@ -34,16 +41,11 @@ export default {
               
         }}
         return{
-            nowPassword,
             password,
-            passwordCheck,
-            loginMemberNickname,
-            passwordLength,
-            passwordLengthCheck,
             submit,
         };
     }
-}
+
 </script>
 <style>
 .totalForm {
@@ -83,4 +85,4 @@ export default {
 
 .input-group {
     margin-left: 72%;
-}</style>
+}</style> -->

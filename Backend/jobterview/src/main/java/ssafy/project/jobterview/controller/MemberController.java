@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.dto.DeleteMemberDto;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.UpdatePasswordDto;
 import ssafy.project.jobterview.service.EmailService;
@@ -90,12 +91,26 @@ public class MemberController {
      * @param memberDto 탈퇴할 회원 정보
      * @return
      */
-    @DeleteMapping
+    @PutMapping("/withdraw")
     @ApiOperation(value = "회원 탈퇴", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
-    public ResponseEntity<?> quit(@RequestBody @ApiParam(value = "탈퇴할 회원 정보", required = true) MemberDto memberDto) {
-        memberService.quit(memberDto.getEmail());
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    public ResponseEntity<?> quit(@RequestBody @ApiParam(value = "탈퇴할 회원 정보", required = true) DeleteMemberDto deleteMemberDto) {
+        System.out.println("진짜 나 속상하다");
+        Member member = memberService.findByNickname(deleteMemberDto.getNickname());
+        System.out.println("어디야");
+        // 입력 받은 비밀번호가 같다면
+        if(bCryptPasswordEncoder.matches(deleteMemberDto.getPassword(),member.getPassword())){
+        memberService.quit(member.getEmail());
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);}
+        // 입력 받은 비밀번호가 다르다면
+        else if(!bCryptPasswordEncoder.matches(deleteMemberDto.getPassword(),member.getPassword())){
+            System.out.println("비밀번호가 다르단다 ㅠㅠㅠㅠ");
+            return new ResponseEntity<>("Wrong",HttpStatus.BAD_REQUEST);
+        }
+        else{
+            System.out.println("어디가 틀렸나요??");
+            return new ResponseEntity<>("FAIL",HttpStatus.NOT_ACCEPTABLE);
+        }
     }
     /**
      * 비밀번호 수정
@@ -115,6 +130,17 @@ public class MemberController {
         } else {
             return new ResponseEntity<>(updatePasswordDto, HttpStatus.BAD_REQUEST);
         }
+    }
+
+
+    @PutMapping("/resetPassword")
+    @ApiOperation(value = "비밀번호 찾기 후 비밀번호 재설정", notes = "")
+    @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
+    public ResponseEntity<?> resetPassword(@RequestBody @ApiParam(value = "비밀번호 수정할 회원 정보", required = true) UpdatePasswordDto updatePasswordDto) {
+            Member member = memberService.findByEmail(updatePasswordDto.getEmail());
+            member.insertPassword(bCryptPasswordEncoder.encode(updatePasswordDto.getNewPassword()));
+            memberService.save(member);
+            return new ResponseEntity<>(updatePasswordDto, HttpStatus.OK);
     }
 
 
@@ -151,7 +177,7 @@ public class MemberController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @PostMapping("passwordEmailConfirm")
+    @PostMapping("/passwordEmailConfirm")
     @ApiOperation(value = "패스워드 이메일 전송", notes = "")
     public ResponseEntity<?> passwordEmailConfirm(@RequestParam String email) throws Exception {
         String confirm = emailService.sendPasswordMessage(email);

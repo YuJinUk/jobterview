@@ -30,6 +30,7 @@
 import { updatePassword } from "@/api/memberApi";
 import { useStore } from 'vuex';
 import { ref,computed } from 'vue';
+import { useRouter } from 'vue-router';
 export default {
     name: 'updateForm',
     setup() {
@@ -38,6 +39,7 @@ export default {
         const password=ref('');
         const passwordCheck=ref('');
         const passwordLength=ref(true);
+        const router = useRouter();
         const loginMemberNickname = computed(()=>store.state.loginStore.loginNickname);
 
         const passwordLengthCheck=() =>{
@@ -61,12 +63,13 @@ export default {
             else {
                 const member = {
                     nickname: loginMemberNickname.value,
+                    email:"",
                     password: nowPassword.value,
                     newPassword:password.value,
                 };
                 await updatePassword(member, () => {         
                     alert("새로운 비밀번호로 로그인해주세요.");
-                    this.$router.push({ name: 'Home' });
+                    router.push({ name: 'Home' });
                 },
                     (error) => {
                         alert("현재 비밀번호가 일치하지 않습니다.")

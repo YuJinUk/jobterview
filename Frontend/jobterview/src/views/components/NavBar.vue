@@ -14,7 +14,7 @@
                         <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
                             aria-labelledby="dropdownIcon">
                             <a class="dropdown-item" @click="updatePassword">비밀번호 변경</a>
-                            <a class="dropdown-item" href="#">회원 탈퇴</a>
+                            <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
                             <a class="dropdown-item" @click="logout">로그아웃</a>
                         </div>
                     </div>
@@ -77,7 +77,9 @@ export default {
         toJoin() {
             this.$router.push({name: "Join"});
         },
-
+        withdraw(){
+            this.$router.push({name: "WithdrawMember"});
+        },
         logout() {
 
             this.$store.dispatch("loginStore/UserLogout");
