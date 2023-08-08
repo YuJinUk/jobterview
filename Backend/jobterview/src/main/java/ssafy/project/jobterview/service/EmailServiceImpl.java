@@ -17,7 +17,7 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
     private final Environment env;
-//    public static final String ePw = createKey();
+    public static final String ePw = createKey();
 
     private MimeMessage createMessage(String to)throws Exception{
         MimeMessage message = emailSender.createMimeMessage();
@@ -38,38 +38,38 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<div style='font-size:130%'>";
 //        msgg+= "CODE : <strong>";
 //        msgg+= ePw+"</strong><div><br/> ";
-        msgg+= "<strong><a href=\""+env.getProperty("varialbles.feUri")+"/emailauth/" + to + "\">인증하기</a></strong></div><br/>";
+        msgg+= "<strong><a href=\""+env.getProperty("varialbles.feUri")+"/emailauth/code=" + ePw + "&email=" + to + "\">인증하기</a></strong></div><br/>";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
         message.setFrom(new InternetAddress("jobterview1.gmail.com","JOBTERVIEW"));//보내는 사람
 
         return message;
     }
+    public static String createKey() {
+        StringBuffer key = new StringBuffer();
+        Random rnd = new Random();
 
-//    public static String createKey() {
-//        StringBuffer key = new StringBuffer();
-//        Random rnd = new Random();
-//
-//        for (int i = 0; i < 8; i++) { // 인증코드 8자리
-//            int index = rnd.nextInt(3); // 0~2 까지 랜덤
-//
-//            switch (index) {
-//                case 0:
-//                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
-//                    //  a~z  (ex. 1+97=98 => (char)98 = 'b')
-//                    break;
-//                case 1:
-//                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
-//                    //  A~Z
-//                    break;
-//                case 2:
-//                    key.append((rnd.nextInt(10)));
-//                    // 0~9
-//                    break;
-//            }
-//        }
-//        return key.toString();
-//    }
+        for (int i = 0; i < 8; i++) { // 인증코드 8자리
+            int index = rnd.nextInt(3); // 0~2 까지 랜덤
+
+            switch (index) {
+                case 0:
+                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    //  a~z  (ex. 1+97=98 => (char)98 = 'b')
+                    break;
+                case 1:
+                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
+                    //  A~Z
+                    break;
+                case 2:
+                    key.append((rnd.nextInt(10)));
+                    // 0~9
+                    break;
+            }
+        }
+        return key.toString();
+    }
+
     @Override
     public String sendSimpleMessage(String to)throws Exception {
         // TODO Auto-generated method stub
