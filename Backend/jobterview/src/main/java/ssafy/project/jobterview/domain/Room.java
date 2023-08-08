@@ -23,9 +23,9 @@ public class Room extends BaseTimeEntity {
     @OneToMany(mappedBy = "room")
     private List<Chat> roomChatList = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar(255) default 'WAITING'")
-    private RoomStatus status;
+
+    @Column(name = "room_password", nullable = false)
+    private String roomPassword;
 
     @Column(name = "now_member", nullable = false)
     @ColumnDefault("1")
@@ -49,18 +49,7 @@ public class Room extends BaseTimeEntity {
      * @return 변환된 RoomDto 객체
      */
     public RoomDto convertToDto() {
-        return RoomDto.builder().roomId(this.getRoomId()).roomChatList(this.getRoomChatList()).roomName(this.getRoomName()).nowMember(this.getNowMember()).maxMember(this.getMaxMember()).roomStatus(this.getStatus()).createdDate(this.getCreatedDate()).build();
+        return RoomDto.builder().roomId(this.getRoomId()).roomChatList(this.getRoomChatList()).roomName(this.getRoomName()).nowMember(this.getNowMember()).maxMember(this.getMaxMember()).roomPassword(this.getRoomPassword()).createdDate(this.getCreatedDate()).build();
     }
 
-    public void startMeeting() {
-        this.status = RoomStatus.MEETING;
-    }
-
-    public void waitMeeting() {
-        this.status = RoomStatus.WAITING;
-    }
-
-    public void close() {
-        this.status = RoomStatus.ENDED;
-    }
 }

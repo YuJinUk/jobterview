@@ -53,7 +53,13 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public Page<Room> searchByName(String keyword, Pageable pageable) {
-        return roomQueryRepository.searchByName(keyword, pageable);
+
+        Page<Room> roomList = roomQueryRepository.searchByName(keyword, pageable);
+        if (roomList.isEmpty()) {
+            return null;
+        }
+        //Page<Room>을 Page<RoomDto> 형태로 변환 후 반환
+        return roomList;
     }
 
     /**

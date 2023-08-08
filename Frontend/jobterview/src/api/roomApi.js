@@ -15,4 +15,9 @@ async function receiveRoomList(page, success, fail) {
   await apiTest.get(`/room?page=${page}`).then(success).catch(fail);
 }
 
-export { getQuestionListAPI,receiveRoomList ,receiveRoomName};
+// 수신 메시지 조회
+async function receiveSearchRoomList({keyword,page}, success, fail) {
+  await apiTest.get(`/room/search?keyword=${keyword}&page=${page}`).then(success).catch(fail);
+}
+
+export { getQuestionListAPI,receiveRoomList ,receiveRoomName,receiveSearchRoomList};
