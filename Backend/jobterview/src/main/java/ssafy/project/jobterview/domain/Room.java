@@ -35,7 +35,7 @@ public class Room extends BaseTimeEntity {
     @ColumnDefault("1")
     private int maxMember;
 
-    @Column(name = "room_name")
+    @Column(name = "room_name",unique = true)
     private String roomName;
 
     public Room(String roomName, int maxMember) {

@@ -11,8 +11,9 @@
                     <input type="number" id="password" style="border-radius: 5px; height: 50px;" v-model="createMaxMember" placeholder="최대인원수" size="70">
                 </div>
                 <div style="display: flex; justify-content: center; align-items: center;"> 
-                    <button class="button col-8" @click="start()" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">생성하기</button>
+                    <button class="button col-8" @click="check(this.createRoomName)" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">시작하긴</button>
                 </div>
+                
                 <div style="display: flex; justify-content: center; align-items: center;"> 
                     <button class="button col-8" @click="out()" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">닫기</button>
                 </div>
@@ -179,6 +180,7 @@
 import router from '@/router';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import {receiveRoomName } from '@/api/roomApi';
 //import RoomModal from "./RoomEnterMadal.vue";
 
 export default {
@@ -190,6 +192,7 @@ export default {
       createMaxMember:"",
       createRoomName:"",
 
+
       };
     },
     methods: {
@@ -200,11 +203,34 @@ export default {
     out(){
       this.showModal = false;
     },
-    start(){
-          this.$store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
-          this.$store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
-          router.push({ name: 'RoomPermission' });
-        }
+    
+
+    async check() {
+      await receiveRoomName(this.createRoomName,
+        (response) => {
+          if(response.data==1){
+            alert("이미 존재하는 이름입니다.")
+          }else{
+              if(this.createMaxMember>6 ){
+                alert("최대 인원은 6인 입니다")
+              }else if(this.createMaxMember==""){
+                alert("최대 인원수를 입력해 주세요")
+
+              }else if(this.createRoomName==""){
+                alert("빈방은 안되지^^")
+
+              }else{
+                this.$store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
+                this.$store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
+                router.push({ name: 'RoomPermission' });
+              }
+          }
+        },
+        (error) => {
+            console.log(error);
+        })
+},
+        
 
     
   },
@@ -246,19 +272,15 @@ export default {
 
         function enterroom(data) {
           //룸이름 뷰엑스에 설정
-          store.commit('roomStore/SET_READ_ROOMNAME', data.roomName);
-          router.push({ name: 'RoomPermission' });
+          if(data.maxMember == data.nowMember){
+            alert("입장 인원이 가득 찼습니다")
+          }else{
+            store.commit('roomStore/SET_READ_ROOMNAME', data.roomName);
+            router.push({ name: 'RoomPermission' });
+          }
         }
 
-        // function start(){
-        //   store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
-        //   store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
-        //   console.log(this.createMaxMember);
-        //   router.push({ name: 'RoomPermission' });
-        // }
-
-        
-
+ 
 
         return {
             currentReceivePage,
@@ -269,6 +291,7 @@ export default {
             changeReceivePage,
             fetchReceiveRooms,
             enterroom,
+            //check,
             //start,
         };
     }
