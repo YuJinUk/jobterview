@@ -1,5 +1,7 @@
 <template>
-  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="reportNickname" :reportedNickname="nickname"></ReportModal>
+  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="reportNickname"
+    :reportedNickname="nickname"></ReportModal>
+  <h2 class="text-center mt-3" style="font-family: Arial, Helvetica, sans-serif;">{{ readRoomName }}</h2>
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
@@ -10,7 +12,7 @@
           <i v-else class="bi bi-camera-video-off-fill mx-3" @click="cameraClick"></i>
           <i v-if="mic" @click="muteClick" class="bi bi-mic-fill mx-3"></i>
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
-          <i class="bi bi-box-arrow-right mx-3"></i>
+          <i class="bi bi-box-arrow-right mx-3" @click="exitRoom"></i>
         </p>
         <!-- <button @click="debug">디버그 버튼</button> -->
       </div>
@@ -57,6 +59,7 @@
 import UserVideo from "./UserVideo.vue";
 import ReportModal from "../ReportModal";
 import { mapState } from "vuex";
+import router from "@/router";
 
 export default {
   name: "RoomMeeting",
@@ -247,6 +250,7 @@ export default {
         this.chats.push(chat);
         this.chatContent = "";
       }
+      this.autoScroll();
     },
     showModal(nickname) {
       this.reportNickname = nickname;
@@ -254,8 +258,17 @@ export default {
     },
     hideModal() {
       this.displayModal = false;
-    }
-  },
+    },
+    exitRoom() {
+      if (confirm("퇴장하시겠습니까?")) {
+        router.push({ name: "RoomList" });
+      }
+    },
+    autoScroll() {
+      const scrollableDiv = document.getElementsByClassName("chat-list")[0];
+      scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+    },
+  },  
 };
 </script>
 
