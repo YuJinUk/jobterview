@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     ...mapState("loginStore", ["loginNickname"]),
-    ...mapState("roomStore", ["readRoomName", "readMaxMember"]),
+    ...mapState("roomStore", ["readRoomName", "readMaxMember","readRoomPassword"]),
   },
   mounted() {
     this.enter_room();
@@ -134,6 +134,7 @@ export default {
       camera: true,
       chat: false,
       roomName: "",
+      roomPassword:"",
       users: [], // 참여자 객체 저장하는 배열
       chats: [], // 채팅 객체 저장하는 배열
       chatContent: "", // 채팅 내용
@@ -218,15 +219,19 @@ export default {
     async initCall() {
       this.chat = !this.chat;
       await this.getMedia();
+      console.log(this.readRoomPassword);
       this.nickname = this.loginNickname;
       this.roomName = this.readRoomName;
       this.maxNum = this.readMaxMember;
+      this.roomPassword = this.readRoomPassword;
+      this.$store.commit('messageStore/EMPTY_READ_ROOM_PASSWORD');
       this.$socket.emit("join_room", {
         //all user 시작하는거임 //offer도 저기서 완성시키고 보냄
         // store의 로그인 닉네임, url parameter의 roomNumber 받아오기
         nickname: this.nickname,
         roomName: this.roomName,
         maxNum: this.maxNum,
+        roomPassword: this.roomPassword,
       });
     },
     async getMedia() {

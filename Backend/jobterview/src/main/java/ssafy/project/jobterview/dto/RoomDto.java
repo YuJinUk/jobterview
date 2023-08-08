@@ -15,7 +15,7 @@ import java.util.List;
 public class RoomDto {
     private Long roomId;
     private List<Chat> roomChatList;
-    private RoomStatus roomStatus;
+    private String roomPassword;
     private int nowMember;
     private int maxMember;
     private String roomName;

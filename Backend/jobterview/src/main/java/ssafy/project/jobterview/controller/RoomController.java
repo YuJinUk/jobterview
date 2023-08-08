@@ -64,7 +64,16 @@ public class RoomController {
     public ResponseEntity<Page<RoomDto>> searchRoomsByName(
             @RequestParam("keyword") String keyword,
             @PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return new ResponseEntity<>(roomService.searchByName(keyword, pageable).map(Room::convertToDto), HttpStatus.OK);
+
+        
+        Page<Room> roomList = roomService.searchByName(keyword,pageable);
+        if(roomList==null){
+            List<RoomDto> emptyList = new ArrayList<>(); // 비어있는 리스트 생성
+            Page<RoomDto> emptyPage = new PageImpl<>(emptyList, pageable, 0);
+            return new ResponseEntity<>(emptyPage, HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>(roomList.map(Room::convertToDto), HttpStatus.OK);
     }
 
     /**
@@ -86,4 +95,5 @@ public class RoomController {
 
         return new ResponseEntity<>(roomList.map(Room::convertToDto), HttpStatus.OK);
     }
+
 }

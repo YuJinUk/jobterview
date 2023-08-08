@@ -1,4 +1,4 @@
-import { receiveRoomList } from '@/api/roomApi';
+import { receiveRoomList,receiveSearchRoomList } from '@/api/roomApi';
 //import router from '@/router';
 
 export default {
@@ -11,6 +11,7 @@ export default {
     readRoomName: null,
     readNowMember: null,
     readMaxMember: null,
+    readRoomPassword: null,
   },
   getters: {
     //선택된 질문 목록 반환
@@ -63,6 +64,12 @@ export default {
     SET_READ_MAX_Member: (state, maxMember) => {
       state.readMaxMember = maxMember;
     },
+    SET_READ_ROOM_PASSWORD: (state, roomPassword) => {
+      state.readRoomPassword = roomPassword;
+    },
+    EMPTY_READ_ROOM_PASSWORD: (state) => {
+      state.readRoomPassword = " ";
+    },
   },
   actions: {
     //선택된 질문 목록 갱신
@@ -78,12 +85,28 @@ export default {
             console.log(data.content);
               commit('SET_RECEIVE_ROOMS', data.content);
               commit('SET_TOTAL_RECEIVE_PAGE', data.totalPages);
+              commit('SET_CURRENT_RECEIVE_PAGE', page + 1);
 
           },
           (error) => {
               console.log(error);
           })
   },
+
+
+  async SearchRoomList({ commit }, {keyword,page}) {
+    await receiveSearchRoomList({keyword,page},
+        ({data}) => {
+          console.log(data.content);
+            commit('SET_RECEIVE_ROOMS', data.content);
+            commit('SET_TOTAL_RECEIVE_PAGE', data.totalPages);
+            commit('SET_CURRENT_RECEIVE_PAGE', page + 1);
+
+        },
+        (error) => {
+            console.log(error);
+        })
+},
 
   }
 };
