@@ -4,7 +4,7 @@ varialbles:
   port: 8060
 
 ##  cors허용해줄 fe코드
- feUri: https://i9a701.p.ssafy.io/testfe
+  feUri: https://i9a701.p.ssafy.io/testfe
   # feUri: http://localhost:3060/testfe
 
 #  리다이렉트할때 쓸 변수
