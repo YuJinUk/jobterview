@@ -91,6 +91,10 @@ export default {
                   alert("사용가능한 이메일입니다.");
                   this.duplicateEmail = false;
               }
+              else if(response.data==2){
+                alert("탈퇴한 이메일입니다. 다시 가입하시겠습니까?");
+                this.duplicateEmail=false;
+              }
               else{
                   alert("중복된 이메일입니다");
               }

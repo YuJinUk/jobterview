@@ -46,10 +46,8 @@
             />
           </a>
         </div>
-
         <br />
         <br />
-
         <div
           style="display: flex; justify-content: center; align-items: center"
         >

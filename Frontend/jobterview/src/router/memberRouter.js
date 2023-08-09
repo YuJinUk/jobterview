@@ -8,6 +8,7 @@ const memberRouter = [
     path: '/member/list',
     name: 'MemberList',
     component: MemberListView,
+
   },
   {
     path:'/member/findPassword',

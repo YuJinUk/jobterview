@@ -93,7 +93,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(cacheControlFilter(), SecurityContextHolderAwareRequestFilter.class)
                 .csrf().disable()
                 .authorizeRequests()
-
                 .antMatchers("/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
@@ -106,8 +105,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/member/emailauth").permitAll()
                 .antMatchers(HttpMethod.POST,"/member/passwordEmailConfirm").permitAll()
                 .antMatchers(HttpMethod.PUT,"/member/resetPassword").permitAll()
-                .antMatchers(HttpMethod.PUT,"/member").permitAll()
-                .antMatchers(HttpMethod.PUT,"/member/withdraw").permitAll()
                 .antMatchers("/member/resetPassword/**").permitAll()
                 .antMatchers("/emailauth/**").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ROLE_admin')")

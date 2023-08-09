@@ -7,8 +7,8 @@ varialbles:
   feUri: https://i9a701.p.ssafy.io/testfe
 
 #  리다이렉트할때 쓸 변수
-#  beUri: http://localhost:${varialbles.port}
-  beUri: https://i9a701.p.ssafy.io/testbe
+  beUri: http://localhost:${varialbles.port}
+#  beUri: https://i9a701.p.ssafy.io/testbe
 
 #여기서부터 설정파일
 server:
@@ -17,7 +17,7 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/jobterview?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    username: ssafy
+    username: root
     password: ssafy
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
@@ -83,3 +83,4 @@ mail:
 AdminMail:
   id: jobterview1@gmail.com
   password: onzkacghyhqoznpq
+

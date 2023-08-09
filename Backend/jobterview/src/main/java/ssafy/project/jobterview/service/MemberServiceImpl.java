@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService{
             member.changeRole(Role.ROLE_WITHDRAWN);
         }
         else if(memberRole == Role.ROLE_WITHDRAWN){
-            member.changeRole(Role.ROLE_MEMBER);
+            member.changeRole(Role.ROLE_UNVERIFIED);
         }
         memberRepository.save(member);
     }
