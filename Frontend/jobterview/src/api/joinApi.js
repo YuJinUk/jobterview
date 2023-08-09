@@ -16,4 +16,9 @@ async function sendEmail(email, success, fail) {
     await apiTest.post(`/member/emailconfirm?email=${email}`).then(success).catch(fail);
 }
 
-export {join,checkEmail,checkNickname,sendEmail};
+async function sendPasswordEmail(email, success, fail){
+    await apiTest.post(`/member/passwordEmailConfirm?email=${email}`).then(success).catch(fail);
+}
+
+export {join,checkEmail,checkNickname,sendEmail,sendPasswordEmail};
+

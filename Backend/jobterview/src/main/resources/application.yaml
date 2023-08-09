@@ -4,10 +4,11 @@ varialbles:
   port: 8060
 
 ##  cors허용해줄 fe코드
-  feUri: https://i9a701.p.ssafy.io/testfe
+#  feUri: https://i9a701.p.ssafy.io/testfe
+  feUri: http://localhost:3060/testfe
 
 #  리다이렉트할때 쓸 변수
-  # beUri: http://localhost:${varialbles.port}
+#  beUri: http://localhost:${varialbles.port}
   beUri: https://i9a701.p.ssafy.io/testbe
 
 #여기서부터 설정파일
@@ -83,3 +84,4 @@ mail:
 AdminMail:
   id: jobterview1@gmail.com
   password: onzkacghyhqoznpq
+

@@ -12,5 +12,4 @@ async function logoutAPI( success, fail) {
     await apiTest2.post(`/auth/logout`).then(success).catch(fail);
 }
 
-
 export {loginAPI,logoutAPI};
