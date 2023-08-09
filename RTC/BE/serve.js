@@ -61,6 +61,7 @@ let pwdRoomCheck ={};
 //connection event handler
 io.on('connection' , function(socket) {
     socket.on('join_room', (data) => {
+        console.log(data);
         if(users[data.roomName]){
 
             if(users[data.roomName].length<maxRoomCheck[data.roomName]){
