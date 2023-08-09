@@ -1,7 +1,10 @@
 <template>
   <h1>쪽지 관리</h1>
 
-  <table class="table">
+  <div v-if="messages.length === 0">
+    등록된 쪽지가 없습니다.
+  </div>
+  <table v-else class="table">
     <thead>
       <tr>
         <th scope="col">#</th>

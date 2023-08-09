@@ -15,5 +15,11 @@ async function searchMemberApi({ keyword, page, size, sort }, success, fail) {
     .catch(fail);
 }
 
+async function isAdmin ( nickname , success, fail) {
+  await apiTest
+    .get(`/member/isadmin?nickname=${nickname}`)
+    .then(success)
+    .catch(fail);
+}
 
-export { getMemberListApi, searchMemberApi };
+export { getMemberListApi, searchMemberApi, isAdmin };

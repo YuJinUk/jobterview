@@ -19,7 +19,7 @@ import store from "@/store/store";
 import io from 'socket.io-client';
 library.add(faUserSecret);
 library.add(fas);
-const socket = io("http://localhost:4060");
+const socket = io("https://i9a701.p.ssafy.io/");
 const app = createApp(App);
 app.config.globalProperties.$socket = socket;
 console.log(socket);

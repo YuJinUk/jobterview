@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.UpdatePasswordDto;
 import ssafy.project.jobterview.service.EmailService;
@@ -159,5 +160,12 @@ public class MemberController {
     public ResponseEntity<Page<MemberDto>> findAllMember(@PageableDefault(page = 0, size = 10,
             sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(memberService.getAllActiveMember(pageable).map(Member::toMemberDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/isadmin")
+    public ResponseEntity<Boolean> isAdmin(@RequestParam String nickname) {
+        Member findMember = memberService.findByNickname(nickname);
+        boolean isAdmin = findMember.getRole() == Role.ROLE_ADMIN;
+        return new ResponseEntity<>(isAdmin, HttpStatus.OK);
     }
 }

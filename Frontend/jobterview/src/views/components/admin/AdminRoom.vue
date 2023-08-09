@@ -1,7 +1,11 @@
 <template>
   <h1>채팅방 관리</h1>
+
+  <div v-if="rooms.length === 0">
+    등록된 채팅방이 없습니다.
+  </div>
   
-  <table class="table">
+  <table v-else class="table">
     <thead>
       <tr>
         <th scope="col">#</th>

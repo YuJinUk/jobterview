@@ -15,7 +15,10 @@
     />
   </div>
 
-  <table class="table">
+  <div v-if="members.length === 0">
+    등록된 유저가 없습니다.
+  </div>
+  <table v-else class="table">
     <thead>
       <tr>
         <th scope="col">#</th>

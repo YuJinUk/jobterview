@@ -6,7 +6,11 @@
       {{category}}</button>
   </nav>
 
-  <table class="table">
+  <div v-if="questions.length === 0">
+    등록된 질문이 없습니다.
+  </div>
+
+  <table v-else class="table">
     <thead>
       <tr>
         <th scope="col">#</th>
