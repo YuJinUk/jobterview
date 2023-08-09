@@ -1,14 +1,15 @@
 package ssafy.project.jobterview.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdatePasswordDto {
-    private String email;
+public class DeleteMemberDto {
     private String nickname;
     private String password;
-    private String newPassword;
 }
