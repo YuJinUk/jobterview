@@ -1,5 +1,10 @@
 import {apiTest} from "@/api/apiTest";
 
+//전체 메시지 조회
+async function getMessageList({page,size,sort}, success, fail) {
+    await apiTest.get(`/message?page=${page-1}&size=${size}&sort=${sort}`).then(success).catch(fail);
+}
+
 // 수신 메시지 조회
 async function receiveMessageList({nickname, page}, success, fail) {
     await apiTest.get(`/message/me?nickname=${nickname}&page=${page}`).then(success).catch(fail);
@@ -22,4 +27,4 @@ async function postMessage(message, success, fail) {
     await apiTest.post(`/message`, message).then(success).catch(fail);
 }
 
-export { receiveMessageList, sendMessageList, deleteReceivedMessage, deleteSentMessage, postMessage };
+export { receiveMessageList, sendMessageList, deleteReceivedMessage, deleteSentMessage, postMessage, getMessageList };

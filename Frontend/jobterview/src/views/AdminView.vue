@@ -1,20 +1,21 @@
 <template>
-    <h3 class="text-center mt-3">Admin</h3>
-    <router-view/>
+  <div>
+    <admin-nav />
+    <router-view />
+  </div>
 </template>
 
 <script>
+import AdminNav from "@/views/components/admin/AdminNav.vue";
+
 export default {
-    name: "AdminView",
-    components: {
-
-    },
-    setup() {
-
-    },
-}
+  name: "AdminView",
+  components: {
+    AdminNav,
+  },
+  setup() {},
+};
 </script>
 
 <style scoped>
-
 </style>

@@ -3,4 +3,8 @@ const apiUrl = "https://i9a701.p.ssafy.io/testbe";
 //prefix url 집에서 테스트시에는 /로함면됨.
 const apiUrlPrefix = "/testfe";
 
+//로컬서버에 접속
+// const apiUrl = "http://localhost:8060";
+// const apiUrlPrefix = "/testfe";
+
 module.exports = { apiUrl, apiUrlPrefix };
