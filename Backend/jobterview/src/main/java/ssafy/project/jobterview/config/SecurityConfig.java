@@ -1,6 +1,8 @@
 package ssafy.project.jobterview.config;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -35,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SocialAuthenticationSuccessHandler socialAuthenticationSuccessHandler;
     @Autowired
+    private RequestLoggingFilter requestLoggingFilter;
+    @Autowired
     public SecurityConfig(PrincipalDetailService principalDetailService,
                           @Lazy PrincipalOauth2UserService principalOauth2UserService,
                           @Lazy BCryptPasswordEncoder bCryptPasswordEncoder
@@ -43,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.principalOauth2UserService = principalOauth2UserService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -95,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/oauth2/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/join").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .antMatchers("/health_check").permitAll()
                 .antMatchers("/admin/members/cnt").permitAll()
                 .antMatchers(HttpMethod.GET, "/member/nicknameCheck").permitAll()
                 .antMatchers(HttpMethod.GET, "/member/emailCheck").permitAll()
@@ -105,7 +109,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT,"/member").permitAll()
                 .antMatchers(HttpMethod.PUT,"/member/withdraw").permitAll()
                 .antMatchers("/member/resetPassword/**").permitAll()
-                .antMatchers(HttpMethod.PUT,"/member").permitAll()
                 .antMatchers("/emailauth/**").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ROLE_admin')")
                 .anyRequest().authenticated()
@@ -143,4 +146,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
 
     }
+    @Bean
+    public FilterRegistrationBean<RequestLoggingFilter> loggingFilter() {
+        FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(requestLoggingFilter);
+        // 필터 순서를 원하는대로 조정할 수 있습니다.
+        registrationBean.setOrder(1);
+        return registrationBean;
+    }
+
 }

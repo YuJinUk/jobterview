@@ -28,7 +28,7 @@ import { apiTest }  from '@/api/apiTest';
 export default {
     name: 'EmailAuth',
     setup() {
-        const route = useRoute(); 
+        const route = useRoute();
         onMounted(() => {
             apiTest.put(`/member/emailauth?email=${route.params.email}`, (response) => {
                 console.log(response);
@@ -90,8 +90,10 @@ button {
     color: #fff;
     border: none;
     border-radius: 5px;
+  
     font-size: 14px;
     font-weight: 500;
+  
     width: 120px;
     height: 40px;
     margin: 10px;

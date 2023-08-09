@@ -48,15 +48,28 @@ public class MateServiceImpl implements MateService {
 
     // 메이트 삭제
     @Override
-    public void delete(MateDto mateDto) {
-        Mate mate = new Mate(mateDto.getMateId(), mateDto.getFromMember(), mateDto.getToMember());
-        mateRepository.delete(mate);
+    public void delete(String fromMemberNickname, String toMemberNickname) {
+        //닉네임으로 해당 맴버 가져오기
+        Member fromMember = memberService.findByNickname(fromMemberNickname);
+        Member toMember = memberService.findByNickname(toMemberNickname);
+
+        Mate findMate = mateRepository.findByFromMemberAndToMember(fromMember, toMember)
+                .orElseThrow(() -> new NotFoundException("해당 메이트를 찾기 못했습니다."));
+
+        mateRepository.delete(findMate);
     }
 
-    // 메이트 조회
     @Override
-    public Page<Mate> findAllByMate(Pageable pageable, String nickname){
-        return mateRepository.findAllByFromMember(pageable, nickname);
+    public Page<Mate> findAllByMate(Pageable pageable, String nickname) {
+        Member findMember = memberService.findByNickname(nickname);
+
+        System.out.println("findMember ToString : " + findMember.toString());
+
+        Page<Mate> matePage = mateRepository.findByFromMember(findMember, pageable);
+
+        System.out.println("pagedMate size : " + matePage.getContent().size());
+
+        return matePage;
     }
 
     @Override
@@ -67,4 +80,11 @@ public class MateServiceImpl implements MateService {
         }
         return findMateList;
     }
+
+    @Override
+    public Page<Mate> searchToMember(Pageable pageable, String fromMemberNickname, String keyword) {
+        Member fromMember = memberService.findByNickname(fromMemberNickname);
+        return mateRepository.findByFromMemberAndToMember_NicknameContaining(fromMember, keyword, pageable);
+    }
+
 }

@@ -44,7 +44,7 @@ export default {
        }
 }
 </script>
-<style>
+<style scoped>
 .total-form {
     display: flex;
     position: absolute;

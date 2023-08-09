@@ -69,6 +69,7 @@ export default {
                 };
                 await updatePassword(member, () => {         
                     alert("새로운 비밀번호로 로그인해주세요.");
+                    store.commit("loginStore/User_Logout");
                     router.push({ name: 'Home' });
                 },
                     (error) => {
@@ -90,7 +91,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .totalForm {
     display: flex;
     position: absolute;

@@ -23,7 +23,10 @@
                     <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
                 </ul>
             </div> 
+       
+
         <!-- 로그인 안 했을 때 -->
+  
             <div v-else class="collapse navbar-collapse" id="navbarNav" >
                 <ul class="navbar-nav ms-auto">
                     <div class="container-login navbar-light">
@@ -31,9 +34,17 @@
                     </div>
                     <div class="container-register navbar-light">
                         <button type="button" class="btn btn-link" id="register" @click="toJoin()">회원가입</button>
+
                     </div>
                 </ul>
             </div>
+            
+
+        
+        
+        
+        
+
     </nav>
 </template>
 
@@ -43,6 +54,7 @@ import { mapState } from "vuex";
 export default {
     name: 'NavBar',
     components: {
+
     },
     data() {
         return {
@@ -80,6 +92,7 @@ export default {
         withdraw(){
             this.$router.push({name: "WithdrawMember"});
         },
+
         logout() {
 
             this.$store.dispatch("loginStore/UserLogout");

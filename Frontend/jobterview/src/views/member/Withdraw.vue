@@ -34,9 +34,9 @@ export default {
                 };
                 
                 await withdrawMember(member, () => {         
-                    alert("죄송합니다");
+                    alert("탈퇴가 완료되었습니다.");
+                    store.commit("loginStore/User_Logout");
                     router.push({ name: 'Home' });
-                    
                 },
                     (error) => {
                         alert("현재 비밀번호가 일치하지 않습니다.")
@@ -52,7 +52,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .totalForm {
     display: flex;
     position: absolute;
