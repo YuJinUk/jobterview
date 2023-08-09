@@ -28,7 +28,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="data in receiveMessage" :key="data.id">
-                                <td @click="toReadMessage(data, 'receive')">{{ data.content }}</td>
+                                <td @click="toReadMessage(data, 'receive')">{{ messageSummary(data.content) }}</td>
                                 <td>{{ data.createdDate }}</td>
                                 <td>{{ data.senderNickname }}</td>
                                 <td><button class="btn btn-danger deleteButton"
@@ -50,7 +50,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="data in sendMessage" :key="data.id">
-                                <td @click="toReadMessage(data, 'send')">{{ data.content }}</td>
+                                <td @click="toReadMessage(data, 'send')">{{ messageSummary(data.content) }}</td>
                                 <td>{{ data.createdDate }}</td>
                                 <td>{{ data.receiverNickname }}</td>
                                 <td><button class="btn btn-danger deleteButton" @click="deleteSendMessage(data)">삭제</button>
@@ -143,6 +143,14 @@ export default {
             }
         }
 
+        function messageSummary(content) {
+            if(content.length > 30) {
+                return content.substr(0, 30) + "...";
+            } else {
+                return content;
+            }
+        }
+
         return {
             currentReceivePage,
             totalReceivePage,
@@ -156,6 +164,7 @@ export default {
             toSendMessage,
             deleteReceiveMessage,
             deleteSendMessage,
+            messageSummary,
         };
     }
 }
@@ -168,6 +177,7 @@ export default {
 
 .deleteButton {
     border-radius: 10px;
+    font-size: 12px;
 }
 
 #write {

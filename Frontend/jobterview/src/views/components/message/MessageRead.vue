@@ -6,13 +6,20 @@
         <div v-if="$route.params.category == 'receive'">
             <div class="background-box mt-5">
                 <div class="background-inbox d-flex flex-column">
-                    <div class="content">
-                        <p>{{ this.content }}</p>
-                    </div>
-                    <div class="date">
-                        <p>{{ this.createdDate }}</p>
-                        <p>From {{ this.senderNickname }}</p>
-                    </div>
+                    <!-- <form>
+                        <div class="form-group">
+                            <label for="to">보낸 사람</label>
+                            <input type="text" class="form-control" id="to" v-model="senderNickname" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">내용</label>
+                            <textarea class="form-control" id="content" rows="11" v-model="content" readonly></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="to">보낸 날짜</label>
+                            <input type="text" class="form-control" id="to" v-model="createdDate" readonly>
+                        </div>
+                    </form> -->
                 </div>
                 <div class="row d-flex justify-content-center mt-4">
                     <button class="btn btn-primary col-1" @click="toSend(this.senderNickname)">답장</button>
@@ -27,16 +34,21 @@
         <div v-else>
             <div class="background-box mt-5">
                 <div class="background-inbox d-flex flex-column">
-                    <div class="content">
-                        <p>{{ this.content }}</p>
+                    <div class="form-group">
+                        <label for="to">받는 사람</label>
+                        <input type="text" class="form-control" id="to" v-model="receiverNickname" readonly>
                     </div>
-                    <div class="date">
-                        <p>{{ this.createdDate }}</p>
-                        <p>From {{ this.senderNickname }}</p>
+                    <div class="form-group">
+                        <label for="content">내용</label>
+                        <textarea class="form-control" id="content" rows="11" v-model="content" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="to">보낸 날짜</label>
+                        <input type="text" class="form-control" id="to" v-model="createdDate" readonly>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-4">
-                    <button class="btn btn-primary col-1" @click="deleteSendMessage(this.id)">삭제</button>
+                    <button class="btn btn-danger col-1" @click="deleteSendMessage(this.id)">삭제</button>
                 </div>
             </div>
         </div>
@@ -183,5 +195,13 @@ export default {
 
 .date {
     margin-top: auto;
+}
+
+input {
+    text-align: center;
+}
+
+textarea {
+    text-align: center;
 }
 </style>

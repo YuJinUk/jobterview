@@ -1,6 +1,6 @@
 <template>
-  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="reportNickname"
-    :reportedNickname="nickname"></ReportModal>
+  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="nickname"
+    :reportedNickname="reportNickname"></ReportModal>
   <h2 class="text-center mt-3" style="font-family: Arial, Helvetica, sans-serif;">{{ readRoomName }}</h2>
   <div class="container-wrapper mt-3">
     <div class="main-container">
@@ -246,13 +246,13 @@ export default {
         console.log(e);
       }
     },
-    sendChat() {
+    async sendChat() {
       let chat = {
         nickname: this.nickname,
         content: this.chatContent,
       }
       if (chat.content != "") {
-        this.chats.push(chat);
+        await this.chats.push(chat);
         this.chatContent = "";
       }
       this.autoScroll();
@@ -270,7 +270,7 @@ export default {
       }
     },
     autoScroll() {
-      const scrollableDiv = document.getElementsByClassName("chat-list")[0];
+      let scrollableDiv = document.querySelector(".chat-list");
       scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
     },
   },  
