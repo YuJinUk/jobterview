@@ -1,5 +1,5 @@
 <template>
-    <video ref="remote" autoplay playsinline width="300" height="180" style="border-radius: 10%;"></video>
+    <video ref="remote" autoplay playsinline width="245" height="180" style="border-radius: 15%;"></video>
     <p class="text-center">{{ info.nickname }}</p>
 </template>
 <script>
@@ -19,7 +19,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* #app {
      font-family: Avenir, Helvetica, Arial, sans-serif; 
      -sebkit-font-smoothing: antialiased;

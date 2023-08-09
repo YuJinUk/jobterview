@@ -46,13 +46,14 @@
             />
           </a>
         </div>
-
         <br />
         <br />
-
         <div
           style="display: flex; justify-content: center; align-items: center"
         >
+        <div style="display: flex; justify-content: center; align-items: center; "> 
+          <p class="findPassword" @click="findPassword"><b>비밀번호 찾기</b></p>
+      </div>
           <button
             class="button col-8"
             @click="login"
@@ -65,6 +66,7 @@
           >
             로그인
           </button>
+          <button class="button col-4" @click="join" style="margin-right:6px; background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">회원가입</button>
         </div>
       </div>
     </div>

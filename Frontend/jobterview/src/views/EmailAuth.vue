@@ -30,7 +30,9 @@ export default {
     setup() {
         const route = useRoute();
         onMounted(() => {
-            apiTest.put(`/member/emailauth?email=${route.params.email}`, (response) => {
+            console.log(route.params.email);
+            console.log(route.params.code);
+            apiTest.put(`/member/emailauth?email=${route.params.email}&code=${route.params.code}`, (response) => {
                 console.log(response);
             }, 
             (error) => {

@@ -15,5 +15,18 @@ async function searchMemberApi({ keyword, page, size, sort }, success, fail) {
     .catch(fail);
 }
 
+async function updatePassword(member,success,fail){
+  await apiTest.put(`/member`,member).then(success).catch(fail);
+}
 
-export { getMemberListApi, searchMemberApi };
+async function resetPassword(member,success,fail){
+  await apiTest.put(`/member/resetPassword`,member).then(success).catch(fail);
+}
+
+async function withdrawMember(member,success,fail){
+  await apiTest.put(`/member/withdraw`,member).then(success).catch(fail);
+}
+
+
+
+export { getMemberListApi, searchMemberApi, updatePassword, resetPassword, withdrawMember };

@@ -1,4 +1,16 @@
 <template>
+  <ReportModal
+    v-if="displayModal"
+    @close-modal-event="hideModal"
+    :reporterNickname="reportNickname"
+    :reportedNickname="nickname"
+  ></ReportModal>
+  <h2
+    class="text-center mt-3"
+    style="font-family: Arial, Helvetica, sans-serif"
+  >
+    {{ readRoomName }}
+  </h2>
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
@@ -23,9 +35,8 @@
           ></i>
           <i v-if="mic" @click="muteClick" class="bi bi-mic-fill mx-3"></i>
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
-          <i class="bi bi-box-arrow-right mx-3"></i>
+          <i class="bi bi-box-arrow-right mx-3" @click="exitRoom"></i>
         </p>
-
         <!-- <button @click="debug">디버그 버튼</button> -->
       </div>
     </div>
@@ -44,8 +55,11 @@
           ><i class="bi bi-exclamation-triangle-fill text-danger report"></i>
         </p>
         <p v-for="user in users" :key="user.id">
-          <i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span
-          ><i class="bi bi-exclamation-triangle-fill text-danger report"></i>
+          <i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span>
+          <i
+            class="bi bi-exclamation-triangle-fill text-danger report"
+            @click="showModal(user.nickname)"
+          ></i>
         </p>
       </div>
     </div>
@@ -79,15 +93,23 @@
 
 <script>
 import UserVideo from "./UserVideo.vue";
+import ReportModal from "../ReportModal";
 import { mapState } from "vuex";
+import router from "@/router";
+
 export default {
   name: "RoomMeeting",
   components: {
     UserVideo,
+    ReportModal,
   },
   computed: {
     ...mapState("loginStore", ["loginNickname"]),
-    ...mapState("roomStore", ["readRoomName", "readMaxMember"]),
+    ...mapState("roomStore", [
+      "readRoomName",
+      "readMaxMember",
+      "readRoomPassword",
+    ]),
   },
   mounted() {
     this.enter_room();
@@ -163,11 +185,14 @@ export default {
       camera: true,
       chat: false,
       roomName: "",
+      roomPassword: "",
       users: [], // 참여자 객체 저장하는 배열
       chats: [], // 채팅 객체 저장하는 배열
       chatContent: "", // 채팅 내용
       pcs: {},
       maxNum: 0,
+      displayModal: false,
+      reportNickname: "",
     };
   },
   props: {
@@ -253,15 +278,19 @@ export default {
     async initCall() {
       this.chat = !this.chat;
       await this.getMedia();
+      console.log(this.readRoomPassword);
       this.nickname = this.loginNickname;
       this.roomName = this.readRoomName;
       this.maxNum = this.readMaxMember;
+      this.roomPassword = this.readRoomPassword;
+      this.$store.commit("roomStore/EMPTY_READ_ROOM_PASSWORD");
       this.$socket.emit("join_room", {
         //all user 시작하는거임 //offer도 저기서 완성시키고 보냄
         // store의 로그인 닉네임, url parameter의 roomNumber 받아오기
         nickname: this.nickname,
         roomName: this.roomName,
         maxNum: this.maxNum,
+        roomPassword: this.roomPassword,
       });
     },
     async getMedia() {
@@ -287,6 +316,23 @@ export default {
         this.$socket.emit("send_message", chat);
         this.chatContent = "";
       }
+      this.autoScroll();
+    },
+    showModal(nickname) {
+      this.reportNickname = nickname;
+      this.displayModal = true;
+    },
+    hideModal() {
+      this.displayModal = false;
+    },
+    exitRoom() {
+      if (confirm("퇴장하시겠습니까?")) {
+        router.push({ name: "RoomList" });
+      }
+    },
+    autoScroll() {
+      const scrollableDiv = document.getElementsByClassName("chat-list")[0];
+      scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
     },
   },
 };
@@ -336,6 +382,7 @@ export default {
   left: 25px;
   top: 15px;
 }
+
 .user-nickname p {
   position: relative;
   left: 10px;

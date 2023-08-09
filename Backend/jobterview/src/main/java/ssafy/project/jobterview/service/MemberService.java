@@ -29,6 +29,7 @@ public interface MemberService {
 
     Page<Member> getAllActiveMember(Pageable pageable);
 
-    void emailAuth(String email);
+    void emailAuth(String email, String code);
 
+    void setEmailCode(String email, String code);
 }
