@@ -80,10 +80,16 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void emailAuth(String email) {
+    public void emailAuth(String email, String code) {
         Member member = findByEmail(email);
-        member.changeRole(Role.ROLE_MEMBER);
-        memberRepository.save(member);
+        // 링크의 인증번호와 DB의 인증 번호가 같으면 인증 완료로 변경
+        if(member.getAuthCode().equals(code)) {
+            member.changeRole(Role.ROLE_MEMBER);
+            memberRepository.save(member);
+        } else {
+            throw new NotFoundException("인증 번호가 일치하지 않습니다.");
+        }
+
     }
 
     @Override
@@ -95,5 +101,12 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Page<Member> getAllActiveMember(Pageable pageable) {
         return memberRepository.findByRole(Role.ROLE_MEMBER, pageable);
+    }
+
+    @Override
+    public void setEmailCode(String email, String code) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("일치하는 회원이 존재하지 않습니다."));
+        member.setAuthCode(code);
+        memberRepository.save(member);
     }
 }

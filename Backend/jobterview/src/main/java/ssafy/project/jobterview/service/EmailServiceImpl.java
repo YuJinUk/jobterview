@@ -17,6 +17,7 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
     private final Environment env;
+    private final MemberService memberService;
     public static final String ePw = createKey();
 
     private MimeMessage createMessage(String to)throws Exception{
@@ -38,7 +39,7 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<div style='font-size:130%'>";
 //        msgg+= "CODE : <strong>";
 //        msgg+= ePw+"</strong><div><br/> ";
-        msgg+= "<strong><a href=\""+env.getProperty("varialbles.feUri")+"/emailauth/code=" + ePw + "&email=" + to + "\">인증하기</a></strong></div><br/>";
+        msgg+= "<strong><a href=\""+env.getProperty("varialbles.feUri")+"/emailauth/" + ePw + "/" + to + "\">인증하기</a></strong></div><br/>";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
         message.setFrom(new InternetAddress("jobterview1.gmail.com","JOBTERVIEW"));//보내는 사람
@@ -76,6 +77,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message = createMessage(to);
         try{//예외처리
             emailSender.send(message);
+            memberService.setEmailCode(to, ePw);
         }catch(MailException es){
             es.printStackTrace();
             throw new IllegalArgumentException();
