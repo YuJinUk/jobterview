@@ -1,7 +1,6 @@
 <template>
-
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
     <!-- 로그인 했을 때 -->
     <div v-if="getUser" class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
@@ -10,34 +9,19 @@
         </li>
         <div class="dropdown">
           <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
-          <div
-            class="dropdown-menu dropdown-menu-left"
-            :class="{ show: isDropdownOpen }"
-            aria-labelledby="dropdownIcon"
-          >
-          <a class="dropdown-item" @click="updatePassword">비밀번호 변경</a>
-          <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
+          <div class="dropdown-menu dropdown-menu-left" :class="{ show: isDropdownOpen }" aria-labelledby="dropdownIcon">
+            <a class="dropdown-item" @click="updatePassword">비밀번호 변경</a>
+            <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
             <a class="dropdown-item" @click="logout">로그아웃</a>
           </div>
         </div>
         <li class="nav-item">
-          <i
-            class="bi bi-envelope-fill"
-            style="font-size: 22px; margin-right: 20px"
-            @click="toMessage()"
-          ></i>
+          <i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px" @click="toMessage()"></i>
         </li>
         <li class="nav-item">
-          <i
-            class="bi bi-heart-fill"
-            style="font-size: 22px; margin-right: 20px"
-            @click="toggleBookmark()"
-          ></i>
-          <ul
-            class="dropdown-menu dropdown-menu-right bookmark"
-            :class="{ show: bookmarkVisible }"
-            aria-labelledby="dropdownIcon"
-          >
+          <i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px" @click="toggleBookmark()"></i>
+          <ul class="dropdown-menu dropdown-menu-right bookmark" :class="{ show: bookmarkVisible }"
+            aria-labelledby="dropdownIcon">
             <!-- v-for 써서 즐겨찾기한 방 정보 뿌려주기 -->
             <!-- 여기부터 -->
             <li>
@@ -78,11 +62,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <i
-            class="bi bi-people-fill"
-            style="font-size: 22px; margin-right: 20px"
-            @click="toMemberList()"
-          ></i>
+          <i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px" @click="toMemberList()"></i>
         </li>
       </ul>
     </div>
@@ -92,22 +72,12 @@
     <div v-else class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <div class="container-login navbar-light">
-          <button
-            type="button"
-            class="btn btn-link"
-            id="login"
-            @click="toLogin()"
-          >
+          <button type="button" class="btn btn-link" id="login" @click="toLogin()">
             로그인
           </button>
         </div>
         <div class="container-register navbar-light">
-          <button
-            type="button"
-            class="btn btn-link"
-            id="register"
-            @click="toJoin()"
-          >
+          <button type="button" class="btn btn-link" id="register" @click="toJoin()">
             회원가입
           </button>
         </div>
@@ -146,9 +116,9 @@ export default {
     toMessage() {
       this.$router.push({ name: "MessageList" });
     },
-    updatePassword(){
-            this.$router.push({name:"UpdatePassword"});
-        },
+    updatePassword() {
+      this.$router.push({ name: "UpdatePassword" });
+    },
     toMemberList() {
       this.$router.push({ name: "MemberList" });
     },
@@ -161,9 +131,9 @@ export default {
     toJoin() {
       this.$router.push({ name: "Join" });
     },
-    withdraw(){
-            this.$router.push({name: "WithdrawMember"});
-        },
+    withdraw() {
+      this.$router.push({ name: "WithdrawMember" });
+    },
 
     logout() {
       this.$store.dispatch("loginStore/UserLogout");
@@ -209,25 +179,26 @@ export default {
 
   transition: all 0.15s ease-in-out;
 }
+
 .bookmark {
   position: relative;
   left: 74%;
   width: 300px;
 }
 
-.bookmark  li{
-    width: 90%;
-    margin: 0 auto;
+.bookmark li {
+  width: 90%;
+  margin: 0 auto;
   border-bottom: 1px solid #083358;
 }
 
 .room {
-    display: flex;
-    margin: 5px 0;
+  display: flex;
+  margin: 5px 0;
 }
 
 .room p {
-    margin: 0 0 3px 0;
+  margin: 0 0 3px 0;
 }
 
 .navbar {
@@ -295,6 +266,4 @@ export default {
     overflow: hidden;
   text-overflow: ellipsis;
 } */
-
-
 </style>
