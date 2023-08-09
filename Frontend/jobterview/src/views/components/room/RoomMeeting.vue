@@ -2,11 +2,25 @@
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
-        <video ref="video" autoplay width="480" height="360" style="border-radius: 10%;"></video>
+        <video
+          ref="video"
+          autoplay
+          width="480"
+          height="360"
+          style="border-radius: 10%"
+        ></video>
         <p class="text-center">{{ nickname }}</p>
         <p class="h2 text-center">
-          <i v-if="camera" class="bi bi-camera-video-fill mx-3" @click="cameraClick"></i>
-          <i v-else class="bi bi-camera-video-off-fill mx-3" @click="cameraClick"></i>
+          <i
+            v-if="camera"
+            class="bi bi-camera-video-fill mx-3"
+            @click="cameraClick"
+          ></i>
+          <i
+            v-else
+            class="bi bi-camera-video-off-fill mx-3"
+            @click="cameraClick"
+          ></i>
           <i v-if="mic" @click="muteClick" class="bi bi-mic-fill mx-3"></i>
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
           <i class="bi bi-box-arrow-right mx-3"></i>
@@ -19,12 +33,20 @@
       <UserVideo :info="user"></UserVideo>
     </div>
   </div>
-  <div class="container-chatting" style="overflow-x: hidden;">
-    <div class="user-list"> 
-      <p><span>참여자 ({{ users.length + 1}})</span></p>
+  <div class="container-chatting" style="overflow-x: hidden">
+    <div class="user-list">
+      <p>
+        <span>참여자 ({{ users.length + 1 }})</span>
+      </p>
       <div class="user-nickname">
-        <p><i class="bi bi-person-fill"></i><span>{{ nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
-        <p v-for="user in users" :key="user.id"><i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span><i class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
+        <p>
+          <i class="bi bi-person-fill"></i><span>{{ nickname }}</span
+          ><i class="bi bi-exclamation-triangle-fill text-danger report"></i>
+        </p>
+        <p v-for="user in users" :key="user.id">
+          <i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span
+          ><i class="bi bi-exclamation-triangle-fill text-danger report"></i>
+        </p>
       </div>
     </div>
     <div class="chatting mt-3">
@@ -37,14 +59,20 @@
       </div>
       <div class="row mt-4 chat-input">
         <div class="col-7">
-          <input type="text" class="form-control" placeholder="채팅 입력..." v-model="chatContent" @keydown.enter.prevent="sendChat()">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="채팅 입력..."
+            v-model="chatContent"
+            @keydown.enter.prevent="sendChat()"
+          />
         </div>
         <div class="col-auto">
-          <button type="submit" class="btn btn-secondary" @click="sendChat()">입력</button>
+          <button type="submit" class="btn btn-secondary" @click="sendChat()">
+            입력
+          </button>
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
@@ -69,7 +97,10 @@ export default {
       // console.log(allUsers);
       for (let i = 0; i < allUsers.length; i++) {
         //소켓id , nickname
-        let pc = this.createPeerConnection(allUsers[i].id, allUsers[i].nickname); //RTC객체 생성하고 배열에 담고 이벤트등록 및 트랙등록해서 리턴
+        let pc = this.createPeerConnection(
+          allUsers[i].id,
+          allUsers[i].nickname
+        ); //RTC객체 생성하고 배열에 담고 이벤트등록 및 트랙등록해서 리턴
         const offer = await pc.createOffer();
         pc.setLocalDescription(offer);
         // console.log("sendOffer 보내는 곳");
@@ -85,7 +116,10 @@ export default {
 
     this.$socket.on("getOffer", async (data) => {
       // console.log("receive offer");
-      let pc = this.createPeerConnection(data.offerSendID, data.offerSendNickname);
+      let pc = this.createPeerConnection(
+        data.offerSendID,
+        data.offerSendNickname
+      );
       pc.setRemoteDescription(data.offer);
       const answer = await pc.createAnswer();
       // console.log(answer);
@@ -114,6 +148,10 @@ export default {
       delete this.pcs[data.id];
       this.users = this.users.filter((user) => user.id !== data.id);
       // console.log(this.users);
+    });
+
+    this.$socket.on("receive_message", (chat) => {
+      this.chats.push(chat);
     });
   },
   data: () => {
@@ -166,8 +204,12 @@ export default {
       // });
       this.pcs = { ...this.pcs, [socketID]: pc };
 
-      pc.addEventListener("icecandidate", (data) => this.handleIceCandidate(data, socketID));
-      pc.addEventListener("addstream", (data) => this.handleAddStream(data, socketID, nickname));
+      pc.addEventListener("icecandidate", (data) =>
+        this.handleIceCandidate(data, socketID)
+      );
+      pc.addEventListener("addstream", (data) =>
+        this.handleAddStream(data, socketID, nickname)
+      );
       this.myStream.getTracks().forEach((track) => {
         pc.addTrack(track, this.myStream);
       });
@@ -187,13 +229,17 @@ export default {
       });
     },
     cameraClick() {
-      this.myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
+      this.myStream
+        .getVideoTracks()
+        .forEach((track) => (track.enabled = !track.enabled));
       // console.log(this.myStream.getVideoTracks());x
       this.camera = !this.camera;
     },
     muteClick() {
       // console.log(this.myStream.getAudioTracks());
-      this.myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
+      this.myStream
+        .getAudioTracks()
+        .forEach((track) => (track.enabled = !track.enabled));
       // console.log(this.myStream.getAudioTracks());
       this.mic = !this.mic;
     },
@@ -233,9 +279,11 @@ export default {
       let chat = {
         nickname: this.nickname,
         content: this.chatContent,
-      }
-      if(chat.content != "") {
+        roomName: this.roomName,
+      };
+      if (chat.content != "") {
         this.chats.push(chat);
+        this.$socket.emit("send_message", chat);
         this.chatContent = "";
       }
     },
@@ -265,7 +313,7 @@ export default {
 }
 
 .user-list {
-  background-color: #EAEAEA;
+  background-color: #eaeaea;
   border-radius: 5px;
   width: 300px;
   height: 320px;
@@ -273,7 +321,7 @@ export default {
 }
 
 .user-list > div {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 5px;
   width: 250px;
   height: 245px;
@@ -289,13 +337,13 @@ export default {
 }
 .user-nickname p {
   position: relative;
-  left : 10px;
+  left: 10px;
   top: 10px;
 }
 
 .user-nickname span {
   position: relative;
-  left : 10px;
+  left: 10px;
 }
 
 .user-nickname .report {
@@ -304,7 +352,7 @@ export default {
 }
 
 .chatting {
-  background-color: #EAEAEA;
+  background-color: #eaeaea;
   border-radius: 5px;
   width: 300px;
   height: 370px;
@@ -313,7 +361,7 @@ export default {
 }
 
 .chat-list {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 5px;
   width: 250px;
   height: 250px;
