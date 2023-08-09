@@ -82,4 +82,42 @@ public class EmailServiceImpl implements EmailService {
         }
         return "SUCCESS";
     }
+
+    private MimeMessage createPasswordMessage(String to) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+        message.addRecipients(MimeMessage.RecipientType.TO, to);
+        message.setSubject("JOBTERVIEW 비밀번호 재설정 인증을 완료해주세요");//제목
+        String msgg = "";
+        msgg += "<div style='margin:20px;'>";
+        msgg += "<h1> 안녕하세요 잡터뷰입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>아래 링크를 클릭해 인증해주세요.<p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다.<p>";
+        msgg += "<br>";
+        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg += "<h3 style='color:blue;'>비밀번호 재설정 인증 링크입니다.</h3>";
+        msgg += "<div style='font-size:130%'>";
+//        msgg+= "CODE : <strong>";
+//        msgg+= ePw+"</strong><div><br/> ";
+        msgg += "<strong><a href=\"http://localhost:3060/member/resetPassword/" + to + "\">인증하기</a></strong></div><br/>";
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("jobterview1.gmail.com", "JOBTERVIEW"));//보내는 사람
+
+        return message;
+    }
+
+    @Override
+    public String sendPasswordMessage(String to) throws Exception {
+        // TODO Auto-generated method stub
+        MimeMessage message = createPasswordMessage(to);
+        try {
+            emailSender.send(message);
+        } catch (MailException es) {
+            es.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+        return "SUCCESS";
+    }
 }

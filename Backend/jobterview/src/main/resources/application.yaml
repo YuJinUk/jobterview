@@ -7,7 +7,7 @@ varialbles:
   feUri: https://i9a701.p.ssafy.io/testfe
 
 #  리다이렉트할때 쓸 변수
-  # beUri: http://localhost:${varialbles.port}
+#  beUri: http://localhost:${varialbles.port}
   beUri: https://i9a701.p.ssafy.io/testbe
 
 #여기서부터 설정파일
@@ -83,3 +83,4 @@ mail:
 AdminMail:
   id: jobterview1@gmail.com
   password: onzkacghyhqoznpq
+

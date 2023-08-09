@@ -1,6 +1,31 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
+        
+        <!-- 로그인 했을 때 -->
+        
+            <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <p class="  login-nickname">{{loginNickname}}</p>
+                    </li>
+                        <div class="dropdown">
+                        <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
+                        <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+                            aria-labelledby="dropdownIcon">
+                            <a class="dropdown-item" @click="updatePassword">비밀번호 변경</a>
+                            <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
+                            <a class="dropdown-item" @click="logout">로그아웃</a>
+                        </div>
+                    </div>
+                    <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
+                    <li class="nav-item"><i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
+                    <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
+                </ul>
+            </div> 
+       
+
 
     <!-- 로그인 했을 때 -->
 
@@ -16,8 +41,8 @@
             :class="{ show: isDropdownOpen }"
             aria-labelledby="dropdownIcon"
           >
-            <a class="dropdown-item" href="#">비밀번호 변경</a>
-            <a class="dropdown-item" href="#">회원 탈퇴</a>
+          <a class="dropdown-item" @click="updatePassword">비밀번호 변경</a>
+          <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
             <a class="dropdown-item" @click="logout">로그아웃</a>
           </div>
         </div>
@@ -147,6 +172,9 @@ export default {
     toMessage() {
       this.$router.push({ name: "MessageList" });
     },
+    updatePassword(){
+            this.$router.push({name:"UpdatePassword"});
+        },
     toMemberList() {
       this.$router.push({ name: "MemberList" });
     },
@@ -159,6 +187,9 @@ export default {
     toJoin() {
       this.$router.push({ name: "Join" });
     },
+    withdraw(){
+            this.$router.push({name: "WithdrawMember"});
+        },
 
     logout() {
       this.$store.dispatch("loginStore/UserLogout");
@@ -171,6 +202,7 @@ export default {
     window.removeEventListener("click", this.closeDropdown);
   },
   computed: {
+
     ...mapGetters(["loginStore/getLogin"]),
     ...mapState("loginStore", ["isLogin"]),
     ...mapState("loginStore", ["loginNickname"]),
@@ -281,6 +313,7 @@ export default {
   text-decoration: none !important;
 }
 
+
 /* .roomName {
     width: 85%;
     margin-right: 10%;
@@ -288,5 +321,6 @@ export default {
     overflow: hidden;
   text-overflow: ellipsis;
 } */
+
 
 </style>
