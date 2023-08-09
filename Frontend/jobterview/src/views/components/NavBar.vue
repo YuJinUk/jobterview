@@ -19,7 +19,6 @@
                         </div>
                     </div>
                     <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
-                    <li class="nav-item"><i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px;"></i></li>
                     <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
                 </ul>
             </div> 
@@ -38,13 +37,6 @@
                     </div>
                 </ul>
             </div>
-            
-
-        
-        
-        
-        
-
     </nav>
 </template>
 
