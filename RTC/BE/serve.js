@@ -61,6 +61,7 @@ let pwdRoomCheck ={};
 //connection event handler
 io.on('connection' , function(socket) {
     socket.on('join_room', (data) => {
+        console.log(data);
         if(users[data.roomName]){
 
             if(users[data.roomName].length<maxRoomCheck[data.roomName]){
@@ -110,6 +111,14 @@ io.on('connection' , function(socket) {
         socket.to(data.candidateReceiveID).emit("getCandidate",data);
     })
 
+
+
+    //여기까지 웹 RTC영상처리
+    socket.on('send_message', (chat) => {
+        console.log(chat);
+        socket.to(chat.roomName).emit("receive_message",chat);
+    });
+
     socket.on('disconnect', () => {
         console.log(`[${socketToRoom[socket.id]}]: ${socket.id} exit`);
     
@@ -130,21 +139,13 @@ io.on('connection' , function(socket) {
         }
         socket.to(roomID).emit('user_exit', {id: socket.id});
         console.log(users);
-    })
-
-    //여기까지 웹 RTC영상처리
-
-    socket.on('new_message', (roomName,nickname,message,done) => {
-        // console.log(roomName);
-        socket.to(roomName).emit("new_message",nickname,message);
-        done(message);
     });
+
     socket.on("disconnecting", () =>{
         socket.rooms.forEach(room => {
             socket.to(room).emit("bye");
         });
-    })
-
+    });
 })
 
 const handleListen = () => console.log(`Listening on ${port}`);

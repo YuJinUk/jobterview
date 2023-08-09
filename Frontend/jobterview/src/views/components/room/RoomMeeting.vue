@@ -173,7 +173,6 @@ export default {
     });
 
     this.$socket.on("receive_message", (chat) => {
-      console.log(chat);
       this.chats.push(chat);
     });
   },
