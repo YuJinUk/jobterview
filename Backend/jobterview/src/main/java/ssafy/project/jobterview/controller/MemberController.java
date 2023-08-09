@@ -163,8 +163,9 @@ public class MemberController {
 
     @PutMapping("/emailauth")
     @ApiOperation(value = "이메일 인증", notes = "")
-    public ResponseEntity<?> emailAuth(@RequestParam String email) throws Exception {
-        memberService.emailAuth(email);
+    public ResponseEntity<?> emailAuth(@RequestParam String email, @RequestParam String code) throws Exception {
+        System.out.println(email + " " + code);
+        memberService.emailAuth(email, code);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
