@@ -18,7 +18,7 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender emailSender;
     private final Environment env;
     private final MemberService memberService;
-    public static final String ePw = createKey();
+    public static String ePw = "";
 
     private MimeMessage createMessage(String to)throws Exception{
         MimeMessage message = emailSender.createMimeMessage();
@@ -26,6 +26,7 @@ public class EmailServiceImpl implements EmailService {
         message.addRecipients(MimeMessage.RecipientType.TO, to);//보내는 대상
         message.setSubject("JOBTERVIEW 회원 가입 인증을 완료해주세요");//제목
 
+        ePw = createKey();
         String msgg="";
         msgg+= "<div style='margin:20px;'>";
         msgg+= "<h1> 안녕하세요 잡터뷰입니다. </h1>";
