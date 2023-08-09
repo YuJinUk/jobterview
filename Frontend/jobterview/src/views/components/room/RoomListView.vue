@@ -8,16 +8,43 @@
                 </div>
                 <div class="loginform-group">
                     <label for="최대인원수"></label>
-                    <input type="number" id="password" style="border-radius: 5px; height: 50px;" v-model="createMaxMember" placeholder="최대인원수" size="70">
+                    <input type="number" id="maxNum" style="border-radius: 5px; height: 50px;" v-model="createMaxMember" placeholder="최대인원수" size="70">
                 </div>
+                
+                <div>
+                  <input type="checkbox" id="checkbox" v-model="checked" >
+                  <label for="checkbox">비밀번호 설정하기</label>
+                </div>
+
+                <div class="loginform-group" v-if="checked">
+                    <label for="비밀번호"></label>
+                    <input type="text" id="password" style="border-radius: 5px; height: 50px;" v-model="createRoomPassword" placeholder="비밀번호" size="70">
+                </div>
+
                 <div style="display: flex; justify-content: center; align-items: center;"> 
-                    <button class="button col-8" @click="start()" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">생성하기</button>
+                    <button class="button col-8" @click="check(this.createRoomName)" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">시작하긴</button>
                 </div>
+                
                 <div style="display: flex; justify-content: center; align-items: center;"> 
                     <button class="button col-8" @click="out()" style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">닫기</button>
                 </div>
                 
     </div>
+
+    <!-- 검색창 -->
+    <div class="search">
+        <input
+          type="text"
+          placeholder="방이름 검색"
+          v-model="keyword"
+          @keyup.enter="searchRoom()"
+        />
+        <img
+          src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"
+          @click="searchRoom()"
+        />
+      </div>
+
   <div class="container" style="width: 1080px">
     <div class="row justify-content-end mt-3">
       <button class="btn btn-primary" @click="makeroom()" id="createButton" >
@@ -56,7 +83,12 @@
                   입장
                   </button>
                 </td>
-                <td></td>
+                <td v-if="room.roomPassword==' '">
+                  <i class="bi bi-unlock"></i>
+                </td>
+                <td v-else>
+                  <i class="bi bi-lock-fill"></i>
+                </td>
               </tr>
             </tbody>
 
@@ -177,8 +209,9 @@
 
 <script>
 import router from '@/router';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import {receiveRoomName } from '@/api/roomApi';
 //import RoomModal from "./RoomEnterMadal.vue";
 
 export default {
@@ -189,9 +222,25 @@ export default {
       showModal: false,
       createMaxMember:"",
       createRoomName:"",
+      createRoomPassword:" ",
+      checked: false,
+      //keyword:"",
+
 
       };
     },
+    watch: {
+    checked(newVal) {
+      if (newVal) {
+        this.checkd =true;
+        //console.log(this.checkd);
+      } else {
+        this.checkd =false;
+        this.createRoomPassword = " ";
+        //console.log(this.checkd);
+      }
+    },
+  },
     methods: {
       makeroom() {
         this.showModal = true;
@@ -200,11 +249,43 @@ export default {
     out(){
       this.showModal = false;
     },
-    start(){
-          this.$store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
-          this.$store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
-          router.push({ name: 'RoomPermission' });
-        }
+    
+
+    async check() {
+      await receiveRoomName(this.createRoomName,
+        (response) => {
+          if(response.data==1){
+            alert("이미 존재하는 이름입니다.")
+          }else{
+              if(this.createMaxMember>6 ){
+                alert("최대 인원은 6인 입니다")
+              }else if(this.createMaxMember==""){
+                alert("최대 인원수를 입력해 주세요")
+
+              }else if(this.createRoomName==""){
+                alert("빈방은 안되지^^")
+
+              }else{
+                if(this.createRoomPassword==" " ||this.createRoomPassword=="" ){
+                  this.$store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
+                  this.$store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
+                  this.$store.commit('roomStore/SET_READ_ROOM_PASSWORD', " ");
+                  router.push({ name: 'RoomPermission' });
+                }else{
+                  this.$store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
+                  this.$store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
+                  this.createRoomPassword = this.createRoomPassword.trim();
+                  this.$store.commit('roomStore/SET_READ_ROOM_PASSWORD', this.createRoomPassword);
+                  router.push({ name: 'RoomPermission' });
+                }
+              }
+          }
+        },
+        (error) => {
+            console.log(error);
+        })
+},
+        
 
     
   },
@@ -242,23 +323,44 @@ export default {
             await store.dispatch('roomStore/getReceiveRooms', currentReceivePage.value - 1 );
         }
 
-        
-
-        function enterroom(data) {
-          //룸이름 뷰엑스에 설정
-          store.commit('roomStore/SET_READ_ROOMNAME', data.roomName);
-          router.push({ name: 'RoomPermission' });
-        }
-
-        // function start(){
-        //   store.commit('roomStore/SET_READ_ROOMNAME', this.createRoomName);
-        //   store.commit('roomStore/SET_READ_MAX_Member', this.createMaxMember);
-        //   console.log(this.createMaxMember);
-        //   router.push({ name: 'RoomPermission' });
+        // function getInputValue(promptText) {
+        //   const input = prompt(promptText);
+        //   return input;
         // }
 
         
 
+        function enterroom(data) {
+          //룸이름 뷰엑스에 설정
+          if(data.maxMember == data.nowMember){
+            alert("입장 인원이 가득 찼습니다")
+          }else{
+            if(data.roomPassword == " "){
+              store.commit('roomStore/SET_READ_ROOMNAME', data.roomName);
+              store.commit('roomStore/SET_READ_ROOM_PASSWORD', data.roomPassword);
+              router.push({ name: 'RoomPermission' });
+            }else{
+              if(prompt('비밀번호를 입력하세요:')==data.roomPassword){
+                //비밀번호 설정
+                store.commit('roomStore/SET_READ_ROOM_PASSWORD', data.roomPassword);
+                store.commit('roomStore/SET_READ_ROOMNAME', data.roomName);
+                router.push({ name: 'RoomPermission' });
+
+              }else{
+                alert("비밀번호가 다릅니다.");
+              }
+            }
+          }
+        }
+
+        const keyword = ref('');
+
+        async function searchRoom(){
+          //console.log(keyword.value);
+          await store.dispatch('roomStore/SearchRoomList', { keyword: keyword.value, page: currentReceivePage.value - 1 });
+        }
+
+ 
 
         return {
             currentReceivePage,
@@ -269,6 +371,9 @@ export default {
             changeReceivePage,
             fetchReceiveRooms,
             enterroom,
+            searchRoom,
+            keyword,
+            //check,
             //start,
         };
     }

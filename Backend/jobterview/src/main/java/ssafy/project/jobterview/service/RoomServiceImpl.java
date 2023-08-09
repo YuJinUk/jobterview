@@ -10,6 +10,8 @@ import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.RoomQueryRepository;
 import ssafy.project.jobterview.repository.RoomRepository;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -37,7 +39,9 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public Room findByName(String roomName) {
-        return roomRepository.findByRoomName(roomName).orElseThrow(() -> new NotFoundException("해당 이름의 방이 존재하지 않습니다."));
+
+        Optional<Room> optionalRoom = roomRepository.findByRoomName(roomName);
+        return optionalRoom.orElse(null); // Optional이 비어있을 경우 null을 반환
     }
 
     /**
@@ -49,7 +53,13 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public Page<Room> searchByName(String keyword, Pageable pageable) {
-        return roomQueryRepository.searchByName(keyword, pageable);
+
+        Page<Room> roomList = roomQueryRepository.searchByName(keyword, pageable);
+        if (roomList.isEmpty()) {
+            return null;
+        }
+        //Page<Room>을 Page<RoomDto> 형태로 변환 후 반환
+        return roomList;
     }
 
     /**
@@ -62,7 +72,7 @@ public class RoomServiceImpl implements RoomService {
     public Page<Room> findAll(Pageable pageable) throws NotFoundException {
         Page<Room> roomList = roomRepository.findAll(pageable);
         if (roomList.isEmpty()) {
-            throw new NotFoundException("생성된 방이 존재하지 않습니다.");
+            return null;
         }
         //Page<Room>을 Page<RoomDto> 형태로 변환 후 반환
         return roomList;
