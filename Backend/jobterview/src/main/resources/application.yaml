@@ -2,18 +2,21 @@
 varialbles:
 # 백엔드가 동작할 포트
   port: 8060
-##  cors허용해줄 fe코드
-  feUri: http://localhost:3060/testfe
-#  리다이렉트할때 쓸 변수
-  beUri: http://localhost:${varialbles.port}
-  value: dev
 
+  #feurl
+  feUri: http://localhost:3060/testfe
+
+  #리다이렉트할때 쓸 url
+  beUri: http://localhost:${varialbles.port}
 
 #여기서부터 설정파일
 server:
   port: ${varialbles.port}
 
 spring:
+  profiles:
+    active:
+      - local
   datasource:
     url: jdbc:mysql://localhost:3306/jobterview?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
     username: root
@@ -30,7 +33,6 @@ spring:
 
         show_sql: true
   #        format_sql: true
-
 
   security:
     oauth2:
@@ -83,3 +85,6 @@ AdminMail:
   id: jobterview1@gmail.com
   password: onzkacghyhqoznpq
 
+servlet:
+  session:
+    timeout: 300m

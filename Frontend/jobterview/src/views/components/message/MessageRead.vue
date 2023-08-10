@@ -6,20 +6,24 @@
         <div v-if="$route.params.category == 'receive'">
             <div class="background-box mt-5">
                 <div class="background-inbox d-flex flex-column">
-                    <div class="content">
-                        <p>{{ this.content }}</p>
-                    </div>
-                    <div class="date">
-                        <p>{{ this.createdDate }}</p>
-                        <p>From {{ this.senderNickname }}</p>
+                    <div class="row message">
+                        <div class="mt-2 message-nickname">
+                            <p>From : <span v-text="senderNickname" id="sender"></span></p>
+                        </div>
+                        <div class="mt-3 message-content">
+                            <p v-text="content"></p>
+                        </div>
+                        <div class="message-date">
+                            <p v-text="createdDate"></p>
+                        </div>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-4">
                     <button class="btn btn-primary col-1" @click="toSend(this.senderNickname)">답장</button>
                     <p class="col-1"></p>
-                    <button class="btn btn-danger col-1" @click="showModal()">신고</button>
+                    <button class="btn btn-primary col-1" @click="showModal()">신고</button>
                     <p class="col-1"></p>
-                    <button class="btn btn-danger col-1" @click="deleteReceiveMessage(this.id)">삭제</button>
+                    <button class="btn btn-primary col-1" @click="deleteReceiveMessage(this.id)">삭제</button>
                 </div>
             </div>
         </div>
@@ -27,16 +31,32 @@
         <div v-else>
             <div class="background-box mt-5">
                 <div class="background-inbox d-flex flex-column">
-                    <div class="content">
-                        <p>{{ this.content }}</p>
+                    <!-- <div class="form-group">
+                        <label for="to">받는 사람</label>
+                        <input type="text" class="form-control" id="to" v-model="receiverNickname" readonly>
                     </div>
-                    <div class="date">
-                        <p>{{ this.createdDate }}</p>
-                        <p>From {{ this.senderNickname }}</p>
+                    <div class="form-group">
+                        <label for="content">내용</label>
+                        <textarea class="form-control" id="content" rows="11" v-model="content" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="to">보낸 날짜</label>
+                        <input type="text" class="form-control" id="to" v-model="createdDate" readonly>
+                    </div> -->
+                    <div class="row message">
+                        <div class="mt-2 message-nickname">
+                            <p>To : <span v-text="receiverNickname" id="sender"></span></p>
+                        </div>
+                        <div class="mt-3 message-content">
+                            <p v-text="content"></p>
+                        </div>
+                        <div class="message-date">
+                            <p v-text="createdDate"></p>
+                        </div>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center mt-4">
-                    <button class="btn btn-primary col-1" @click="deleteSendMessage(this.id)">삭제</button>
+                    <button class="btn btn-danger col-1" @click="deleteSendMessage(this.id)">삭제</button>
                 </div>
             </div>
         </div>
@@ -123,12 +143,14 @@ export default {
             hideModal,
             displayModal,
         };
-
     }
 }
 </script>
 
 <style scoped>
+* {
+    font-size: 20px;
+}
 .container {
     position: relative;
     height: 100vh;
@@ -152,7 +174,7 @@ export default {
 }
 
 .background-inbox {
-    text-align: center;
+    /* text-align: center; */
     display: flex;
     margin-top: 50px;
     margin-left: 80px;
@@ -183,5 +205,43 @@ export default {
 
 .date {
     margin-top: auto;
+}
+
+input {
+    text-align: center;
+}
+
+textarea {
+    text-align: center;
+}
+
+.context-box {
+    background-color: aquamarine !important;
+    /* text-align: center; */
+}
+
+.btn {
+    background-color: #0f4471;
+    font: 700 16px/18px "Lato", sans-serif;
+    border: none;
+}
+
+#sender {
+    font-weight: bolder;
+}
+
+.message {
+    position : relative;
+    left: 50px;
+    top: 20px;
+    width: 600px;   
+}
+
+.message-content {
+    height : 300px;
+}
+
+.message-date {
+    position: relative;
 }
 </style>

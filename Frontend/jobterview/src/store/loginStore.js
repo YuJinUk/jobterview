@@ -1,4 +1,5 @@
 import { loginAPI, logoutAPI } from '@/api/authApi';
+import { isAdmin } from '@/api/memberApi';
 import router from "../router";
 
 export default {
@@ -6,9 +7,9 @@ export default {
     state: {
         isLogin: false,
         loginNickname: "",
+        isAdmin: false,
     },
     mutations: {
-
         SET_Login: function (state, nickname) {
 
             state.isLogin = true;
@@ -22,7 +23,9 @@ export default {
             state.isLogin = true;
             state.loginNickname = user.nickname;
         },
-
+        SET_IS_ADMIN: function (state, isAdmin) {
+            state.isAdmin = isAdmin;
+        }
     },
     getters: {
         getLogin: function (state) {
@@ -31,6 +34,9 @@ export default {
         getLoginMemberNickname: function (state) {
             return state.loginNickname;
         },
+        getIsAdmin: function (state) {
+            return state.isAdmin;
+        }
     },
     actions: {
         async setLoginUser({ commit }, user) {
@@ -57,6 +63,15 @@ export default {
                     commit("User_Logout");
                     //  수정
                     router.push({ name: "Home" });
+                },
+                (error) => {
+                    console.log(error);
+                })
+        },
+        async getMemberRole({ commit, state }) {
+            await isAdmin(state.loginNickname,
+                ({ data }) => {
+                    commit("SET_IS_ADMIN", data);
                 },
                 (error) => {
                     console.log(error);

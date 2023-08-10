@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Role;
+import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
 
@@ -71,20 +72,41 @@ public class MemberServiceImpl implements MemberService{
         Member member = findByEmail(email);
         Role memberRole = member.getRole();
         if(memberRole == Role.ROLE_MEMBER){
-            member.changeRole(Role.ROLE_WITHDRAWN);
+            member.changeRole(Role.ROLE_REPORTED);
         }
-        else if(memberRole == Role.ROLE_WITHDRAWN){
+        else{
             member.changeRole(Role.ROLE_MEMBER);
         }
         memberRepository.save(member);
     }
 
     @Override
+    public void reJoin(MemberDto memberDto) {
+        Member member = findByEmail(memberDto.getEmail());
+        member.changeRole(Role.ROLE_UNVERIFIED);
+        member.insertPassword(member.getPassword());
+        member.changeNickname(member.getNickname());
+        memberRepository.save(member);
+    }
+    @Override
     public void emailAuth(String email, String code) {
         Member member = findByEmail(email);
         // 링크의 인증번호와 DB의 인증 번호가 같으면 인증 완료로 변경
         if(member.getAuthCode().equals(code)) {
             member.changeRole(Role.ROLE_MEMBER);
+            memberRepository.save(member);
+        } else {
+            throw new NotFoundException("인증 번호가 일치하지 않습니다.");
+        }
+
+    }
+
+    @Override
+    public void passwordAuth(String email, String code, String password) {
+        Member member = findByEmail(email);
+        // 링크의 인증번호와 DB의 인증 번호가 같으면 인증 완료로 변경
+        if(member.getAuthCode().equals(code)) {
+            member.insertPassword(password);
             memberRepository.save(member);
         } else {
             throw new NotFoundException("인증 번호가 일치하지 않습니다.");

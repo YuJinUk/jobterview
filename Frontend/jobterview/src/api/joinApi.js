@@ -4,6 +4,10 @@ async function join(member,success,fail){
     await apiTest.post(`/member/join`,member
     ).then(success).catch(fail);
 }
+async function reJoin(member,success,fail){
+    await apiTest.post(`/member/reJoin`,member
+    ).then(success).catch(fail);
+}
 async function checkEmail(email,success,fail){
     console.log(email);
     console.log(apiTest);
@@ -20,5 +24,5 @@ async function sendPasswordEmail(email, success, fail){
     await apiTest.post(`/member/passwordEmailConfirm?email=${email}`).then(success).catch(fail);
 }
 
-export {join,checkEmail,checkNickname,sendEmail,sendPasswordEmail};
+export {join,reJoin,checkEmail,checkNickname,sendEmail,sendPasswordEmail};
 

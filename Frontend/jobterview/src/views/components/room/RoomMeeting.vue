@@ -2,8 +2,8 @@
   <ReportModal
     v-if="displayModal"
     @close-modal-event="hideModal"
-    :reporterNickname="reportNickname"
-    :reportedNickname="nickname"
+    :reporterNickname="nickname"
+    :reportedNickname="reportNickname"
   ></ReportModal>
   <h2
     class="text-center mt-3"
@@ -96,6 +96,8 @@ import UserVideo from "./UserVideo.vue";
 import ReportModal from "../ReportModal";
 import { mapState } from "vuex";
 import router from "@/router";
+import io from "socket.io-client";
+import { socketUrl } from "@/config/config";
 
 export default {
   name: "RoomMeeting",
@@ -111,10 +113,10 @@ export default {
       "readRoomPassword",
     ]),
   },
-  mounted() {
+  async mounted() {
     this.enter_room();
-  },
-  created() {
+    this.$socket = await io(socketUrl);
+    // console.log(this.$socket);
     this.$socket.on("all_users", async (allUsers) => {
       // console.log(allUsers);
       for (let i = 0; i < allUsers.length; i++) {
@@ -176,13 +178,13 @@ export default {
       this.chats.push(chat);
     });
   },
+  async created() {},
   data: () => {
     return {
       myStream: {},
       nickname: "",
       mic: true,
       camera: true,
-      chat: false,
       roomName: "",
       roomPassword: "",
       users: [], // 참여자 객체 저장하는 배열
@@ -275,9 +277,8 @@ export default {
       // this.$socket.emit("join_room", this.roomName);
     },
     async initCall() {
-      this.chat = !this.chat;
       await this.getMedia();
-      console.log(this.readRoomPassword);
+      // console.log(this.readRoomPassword);
       this.nickname = this.loginNickname;
       this.roomName = this.readRoomName;
       this.maxNum = this.readMaxMember;
@@ -304,7 +305,7 @@ export default {
         console.log(e);
       }
     },
-    sendChat() {
+    async sendChat() {
       let chat = {
         nickname: this.nickname,
         content: this.chatContent,
@@ -330,9 +331,17 @@ export default {
       }
     },
     autoScroll() {
-      const scrollableDiv = document.getElementsByClassName("chat-list")[0];
+      let scrollableDiv = document.querySelector(".chat-list");
       scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
     },
+  },
+  beforeUnmount() {
+    this.$socket.disconnect();
+    // console.log("소켓연결 종료");
+    // console.log(this.$socket);
+    if (this.myStream) {
+      this.myStream.getTracks().forEach((track) => track.stop());
+    }
   },
 };
 </script>

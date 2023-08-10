@@ -2,7 +2,6 @@ package ssafy.project.jobterview.controller;
 
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.OpenSSLUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.dto.DeleteMemberDto;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.UpdatePasswordDto;
@@ -47,6 +47,16 @@ public class MemberController {
         //저장된 맴버 반환
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
     }
+        @PostMapping("/reJoin")
+    @ApiOperation(value = "회원 재가입", notes = "")
+    @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
+    public ResponseEntity<?> reJoin(@RequestBody @ApiParam(value = "회원 가입 정보", required = true) MemberDto memberDto) {
+            String rawPassword = memberDto.getPassword();
+            String encPwd = bCryptPasswordEncoder.encode(rawPassword);
+            memberDto.setPassword(encPwd);
+            memberService.reJoin(memberDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/nicknameCheck")
     @ApiOperation(value = "닉네임이 일치하는 회원이 있다면 0 반환", notes = "")
@@ -55,7 +65,7 @@ public class MemberController {
         Member member = null;
         try {
             member = memberService.findByNickname(nickname);
-            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(0, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
         }
@@ -69,7 +79,7 @@ public class MemberController {
         Member member = null;
         try {
             member = memberService.findByEmail(email);
-            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(0, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
         }
@@ -118,19 +128,6 @@ public class MemberController {
         }
     }
 
-
-    @PutMapping("/resetPassword")
-    @ApiOperation(value = "비밀번호 찾기 후 비밀번호 재설정", notes = "")
-    @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
-    public ResponseEntity<?> resetPassword(@RequestBody @ApiParam(value = "비밀번호 수정할 회원 정보", required = true) UpdatePasswordDto updatePasswordDto) {
-        Member member = memberService.findByEmail(updatePasswordDto.getEmail());
-        member.insertPassword(bCryptPasswordEncoder.encode(updatePasswordDto.getNewPassword()));
-        memberService.save(member);
-        return new ResponseEntity<>(updatePasswordDto, HttpStatus.OK);
-    }
-
-
-
     @GetMapping("/me")
     @ApiOperation(value = "현재 로그인 한 회원 정보 조회", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
@@ -144,13 +141,11 @@ public class MemberController {
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
     public ResponseEntity<?> searchByNickname(@PageableDefault(page = 0, size = 10, sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value = "페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value = "검색할 닉네임 키워드", required = true) String keyword) {
         Page<MemberDto> members = null;
-        if(keyword.trim().length() == 0) {
+        if(keyword.trim().isEmpty()) {
             members = memberService.getAllActiveMember(pageable).map(Member::toMemberDto);
         } else {
             members = memberService.findByNicknameContainsAndRole(pageable, keyword).map(Member::toMemberDto);
         }
-        System.out.println(members.getContent().size());
-
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
@@ -163,30 +158,43 @@ public class MemberController {
 
     @PutMapping("/emailauth")
     @ApiOperation(value = "이메일 인증", notes = "")
-    public ResponseEntity<?> emailAuth(@RequestParam String email, @RequestParam String code) throws Exception {
-        System.out.println(email + " " + code);
+    public ResponseEntity<?> emailAuth(@RequestParam String code, @RequestParam String email) throws Exception {
         memberService.emailAuth(email, code);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
     @PostMapping("passwordEmailConfirm")
     @ApiOperation(value = "패스워드 이메일 전송", notes = "")
-        public ResponseEntity<?> passwordEmailConfirm(@RequestParam String email) throws Exception {
-            String confirm = emailService.sendPasswordMessage(email);
-            return new ResponseEntity<>(confirm, HttpStatus.OK);
-        }
+    public ResponseEntity<?> passwordEmailConfirm(@RequestParam String email) throws Exception {
+        String confirm = emailService.sendPasswordMessage(email);
+        return new ResponseEntity<>(confirm, HttpStatus.OK);
+    }
 
+    @PutMapping("/resetPassword")
+    @ApiOperation(value = "비밀번호 변경 인증", notes = "")
+    public ResponseEntity<?> passwordAuth(@RequestBody @ApiParam(value = "비밀번호 수정할 회원 정보", required = true) UpdatePasswordDto updatePasswordDto) throws Exception {
+        memberService.passwordAuth(updatePasswordDto.getEmail(), updatePasswordDto.getCode(),
+                bCryptPasswordEncoder.encode(updatePasswordDto.getNewPassword()));
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
 
-        /**
-         * 전체 회원 목록 조회
-         *
-         * @param pageable 페이징 및 정렬 정보
-         * @return 전체 회원 목록
-         */
+    /**
+     * 전체 회원 목록 조회
+     *
+     * @param pageable 페이징 및 정렬 정보
+     * @return 전체 회원 목록
+     */
     @GetMapping("/list")
     @ApiOperation(value = "전체 회원 목록 조회")
     public ResponseEntity<Page<MemberDto>> findAllMember(@PageableDefault(page = 0, size = 10,
             sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(memberService.getAllActiveMember(pageable).map(Member::toMemberDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/isadmin")
+    public ResponseEntity<Boolean> isAdmin(@RequestParam String nickname) {
+        Member findMember = memberService.findByNickname(nickname);
+        boolean isAdmin = findMember.getRole() == Role.ROLE_ADMIN;
+        return new ResponseEntity<>(isAdmin, HttpStatus.OK);
     }
 }

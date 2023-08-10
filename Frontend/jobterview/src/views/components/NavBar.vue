@@ -1,72 +1,28 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
-    <!-- 로그인 했을 때 -->
-    <div v-if="getUser" class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <p class="login-nickname">{{ loginNickname }}</p>
-        </li>
-        <div class="dropdown">
-          <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
-          <div class="dropdown-menu dropdown-menu-left" :class="{ show: isDropdownOpen }" aria-labelledby="dropdownIcon">
-            <a class="dropdown-item" @click="updatePassword">비밀번호 변경</a>
-            <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
-            <a class="dropdown-item" @click="logout">로그아웃</a>
-          </div>
-        </div>
-        <li class="nav-item">
-          <i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px" @click="toMessage()"></i>
-        </li>
-        <li class="nav-item">
-          <i class="bi bi-heart-fill" style="font-size: 22px; margin-right: 20px" @click="toggleBookmark()"></i>
-          <ul class="dropdown-menu dropdown-menu-right bookmark" :class="{ show: bookmarkVisible }"
-            aria-labelledby="dropdownIcon">
-            <!-- v-for 써서 즐겨찾기한 방 정보 뿌려주기 -->
-            <!-- 여기부터 -->
-            <li>
-              <a class="dropdown-item room" href="#">
-                <div class="roomName">삼성 임원 면접 같이 준비해요.</div>
-                <div class="memberNum">5/5</div>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item room" href="#">
-                <div class="roomName">싸탈하실분 모집합니다.</div>
-                <div class="memberNum">4/5</div>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item room" href="#">
-                <div class="roomName">구글 면접방입니다.</div>
-                <div class="memberNum">3/5</div>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item room" href="#">
-                <div class="roomName">우아한형제들 1차 면접 곧 시작합니다.</div>
-                <div class="memberNum">2/5</div>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item room" href="#">
-                <div class="roomName">토스 붙으신 분</div>
-                <div class="memberNum">1/5</div>
-              </a>
-            </li>
-            <!-- 끝 -->
-
-            <div>
-              <button @click="toggleBookmark()" class="closeButton">닫기</button>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
+        
+        <!-- 로그인 했을 때 -->
+        
+            <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <p class="  login-nickname">{{loginNickname}}</p>
+                    </li>
+                        <div class="dropdown">
+                        <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
+                        <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+                            aria-labelledby="dropdownIcon">
+                            <a class="dropdown-item"  href="#" >비밀번호 변경</a>
+                            <a class="dropdown-item" href="#">회원 탈퇴</a>
+                            <a class="dropdown-item" @click="logout">로그아웃</a>
+                        </div>
+                    </div>
+                    <li v-if="getIsAdmin" class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;" @click="toAdmin()"></i></li>
+                    <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
+                    <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
+                </ul>
             </div>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px" @click="toMemberList()"></i>
-        </li>
-      </ul>
-    </div>
-
     <!-- 로그인 안 했을 때 -->
 
     <div v-else class="collapse navbar-collapse" id="navbarNav">
@@ -87,8 +43,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "NavBar",
   components: {},
@@ -122,6 +78,9 @@ export default {
     toMemberList() {
       this.$router.push({ name: "MemberList" });
     },
+    toAdmin() {
+      this.$router.push({ name: "AdminMember" });
+    },
     toMain() {
       this.$router.push({ name: "Home" });
     },
@@ -134,23 +93,24 @@ export default {
     withdraw() {
       this.$router.push({ name: "WithdrawMember" });
     },
-
     logout() {
       this.$store.dispatch("loginStore/UserLogout");
     },
   },
-  mounted() {
+  async mounted() {
+    //어드민인지 확인
+    await this.$store.dispatch("loginStore/getMemberRole");
     window.addEventListener("click", this.closeDropdown);
   },
   beforeUnmount() {
     window.removeEventListener("click", this.closeDropdown);
   },
   computed: {
-
     ...mapGetters(["loginStore/getLogin"]),
+    ...mapGetters("loginStore", ["getIsAdmin"]),
     ...mapState("loginStore", ["isLogin"]),
     ...mapState("loginStore", ["loginNickname"]),
-
+    
     getUser() {
       if (this.isLogin) {
         return true;
@@ -159,7 +119,7 @@ export default {
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -257,13 +217,4 @@ export default {
   font: 700 16px/18px "Mulish", sans-serif;
   text-decoration: none !important;
 }
-
-
-/* .roomName {
-    width: 85%;
-    margin-right: 10%;
-    white-space: nowrap;
-    overflow: hidden;
-  text-overflow: ellipsis;
-} */
 </style>

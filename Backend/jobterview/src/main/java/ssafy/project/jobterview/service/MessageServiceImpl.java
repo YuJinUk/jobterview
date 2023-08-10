@@ -59,4 +59,11 @@ public class MessageServiceImpl implements MessageService {
         findMessage.changeToMemberVisible(false);
         messageRepository.save(findMessage);
     }
+
+    @Override
+    public Page<Message> findAllWithPaging(Pageable pageable) {
+        System.out.println("messageService");
+
+        return messageRepository.findAll(pageable);
+    }
 }

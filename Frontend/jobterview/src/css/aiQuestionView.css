@@ -1,3 +1,17 @@
+.genderCheckBox {
+  text-align: right;
+  margin: 1% 3% 0 0;
+}
+
+.genderButton {
+  border: none;
+}
+
+.selected {
+  color: #fff;
+  background-color: #0f4471;
+}
+
 li {
   list-style: none;
   cursor: default;
@@ -138,7 +152,7 @@ li {
   display: flex;
   float: right;
 
-  margin: 20px;
+  margin: 5px 20px 20px 20px;
 }
 
 #buttonBox p {
@@ -154,7 +168,7 @@ li {
   pointer-events: none;
   background-color: gainsboro;
 
-  margin: 5px 0px 0 20px;
+  margin: 5px 0px 0 10px;
 
   color: #fff;
   border: none;
@@ -163,8 +177,8 @@ li {
   font-size: 14px;
   font-weight: 500;
 
-  width: 65px;
-  height: 35px;
+  width: 50px;
+  height: 30px;
 
   transition: all 0.15s ease-in-out;
 }

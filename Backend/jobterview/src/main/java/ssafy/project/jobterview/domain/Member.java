@@ -69,6 +69,7 @@ public class Member extends BaseTimeEntity {
         return MemberDto.builder()
                 .email(m.getEmail())
                 .nickname(m.getNickname())
+                .role(m.role.toString())
                 .build();
     }
 
@@ -102,5 +103,12 @@ public class Member extends BaseTimeEntity {
     public void setAuthCode(String code) {
         this.authCode = code;
     }
+
+    public void changeNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+
+    
 }
 

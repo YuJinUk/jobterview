@@ -21,7 +21,7 @@ const memberRouter = [
     component:UpdatePassword,
   },
   {
-    path:'/member/resetPassword/:email',
+    path:'/member/resetPassword/:code/:email',
     name:'ResetPassword',
     component:ResetPassword,
   },
