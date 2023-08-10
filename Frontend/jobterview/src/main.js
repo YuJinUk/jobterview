@@ -17,9 +17,12 @@ import axios from "axios";
 import router from "./router/index";
 import store from "@/store/store";
 import io from 'socket.io-client';
+
+import { socketUrl } from "./config/config";
+
 library.add(faUserSecret);
 library.add(fas);
-const socket = io("http://localhost:4060");
+const socket = io(socketUrl);
 const app = createApp(App);
 app.config.globalProperties.$socket = socket;
 console.log(socket);
