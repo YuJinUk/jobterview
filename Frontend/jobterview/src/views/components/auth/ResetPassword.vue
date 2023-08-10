@@ -53,11 +53,12 @@ export default {
                 alert("비밀번호에 공백이 들어갈 수 없습니다.")
             }
             else {
-                const member = {
+                const member = {    
                     nickname: "",
                     email: route.params.email,
                     password:"",
                     newPassword:password.value,
+                    code: route.params.code,
                 };
                 await resetPassword(member, () => {         
                     alert("새로운 비밀번호로 로그인해주세요.");
