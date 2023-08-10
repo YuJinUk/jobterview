@@ -67,6 +67,7 @@
             로그인
           </button>
           <button class="button col-4" @click="join" style="margin-right:6px; background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">회원가입</button>
+          <button class="button col-4" @click="findPassword" style="margin-right:6px; background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">비밀번호 찾기</button>
         </div>
       </div>
     </div>
@@ -74,6 +75,7 @@
 </template>
 <script>
 import { apiUrl } from "../../../config/config.js";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -94,6 +96,9 @@ export default {
       frm.append("password", user.password);
       this.$store.dispatch("loginStore/setLoginUser", frm);
     },
+    findPassword() {
+      router.push({name: "FindPassword"});
+    }
   },
 };
 </script>

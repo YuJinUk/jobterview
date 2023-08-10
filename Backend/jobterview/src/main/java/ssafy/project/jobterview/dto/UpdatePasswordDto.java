@@ -11,4 +11,5 @@ public class UpdatePasswordDto {
     private String nickname;
     private String password;
     private String newPassword;
+    private String code;
 }

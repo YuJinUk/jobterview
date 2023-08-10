@@ -102,6 +102,19 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public void passwordAuth(String email, String code, String password) {
+        Member member = findByEmail(email);
+        // 링크의 인증번호와 DB의 인증 번호가 같으면 인증 완료로 변경
+        if(member.getAuthCode().equals(code)) {
+            member.insertPassword(password);
+            memberRepository.save(member);
+        } else {
+            throw new NotFoundException("인증 번호가 일치하지 않습니다.");
+        }
+
+    }
+
+    @Override
     public Long getAllActiveMemberCount() {
         Long count = memberRepository.countByRole(Role.ROLE_MEMBER);
         return count;
