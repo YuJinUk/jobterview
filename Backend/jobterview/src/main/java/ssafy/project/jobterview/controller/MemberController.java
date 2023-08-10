@@ -47,6 +47,16 @@ public class MemberController {
         //저장된 맴버 반환
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
     }
+        @PostMapping("/reJoin")
+    @ApiOperation(value = "회원 재가입", notes = "")
+    @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
+    public ResponseEntity<?> reJoin(@RequestBody @ApiParam(value = "회원 가입 정보", required = true) MemberDto memberDto) {
+            String rawPassword = memberDto.getPassword();
+            String encPwd = bCryptPasswordEncoder.encode(rawPassword);
+            memberDto.setPassword(encPwd);
+            memberService.reJoin(memberDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/nicknameCheck")
     @ApiOperation(value = "닉네임이 일치하는 회원이 있다면 0 반환", notes = "")
