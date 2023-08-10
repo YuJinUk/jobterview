@@ -5,7 +5,7 @@
     </div>
 
     <div id="videoBox">
-      <div id="userVideo">
+      <div id="userVideo" style="left: 0px;">
         <video ref="video" autoplay width="800" height="500" style="border-radius: 10%;"></video>
       </div>
       <div id="crossLine" v-if="video">

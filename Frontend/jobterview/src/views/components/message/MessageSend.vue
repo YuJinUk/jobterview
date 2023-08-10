@@ -125,4 +125,10 @@ export default {
 .date {
     margin-top: auto;
 }
+
+.btn {
+    background-color: #0f4471;
+    font: 700 16px/18px "Lato", sans-serif;
+    border: none;
+}
 </style>

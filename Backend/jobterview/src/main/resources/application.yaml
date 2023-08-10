@@ -85,3 +85,6 @@ AdminMail:
   id: jobterview1@gmail.com
   password: onzkacghyhqoznpq
 
+servlet:
+  session:
+    timeout: 300m
