@@ -24,9 +24,7 @@ export default {
             state.loginNickname = user.nickname;
         },
         SET_IS_ADMIN: function (state, isAdmin) {
-            console.log(isAdmin);
             state.isAdmin = isAdmin;
-            console.log(state.isAdmin);
         }
     },
     getters: {
@@ -37,7 +35,6 @@ export default {
             return state.loginNickname;
         },
         getIsAdmin: function (state) {
-            console.log(state.isAdmin);
             return state.isAdmin;
         }
     },
