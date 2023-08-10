@@ -18,7 +18,7 @@
                             <a class="dropdown-item" @click="logout">로그아웃</a>
                         </div>
                     </div>
-                    <li v-if="getIsAdmin" class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;" @click="toAdmin()"></i></li>
+                    <!-- <li class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;" @click="toAdmin()"></i></li> -->
                     <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
                     <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
                 </ul>
@@ -95,14 +95,16 @@ export default {
     },
   },
   mounted() {
+    //어드민인지 확인
+    this.$store.dispatch("loginStore/getMemberRole");
     window.addEventListener("click", this.closeDropdown);
   },
   beforeUnmount() {
     window.removeEventListener("click", this.closeDropdown);
   },
   computed: {
-
     ...mapGetters(["loginStore/getLogin"]),
+    ...mapGetters("loginStore", ["getIsAdmin"]),
     ...mapState("loginStore", ["isLogin"]),
     ...mapState("loginStore", ["loginNickname"]),
     
@@ -112,6 +114,9 @@ export default {
       } else {
         return false;
       }
+    },
+    getIsAdmin() {
+      return this.getIsAdmin;
     },
   },
 }
