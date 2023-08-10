@@ -1,0 +1,185 @@
+@font-face {
+    font-family: 'digit';
+    src:url('@/assets/Orbitron-Medium.ttf');
+    }
+    
+    #headTextBox {
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: #0f4471;
+    
+      padding: 40px 0;
+    }
+    
+    .main-bg{
+    min-width: 1500px;
+    height: 100%;
+    background: white;
+    }
+    
+    .hidden-audio{
+    display: none;
+    }
+    
+    .camera-style{
+    position: absolute;
+    height: 450px;
+    left: 173px;
+    right: 587px;
+    top: 230px;
+    width: 900px;
+    height: 450px;
+    background: #000000;
+    }
+    
+    .timer{
+    position: absolute;
+    display: block;
+    width: 160px;
+    height: 50px;
+    top: 105% !important;
+    left: 30% !important;
+    font-family: "digit";
+    color: black;
+    font-size: 36px;
+    }
+    
+    .start-button{
+    display: inline-block;
+    text-align: center;
+    line-height: 1; /* 텍스트를 수직으로 가운데로 정렬 */
+    white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
+    
+    /* 버튼 배경색과 텍스트 색상 */
+    background-color: white;
+    color: black;
+    
+    /* 버튼 패딩과 여백 설정 */
+    padding: 12px 18px;
+    margin: 5px;
+    
+    /* 버튼 둥글게 만들기 */
+    border-radius: 5px; /* 값을 조절하여 둥근 정도를 변경할 수 있습니다. */
+    
+    /* 커서를 마우스로 올렸을 때의 스타일 설정 */
+    cursor: pointer;
+    }
+    
+    .start-button:hover{
+    background-color: black;
+    color: white;
+    }
+    
+    .start-button-position{
+    position: absolute;
+    left: 38%;
+    top: 140%;
+    }
+    
+    .next-button-position{
+    position: absolute;
+    left: 34%;
+    top: 140%;
+    }
+    
+    .clock {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto; /* 시계를 가운데 정렬 */
+    width: 130px;
+    height: 130px;
+    border: 10px solid #0f4471;
+    border-radius: 50%;
+    transform-origin: center center;
+    }
+    
+    .hour-hand {
+    position: absolute;
+    left: 48.62%;
+    right: 43.04%;
+    top: 5.37%;
+    bottom: 91.54%; 
+    width: 2px;
+    height: 50px;
+    transform-origin: bottom center;
+    background-color: black;
+    }
+    
+    .marker1 {
+    /* 마커 스타일 설정 */
+    position: absolute;
+    font-size: 25px;
+    color: black;
+    top: 45%;
+    left: 77%;
+    font-family: "digit";
+    }
+    .marker2 {
+    /* 마커 스타일 설정 */
+    position: absolute;
+    font-size: 25px;
+    color: black;
+    top: 75%;
+    left: 44%;
+    font-family: "digit";
+    }
+    .marker3 {
+    /* 마커 스타일 설정 */
+    position: absolute;
+    font-size: 25px;
+    color: black;
+    top: 45%;
+    left: 10%;
+    font-family: "digit";
+    }
+    .marker4 {
+    /* 마커 스타일 설정 */
+    position: absolute;
+    font-size: 25px;
+    color: black;
+    top: 12%;
+    left: 46%;
+    font-family: "digit";
+    }
+    
+    .clock-wrapper {
+    position: relative;
+    width: 290px;
+    height: 290px;
+    margin-left: 71%;
+    margin-top: -1%;
+    }
+    
+    
+    .navbar {
+    background-color: #0f4471;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    }
+    
+    .nav-list {
+    list-style: none;
+    
+    margin: 0;
+    padding: 5px 0;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    
+    .nav-item {
+    padding: 5px;
+    font-family: "digit";
+    }
+    
+    .nav-item:hover {
+    background-color: #0f4471;
+    }

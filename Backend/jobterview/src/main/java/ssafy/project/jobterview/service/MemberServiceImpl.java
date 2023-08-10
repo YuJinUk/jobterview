@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Role;
+import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
 

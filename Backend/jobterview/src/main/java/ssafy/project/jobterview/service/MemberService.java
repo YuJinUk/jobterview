@@ -3,6 +3,7 @@ package ssafy.project.jobterview.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.dto.MemberDto;
 
 public interface MemberService {
     Member save(Member member);

@@ -30,4 +30,6 @@ app.use(BootstrapVue3);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.config.productionTip = false;
 app.config.globalProperties.$axios = axios;
+app.config.globalProperties.localhost = "http://localhost:5000/";
+app.config.globalProperties.second = 5;
 app.mount("#app");
