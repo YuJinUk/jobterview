@@ -18,7 +18,7 @@
                             <a class="dropdown-item" @click="logout">로그아웃</a>
                         </div>
                     </div>
-                    <!-- <li class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;" @click="toAdmin()"></i></li> -->
+                    <li v-if="getIsAdmin" class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;" @click="toAdmin()"></i></li>
                     <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
                     <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
                 </ul>
@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "NavBar",
   components: {},
@@ -78,6 +78,9 @@ export default {
     toMemberList() {
       this.$router.push({ name: "MemberList" });
     },
+    toAdmin() {
+      this.$router.push({ name: "AdminMember" });
+    },
     toMain() {
       this.$router.push({ name: "Home" });
     },
@@ -94,9 +97,9 @@ export default {
       this.$store.dispatch("loginStore/UserLogout");
     },
   },
-  mounted() {
+  async mounted() {
     //어드민인지 확인
-    this.$store.dispatch("loginStore/getMemberRole");
+    await this.$store.dispatch("loginStore/getMemberRole");
     window.addEventListener("click", this.closeDropdown);
   },
   beforeUnmount() {
@@ -114,9 +117,6 @@ export default {
       } else {
         return false;
       }
-    },
-    getIsAdmin() {
-      return this.getIsAdmin;
     },
   },
 }
