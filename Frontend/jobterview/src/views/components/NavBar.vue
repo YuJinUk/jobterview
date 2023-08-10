@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "NavBar",
   components: {},
@@ -78,6 +78,9 @@ export default {
     toMemberList() {
       this.$router.push({ name: "MemberList" });
     },
+    toAdmin() {
+      this.$router.push({ name: "AdminMember" });
+    },
     toMain() {
       this.$router.push({ name: "Home" });
     },
@@ -94,15 +97,17 @@ export default {
       this.$store.dispatch("loginStore/UserLogout");
     },
   },
-  mounted() {
+  async mounted() {
+    //어드민인지 확인
+    await this.$store.dispatch("loginStore/getMemberRole");
     window.addEventListener("click", this.closeDropdown);
   },
   beforeUnmount() {
     window.removeEventListener("click", this.closeDropdown);
   },
   computed: {
-
     ...mapGetters(["loginStore/getLogin"]),
+    ...mapGetters("loginStore", ["getIsAdmin"]),
     ...mapState("loginStore", ["isLogin"]),
     ...mapState("loginStore", ["loginNickname"]),
     

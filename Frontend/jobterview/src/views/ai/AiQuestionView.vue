@@ -54,7 +54,7 @@
           </ul>
         </div>
 
-        <div>
+        <div class="genderCheckBox">
            정확한 음성 분석을 위해 성별을 선택해주세요. 
            <button class="genderButton" :class="{selected: gender}" @click="toggleGender()" >남성</button>
            <button class="genderButton" :class="{selected: !gender}" @click="toggleGender()" >여성</button>
@@ -70,7 +70,6 @@
           <router-link :to="{ name: 'AiWebCam' }">
             <button :class="{ activeButton: isAllSelected }">다음</button>
           </router-link>
-          <!-- <button :class="{ activeButton: isAllSelected }">다음</button> -->
         </div>
       </div>
     </div>

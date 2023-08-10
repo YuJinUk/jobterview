@@ -10,7 +10,6 @@ export default {
         isAdmin: false,
     },
     mutations: {
-
         SET_Login: function (state, nickname) {
 
             state.isLogin = true;
@@ -27,7 +26,6 @@ export default {
         SET_IS_ADMIN: function (state, isAdmin) {
             state.isAdmin = isAdmin;
         }
-
     },
     getters: {
         getLogin: function (state) {
