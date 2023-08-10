@@ -22,15 +22,6 @@ import ssafy.project.jobterview.service.MessageService;
 public class MessageController {
     private final MessageService messageService;
 
-    @GetMapping("")
-    @ApiOperation(value = "전체 메세지 목록")
-    public ResponseEntity<Page<MessageDto>> getAllMessages(
-            @PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Message> messagePage = messageService.findAllWithPaging(pageable);
-        Page<MessageDto> messageDtoPage = messagePage.map(Message::convertToDto);
-        return new ResponseEntity<>(messageDtoPage, HttpStatus.OK);
-    }
-
     // 받은 메세지 목록
     @GetMapping("/me")
     @ApiOperation(value = "받은 메세지 목록")

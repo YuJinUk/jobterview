@@ -2,6 +2,7 @@ package ssafy.project.jobterview.controller;
 
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.net.openssl.OpenSSLUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +16,7 @@ import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.dto.DeleteMemberDto;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.UpdatePasswordDto;
+import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.service.EmailService;
 import ssafy.project.jobterview.service.MemberService;
 
@@ -38,16 +40,16 @@ public class MemberController {
     @ApiOperation(value = "회원 등록", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
     public ResponseEntity<?> join(@RequestBody @ApiParam(value = "회원 가입 정보", required = true) MemberDto memberDto) {
-        String rawPassword = memberDto.getPassword();
-        String encPwd = bCryptPasswordEncoder.encode(rawPassword);
-        memberDto.setPassword(encPwd);
-        Member member = new Member(memberDto.getEmail(), memberDto.getNickname(), memberDto.getPassword());
-        //맴버 저장
-        Member saveMember = memberService.save(member);
-        //저장된 맴버 반환
-        return new ResponseEntity<>(saveMember, HttpStatus.OK);
+            String rawPassword = memberDto.getPassword();
+            String encPwd = bCryptPasswordEncoder.encode(rawPassword);
+            memberDto.setPassword(encPwd);
+            Member newMember = new Member(memberDto.getEmail(), memberDto.getNickname(), memberDto.getPassword());
+            //맴버 저장
+            Member saveMember = memberService.save(newMember);
+            //저장된 맴버 반환
+            return new ResponseEntity<>(saveMember, HttpStatus.OK);
     }
-        @PostMapping("/reJoin")
+    @PostMapping("/reJoin")
     @ApiOperation(value = "회원 재가입", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
     public ResponseEntity<?> reJoin(@RequestBody @ApiParam(value = "회원 가입 정보", required = true) MemberDto memberDto) {
@@ -65,8 +67,9 @@ public class MemberController {
         Member member = null;
         try {
             member = memberService.findByNickname(nickname);
-            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
+
+            return new ResponseEntity<>(0, HttpStatus.OK);}
+        catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
         }
     }
@@ -75,12 +78,15 @@ public class MemberController {
     @ApiOperation(value = "이메일이 일치하는 회원이 있다면 0 반환", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
     public ResponseEntity<?> checkByEmail(@ApiParam(value = "중복 이메일 체크", required = true) @RequestParam String email) {
-        Boolean check;
         Member member = null;
         try {
-            member = memberService.findByEmail(email);
-            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
+            member=memberService.findByEmail(email);
+            if(member.getRole()==(Role.ROLE_WITHDRAWN)) {
+                return new ResponseEntity<>(2, HttpStatus.OK);
+            }
+            else{
+            return new ResponseEntity<>(0, HttpStatus.OK);
+        } }catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
         }
     }
@@ -173,9 +179,8 @@ public class MemberController {
 
     @PutMapping("/emailauth")
     @ApiOperation(value = "이메일 인증", notes = "")
-    public ResponseEntity<?> emailAuth(@RequestParam String email, @RequestParam String code) throws Exception {
-        System.out.println(email + " " + code);
-        memberService.emailAuth(email, code);
+    public ResponseEntity<?> emailAuth(@RequestParam String email) throws Exception {
+        memberService.emailAuth(email);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
@@ -198,12 +203,5 @@ public class MemberController {
     public ResponseEntity<Page<MemberDto>> findAllMember(@PageableDefault(page = 0, size = 10,
             sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(memberService.getAllActiveMember(pageable).map(Member::toMemberDto), HttpStatus.OK);
-    }
-
-    @GetMapping("/isadmin")
-    public ResponseEntity<Boolean> isAdmin(@RequestParam String nickname) {
-        Member findMember = memberService.findByNickname(nickname);
-        boolean isAdmin = findMember.getRole() == Role.ROLE_ADMIN;
-        return new ResponseEntity<>(isAdmin, HttpStatus.OK);
     }
 }

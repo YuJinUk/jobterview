@@ -25,14 +25,13 @@ public interface MemberService {
     Page<Member> findAll(Pageable pageable);
 
     void update(String email);
-    
+
     void reJoin(MemberDto memberDto);
 
     Long getAllActiveMemberCount();
 
     Page<Member> getAllActiveMember(Pageable pageable);
 
-    void emailAuth(String email, String code);
+    void emailAuth(String email);
 
-    void setEmailCode(String email, String code);
 }

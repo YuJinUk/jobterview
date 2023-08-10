@@ -56,9 +56,6 @@ public class Member extends BaseTimeEntity {
     @ColumnDefault("'ROLE_UNVERIFIED'")
     private Role role;
 
-    @Column
-    private String authCode;
-
     public Member(String email, String nickname, String password) {
         this.email = email;
         this.nickname = nickname;
@@ -69,7 +66,6 @@ public class Member extends BaseTimeEntity {
         return MemberDto.builder()
                 .email(m.getEmail())
                 .nickname(m.getNickname())
-                .role(m.role.toString())
                 .build();
     }
 
@@ -99,16 +95,8 @@ public class Member extends BaseTimeEntity {
     public void changeRole(Role role) {
         this.role = role;
     }
-
-    public void setAuthCode(String code) {
-        this.authCode = code;
-    }
-
-    public void changeNickname(String nickname){
+    public void changeNickname(String nickname) {
         this.nickname = nickname;
     }
-
-
-    
 }
 

@@ -63,7 +63,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         //DB에 없는 사용자라면 회원가입처리
         if (byUsername == null) {
             Member newMember = new Member(email, name, password);
-            newMember.changeRole(Role.ROLE_MEMBER);
+            newMember.changeRole(Role.ROLE_SOCIAL);
             memberRepository.save(newMember);
             return new PrincipalDetail(newMember, oAuth2User.getAttributes());
         } else {

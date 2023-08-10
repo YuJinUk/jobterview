@@ -12,5 +12,6 @@ public class MemberDto {
     private String email;
     private String nickname;
     private String password;
-    private String role;
+    private boolean mailAuth;
+    private int isActive;
 }

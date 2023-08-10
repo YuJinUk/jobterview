@@ -4,8 +4,8 @@ varialbles:
   port: 8060
 
 ##  cors허용해줄 fe코드
-#  feUri: https://i9a701.p.ssafy.io/testfe
-  feUri: http://localhost:3060/testfe
+  feUri: https://i9a701.p.ssafy.io/testfe
+#  feUri: http://localhost:${varialbles.port}
 
 #  리다이렉트할때 쓸 변수
   beUri: http://localhost:${varialbles.port}
@@ -26,12 +26,13 @@ spring:
       matching-strategy: ant_path_matcher
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
 
         show_sql: true
   #        format_sql: true
+
 
   security:
     oauth2:

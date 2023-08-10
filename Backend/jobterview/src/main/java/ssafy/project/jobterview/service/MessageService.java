@@ -29,5 +29,5 @@ public interface MessageService {
     // 쪽지 상세 보기 (눌렀을 경우)
     Message findById(Long id);
 
-    Page<Message> findAllWithPaging(Pageable pageable);
+
 }

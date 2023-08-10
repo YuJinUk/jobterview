@@ -125,8 +125,6 @@ public class QuestionController {
             @ApiParam(value = "페이지 정보") Pageable pageable,
             @ApiParam(value = "분류 정보", required = true)
             @RequestParam String category) {
-        System.out.println("들어왔니?");
-
         Page<QuestionDto> questionDtoList = questionService.findAllByCategory(Category.valueOf(category), pageable).map(Question::toQuestionDto);
         return new ResponseEntity<>(questionDtoList, HttpStatus.OK);
     }
