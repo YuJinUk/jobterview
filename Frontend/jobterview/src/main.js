@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
-
+import '@/css/font.css';
 /* fontawesome */
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -17,9 +17,12 @@ import axios from "axios";
 import router from "./router/index";
 import store from "@/store/store";
 import io from 'socket.io-client';
+
+import { socketUrl } from "./config/config";
+
 library.add(faUserSecret);
 library.add(fas);
-const socket = io("https://i9a701.p.ssafy.io/");
+const socket = io(socketUrl);
 const app = createApp(App);
 app.config.globalProperties.$socket = socket;
 console.log(socket);
