@@ -90,6 +90,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, to);
         message.setSubject("JOBTERVIEW 비밀번호 재설정 인증을 완료해주세요");//제목
+        ePw = createKey();
         String msgg = "";
         msgg += "<div style='margin:20px;'>";
         msgg += "<h1> 안녕하세요 잡터뷰입니다. </h1>";
@@ -103,10 +104,10 @@ public class EmailServiceImpl implements EmailService {
         msgg += "<div style='font-size:130%'>";
 //        msgg+= "CODE : <strong>";
 //        msgg+= ePw+"</strong><div><br/> ";
-        msgg += "<strong><a href=\"http://localhost:3060/member/resetPassword/" + to + "\">인증하기</a></strong></div><br/>";
+        msgg+= "<strong><a href=\""+env.getProperty("varialbles.feUri")+"/member/resetPassword/" + ePw + "/" + to + "\">인증하기</a></strong></div><br/>";
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");//내용
-        message.setFrom(new InternetAddress("jobterview1.gmail.com", "JOBTERVIEW"));//보내는 사람
+        message.setFrom(new InternetAddress(    "jobterview1.gmail.com", "JOBTERVIEW"));//보내는 사람
 
         return message;
     }
@@ -117,6 +118,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message = createPasswordMessage(to);
         try {
             emailSender.send(message);
+            memberService.setEmailCode(to, ePw);
         } catch (MailException es) {
             es.printStackTrace();
             throw new IllegalArgumentException();
