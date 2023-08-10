@@ -170,13 +170,6 @@ export default {
       const fromNickname = loginMemberNickname.value;
       const toNickname = member.nickname;
 
-      // console.log("before");
-      // console.log("===================================");
-      // console.log(typeof mateNicknames.value);
-      // console.log(mateNicknames.value.length);
-      // console.log(mateNicknames.value);
-      // console.log("===================================");
-
       //메이트 목록에 해당 맴버가 존재하는지 확인
       const idx = mateNicknames.value.indexOf(toNickname);
 
@@ -187,14 +180,6 @@ export default {
 
         //서버에 메이트 취소하는 api 보내는 메서드
         await breakMateApi({ fromNickname, toNickname });
-
-        // console.log("after");
-        // console.log("===================================");
-        // console.log(typeof mateNicknames.value);
-        // console.log(mateNicknames.value.length);
-        // console.log(mateNicknames.value);
-        // console.log("===================================");
-
         return;
       }
       member.isMate = true;
@@ -202,13 +187,6 @@ export default {
 
       //서버에 메이트 만드는 api 보내는 메서드
       await makeMateApi({ fromNickname, toNickname });
-
-      // console.log("after");
-      //   console.log("===================================");
-      //   console.log(typeof mateNicknames.value);
-      //   console.log(mateNicknames.value.length);
-      //   console.log(mateNicknames.value);
-      //   console.log("===================================");
     }
 
     //검색어로 맴버 조회///////////////////////////////////////////////////////
