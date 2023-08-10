@@ -117,6 +117,7 @@ export default {
               if (response.data == 1) {
                   alert("사용가능한 닉네임입니다.");
                   this.duplicateNickname = false;
+                  return;
               }
               alert("사용할 수 없는 닉네임입니다.")
               console.log(response);
