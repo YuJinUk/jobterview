@@ -6,6 +6,7 @@ varialbles:
   feUri: https://i9a701.p.ssafy.io/testfe
   #  리다이렉트할때 쓸 url
   beUri: https://i9a701.p.ssafy.io/testbe
+  value: prod
 
 #여기서부터 설정파일
 server:
