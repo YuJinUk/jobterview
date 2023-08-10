@@ -24,6 +24,8 @@ public interface MemberService {
     Page<Member> findAll(Pageable pageable);
 
     void update(String email);
+    
+    void reJoin(MemberDto memberDto);
 
     Long getAllActiveMemberCount();
 
