@@ -6,6 +6,7 @@ varialbles:
   feUri: http://localhost:3060/testfe
 #  리다이렉트할때 쓸 변수
   beUri: http://localhost:${varialbles.port}
+  value: dev
 
 
 #여기서부터 설정파일
