@@ -7,4 +7,7 @@ const apiUrlPrefix = "/testfe";
 // 시그널링 서버로 연결
 const socketUrl = "https://i9a701.p.ssafy.io"
 
-module.exports = { apiUrl, apiUrlPrefix,socketUrl };
+// ML url
+const MLUrl =  process.env.NODE_ENV === 'production' ? "https://i9a701.p.ssafy.io/": "http://localhost:5000/";
+
+module.exports = { apiUrl, apiUrlPrefix,socketUrl, MLUrl };

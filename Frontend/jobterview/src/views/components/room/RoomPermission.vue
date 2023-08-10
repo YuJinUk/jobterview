@@ -3,10 +3,15 @@
     <div id="headTextBox">
       {{ headText }}
     </div>
-
     <div id="videoBox">
-      <div id="userVideo" style="left: 0px;">
-        <video ref="video" autoplay width="800" height="500" style="border-radius: 10%;"></video>
+      <div id="userVideo" style="left: 0px">
+        <video
+          ref="video"
+          autoplay
+          width="800"
+          height="500"
+          style="border-radius: 10%"
+        ></video>
       </div>
       <div id="crossLine" v-if="video">
         <div class="row">
@@ -28,16 +33,21 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import router from '@/router';
+import { ref } from "vue";
+import router from "@/router";
 // import { useStore } from 'vuex';
 export default {
   name: "RoomPermission",
   mounted() {
     this.getMedia();
   },
+  beforeUnmount() {
+    console.log("카메라 종료");
+    if (this.myStream) {
+      this.myStream.getTracks().forEach((track) => track.stop());
+    }
+  },
   setup() {
-
     // const store = useStore();
     const headText = ref("마이크와 카메라를 준비중입니다.");
     const camera = ref(true);
@@ -64,22 +74,26 @@ export default {
     }
 
     function cameraClick() {
-      this.myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
+      this.myStream
+        .getVideoTracks()
+        .forEach((track) => (track.enabled = !track.enabled));
       this.camera = !this.camera;
     }
 
     function muteClick() {
       // console.log(this.myStream.getAudioTracks());
-      this.myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
+      this.myStream
+        .getAudioTracks()
+        .forEach((track) => (track.enabled = !track.enabled));
       // console.log(this.myStream.getAudioTracks());
       this.mic = !this.mic;
     }
-    
+
     return {
       headText,
       toRoomList,
       enterRoom,
-      getMedia, 
+      getMedia,
       cameraClick,
       muteClick,
       camera,
@@ -87,9 +101,7 @@ export default {
       myStream,
     };
   },
-}
-
+};
 </script>
-
 
 <style scoped src="@/css/permissionView.css" />
