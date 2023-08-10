@@ -71,14 +71,22 @@ public class MemberServiceImpl implements MemberService{
         Member member = findByEmail(email);
         Role memberRole = member.getRole();
         if(memberRole == Role.ROLE_MEMBER){
-            member.changeRole(Role.ROLE_WITHDRAWN);
+            member.changeRole(Role.ROLE_REPORTED);
         }
-        else if(memberRole == Role.ROLE_WITHDRAWN){
+        else{
             member.changeRole(Role.ROLE_MEMBER);
         }
         memberRepository.save(member);
     }
 
+    @Override
+    public void reJoin(MemberDto memberDto) {
+        Member member = findByEmail(memberDto.getEmail());
+        member.changeRole(Role.ROLE_UNVERIFIED);
+        member.insertPassword(member.getPassword());
+        member.changeNickname(member.getNickname());
+        memberRepository.save(member);
+    }
     @Override
     public void emailAuth(String email, String code) {
         Member member = findByEmail(email);
