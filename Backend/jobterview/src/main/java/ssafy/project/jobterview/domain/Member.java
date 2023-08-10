@@ -103,5 +103,12 @@ public class Member extends BaseTimeEntity {
     public void setAuthCode(String code) {
         this.authCode = code;
     }
+
+    public void changeNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+
+    
 }
 
