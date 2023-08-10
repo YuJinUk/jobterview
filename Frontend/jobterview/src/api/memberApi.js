@@ -15,6 +15,13 @@ async function searchMemberApi({ keyword, page, size, sort }, success, fail) {
     .catch(fail);
 }
 
+async function isAdmin ( nickname , success, fail) {
+  await apiTest
+    .get(`/member/isadmin?nickname=${nickname}`)
+    .then(success)
+    .catch(fail);
+}
+
 async function updatePassword(member,success,fail){
   await apiTest.put(`/member`,member).then(success).catch(fail);
 }
@@ -29,4 +36,4 @@ async function withdrawMember(member,success,fail){
 
 
 
-export { getMemberListApi, searchMemberApi, updatePassword, resetPassword, withdrawMember };
+export { getMemberListApi, searchMemberApi, updatePassword, resetPassword, withdrawMember, isAdmin };

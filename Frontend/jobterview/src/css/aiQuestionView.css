@@ -1,3 +1,12 @@
+.genderButton {
+  border: none;
+}
+
+.selected {
+  color: #fff;
+  background-color: #0f4471;
+}
+
 li {
   list-style: none;
   cursor: default;

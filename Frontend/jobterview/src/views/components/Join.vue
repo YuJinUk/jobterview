@@ -5,7 +5,7 @@
               <h1 style="color:#ffffff; text-align:center;"><b>회원가입</b></h1>
               <div class="form-group">
                   <div class="input-group">
-                      <input type="text" :disabled="!duplicateEmail" id="email"
+                      <input type="text" :disabled="duplicateEmail===1 || duplicateEmail===2" id="email"
                           style="border-radius: 5px; margin-right: 10px;" v-model="email" placeholder="이메일" @input="testValidEmail"/>
                       <div><button class="check" @click="emailCheck()">중복확인</button>
                       </div>
@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import { join, checkEmail, checkNickname, sendEmail } from "@/api/joinApi";
+import { join, reJoin,checkEmail, checkNickname, sendEmail } from "@/api/joinApi";
 export default {
   name: 'joinForm',
   data() {
@@ -49,7 +49,7 @@ export default {
           passwordCheck: "",
           nickname: "",
           CheckPassword: true,
-          duplicateEmail: true,
+          duplicateEmail: 0,
           duplicateNickname: true,
           isValidEmail:true,
           passwordLength:true,
@@ -89,7 +89,11 @@ export default {
               else{
               if (response.data == 1) {
                   alert("사용가능한 이메일입니다.");
-                  this.duplicateEmail = false;
+                  this.duplicateEmail = 1;
+              }
+              else if(response.data==2){
+                alert("탈퇴한 이메일입니다. 다시 가입하시겠습니까?");
+                this.duplicateEmail=2;
               }
               else{
                   alert("중복된 이메일입니다");
@@ -114,7 +118,7 @@ export default {
                   alert("사용가능한 닉네임입니다.");
                   this.duplicateNickname = false;
               }
-              alert("중복된 닉네임입니다.")
+              alert("사용할 수 없는 닉네임입니다.")
               console.log(response);
           } (error) => {
               alert("오류가 발생했습니다.")
@@ -128,10 +132,10 @@ export default {
           else if (this.passwordCheck != this.password) {
               alert("비밀번호를 확인해주세요.");
           }
-          else if (this.duplicateEmail & this.duplicateNickname) {
+          else if (this.duplicateEmail===0 & this.duplicateNickname) {
               alert("이메일과 닉네임 중복체크 부탁드립니다.");
           }
-          else if (this.duplicateEmail) {
+          else if (this.duplicateEmail===0) {
               alert("이메일 중복체크 부탁드립니다.");
           }
           else if (this.duplicateNickname) {
@@ -158,6 +162,7 @@ export default {
                   password: this.password,
                   nickname: this.nickname,
               };
+              if(this.duplicateEmail==1){
               await join(member, () => {
                   sendEmail(member.email, () => {
                   }, (error) => {
@@ -168,7 +173,20 @@ export default {
               },
                   (error) => {
                       console.log(error);
+                  });}
+                  else{
+                    await reJoin(member, () => {
+                  sendEmail(member.email, () => {
+                  }, (error) => {
+                      console.log(error);
                   });
+                  alert("등록하신 메일로 인증메일이 전송 되었습니다.");
+                  this.$router.push({ name: 'Home' });
+              },
+                  (error) => {
+                      console.log(error);
+                  });
+                  }
           }
       }
   }

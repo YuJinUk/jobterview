@@ -2,7 +2,6 @@ package ssafy.project.jobterview.controller;
 
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.OpenSSLUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.dto.DeleteMemberDto;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.UpdatePasswordDto;
@@ -46,6 +46,16 @@ public class MemberController {
         Member saveMember = memberService.save(member);
         //저장된 맴버 반환
         return new ResponseEntity<>(saveMember, HttpStatus.OK);
+    }
+        @PostMapping("/reJoin")
+    @ApiOperation(value = "회원 재가입", notes = "")
+    @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
+    public ResponseEntity<?> reJoin(@RequestBody @ApiParam(value = "회원 가입 정보", required = true) MemberDto memberDto) {
+            String rawPassword = memberDto.getPassword();
+            String encPwd = bCryptPasswordEncoder.encode(rawPassword);
+            memberDto.setPassword(encPwd);
+            memberService.reJoin(memberDto);
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/nicknameCheck")
@@ -188,5 +198,12 @@ public class MemberController {
     public ResponseEntity<Page<MemberDto>> findAllMember(@PageableDefault(page = 0, size = 10,
             sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(memberService.getAllActiveMember(pageable).map(Member::toMemberDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/isadmin")
+    public ResponseEntity<Boolean> isAdmin(@RequestParam String nickname) {
+        Member findMember = memberService.findByNickname(nickname);
+        boolean isAdmin = findMember.getRole() == Role.ROLE_ADMIN;
+        return new ResponseEntity<>(isAdmin, HttpStatus.OK);
     }
 }

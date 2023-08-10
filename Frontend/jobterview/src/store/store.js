@@ -5,6 +5,7 @@ import messageStore from './messageStore';
 import loginStore from './loginStore';
 import roomStore from './roomStore';
 import homeStore from './homeStore';
+import aiStore from './aiStore';
 
 const store = createStore({
     modules: {
@@ -12,6 +13,7 @@ const store = createStore({
         roomStore,
         messageStore,
         loginStore,
+        aiStore,
     },
     plugins: [
         createPersistedState()

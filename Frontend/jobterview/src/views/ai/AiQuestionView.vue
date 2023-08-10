@@ -53,16 +53,24 @@
             </li>
           </ul>
         </div>
+
+        <div>
+           정확한 음성 분석을 위해 성별을 선택해주세요. 
+           <button class="genderButton" :class="{selected: gender}" @click="toggleGender()" >남성</button>
+           <button class="genderButton" :class="{selected: !gender}" @click="toggleGender()" >여성</button>
+        </div>
+
+
         <!-- 버튼 -->
         <div id="buttonBox">
           <p>총 4개 중&nbsp;</p>
           <p>{{ selectedQuestionsLength }}</p>
           <p>개의 질문을 선택하셨습니다.</p>
 
-          <!-- <router-link :to="{ name: 'Permission' }">
+          <router-link :to="{ name: 'AiWebCam' }">
             <button :class="{ activeButton: isAllSelected }">다음</button>
-          </router-link> -->
-          <button :class="{ activeButton: isAllSelected }">다음</button>
+          </router-link>
+          <!-- <button :class="{ activeButton: isAllSelected }">다음</button> -->
         </div>
       </div>
     </div>
@@ -78,7 +86,7 @@ export default {
   setup() {
     const store = useStore();
 
-    //data/////////////////////////////////////////////////////////////////////////////////////
+    //data
     const headText = ref("연습할 질문을 선택해주세요.");
 
     const categoryList = ref([
@@ -93,6 +101,7 @@ export default {
 
     const selectedQuestions = ref([]);
     const isAllSelected = ref(false);
+    const gender = ref(true);
 
     //computed/////////////////////////////////////////////////////////////////////////////////////
     //선택된 질문의 갯수 반환
@@ -100,7 +109,7 @@ export default {
       () => selectedQuestions.value.length
     );
 
-    //methods/////////////////////////////////////////////////////////////////////////////////////
+    //methods
     //전체 질문 목록중에 특정 카테고리로 분류
     const categorizeQuestion = (categoryName) => {
       categorizedQuestionList.value = allQuestionList.value.filter(
@@ -164,6 +173,7 @@ export default {
       //4개인경우 store 갱신
       if (selectedQuestions.value.length === 4) {
         isAllSelected.value = true;
+
         store.dispatch(
           "roomStore/setSelectedQuestions",
           selectedQuestions.value
@@ -171,7 +181,30 @@ export default {
       }
     };
 
-    //onMounted/////////////////////////////////////////////////////////////////////////////////////
+    const toggleGender = () => {
+      console.log('toggleGender');
+      gender.value = !gender.value;
+      console.log(gender.value);
+      selectGender();
+    }
+
+    const selectGender = () => {
+      console.log('selectGender');
+
+      let selectedGender = '';
+
+      if(gender.value) {
+        selectedGender = 'male';
+      } else {
+        selectedGender = 'female';
+      }
+
+      console.log(selectedGender);
+      // 성별 값 Vuex 스토어에 저장
+      store.dispatch("roomStore/setSelectGen", selectedGender);
+    };
+
+    //onMounted
     onMounted(async () => {
       //전체 질문 목록 가져오는 api 실행
       await getQuestionListAPI(
@@ -190,11 +223,14 @@ export default {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     return {
       //data
+      gender,
       headText,
       selectedQuestions,
       categoryList,
       isAllSelected,
       categorizedQuestionList,
+      selectGender,
+      toggleGender,
 
       //method
       changeCategory,
@@ -207,4 +243,6 @@ export default {
 };
 </script>
 
-<style scoped src="@/css/aiQuestionView.css" />
+<style scoped src="@/css/aiQuestionView.css" >
+
+</style>

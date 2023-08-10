@@ -34,7 +34,6 @@ spring:
         show_sql: true
   #        format_sql: true
 
-
   security:
     oauth2:
       client:
