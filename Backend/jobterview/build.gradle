@@ -1,3 +1,4 @@
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.13'
@@ -71,6 +72,22 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
+bootJar {
+	dependsOn tasks.withType(JavaCompile)
+	doLast {
+		def profile = project.findProperty('profile') ?: 'dev'
+		copy {
+			from("${projectDir}/src/main/resources") {
+				if (profile == 'dev') {
+					include 'application.yaml'
+				} else {
+					include "application-${profile}.yaml"
+				}
+			}
+			into("${buildDir}/resources/main")
+		}
+	}
+}
 
 tasks.named('test') {
 	useJUnitPlatform()
