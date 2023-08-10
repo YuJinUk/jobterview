@@ -1,15 +1,38 @@
 <template>
-  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="nickname"
-    :reportedNickname="reportNickname"></ReportModal>
-  <h2 class="text-center mt-3" style="font-family: Arial, Helvetica, sans-serif;">{{ readRoomName }}</h2>
+  <ReportModal
+    v-if="displayModal"
+    @close-modal-event="hideModal"
+    :reporterNickname="nickname"
+    :reportedNickname="reportNickname"
+  ></ReportModal>
+  <h2
+    class="text-center mt-3"
+    style="font-family: Arial, Helvetica, sans-serif"
+  >
+    {{ readRoomName }}
+  </h2>
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
-        <video ref="video" autoplay width="480" height="360" style="border-radius: 10%;"></video>
+        <video
+          ref="video"
+          autoplay
+          width="480"
+          height="360"
+          style="border-radius: 10%"
+        ></video>
         <p class="text-center">{{ nickname }}</p>
         <p class="h2 text-center">
-          <i v-if="camera" class="bi bi-camera-video-fill mx-3" @click="cameraClick"></i>
-          <i v-else class="bi bi-camera-video-off-fill mx-3" @click="cameraClick"></i>
+          <i
+            v-if="camera"
+            class="bi bi-camera-video-fill mx-3"
+            @click="cameraClick"
+          ></i>
+          <i
+            v-else
+            class="bi bi-camera-video-off-fill mx-3"
+            @click="cameraClick"
+          ></i>
           <i v-if="mic" @click="muteClick" class="bi bi-mic-fill mx-3"></i>
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
           <i class="bi bi-box-arrow-right mx-3" @click="exitRoom"></i>
@@ -21,14 +44,22 @@
       <UserVideo :info="user"></UserVideo>
     </div>
   </div>
-  <div class="container-chatting" style="overflow-x: hidden;">
+  <div class="container-chatting" style="overflow-x: hidden">
     <div class="user-list">
-      <p><span>참여자 ({{ users.length + 1 }})</span></p>
+      <p>
+        <span>참여자 ({{ users.length + 1 }})</span>
+      </p>
       <div class="user-nickname">
-        <p><i class="bi bi-person-fill"></i><span>{{ nickname }}</span><i
-            class="bi bi-exclamation-triangle-fill text-danger report"></i></p>
-        <p v-for="user in users" :key="user.id"><i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span>
-          <i class="bi bi-exclamation-triangle-fill text-danger report" @click="showModal(user.nickname)"></i>
+        <p>
+          <i class="bi bi-person-fill"></i><span>{{ nickname }}</span
+          ><i class="bi bi-exclamation-triangle-fill text-danger report"></i>
+        </p>
+        <p v-for="user in users" :key="user.id">
+          <i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span>
+          <i
+            class="bi bi-exclamation-triangle-fill text-danger report"
+            @click="showModal(user.nickname)"
+          ></i>
         </p>
       </div>
     </div>
@@ -42,15 +73,20 @@
       </div>
       <div class="row mt-4 chat-input">
         <div class="col-7">
-          <input type="text" class="form-control" placeholder="채팅 입력..." v-model="chatContent"
-            @keydown.enter.prevent="sendChat()">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="채팅 입력..."
+            v-model="chatContent"
+            @keydown.enter.prevent="sendChat()"
+          />
         </div>
         <div class="col-auto">
-          <button type="submit" class="btn btn-secondary" @click="sendChat()">입력</button>
+          <button type="submit" class="btn btn-secondary" @click="sendChat()">
+            입력
+          </button>
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
@@ -60,6 +96,8 @@ import UserVideo from "./UserVideo.vue";
 import ReportModal from "../ReportModal";
 import { mapState } from "vuex";
 import router from "@/router";
+import io from "socket.io-client";
+import { socketUrl } from "@/config/config";
 
 export default {
   name: "RoomMeeting",
@@ -69,17 +107,24 @@ export default {
   },
   computed: {
     ...mapState("loginStore", ["loginNickname"]),
-    ...mapState("roomStore", ["readRoomName", "readMaxMember","readRoomPassword"]),
+    ...mapState("roomStore", [
+      "readRoomName",
+      "readMaxMember",
+      "readRoomPassword",
+    ]),
   },
-  mounted() {
+  async mounted() {
     this.enter_room();
-  },
-  created() {
+    this.$socket = await io(socketUrl);
+    // console.log(this.$socket);
     this.$socket.on("all_users", async (allUsers) => {
       // console.log(allUsers);
       for (let i = 0; i < allUsers.length; i++) {
         //소켓id , nickname
-        let pc = this.createPeerConnection(allUsers[i].id, allUsers[i].nickname); //RTC객체 생성하고 배열에 담고 이벤트등록 및 트랙등록해서 리턴
+        let pc = this.createPeerConnection(
+          allUsers[i].id,
+          allUsers[i].nickname
+        ); //RTC객체 생성하고 배열에 담고 이벤트등록 및 트랙등록해서 리턴
         const offer = await pc.createOffer();
         pc.setLocalDescription(offer);
         // console.log("sendOffer 보내는 곳");
@@ -95,7 +140,10 @@ export default {
 
     this.$socket.on("getOffer", async (data) => {
       // console.log("receive offer");
-      let pc = this.createPeerConnection(data.offerSendID, data.offerSendNickname);
+      let pc = this.createPeerConnection(
+        data.offerSendID,
+        data.offerSendNickname
+      );
       pc.setRemoteDescription(data.offer);
       const answer = await pc.createAnswer();
       // console.log(answer);
@@ -126,15 +174,15 @@ export default {
       // console.log(this.users);
     });
   },
+  async created() {},
   data: () => {
     return {
       myStream: {},
       nickname: "",
       mic: true,
       camera: true,
-      chat: false,
       roomName: "",
-      roomPassword:"",
+      roomPassword: "",
       users: [], // 참여자 객체 저장하는 배열
       chats: [], // 채팅 객체 저장하는 배열
       chatContent: "", // 채팅 내용
@@ -179,8 +227,12 @@ export default {
       // });
       this.pcs = { ...this.pcs, [socketID]: pc };
 
-      pc.addEventListener("icecandidate", (data) => this.handleIceCandidate(data, socketID));
-      pc.addEventListener("addstream", (data) => this.handleAddStream(data, socketID, nickname));
+      pc.addEventListener("icecandidate", (data) =>
+        this.handleIceCandidate(data, socketID)
+      );
+      pc.addEventListener("addstream", (data) =>
+        this.handleAddStream(data, socketID, nickname)
+      );
       this.myStream.getTracks().forEach((track) => {
         pc.addTrack(track, this.myStream);
       });
@@ -200,13 +252,17 @@ export default {
       });
     },
     cameraClick() {
-      this.myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
+      this.myStream
+        .getVideoTracks()
+        .forEach((track) => (track.enabled = !track.enabled));
       // console.log(this.myStream.getVideoTracks());x
       this.camera = !this.camera;
     },
     muteClick() {
       // console.log(this.myStream.getAudioTracks());
-      this.myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
+      this.myStream
+        .getAudioTracks()
+        .forEach((track) => (track.enabled = !track.enabled));
       // console.log(this.myStream.getAudioTracks());
       this.mic = !this.mic;
     },
@@ -217,14 +273,13 @@ export default {
       // this.$socket.emit("join_room", this.roomName);
     },
     async initCall() {
-      this.chat = !this.chat;
       await this.getMedia();
-      console.log(this.readRoomPassword);
+      // console.log(this.readRoomPassword);
       this.nickname = this.loginNickname;
       this.roomName = this.readRoomName;
       this.maxNum = this.readMaxMember;
       this.roomPassword = this.readRoomPassword;
-      this.$store.commit('roomStore/EMPTY_READ_ROOM_PASSWORD');
+      this.$store.commit("roomStore/EMPTY_READ_ROOM_PASSWORD");
       this.$socket.emit("join_room", {
         //all user 시작하는거임 //offer도 저기서 완성시키고 보냄
         // store의 로그인 닉네임, url parameter의 roomNumber 받아오기
@@ -250,7 +305,7 @@ export default {
       let chat = {
         nickname: this.nickname,
         content: this.chatContent,
-      }
+      };
       if (chat.content != "") {
         await this.chats.push(chat);
         this.chatContent = "";
@@ -273,7 +328,15 @@ export default {
       let scrollableDiv = document.querySelector(".chat-list");
       scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
     },
-  },  
+  },
+  beforeUnmount() {
+    this.$socket.disconnect();
+    // console.log("소켓연결 종료");
+    // console.log(this.$socket);
+    if (this.myStream) {
+      this.myStream.getTracks().forEach((track) => track.stop());
+    }
+  },
 };
 </script>
 
@@ -299,15 +362,15 @@ export default {
 }
 
 .user-list {
-  background-color: #EAEAEA;
+  background-color: #eaeaea;
   border-radius: 5px;
   width: 300px;
   height: 320px;
   right: 20px;
 }
 
-.user-list>div {
-  background-color: #FFFFFF;
+.user-list > div {
+  background-color: #ffffff;
   border-radius: 5px;
   width: 250px;
   height: 245px;
@@ -316,7 +379,7 @@ export default {
   left: 25px;
 }
 
-.user-list>p {
+.user-list > p {
   position: absolute;
   left: 25px;
   top: 15px;
@@ -339,7 +402,7 @@ export default {
 }
 
 .chatting {
-  background-color: #EAEAEA;
+  background-color: #eaeaea;
   border-radius: 5px;
   width: 300px;
   height: 370px;
@@ -348,7 +411,7 @@ export default {
 }
 
 .chat-list {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 5px;
   width: 250px;
   height: 250px;
@@ -359,7 +422,7 @@ export default {
   overflow-y: auto;
 }
 
-.chatting>p {
+.chatting > p {
   position: relative;
   left: 25px;
   top: 15px;
