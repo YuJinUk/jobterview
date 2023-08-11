@@ -1,21 +1,4 @@
 <template>
-    <!-- <div>
-        <div class="total-form">
-            <div class="email-form">
-                <h1 style="color:#ffffff; text-align:center;"><b>비밀번호 찾기</b></h1>
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" id="email"
-                            style="border-radius: 5px; margin-right: 10px;" v-model="email" placeholder="이메일" />
-                    </div>
-                </div>
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <button class="button col-3" @click="submit"
-                        style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">메일 받기</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div>
         <div style="margin-top:60px ">
         <h1 style="color: #000000"><b>비밀번호 찾기</b></h1>
