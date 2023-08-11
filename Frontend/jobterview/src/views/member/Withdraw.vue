@@ -1,33 +1,18 @@
 <template>
     <div>
-      <div style="margin-top:60px ">
-      <h1 style="color: #000000"><b>회원 탈퇴</b></h1>
-    </div>
-      <div class="totalForm">
-        <div class="withdrawForm">
-          <div class="withdrawForm-group">
-            <label for="password" ></label>
-            <input
-              type="password"
-              id="password"
-              style="border-radius: 5px; height: 50px"
-              v-model="password"
-              placeholder="  비밀번호"
-              size="40"
-            />
-            <span style="color:#ffffff; font-size:small" v-if="!passwordLength">8~15자로 입력해주세요.</span>
-          </div>
-          <br>
-          <br/>
-          <div style="  display: flex;
-          align-items: center;
-          flex-direction: column;
-          justify-content: center;
-          width: 100%; ">               
-                <button class="withdraw" @click="submit">탈퇴하기</button>
-          </div>
+        <div class="totalForm">
+            <div id="joinForm">
+                <h1 style="color:#ffffff; text-align:center;"><b>회원 탈퇴</b></h1>
+                <div class="form-group">
+                    <label for="password"></label>
+                    <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="비밀번호">
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <button class="button col-3" @click="submit"
+                        style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">탈퇴하기</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 </template>
 <script>
@@ -75,39 +60,32 @@ export default {
     align-items: center;
     width: 100%;
     height: 600px;
-    background-color: #ffffff;
+    background-color: #0F4471;
 }
-.withdrawForm {
+#joinForm {
     display: block;
     align-items: center;
     justify-content: center;
     width: 700px;
     height: 400px;
+    border-style: solid;
+    border: 5px solid #eeeeee;
 }
 
-.withdrawForm-group {
+.form-group {
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
-    padding: 15px;
     width: 100%;
 }
 
-.withdraw {
-    background-color: #083358;
-    pointer-events: all;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: 500;
-    width:335px;
-    height: 50px;
-    transition: all 0.15s ease-in-out;
-    margin-bottom: 15px;
-  }
-h1 {
-  text-align: center;
+.check {
+    background-color: #2c3e50;
+    color: #ffffff;
+    border-radius: 8px;
+    border-color: #ffffff;
 }
-</style>
+
+.input-group {
+    margin-left: 72%;
+}</style>
