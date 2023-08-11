@@ -54,9 +54,9 @@
         flex-direction: column;
         justify-content: center;
         width: 100%; "> 
-          <p @click="findPassword()"><b>비밀번호</b>를 잊으셨나요?</p>
+          <p @click="findPassword"><b>비밀번호</b>를 잊으셨나요?</p>
           <button class="login" @click="login" size="40">로그인</button>
-          <p @click="toJoin()" >처음이신가요? <b>회원가입</b></p>
+          <p @click="toJoin" >처음이신가요? <b>회원가입</b></p>
         </div>
       </div>
     </div>
@@ -64,6 +64,7 @@
 </template>
 <script>
 import { apiUrl } from "../../../config/config.js";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -75,10 +76,10 @@ export default {
 
   methods: {
     toJoin() {
-      this.$router.push({ name: "Join" });
+      router.push({ name: "Join" });
     },
     findPassword(){
-      this.$router.push({ name: 'FindPassword' });
+      router.push({ name: 'FindPassword' });
     },
     login() {
       let user = {
