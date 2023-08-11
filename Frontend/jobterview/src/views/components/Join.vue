@@ -1,44 +1,4 @@
 <template>
-  <!-- <div>
-    <div style="margin-top:60px ">
-        <h1 style="color: #000000"><b>회원가입</b></h1>
-      </div>
-      <div class="totalForm">
-          <div id="joinForm">
-              <div class="form-group">
-                  <div class="input-group">
-                      <input type="text" :disabled="duplicateEmail===1 || duplicateEmail===2" id="email"
-                          style="border-radius: 5px; height: 50px" v-model="email" placeholder="이메일" @input="testValidEmail" size="40"/>
-                      <div><button class="check" @click="emailCheck()">중복확인</button>
-                      </div>
-                       <span style="color:#ffffff; font-size:small" v-if="!isValidEmail">이메일 형식에 맞지 않습니다.</span>
-                  </div>
-              </div>
-              <div class="form-group">
-                  <div class="input-group">
-                      <input type="text" :disabled="!duplicateNickname" id="nickname"
-                          style="border-radius: 5px; margin-right: 10px;" v-model="nickname" placeholder="닉네임">
-                      <div><button class="check" @click="nicknameCheck()">중복확인</button></div>
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="password"></label>
-                  <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="비밀번호" @input="passwordLengthCheck" >
-                  <span style="color:#ffffff; font-size:small" v-if="!passwordLength">8~15자로 입력해주세요.</span>
-              </div>
-              <div class="form-group">
-                  <label for="passwordCheck"></label>
-                  <input type="password" id="passwordCheck" style="border-radius: 5px;" v-model="passwordCheck"
-                      placeholder="비밀번호 확인">
-                  <span style="color:#ffffff; font-size:small" v-if="passwordCheck != password">비밀번호와 일치하지 않습니다.</span>
-              </div>
-              <div style="display: flex; justify-content: center; align-items: center;">
-                  <button class="button col-3" @click="submit"
-                      style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">가입완료</button>
-              </div>
-          </div>
-      </div>
-  </div> -->
   <div>
     <div style="margin-top:60px ">
     <h1 style="color: #000000"><b>회원가입</b></h1>
