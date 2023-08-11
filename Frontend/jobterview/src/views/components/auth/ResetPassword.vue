@@ -1,26 +1,4 @@
 <template>
-    <!-- <div>
-        <div class="totalForm">
-            <div id="joinForm">
-                <h1 style="color:#ffffff; text-align:center;"><b>비밀번호 변경</b></h1>
-                <div class="form-group">
-                    <label for="password"></label>
-                    <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="새 비밀번호" @input="passwordLengthCheck" >
-                    <span style="color:#ffffff; font-size:small" v-if="!passwordLength">8~15자로 입력해주세요.</span>
-                </div>
-                <div class="form-group">
-                    <label for="passwordCheck"></label>
-                    <input type="password" id="passwordCheck" style="border-radius: 5px;" v-model="passwordCheck"
-                        placeholder="비밀번호 확인">
-                    <span style="color:#ffffff; font-size:small" v-if="passwordCheck != password">비밀번호와 일치하지 않습니다.</span>
-                </div>
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <button class="button col-3" @click="submit"
-                        style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">변경하기</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div>
         <div style="margin-top:60px ">
         <h1 style="color: #000000"><b>비밀번호 변경</b></h1>
