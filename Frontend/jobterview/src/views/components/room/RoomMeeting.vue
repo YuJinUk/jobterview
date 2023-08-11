@@ -312,7 +312,7 @@ export default {
         roomName: this.roomName,
       };
       if (chat.content != "") {
-        this.chats.push(chat);
+        await this.chats.push(chat);
         this.$socket.emit("send_message", chat);
         this.chatContent = "";
       }
