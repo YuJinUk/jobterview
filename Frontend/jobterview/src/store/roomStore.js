@@ -1,4 +1,4 @@
-import { receiveRoomList,receiveSearchRoomList } from '@/api/roomApi';
+import { receiveRoomList, receiveSearchRoomList } from "@/api/roomApi";
 //import router from '@/router';
 
 export default {
@@ -12,7 +12,7 @@ export default {
     readNowMember: null,
     readMaxMember: null,
     readRoomPassword: null,
-    selectGen: '',
+    selectGen: "",
   },
   getters: {
     //선택된 질문 목록 반환
@@ -42,13 +42,9 @@ export default {
   mutations: {
     SET_SELECTED_QUESTIONS(state, questions) {
       state.selectedQuestions = questions;
-      console.log(state.selectedQuestions);
     },
     SET_RECEIVE_ROOMS: (state, rooms) => {
-      console.log("tt");
-      console.log(rooms);
       state.receiveRooms = rooms;
-      console.log(state.receiveRooms);
     },
     SET_TOTAL_RECEIVE_PAGE: (state, pageNum) => {
       state.totalReceivePage = pageNum;
@@ -90,35 +86,33 @@ export default {
 
     async getReceiveRooms({ commit }, page) {
       console.log(page);
-      await receiveRoomList(page,
-          ({data}) => { 
-            console.log(data.content);
-              commit('SET_RECEIVE_ROOMS', data.content);
-              commit('SET_TOTAL_RECEIVE_PAGE', data.totalPages);
-              commit('SET_CURRENT_RECEIVE_PAGE', page + 1);
-
-          },
-          (error) => {
-              console.log(error);
-          })
-  },
-
-
-  async SearchRoomList({ commit }, {keyword,page}) {
-    await receiveSearchRoomList({keyword,page},
-        ({data}) => {
+      await receiveRoomList(
+        page,
+        ({ data }) => {
           console.log(data.content);
-            commit('SET_RECEIVE_ROOMS', data.content);
-            commit('SET_TOTAL_RECEIVE_PAGE', data.totalPages);
-            commit('SET_CURRENT_RECEIVE_PAGE', page + 1);
-
+          commit("SET_RECEIVE_ROOMS", data.content);
+          commit("SET_TOTAL_RECEIVE_PAGE", data.totalPages);
+          commit("SET_CURRENT_RECEIVE_PAGE", page + 1);
         },
         (error) => {
-            console.log(error);
-        })
-},
+          console.log(error);
+        }
+      );
+    },
 
-  }
+    async SearchRoomList({ commit }, { keyword, page }) {
+      await receiveSearchRoomList(
+        { keyword, page },
+        ({ data }) => {
+          console.log(data.content);
+          commit("SET_RECEIVE_ROOMS", data.content);
+          commit("SET_TOTAL_RECEIVE_PAGE", data.totalPages);
+          commit("SET_CURRENT_RECEIVE_PAGE", page + 1);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+  },
 };
-
-
