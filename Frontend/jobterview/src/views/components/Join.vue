@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <!-- <div>
+    <div style="margin-top:60px ">
+        <h1 style="color: #000000"><b>회원가입</b></h1>
+      </div>
       <div class="totalForm">
           <div id="joinForm">
-              <h1 style="color:#ffffff; text-align:center;"><b>회원가입</b></h1>
               <div class="form-group">
                   <div class="input-group">
                       <input type="text" :disabled="duplicateEmail===1 || duplicateEmail===2" id="email"
-                          style="border-radius: 5px; margin-right: 10px;" v-model="email" placeholder="이메일" @input="testValidEmail"/>
+                          style="border-radius: 5px; height: 50px" v-model="email" placeholder="이메일" @input="testValidEmail" size="40"/>
                       <div><button class="check" @click="emailCheck()">중복확인</button>
                       </div>
                        <span style="color:#ffffff; font-size:small" v-if="!isValidEmail">이메일 형식에 맞지 않습니다.</span>
@@ -36,6 +38,73 @@
               </div>
           </div>
       </div>
+  </div> -->
+  <div>
+    <div style="margin-top:60px ">
+    <h1 style="color: #000000"><b>회원가입</b></h1>
+  </div>
+    <div class="totalForm">
+      <div class="joinForm">
+        <div class="joinForm-group">
+          <input
+            type="email"
+            :disabled="duplicateEmail===1 || duplicateEmail===2"
+            id="email"
+            style="border-radius: 5px; height: 50px"
+            v-model="email"
+            placeholder="  이메일"
+            size="40"
+            @input="testValidEmail"
+          />
+          <div><button class="check" @click="emailCheck()">중복확인</button></div>
+          <span style="color:#EC255A; font-size:medium " v-if="!isValidEmail">이메일 형식에 맞지 않습니다.</span>
+        </div>
+        <div class="joinForm-group">
+            <input
+              type="text"
+              :disabled="!duplicateNickname"
+              id="nickname"
+              style="border-radius: 5px; height: 50px"
+              v-model="nickname"
+              placeholder="  닉네임"
+              size="40"
+            />
+            <div><button class="check" @click="nicknameCheck()">중복확인</button></div>
+          </div>
+        <div class="joinForm-group">
+          <input
+            type="password"
+            id="password"
+            style="border-radius: 5px; height: 50px"
+            v-model="password"
+            placeholder="  비밀번호"
+            @input="passwordLengthCheck"
+            size="40"
+          />
+          <span style="color:#EC255A font-size:medium" v-if="!passwordLength">8~15자로 입력해주세요.</span>
+        </div>
+        <div class="joinForm-group">
+          <input
+            type="password"
+            id="passwordCheck"
+            style="border-radius: 5px; height: 50px" 
+            v-model="passwordCheck"
+            placeholder="  비밀번호 확인"
+            size="40"
+          />
+          <span style="color:#EC255A; font-size:medium" v-if="passwordCheck != password">비밀번호와 일치하지 않습니다.</span>
+        </div>
+        <br>
+        <br/>
+        <div style="  display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%; ">               
+              <button class="joinButton" @click="submit">가입완료</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -195,33 +264,46 @@ export default {
 </script>
 <style scoped>
 .totalForm {
-  display: flex;
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 600px;
-  background-color: #0F4471;
-
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 600px;
+    background-color: #ffffff;
+}
+.joinForm {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    width: 700px;
+    height: 400px;
 }
 
-#joinForm {
-  display: block;
-  align-items: center;
-  justify-content: center;
-  width: 700px;
-  height: 400px;
-  border-style: solid;
-  border: 5px solid #eeeeee;
+.joinForm-group {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px;
+    width: 100%;
 }
 
-.form-group {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  padding: 15px;
-  width: 100%;
+.joinButton {
+    background-color: #083358;
+    pointer-events: all;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    width:335px;
+    height: 50px;
+    transition: all 0.15s ease-in-out;
+    margin-bottom: 15px;
+  }
+h1 {
+  text-align: center;
 }
 
 .check {
@@ -231,6 +313,4 @@ export default {
   border-color: #ffffff;
 }
 
-.input-group {
-  margin-left: 72%;
-}</style>
+</style>
