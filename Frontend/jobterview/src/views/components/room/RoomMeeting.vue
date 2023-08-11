@@ -1,38 +1,17 @@
 <template>
-  <ReportModal
-    v-if="displayModal"
-    @close-modal-event="hideModal"
-    :reporterNickname="nickname"
-    :reportedNickname="reportNickname"
-  ></ReportModal>
-  <h2
-    class="text-center mt-3"
-    style="font-family: Arial, Helvetica, sans-serif"
-  >
+  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="nickname"
+    :reportedNickname="reportNickname"></ReportModal>
+  <h2 class="text-center mt-3" style="font-family: Arial, Helvetica, sans-serif">
     {{ readRoomName }}
   </h2>
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
-        <video
-          ref="video"
-          autoplay
-          width="480"
-          height="360"
-          style="border-radius: 10%"
-        ></video>
+        <video ref="video" autoplay width="480" height="360" style="border-radius: 10%"></video>
         <p class="text-center">{{ nickname }}</p>
         <p class="h2 text-center">
-          <i
-            v-if="camera"
-            class="bi bi-camera-video-fill mx-3"
-            @click="cameraClick"
-          ></i>
-          <i
-            v-else
-            class="bi bi-camera-video-off-fill mx-3"
-            @click="cameraClick"
-          ></i>
+          <i v-if="camera" class="bi bi-camera-video-fill mx-3" @click="cameraClick"></i>
+          <i v-else class="bi bi-camera-video-off-fill mx-3" @click="cameraClick"></i>
           <i v-if="mic" @click="muteClick" class="bi bi-mic-fill mx-3"></i>
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
           <i class="bi bi-box-arrow-right mx-3" @click="exitRoom"></i>
@@ -51,15 +30,12 @@
       </p>
       <div class="user-nickname">
         <p>
-          <i class="bi bi-person-fill"></i><span>{{ nickname }}</span
-          ><i class="bi bi-exclamation-triangle-fill text-danger report"></i>
+          <i class="bi bi-person-fill"></i><span>{{ nickname }}</span><i
+            class="bi bi-exclamation-triangle-fill text-danger report"></i>
         </p>
         <p v-for="user in users" :key="user.id">
           <i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span>
-          <i
-            class="bi bi-exclamation-triangle-fill text-danger report"
-            @click="showModal(user.nickname)"
-          ></i>
+          <i class="bi bi-exclamation-triangle-fill text-danger report" @click="showModal(user.nickname)"></i>
         </p>
       </div>
     </div>
@@ -73,13 +49,8 @@
       </div>
       <div class="row mt-4 chat-input">
         <div class="col-7">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="채팅 입력..."
-            v-model="chatContent"
-            @keydown.enter.prevent="sendChat()"
-          />
+          <input type="text" class="form-control" placeholder="채팅 입력..." v-model="chatContent"
+            @keydown.enter.prevent="sendChat()" />
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-secondary" @click="sendChat()">
@@ -178,7 +149,7 @@ export default {
       this.chats.push(chat);
     });
   },
-  async created() {},
+  async created() { },
   data: () => {
     return {
       myStream: {},
@@ -375,7 +346,7 @@ export default {
   right: 20px;
 }
 
-.user-list > div {
+.user-list>div {
   background-color: #ffffff;
   border-radius: 5px;
   width: 250px;
@@ -385,7 +356,7 @@ export default {
   left: 25px;
 }
 
-.user-list > p {
+.user-list>p {
   position: absolute;
   left: 25px;
   top: 15px;
@@ -428,7 +399,7 @@ export default {
   overflow-y: auto;
 }
 
-.chatting > p {
+.chatting>p {
   position: relative;
   left: 25px;
   top: 15px;
@@ -449,5 +420,13 @@ export default {
 .chat-content {
   position: relative;
   left: 8px;
+}
+
+video {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  /* Safari and Chrome */
+  -moz-transform: rotateY(180deg);
+  /* Firefox */
 }
 </style>
