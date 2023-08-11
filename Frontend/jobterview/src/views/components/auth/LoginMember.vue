@@ -1,11 +1,12 @@
 <template>
   <div>
+    <div style="margin-top:60px ">
+    <h1 style="color: #000000"><b>로그인</b></h1>
+  </div>
     <div class="logintotalForm">
       <div id="loginForm">
-        <br />
-        <h1 style="color: #000000"><b>로그인</b></h1>
         <div class="loginform-group">
-          <label for="email"></label>
+          <label for="email" ></label>
           <input
             type="text"
             id="email"
@@ -20,10 +21,11 @@
           <input
             type="password"
             id="password"
-            style="border-radius: 5px; height: 50px"
+            style="border-radius: 5px; height: 50px" 
             v-model="password"
             placeholder="password"
             size="40"
+            
           />
         </div>
         <br>
@@ -52,9 +54,9 @@
         flex-direction: column;
         justify-content: center;
         width: 100%; "> 
-          <p @click="findPassword"><b>비밀번호</b>를 잊으셨나요?</p>
-          <button class="login" @click="login">로그인</button>
-          <p @click="join" >처음이신가요? <b>회원가입</b></p>
+          <p @click="findPassword()"><b>비밀번호</b>를 잊으셨나요?</p>
+          <button class="login" @click="login" size="40">로그인</button>
+          <p @click="toJoin()" >처음이신가요? <b>회원가입</b></p>
         </div>
       </div>
     </div>
@@ -70,7 +72,14 @@ export default {
       password: "",
     };
   },
+
   methods: {
+    toJoin() {
+      this.$router.push({ name: "Join" });
+    },
+    findPassword(){
+      this.$router.push({ name: 'FindPassword' });
+    },
     login() {
       let user = {
         email: this.email,
@@ -95,6 +104,7 @@ export default {
   height: 600px;
   background-color: #ffffff;
 }
+
 #loginForm {
   display: block;
   align-items: center;
@@ -122,8 +132,8 @@ h1 {
   border-radius: 5px;
   font-size: 14px;
   font-weight: 500;
-  size : 40;
-  height: 35px;
+  width:335px;
+  height: 50px;
   transition: all 0.15s ease-in-out;
   margin-bottom: 15px;
 }
