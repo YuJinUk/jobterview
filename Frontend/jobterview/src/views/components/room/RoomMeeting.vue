@@ -14,14 +14,28 @@
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
-        <video
+        <div v-for="(user, index) in users" :key="user.id" class="text-center">
+          <UserVideo
+            v-if="index === 0"
+            :info="user"
+            :index="index"
+            @changeMainVideo="changeMainVideo"
+          ></UserVideo>
+        </div>
+        <!-- <UserVideo
+          v-if="users[0]"
+          :info="users[0]"
+          :index="0"
+          @changeMainVideo="changeMainVideo"
+        ></UserVideo> -->
+        <!-- <video
           ref="video"
           autoplay
           width="480"
           height="360"
           style="border-radius: 10%"
-        ></video>
-        <p class="text-center">{{ nickname }}</p>
+        ></video> -->
+        <!-- <p class="text-center">{{ nickname }}</p> -->
         <p class="h2 text-center">
           <i
             v-if="camera"
@@ -40,20 +54,25 @@
         <!-- <button @click="debug">디버그 버튼</button> -->
       </div>
     </div>
-    <div v-for="user in users" :key="user.id" class="text-center">
-      <UserVideo :info="user"></UserVideo>
+    <div v-for="(user, index) in users" :key="user.id" class="text-center">
+      <UserVideo
+        v-if="index !== 0"
+        :info="user"
+        :index="index"
+        @changeMainVideo="changeMainVideo"
+      ></UserVideo>
     </div>
   </div>
   <div class="container-chatting" style="overflow-x: hidden">
     <div class="user-list">
       <p>
-        <span>참여자 ({{ users.length + 1 }})</span>
+        <span>참여자 ({{ users.length }})</span>
       </p>
       <div class="user-nickname">
-        <p>
+        <!-- <p>
           <i class="bi bi-person-fill"></i><span>{{ nickname }}</span
           ><i class="bi bi-exclamation-triangle-fill text-danger report"></i>
-        </p>
+        </p> -->
         <p v-for="user in users" :key="user.id">
           <i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span>
           <i
@@ -201,6 +220,11 @@ export default {
         console.log(this.pcs[i].getConfiguration());
       }
     },
+    changeMainVideo(index) {
+      const removedVideo = this.users.splice(index, 1)[0];
+      // console.log(removedVideo);
+      this.user = this.users.unshift(removedVideo);
+    },
     // this.createPeerConnection(allUsers[i].id,allUsers[i].nickname);
     createPeerConnection(socketID, nickname) {
       let pc = new RTCPeerConnection({
@@ -230,9 +254,9 @@ export default {
       pc.addEventListener("icecandidate", (data) =>
         this.handleIceCandidate(data, socketID)
       );
-      pc.addEventListener("addstream", (data) =>
-        this.handleAddStream(data, socketID, nickname)
-      );
+      pc.addEventListener("addstream", (data) => {
+        this.handleAddStream(data, socketID, nickname);
+      });
       this.myStream.getTracks().forEach((track) => {
         pc.addTrack(track, this.myStream);
       });
@@ -273,8 +297,8 @@ export default {
       // this.$socket.emit("join_room", this.roomName);
     },
     async initCall() {
-      await this.getMedia();
       // console.log(this.readRoomPassword);
+      await this.getMedia();
       this.nickname = this.loginNickname;
       this.roomName = this.readRoomName;
       this.maxNum = this.readMaxMember;
@@ -295,8 +319,11 @@ export default {
           audio: true,
           video: true,
         });
-        // console.log(this.$refs.video);
-        this.$refs.video.srcObject = this.myStream;
+        this.users.push({
+          id: this.$socket.id,
+          nickname: this.loginNickname,
+          stream: this.myStream,
+        });
       } catch (e) {
         console.log(e);
       }

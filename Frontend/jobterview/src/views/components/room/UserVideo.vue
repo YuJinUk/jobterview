@@ -1,21 +1,52 @@
 <template>
-    <video ref="remote" autoplay playsinline width="245" height="180" style="border-radius: 15%;"></video>
-    <p class="text-center">{{ info.nickname }}</p>
+  <video
+    v-if="shouldUseLargeVideo"
+    ref="remote"
+    autoplay
+    playsinline
+    width="480"
+    height="360"
+    style="border-radius: 10%"
+  ></video>
+  <video
+    v-if="!shouldUseLargeVideo"
+    ref="remote"
+    autoplay
+    playsinline
+    width="245"
+    height="180"
+    style="border-radius: 15%"
+    @click="clickEvent"
+  ></video>
+  <p class="text-center">{{ info.nickname }}</p>
 </template>
 <script>
 export default {
-    name: "UserVideo",
-    components: {
-    }, created() {
-        console.log(this.info.stream);
-    }, mounted() {
-        console.log(this.info);
-        console.log(this.$refs);
-        this.$refs.remote.srcObject = this.info.stream;
+  name: "UserVideo",
+  computed: {
+    shouldUseLargeVideo() {
+      return this.index === 0;
     },
-    props: {
-        info: Object,
+  },
+  methods: {
+    clickEvent() {
+      this.$emit("changeMainVideo", this.index);
     },
+  },
+  components: {},
+  created() {
+    // console.log(this.info.stream);
+  },
+  mounted() {
+    console.log(this.index + "번컴포넌트에서 mount이벤트 발생");
+    this.$refs.remote.srcObject = this.info.stream;
+    // console.log(this.$refs.remote);
+    // console.log(this.$refs);
+  },
+  props: {
+    info: Object,
+    index: Number,
+  },
 };
 </script>
 
