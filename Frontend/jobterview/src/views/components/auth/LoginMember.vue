@@ -5,7 +5,7 @@
   </div>
     <div class="logintotalForm">
       <div id="loginForm">
-        <div class="loginform-group">
+        <div class="loginForm-group">
           <label for="email" ></label>
           <input
             type="text"
@@ -16,7 +16,7 @@
             size="40"
           />
         </div>
-        <div class="loginform-group">
+        <div class="loginForm-group">
           <label for="password"></label>
           <input
             type="password"
@@ -110,10 +110,10 @@ export default {
   display: block;
   align-items: center;
   justify-content: center;
-  width: 700px; /* 너비를 200px로 설정 */
-  height: 400px; /* 높이를 300px로 설정 */
+  width: 700px; 
+  height: 400px; 
 }
-.loginform-group {
+.loginForm-group {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -127,7 +127,6 @@ h1 {
 .login {
   background-color: #083358;
   pointer-events: all;
-  margin: 5px 0px 0 0px;
   color: #fff;
   border: none;
   border-radius: 5px;
