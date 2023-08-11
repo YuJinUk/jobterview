@@ -36,6 +36,5 @@ public class Report extends BaseTimeEntity {
                 .reportedNickname(r.getReportedMember().getNickname())
                 .reason(r.getReason())
                 .build();
-
     }
 }
