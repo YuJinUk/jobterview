@@ -13,8 +13,8 @@
                         <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
                         <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
                             aria-labelledby="dropdownIcon">
-                            <a class="dropdown-item"  href="#" >비밀번호 변경</a>
-                            <a class="dropdown-item" href="#">회원 탈퇴</a>
+                            <a class="dropdown-item"  @click="updatePassword">비밀번호 변경</a>
+                            <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
                             <a class="dropdown-item" @click="logout">로그아웃</a>
                         </div>
                     </div>
