@@ -145,8 +145,9 @@ export default {
       // console.log(this.users);
     });
 
-    this.$socket.on("receive_message", (chat) => {
-      this.chats.push(chat);
+    this.$socket.on("receive_message", async (chat) => {
+      await this.chats.push(chat);
+      this.autoScroll();
     });
   },
   async created() { },
