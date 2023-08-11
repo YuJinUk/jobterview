@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <!-- <div>
         <div class="total-form">
             <div class="email-form">
                 <h1 style="color:#ffffff; text-align:center;"><b>비밀번호 찾기</b></h1>
@@ -15,7 +15,36 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+    <div>
+        <div style="margin-top:60px ">
+        <h1 style="color: #000000"><b>비밀번호 찾기</b></h1>
+      </div>
+        <div class="totalForm">
+          <div class="findPasswordForm">
+            <div class="findPasswordForm-group">
+              <label for="email" ></label>
+              <input
+                type="email"
+                id="email"
+                style="border-radius: 5px; height: 50px"
+                v-model="email"
+                placeholder="  email"
+                size="40"
+              />
+            </div>
+            <br>
+            <br/>
+            <div style="  display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%; ">               
+                  <button class="findPassword" @click="submit">메일 받기</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </template>
 <script>
 import {checkEmail,sendPasswordEmail} from "@/api/joinApi";
@@ -45,26 +74,24 @@ export default {
 }
 </script>
 <style scoped>
-.total-form {
+.totalForm {
     display: flex;
     position: absolute;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 600px;
-    background-color: #0F4471;
-
+    background-color: #ffffff;
 }
-.email-form {
+.findPasswordForm {
     display: block;
     align-items: center;
     justify-content: center;
     width: 700px;
     height: 400px;
-    border-style: solid;
-    border: 5px solid #eeeeee;
 }
-.form-group {
+
+.findPasswordForm-group {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -72,7 +99,21 @@ export default {
     padding: 15px;
     width: 100%;
 }
-.input-group {
-    margin-left: 72%;
+
+.findPassword {
+    background-color: #083358;
+    pointer-events: all;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    width:335px;
+    height: 50px;
+    transition: all 0.15s ease-in-out;
+    margin-bottom: 15px;
+  }
+h1 {
+  text-align: center;
 }
 </style>
