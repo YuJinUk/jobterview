@@ -86,7 +86,7 @@ export default {
                     router.push({ name: 'Home' });
                 },
                     (error) => {
-                        alert("현재 비밀번호가 일치하지 않습니다.")
+                        alert("최신 메일의 링크로 접속해주세요.")
                         console.log(error);
                     });
             } 
@@ -137,7 +137,7 @@ export default {
     border-radius: 5px;
     font-size: 14px;
     font-weight: 500;
-    width:335px;
+    width:369.6px;
     height: 50px;
     transition: all 0.15s ease-in-out;
     margin-bottom: 15px;

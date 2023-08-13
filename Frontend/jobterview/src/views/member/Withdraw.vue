@@ -48,15 +48,20 @@ export default {
                     password: password.value,
                 };
                 
-                await withdrawMember(member, () => {         
-                    alert("탈퇴가 완료되었습니다.");
-                    store.commit("loginStore/User_Logout");
-                    router.push({ name: 'Home' });
-                },
-                    (error) => {
-                        alert("현재 비밀번호가 일치하지 않습니다.")
-                        console.log(error);
-                    });
+                if(confirm("탈퇴하시겠습니까?")){
+                  await withdrawMember(member, () => { 
+                      alert("탈퇴가 완료되었습니다.");
+                      store.commit("loginStore/User_Logout");
+                      router.push({ name: 'Home' });
+                  },
+                      (error) => {
+                          alert("현재 비밀번호가 일치하지 않습니다.")
+                          console.log(error);
+                      });
+                  }        
+                  else{
+                    return;
+                  }
         }
         return{
             loginMemberNickname,
@@ -102,7 +107,7 @@ export default {
     border-radius: 5px;
     font-size: 14px;
     font-weight: 500;
-    width:335px;
+    width:369.6px;
     height: 50px;
     transition: all 0.15s ease-in-out;
     margin-bottom: 15px;

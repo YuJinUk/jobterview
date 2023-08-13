@@ -119,6 +119,7 @@ export default {
               if (response.data == 1) {
                   alert("사용가능한 이메일입니다.");
                   this.duplicateEmail = 1;
+                  return;
               }
               else if(response.data==2){
                 alert("탈퇴한 이메일입니다. 다시 가입하시겠습니까?");
@@ -257,7 +258,7 @@ export default {
     border-radius: 5px;
     font-size: 14px;
     font-weight: 500;
-    width:335px;
+    width:369.6px;
     height: 50px;
     transition: all 0.15s ease-in-out;
     margin-bottom: 15px;
