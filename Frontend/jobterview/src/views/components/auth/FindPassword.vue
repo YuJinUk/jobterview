@@ -91,7 +91,7 @@ export default {
     border-radius: 5px;
     font-size: 14px;
     font-weight: 500;
-    width:369.6px
+    width:369.6px;
     height: 50px;
     transition: all 0.15s ease-in-out;
     margin-bottom: 15px;
