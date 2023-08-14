@@ -22,6 +22,8 @@ def facial_expression_and_eye_movements(video_file):
     data = {'angry': 0, 'disgust': 0, 'fear': 0, 'happy': 0,
             'sad': 0, 'surprise': 0, 'neutral': 0, 'time': []}
     eye_data = [0, 0, 0]
+    data_new = {'angry': [], 'disgust': [], 'fear': [], 'happy': [],
+                'sad': [], 'surprise': [], 'neutral': [], 'time': []}
     video = cv2.VideoCapture(video_file)
     
     def euclidean_distance(point1, point2):
@@ -63,6 +65,9 @@ def facial_expression_and_eye_movements(video_file):
             
             for ki in data_f:
                 data[ki] += data_f[ki]
+                data_new[ki].append(round(data_f[ki], 2))
+            
+            data_new['time'].append(cnt)
 
             frame = cv2.flip(frame, 1)
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)   #Mediapipe precisa do formato de cores RGB mas o OpenCV usa o BGR
@@ -102,6 +107,11 @@ def facial_expression_and_eye_movements(video_file):
             data[i] = str(round(100 * data[i]/all_value, 3)) + '%'
     
     data['main_emotion'] = [main_emotion, str(round(100 * main_emotion_value/all_value, 3)) + '%']
+    
+    for idx, checkpoint in enumerate(data_new['time']):
+        data_new['time'][idx] = 60 * checkpoint // cnt
+    
+    
     # del data['time']
-    eye_data = str(100 - (100 * eye_data[1]/sum(eye_data))) + '%'
-    return data, eye_data
+    center_eye_data = 100 - (100 * eye_data[1]/sum(eye_data))
+    return data, center_eye_data, eye_data, data_new

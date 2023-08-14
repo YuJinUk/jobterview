@@ -14,9 +14,10 @@ from io import BytesIO
 from scipy.signal import wiener
 import tempfile
 from keras.models import load_model
+from sklearn.preprocessing import scale
 
 def video2wav(video_path, output = "wav"):
-    video_path = os.listdir() + video_path
+    video_path = './' + video_path
     filename, ext = os.path.splitext(video_path)
     subprocess.call(["ffmpeg", "-y", "-i", video_path, f"{filename}.{output}"],
                     stdout=subprocess.DEVNULL,
@@ -127,43 +128,78 @@ def load_audio(file_path, new_name=None):
 
 
 def extract_mfcc(filename):
-    audio, sr = librosa.load(filename, duration=3, offset=0.5)
-    mfcc = np.mean(librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=50).T, axis=0) # n_mfcc : number of features 
+    y, sr = librosa.load(filename, duration=3, offset=0.5)
+    # mfcc = np.mean(librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=50).T, axis=0) # n_mfcc : number of features 
+    mfcc = librosa.feature.mfcc(y = y, sr = sr, n_mfcc=100, n_fft=400, hop_length=160)
     return mfcc
 
 def preprocess(file_path):
-    test_mfcc = extract_mfcc(file_path)
-    test = [x for x in test_mfcc]
-    test = np.array(test)
-    test = np.expand_dims(test, -1)
-    return test
+    # test_mfcc = extract_mfcc(file_path)
+    # test = [x for x in test_mfcc]
+    # test = np.array(test)
+    # test = np.expand_dims(test, -1)
+    mfcc = extract_mfcc(file_path)
+    mfcc = scale(mfcc, axis=1)
+    pad2d = lambda a, i: a[:, 0:i] if a.shape[1] > i else np.hstack((a, np.zeros((a.shape[0], i-a.shape[1]))))
+    padded_mfcc = pad2d(mfcc, 160)
+    test_preprocessing = np.expand_dims(padded_mfcc, 0)
+    return test_preprocessing
 
 def audio_normalization(audio, sr, audio_path):
     result = {
-        0 : 'angry',
-        1 : 'fear',
-        2 : 'sad',
-        3 : 'disgust',
-        4 : 'neutral',
-        5 : 'happy'
+        0 : 'sad',
+        1 : 'neutral',
+        2 : 'fear',
+        3 : 'angry',
+        4 : 'disgust',
     }
     result2 = {
-        'angry' : 0,
-        'fear' : 0,
-        'sad': 0,
-        'disgust' : 0,
+        'sad' : 0,
         'neutral' : 0,
-        'happy' : 0
+        'fear': 0,
+        'angry': 0,
+        'disgust' : 0,
     }
     
-    basic_model = load_model('customLib/model.h5')
+    basic_model = load_model('customLib/model_male.h5')
     new_audio = preprocess(audio_path)
     prediction = basic_model.predict(new_audio)
     
-    for i in prediction:
-        result2[result[np.argmax(i)]] += 1
+    print(prediction)
+    
+    for idx, p in enumerate(prediction[0]):
+        result2[result[idx]] = p
         
     for i in result2:
-        result2[i] = str(100 * result2[i]/ len(prediction)) + '%'
+        result2[i] = 100 * result2[i]/ len(prediction)
+    
+    return result2
+
+
+def female_audio_normalization(audio, sr, audio_path):
+    result = {
+        0 : 'sad',
+        1 : 'neutral',
+        2 : 'fear',
+        3 : 'angry',
+        4 : 'disgust',
+    }
+    result2 = {
+        'sad' : 0,
+        'neutral' : 0,
+        'fear': 0,
+        'angry': 0,
+        'disgust' : 0,
+    }
+    
+    basic_model = load_model('customLib/model_female.h5')
+    new_audio = preprocess(audio_path)
+    prediction = basic_model.predict(new_audio)
+    
+    for idx, p in enumerate(prediction[0]):
+        result2[result[idx]] = p
+        
+    for i in result2:
+        result2[i] = 100 * result2[i]/ len(prediction)
     
     return result2
