@@ -16,7 +16,6 @@
               placeholder="  비밀번호"
               size="40"
             />
-            <span style="color:#ffffff; font-size:small" v-if="!passwordLength">8~15자로 입력해주세요.</span>
           </div>
           <br>
           <br/>
