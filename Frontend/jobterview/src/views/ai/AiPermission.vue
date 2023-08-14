@@ -5,13 +5,7 @@
     </div>
     <div id="videoBox">
       <div id="userVideo" style="left: 0px">
-        <video
-          ref="video"
-          autoplay
-          width="800"
-          height="500"
-          style="border-radius: 10%"
-        ></video>
+        <video ref="video" autoplay width="800" height="500" style="border-radius: 10%"></video>
       </div>
       <div id="crossLine" v-if="video">
         <div class="row">
@@ -59,7 +53,7 @@ export default {
 
     function enterRoom() {
       // store.commit("roomStore/SET_ROOM_NAME", "Test Room");
-      router.push({ name: "RoomMeeting" });
+      router.push({ name: "AiWebCam" });
     }
     async function getMedia() {
       try {
