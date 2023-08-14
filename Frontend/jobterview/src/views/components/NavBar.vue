@@ -99,14 +99,16 @@ export default {
   },
   async mounted() {
     //어드민인지 확인
-    await this.$store.dispatch("loginStore/getMemberRole");
+    if(this.loginNickname !== '') {
+      await this.$store.dispatch("loginStore/getMemberRole");
+    }
     window.addEventListener("click", this.closeDropdown);
   },
   beforeUnmount() {
     window.removeEventListener("click", this.closeDropdown);
   },
   computed: {
-    ...mapGetters(["loginStore/getLogin"]),
+    ...mapGetters("loginStore",["getLogin"]),
     ...mapGetters("loginStore", ["getIsAdmin"]),
     ...mapState("loginStore", ["isLogin"]),
     ...mapState("loginStore", ["loginNickname"]),
