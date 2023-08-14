@@ -165,8 +165,6 @@ export default {
 
     //해당 맴버와 메이트 관계 설정///////////////////////////////////////////////////////
     async function switchMate(member) {
-      console.log("switchMate");
-
       const fromNickname = loginMemberNickname.value;
       const toNickname = member.nickname;
 
