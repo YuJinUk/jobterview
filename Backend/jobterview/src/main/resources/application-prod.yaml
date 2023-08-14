@@ -10,6 +10,14 @@ varialbles:
 #여기서부터 설정파일
 server:
   port: ${varialbles.port}
+  servlet:
+    session:
+      timeout: 500m      # 60m * 24h * 30d
+      cookie:
+        max-age: 500m    # 60m * 24h * 30d
+        name: SID
+        http-only: true
+        secure: true
 
 spring:
   datasource:
@@ -81,6 +89,4 @@ AdminMail:
   id: jobterview1@gmail.com
   password: onzkacghyhqoznpq
 
-servlet:
-  session:
-    timeout: 300m
+
