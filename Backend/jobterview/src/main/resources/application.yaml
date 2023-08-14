@@ -13,6 +13,14 @@ varialbles:
 #여기서부터 설정파일
 server:
   port: ${varialbles.port}
+  servlet:
+    session:
+      timeout: 500m      # 60m * 24h * 30d
+      cookie:
+        max-age: 500m    # 60m * 24h * 30d
+        name: SID
+        http-only: true
+        secure: true
 
 spring:
   profiles:
@@ -29,11 +37,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    show_sql: true
     properties:
       hibernate:
-
-        show_sql: true
-  #        format_sql: true
+#        show_sql: true
+        format_sql: true #쿼리 포맷팅 활성화
 
   security:
     oauth2:

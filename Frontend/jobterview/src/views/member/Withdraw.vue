@@ -1,18 +1,33 @@
 <template>
     <div>
-        <div class="totalForm">
-            <div id="joinForm">
-                <h1 style="color:#ffffff; text-align:center;"><b>회원 탈퇴</b></h1>
-                <div class="form-group">
-                    <label for="password"></label>
-                    <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="비밀번호">
-                </div>
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <button class="button col-3" @click="submit"
-                        style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">탈퇴하기</button>
-                </div>
-            </div>
+      <div style="margin-top:60px ">
+      <h1 style="color: #000000"><b>회원 탈퇴</b></h1>
+    </div>
+      <div class="totalForm">
+        <div class="withdrawForm">
+          <div class="withdrawForm-group">
+            <label for="password" ></label>
+            <input
+              class="inputForm"
+              type="password"
+              id="password"
+              style="border-radius: 5px; height: 50px"
+              v-model="password"
+              placeholder="  비밀번호"
+              size="40"
+            />
+          </div>
+          <br>
+          <br/>
+          <div style="  display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          width: 100%; ">               
+                <button class="withdraw" @click="submit">탈퇴하기</button>
+          </div>
         </div>
+      </div>
     </div>
 </template>
 <script>
@@ -33,15 +48,20 @@ export default {
                     password: password.value,
                 };
                 
-                await withdrawMember(member, () => {         
-                    alert("탈퇴가 완료되었습니다.");
-                    store.commit("loginStore/User_Logout");
-                    router.push({ name: 'Home' });
-                },
-                    (error) => {
-                        alert("현재 비밀번호가 일치하지 않습니다.")
-                        console.log(error);
-                    });
+                if(confirm("탈퇴하시겠습니까?")){
+                  await withdrawMember(member, () => { 
+                      alert("탈퇴가 완료되었습니다.");
+                      store.commit("loginStore/User_Logout");
+                      router.push({ name: 'Home' });
+                  },
+                      (error) => {
+                          alert("현재 비밀번호가 일치하지 않습니다.")
+                          console.log(error);
+                      });
+                  }        
+                  else{
+                    return;
+                  }
         }
         return{
             loginMemberNickname,
@@ -60,32 +80,40 @@ export default {
     align-items: center;
     width: 100%;
     height: 600px;
-    background-color: #0F4471;
+    background-color: #ffffff;
 }
-#joinForm {
+.withdrawForm {
     display: block;
     align-items: center;
     justify-content: center;
     width: 700px;
     height: 400px;
-    border-style: solid;
-    border: 5px solid #eeeeee;
 }
 
-.form-group {
+.withdrawForm-group {
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 100%;
 }
 
-.check {
-    background-color: #2c3e50;
-    color: #ffffff;
-    border-radius: 8px;
-    border-color: #ffffff;
+.withdraw {
+    background-color: #083358;
+    pointer-events: all;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    width:369.6px;
+    height: 50px;
+    transition: all 0.15s ease-in-out;
+    margin-bottom: 15px;
+  }
+h1 {
+  text-align: center;
 }
-
-.input-group {
-    margin-left: 72%;
-}</style>
+.inputForm {
+  box-shadow: 0px 6px 4px 0px rgb(109, 114, 118);
+}
+</style>

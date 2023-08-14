@@ -29,6 +29,11 @@
 
       <!-- 질문 목록과 버튼 -->
       <div id="contentBox">
+        <div class="randomBox">
+          <button class="randomButton" @click="getRandomQuestions()">
+            랜덤 선택
+          </button>
+        </div>
         <!-- 질문 목록 -->
         <div id="questionbox">
           <ul class="questionList">
@@ -55,11 +60,22 @@
         </div>
 
         <div class="genderCheckBox">
-           정확한 음성 분석을 위해 성별을 선택해주세요. 
-           <button class="genderButton" :class="{selected: gender}" @click="toggleGender()" >남성</button>
-           <button class="genderButton" :class="{selected: !gender}" @click="toggleGender()" >여성</button>
+          정확한 음성 분석을 위해 성별을 선택해주세요.
+          <button
+            class="genderButton"
+            :class="{ selected: gender }"
+            @click="toggleGender()"
+          >
+            남성
+          </button>
+          <button
+            class="genderButton"
+            :class="{ selected: !gender }"
+            @click="toggleGender()"
+          >
+            여성
+          </button>
         </div>
-
 
         <!-- 버튼 -->
         <div id="buttonBox">
@@ -67,7 +83,7 @@
           <p>{{ selectedQuestionsLength }}</p>
           <p>개의 질문을 선택하셨습니다.</p>
 
-          <router-link :to="{ name: 'AiWebCam' }">
+          <router-link :to="{ name: 'AiPermission' }">
             <button :class="{ activeButton: isAllSelected }">다음</button>
           </router-link>
         </div>
@@ -109,6 +125,43 @@ export default {
     );
 
     //methods
+    //선택된 질문 clear
+    const clearQuestion = () => {
+      for (let question of selectedQuestions.value) {
+        question.selected = false;
+      }
+      selectedQuestions.value = [];
+
+      for (let i = 0; i < categoryList.value.length; i++) {
+        categoryList.value[i].cnt = 0;
+      }
+    };
+
+    //질문 랜덤 선택
+    const getRandomQuestions = () => {
+      clearQuestion();
+
+      const randomIdx = new Set(); //랜덤 숫자을 담을 set
+      while (randomIdx.size < 4) {
+        //랜덤 숫자 4개 생성
+        randomIdx.add(Math.floor(Math.random() * allQuestionList.value.length));
+      }
+      for (let idx of randomIdx) {
+        //해당 인덱스의 질문들을 저장
+        const curQuestion = allQuestionList.value[idx];
+        selectedQuestions.value.push(curQuestion);
+        curQuestion.selected = true;
+        //카테고리 선택 카운트 증가
+        for (let i = 0; i < categoryList.value.length; i++) {
+          if (categoryList.value[i].name === curQuestion.category) {
+            categoryList.value[i].cnt++;
+          }
+        }
+      }
+      isAllSelected.value = true;
+      store.dispatch("roomStore/setSelectedQuestions", selectedQuestions.value);
+    };
+
     //전체 질문 목록중에 특정 카테고리로 분류
     const categorizeQuestion = (categoryName) => {
       categorizedQuestionList.value = allQuestionList.value.filter(
@@ -165,7 +218,6 @@ export default {
             categoryList.value[i].cnt++;
           }
         }
-
         question.selected = true;
       }
 
@@ -181,24 +233,17 @@ export default {
     };
 
     const toggleGender = () => {
-      console.log('toggleGender');
       gender.value = !gender.value;
-      console.log(gender.value);
       selectGender();
-    }
+    };
 
     const selectGender = () => {
-      console.log('selectGender');
-
-      let selectedGender = '';
-
-      if(gender.value) {
-        selectedGender = 'male';
+      let selectedGender = "";
+      if (gender.value) {
+        selectedGender = "male";
       } else {
-        selectedGender = 'female';
+        selectedGender = "female";
       }
-
-      console.log(selectedGender);
       // 성별 값 Vuex 스토어에 저장
       store.dispatch("roomStore/setSelectGen", selectedGender);
     };
@@ -234,6 +279,7 @@ export default {
       //method
       changeCategory,
       selectQuestion,
+      getRandomQuestions,
 
       //computed
       selectedQuestionsLength,
@@ -243,5 +289,4 @@ export default {
 </script>
 
 <style scoped src="@/css/aiQuestionView.css" >
-
 </style>

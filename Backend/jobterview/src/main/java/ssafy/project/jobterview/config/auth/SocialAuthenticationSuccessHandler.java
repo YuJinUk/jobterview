@@ -1,28 +1,20 @@
 package ssafy.project.jobterview.config.auth;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.service.MemberService;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @Component
 @RequiredArgsConstructor
@@ -41,15 +33,21 @@ public class SocialAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String username2 = userDetails.getUsername();
         String usernickname = "";
+        String userRole = "";
         try {
             Member loginMember = memberService.findByEmail(username2);
             usernickname = loginMember.getNickname();
-
+            userRole = loginMember.getRole().toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
         String encodedNickname = URLEncoder.encode(usernickname, StandardCharsets.UTF_8);
-        setDefaultTargetUrl(env.getProperty("varialbles.feUri")+"?nickname=" + encodedNickname);
+        if(userRole.toString().equals("ROLE_REPORTED_SOCIAL")){
+            setDefaultTargetUrl(env.getProperty("varialbles.feUri")+"/auth/login?report=ok");
+        }else{
+            setDefaultTargetUrl(env.getProperty("varialbles.feUri")+"?nickname=" + encodedNickname+"&role="+userRole);
+        }
+
         super.onAuthenticationSuccess(request, response, authentication);
     }
 

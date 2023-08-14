@@ -34,9 +34,6 @@ public class Member extends BaseTimeEntity {
     private List<Chat> roomChatList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Answer> answerList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
     private List<Bookmark> bookmarkList = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
@@ -80,7 +77,6 @@ public class Member extends BaseTimeEntity {
                 ", receivedMessageList=" + receivedMessageList +
                 ", sentMessageList=" + sentMessageList +
                 ", roomChatList=" + roomChatList +
-                ", answerList=" + answerList +
                 ", bookmarkList=" + bookmarkList +
                 ", email='" + email + '\'' +
                 ", nickname='" + nickname + '\'' +
@@ -107,8 +103,4 @@ public class Member extends BaseTimeEntity {
     public void changeNickname(String nickname){
         this.nickname = nickname;
     }
-
-
-    
 }
-

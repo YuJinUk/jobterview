@@ -2,6 +2,7 @@ package ssafy.project.jobterview.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
@@ -9,6 +10,9 @@ import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.exception.NotFoundException;
 import ssafy.project.jobterview.repository.MemberRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +57,15 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Page<Member> findByNicknameContainsAndRole(Pageable pageable, String keyword) {
-        return memberRepository.findByNicknameContainsAndRole(pageable, keyword, Role.ROLE_MEMBER);
+        Page<Member> socialPage= memberRepository.findByNicknameContainsAndRole(pageable, keyword, Role.ROLE_SOCIAL);
+        Page<Member> localPage = memberRepository.findByNicknameContainsAndRole(pageable,keyword,Role.ROLE_LOCAL);
+        List<Member> page = new ArrayList<>(localPage.getContent());
+        page.addAll(socialPage.getContent());
+        return new PageImpl<>(
+                page,
+                pageable,
+                page.size()
+        );
     }
 
 
@@ -71,14 +83,25 @@ public class MemberServiceImpl implements MemberService{
     public void update(String email) {
         Member member = findByEmail(email);
         Role memberRole = member.getRole();
-        if(memberRole == Role.ROLE_MEMBER){
-            member.changeRole(Role.ROLE_REPORTED);
+        // 로컬로 가입한 유저 정지
+        if(memberRole == Role.ROLE_LOCAL){
+            member.changeRole(Role.ROLE_REPORTED_LOCAL);
         }
-        else{
-            member.changeRole(Role.ROLE_MEMBER);
+        // 소셜로 가입한 유저 정지
+        else if(memberRole == Role.ROLE_SOCIAL){
+            member.changeRole(Role.ROLE_REPORTED_SOCIAL);
+        }
+        // 로컬로 가입한 유저 정지 풀기
+        else if(memberRole == Role.ROLE_REPORTED_LOCAL){
+            member.changeRole(Role.ROLE_LOCAL);
+        }
+        // 소셜로 가입한 유저 정지 풀기
+        else if(memberRole == Role.ROLE_REPORTED_SOCIAL){
+            member.changeRole(Role.ROLE_SOCIAL);
         }
         memberRepository.save(member);
     }
+
 
     @Override
     public void reJoin(MemberDto memberDto) {
@@ -93,7 +116,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = findByEmail(email);
         // 링크의 인증번호와 DB의 인증 번호가 같으면 인증 완료로 변경
         if(member.getAuthCode().equals(code)) {
-            member.changeRole(Role.ROLE_MEMBER);
+            member.changeRole(Role.ROLE_LOCAL);
             memberRepository.save(member);
         } else {
             throw new NotFoundException("인증 번호가 일치하지 않습니다.");
@@ -116,14 +139,22 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Long getAllActiveMemberCount() {
-        Long count = memberRepository.countByRole(Role.ROLE_MEMBER);
-        return count;
+        Long count1 = memberRepository.countByRole(Role.ROLE_SOCIAL);
+        Long count2 = memberRepository.countByRole(Role.ROLE_LOCAL);
+        return count1+count2;
     }
 
     @Override
     public Page<Member> getAllActiveMember(Pageable pageable) {
-        return memberRepository.findByRole(Role.ROLE_MEMBER, pageable);
-    }
+        Page<Member> localPage = memberRepository.findByRole(Role.ROLE_LOCAL,pageable);
+        Page<Member> socialPage = memberRepository.findByRole(Role.ROLE_SOCIAL,pageable);
+        List<Member> page = new ArrayList<>(localPage.getContent());
+        page.addAll(socialPage.getContent());
+        return new PageImpl<>(
+                page,
+                pageable,
+                page.size()
+        );}
 
     @Override
     public void setEmailCode(String email, String code) {

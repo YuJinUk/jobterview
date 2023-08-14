@@ -75,12 +75,15 @@ public class MemberController {
     @ApiOperation(value = "이메일이 일치하는 회원이 있다면 0 반환", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
     public ResponseEntity<?> checkByEmail(@ApiParam(value = "중복 이메일 체크", required = true) @RequestParam String email) {
-        Boolean check;
         Member member = null;
         try {
-            member = memberService.findByEmail(email);
-            return new ResponseEntity<>(0, HttpStatus.OK);
-        } catch (Exception e) {
+            member=memberService.findByEmail(email);
+            if(member.getRole()==(Role.ROLE_WITHDRAWN)) {
+                return new ResponseEntity<>(2, HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(0, HttpStatus.OK);
+            } }catch (Exception e) {
             return new ResponseEntity<>(1, HttpStatus.OK);
         }
     }

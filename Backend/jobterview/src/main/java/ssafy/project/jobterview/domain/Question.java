@@ -3,28 +3,21 @@ package ssafy.project.jobterview.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import ssafy.project.jobterview.dto.QuestionDto;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "answerList")
 public class Question extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "question_id")
     private Long questionId;
-
-    @OneToMany(mappedBy = "question")
-    private List<Answer> answerList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Category category;

@@ -1,28 +1,35 @@
 <template>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
-        
-        <!-- 로그인 했을 때 -->
-        
-            <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <p class="  login-nickname">{{loginNickname}}</p>
-                    </li>
-                        <div class="dropdown">
-                        <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
-                        <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
-                            aria-labelledby="dropdownIcon">
-                            <a class="dropdown-item"  href="#" >비밀번호 변경</a>
-                            <a class="dropdown-item" href="#">회원 탈퇴</a>
-                            <a class="dropdown-item" @click="logout">로그아웃</a>
-                        </div>
-                    </div>
-                    <li v-if="getIsAdmin" class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;" @click="toAdmin()"></i></li>
-                    <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
-                    <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
-                </ul>
-            </div>
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
+
+    <!-- 로그인 했을 때 -->
+
+    <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <p class="  login-nickname">{{ loginNickname }}</p>
+        </li>
+        <div class="dropdown">
+          <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
+          <div v-if=getSocail class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+            aria-labelledby="dropdownIcon">
+            <a class="dropdown-item" @click="logout">로그아웃</a>
+          </div>
+          <div v-else class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+            aria-labelledby="dropdownIcon">
+            <a class="dropdown-item" @click="updatePassword">비밀번호 변경</a>
+            <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
+            <a class="dropdown-item" @click="logout">로그아웃</a>
+          </div>
+        </div>
+        <li v-if="getIsAdmin" class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;"
+            @click="toAdmin()"></i></li>
+        <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;"
+            @click="toMessage()"></i></li>
+        <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;"
+            @click="toMemberList()"></i></li>
+      </ul>
+    </div>
     <!-- 로그인 안 했을 때 -->
 
     <div v-else class="collapse navbar-collapse" id="navbarNav">
@@ -107,12 +114,21 @@ export default {
   },
   computed: {
     ...mapGetters(["loginStore/getLogin"]),
+    ...mapGetters(["loginStore/getSocial"]),
     ...mapGetters("loginStore", ["getIsAdmin"]),
     ...mapState("loginStore", ["isLogin"]),
+    ...mapState("loginStore", ["isSocial"]),
     ...mapState("loginStore", ["loginNickname"]),
-    
+
     getUser() {
       if (this.isLogin) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getSocail() {
+      if (this.isSocial) {
         return true;
       } else {
         return false;
