@@ -106,7 +106,6 @@ export default {
   },
   async mounted() {
     //어드민인지 확인
-    await this.$store.dispatch("loginStore/getMemberRole");
     window.addEventListener("click", this.closeDropdown);
   },
   beforeUnmount() {
@@ -115,9 +114,10 @@ export default {
   computed: {
     ...mapGetters(["loginStore/getLogin"]),
     ...mapGetters(["loginStore/getSocial"]),
-    ...mapGetters("loginStore", ["getIsAdmin"]),
+    ...mapGetters(["loginStore/getIsAdmin"]),
     ...mapState("loginStore", ["isLogin"]),
     ...mapState("loginStore", ["isSocial"]),
+    ...mapState("loginStore", ["isAdmin"]),
     ...mapState("loginStore", ["loginNickname"]),
 
     getUser() {
@@ -129,6 +129,13 @@ export default {
     },
     getSocail() {
       if (this.isSocial) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getIsAdmin() {
+      if (this.isAdmin) {
         return true;
       } else {
         return false;
