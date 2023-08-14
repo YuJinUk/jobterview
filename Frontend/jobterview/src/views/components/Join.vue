@@ -9,6 +9,7 @@
         <div class="joinForm-group">
           <div class="duplCheck">
             <input
+              class="inputForm"
               type="email"
               id="email"
               style="border-radius: 5px; height: 50px"
@@ -27,6 +28,7 @@
         <div class="joinForm-group">
           <div class="duplCheck">
             <input
+              class="inputForm"
               type="text"
               id="nickname"
               style="border-radius: 5px; height: 50px"
@@ -41,6 +43,7 @@
 
         <div class="joinForm-group">
           <input
+            class="inputForm"
             type="password"
             id="password"
             style="border-radius: 5px; height: 50px"
@@ -56,6 +59,7 @@
 
         <div class="joinForm-group">
           <input
+            class="inputForm"
             type="password"
             id="passwordCheck"
             style="border-radius: 5px; height: 50px"
@@ -120,14 +124,17 @@ export default {
       //이메일 중복체크 필요하게
       this.duplicateEmail = 0;
 
-      const regex =
-        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-      if (this.email.match(regex) !== null) {
-        this.isValidEmail = true;
-      } else {
-        this.isValidEmail = false;
-      }
-    },
+        const com= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.com$/i;
+        const cokr= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.co.kr$/i;
+        const net= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.net$/i;
+        const ackr= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]).ac.kr$/i;
+
+          if(this.email.match(com)!==null||this.email.match(cokr)!=null||this.email.match(net)!=null||this.email.match(ackr)!=null){
+          this.isValidEmail = true;}
+          else{
+              this.isValidEmail=false;
+          }
+      },
     // 비밀번호 길이 검사
     passwordLengthCheck() {
       if (this.password.length > 15 || this.password.length < 8) {
@@ -319,5 +326,8 @@ h1 {
 
 .duplCheck {
   margin-left: 11%;
+}
+.inputForm {
+  box-shadow: 0px 6px 4px 0px rgb(109, 114, 118);
 }
 </style>

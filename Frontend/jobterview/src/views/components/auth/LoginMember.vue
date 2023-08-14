@@ -8,6 +8,7 @@
         <div class="loginForm-group">
           <label for="email" ></label>
           <input
+            class="inputForm"
             type="text"
             id="email"
             style="border-radius: 5px; height: 50px"
@@ -19,6 +20,7 @@
         <div class="loginForm-group">
           <label for="password"></label>
           <input
+            class="inputForm"
             type="password"
             id="password"
             style="border-radius: 5px; height: 50px" 
@@ -136,5 +138,8 @@ h1 {
   height: 50px;
   transition: all 0.15s ease-in-out;
   margin-bottom: 15px;
+}
+.inputForm {
+  box-shadow: 0px 6px 4px 0px rgb(109, 114, 118);
 }
 </style>
