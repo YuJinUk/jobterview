@@ -8,6 +8,7 @@ export default {
         isLogin: false,
         loginNickname: "",
         isAdmin: false,
+        isSocial: false,
     },
     mutations: {
         SET_Login: function (state, nickname) {
@@ -15,8 +16,15 @@ export default {
             state.isLogin = true;
             state.loginNickname = nickname;
         },
+        SET_Socail_Login: function (state, nickname) {
+
+            state.isLogin = true;
+            state.isSocial = true;
+            state.loginNickname = nickname;
+        },
         User_Logout: function (state) {
             state.isLogin = false;
+            state.isSocial =false;
             state.loginNickname = "";
         },
         SET_LOGIN_USER: function (state, user) {
@@ -30,6 +38,9 @@ export default {
     getters: {
         getLogin: function (state) {
             return state.isLogin;
+        },
+        getSocial: function (state) {
+            return state.isSocial;
         },
         getLoginMemberNickname: function (state) {
             return state.loginNickname;

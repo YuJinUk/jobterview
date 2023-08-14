@@ -19,11 +19,9 @@ public class PrincipalDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
             Member principal = memberService.findByEmail(email);
-//            if (principal.getRole().toString().equals("ROLE_UNVERIFIED")) {
-//                principal = null;
-//            }else if(principal.getRole().toString().equals("ROLE_REPORTED_LOCAL")){
-//                principal = null;
-//            }
+            if (principal.getRole().toString().equals("ROLE_WITHDRAWN")) {
+                principal = null;
+            }
             return new PrincipalDetail(principal);
         } catch (Exception e) {
             Member principal = null;
@@ -31,3 +29,4 @@ public class PrincipalDetailService implements UserDetailsService {
         }
     }
 }
+
