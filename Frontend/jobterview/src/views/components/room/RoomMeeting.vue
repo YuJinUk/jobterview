@@ -54,14 +54,22 @@
         <!-- <button @click="debug">디버그 버튼</button> -->
       </div>
     </div>
-    <div v-for="(user, index) in users" :key="user.id" class="text-center">
+    <!-- <div v-for="(user, index) in users" :key="user.id" class="text-center">
       <UserVideo
         v-if="index !== 0"
         :info="user"
         :index="index"
         @changeMainVideo="changeMainVideo"
       ></UserVideo>
-    </div>
+    </div> -->
+    <template v-for="(user, index) in users" :key="user.id">
+      <div v-if="index !== 0" class="text-center">
+        <UserVideo :info="user"
+        :index="index"
+        @changeMainVideo="changeMainVideo">
+        </UserVideo>
+      </div>
+    </template>
   </div>
   <div class="container-chatting" style="overflow-x: hidden">
     <div class="user-list">
@@ -224,6 +232,7 @@ export default {
       const removedVideo = this.users.splice(index, 1)[0];
       // console.log(removedVideo);
       this.user = this.users.unshift(removedVideo);
+      console.log(this.user);
     },
     // this.createPeerConnection(allUsers[i].id,allUsers[i].nickname);
     createPeerConnection(socketID, nickname) {
