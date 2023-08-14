@@ -13,7 +13,7 @@
             id="email"
             style="border-radius: 5px; height: 50px"
             v-model="email"
-            placeholder="  email"
+            placeholder="  이메일"
             size="40"
           />
         </div>
@@ -25,7 +25,7 @@
             id="password"
             style="border-radius: 5px; height: 50px" 
             v-model="password"
-            placeholder="  password"
+            placeholder="   비밀번호"
             size="40"
             
           />
@@ -111,7 +111,7 @@ export default {
   align-items: center;
   flex-direction:column;
   width: 100%;
-  height: 600px;
+  height: 500px;
   background-color: #ffffff;
 }
 
@@ -147,6 +147,7 @@ h1 {
   margin-bottom: 15px;
 }
 .inputForm {
-  box-shadow: 0px 6px 4px 0px rgb(109, 114, 118);
+  border: 1px solid #083358;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.2);
 }
 </style>

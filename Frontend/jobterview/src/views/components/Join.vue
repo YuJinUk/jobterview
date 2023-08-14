@@ -328,6 +328,7 @@ h1 {
   margin-left: 11%;
 }
 .inputForm {
-  box-shadow: 0px 6px 4px 0px rgb(109, 114, 118);
+  border: 1px solid #083358;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.2);
 }
 </style>
