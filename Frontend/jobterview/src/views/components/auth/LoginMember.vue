@@ -13,7 +13,7 @@
             id="email"
             style="border-radius: 5px; height: 50px"
             v-model="email"
-            placeholder="  이메일"
+            placeholder="이메일"
             size="40"
           />
         </div>
@@ -25,7 +25,7 @@
             id="password"
             style="border-radius: 5px; height: 50px" 
             v-model="password"
-            placeholder="   비밀번호"
+            placeholder="비밀번호"
             size="40"
             
           />
@@ -149,5 +149,6 @@ h1 {
 .inputForm {
   border: 1px solid #083358;
   box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+  padding-left: 15px;
 }
 </style>

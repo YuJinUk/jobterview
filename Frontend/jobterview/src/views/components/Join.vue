@@ -14,7 +14,7 @@
               id="email"
               style="border-radius: 5px; height: 50px"
               v-model="email"
-              placeholder="  이메일"
+              placeholder="이메일"
               size="40"
               @input="testValidEmail"
             />
@@ -33,7 +33,7 @@
               id="nickname"
               style="border-radius: 5px; height: 50px"
               v-model="nickname"
-              placeholder="  닉네임"
+              placeholder="닉네임"
               size="40"
               @input="testValidNickname"
             />
@@ -48,7 +48,7 @@
             id="password"
             style="border-radius: 5px; height: 50px"
             v-model="password"
-            placeholder="  비밀번호"
+            placeholder="비밀번호"
             @input="passwordLengthCheck"
             size="40"
           />
@@ -64,7 +64,7 @@
             id="passwordCheck"
             style="border-radius: 5px; height: 50px"
             v-model="passwordCheck"
-            placeholder="  비밀번호 확인"
+            placeholder="비밀번호 확인"
             size="40"
           />
           <span
@@ -330,5 +330,6 @@ h1 {
 .inputForm {
   border: 1px solid #083358;
   box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+  padding-left: 15px;
 }
 </style>
