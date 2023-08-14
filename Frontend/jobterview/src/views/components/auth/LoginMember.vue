@@ -94,6 +94,13 @@ export default {
       this.$store.dispatch("loginStore/setLoginUser", frm);
     },
   },
+  created() {
+    const report = this.$route.query.report;
+    if (report) {
+
+      alert("신고당한 유저입니다. 관리자에게 문의 해주세요.");
+    }
+  },
 };
 </script>
 <style scoped>

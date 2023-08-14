@@ -42,9 +42,16 @@ export default {
         async setLoginUser({ commit }, user) {
             await loginAPI(user,
                 ({ data }) => {
+
                     if (data.email == null) {
                         alert("로그인 실패");
-                    } else {
+                    } 
+                    else if(data.roles[0] == "ROLE_UNVERIFIED"){
+                        alert("메일인증을 진행해주세요");
+                    }else if(data.roles[0] == "ROLE_REPORTED_LOCAL")
+                    {
+                        alert("신고당한 유저입니다. 관리자에게 문의 해주세요.");
+                    }else{
                         alert("로그인 성공!");
                         commit("SET_LOGIN_USER", data);
                         //   수정
