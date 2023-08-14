@@ -24,16 +24,16 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long memberId;
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     private List<Message> receivedMessageList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "receiver")
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
     private List<Message> sentMessageList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Chat> roomChatList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Bookmark> bookmarkList = new ArrayList<>();
 
     @Column(nullable = false, unique = true)

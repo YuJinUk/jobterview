@@ -23,15 +23,7 @@ public class MateServiceImpl implements MateService {
 
     // 메이트 추가
     @Override
-    public void save(MateDto mateDto){
-        Member fromMember = mateDto.getFromMember();
-        Member toMember= mateDto.getToMember();
-        Mate mate = new Mate(mateDto.getMateId(),fromMember,toMember);
-        mateRepository.save(mate);
-    }
-
-
-    public MateDto save(String fromMemberNickname, String toMemberNickname) {
+    public void save(String fromMemberNickname, String toMemberNickname) {
         //닉네임으로 해당 맴버 가져오기
         Member fromMember = memberService.findByNickname(fromMemberNickname);
         Member toMember = memberService.findByNickname(toMemberNickname);
@@ -40,10 +32,7 @@ public class MateServiceImpl implements MateService {
         MateId mateId = new MateId(fromMember.getMemberId(), toMember.getMemberId());
         
         //저장
-        Mate savedMate = mateRepository.save(new Mate(mateId, fromMember, toMember));
-        
-        //저장된 Mate를 MateDto로 변환 후 반환
-        return savedMate.convertToDto();
+        mateRepository.save(new Mate(mateId, fromMember, toMember));
     }
 
     // 메이트 삭제
@@ -55,7 +44,6 @@ public class MateServiceImpl implements MateService {
 
         Mate findMate = mateRepository.findByFromMemberAndToMember(fromMember, toMember)
                 .orElseThrow(() -> new NotFoundException("해당 메이트를 찾기 못했습니다."));
-
         mateRepository.delete(findMate);
     }
 

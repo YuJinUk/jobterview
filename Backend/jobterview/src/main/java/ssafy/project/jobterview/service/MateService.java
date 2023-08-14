@@ -9,10 +9,8 @@ import ssafy.project.jobterview.dto.MateDto;
 import java.util.List;
 
 public interface MateService {
-    // 메이트 신청
-    void save(MateDto mateDto);
-
-    MateDto save(String fromMemberNickname, String toMemberNickname);
+    //메이트 신청
+    void save(String fromMemberNickname, String toMemberNickname);
 
     // 메이트 끊기
     void delete(String fromMemberNickname, String toMemberNickname);

@@ -2,6 +2,7 @@ package ssafy.project.jobterview.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ssafy.project.jobterview.domain.Mate;
 import ssafy.project.jobterview.domain.Member;
@@ -17,5 +18,6 @@ public interface MateRepository extends JpaRepository<Mate, Member>, MateCustomR
 
     Page<Mate> findByFromMemberAndToMember_NicknameContaining(Member fromMember, String nickname, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"fromMember", "toMember"})
     Optional<Mate> findByFromMemberAndToMember(Member fromMember, Member toMember);
 }

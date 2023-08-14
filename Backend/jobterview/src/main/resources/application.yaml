@@ -27,11 +27,10 @@ spring:
       matching-strategy: ant_path_matcher
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show_sql: true
     properties:
       hibernate:
-#        show_sql: true
         format_sql: true #쿼리 포맷팅 활성화
 
   security:
