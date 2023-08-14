@@ -51,7 +51,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             Map<String, Object> kakaoAccount = oAuth2User.getAttribute("kakao_account");
             Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
             name = (String) profile.get("nickname");
-            name = name + "10";
+
             email = (String) kakaoAccount.get("email");
             try {
                 byUsername = memberService.findByEmail(email);
