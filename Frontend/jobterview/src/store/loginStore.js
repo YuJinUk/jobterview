@@ -71,8 +71,6 @@ export default {
         async getMemberRole({ commit, state }) {
             await isAdmin(state.loginNickname,
                 ({ data }) => {
-
-                    console.log(data)
                     commit("SET_IS_ADMIN", data);
                 },
                 (error) => {

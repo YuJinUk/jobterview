@@ -145,7 +145,6 @@ export default {
       await getMateListApi(
         { nickname },
         ({ data }) => {
-          console.log(data);
           mateNicknames.value = data;
           mateNicknames.value = mateNicknames.value.map(
             (mate) => mate.toMember.nickname
@@ -165,8 +164,6 @@ export default {
 
     //해당 맴버와 메이트 관계 설정///////////////////////////////////////////////////////
     async function switchMate(member) {
-      console.log("switchMate");
-
       const fromNickname = loginMemberNickname.value;
       const toNickname = member.nickname;
 
