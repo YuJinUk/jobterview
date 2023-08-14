@@ -34,7 +34,7 @@ export default ({
     addvideo1(state, data) {
       console.log(data)
       state.video1 = data;
-      console.log(state.video1)
+      console.log(state.video1  )
     },
     addvideo2(state, data) {
       state.video2 = data;
