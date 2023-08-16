@@ -62,20 +62,14 @@ public class MateServiceImpl implements MateService {
     @Override
     public Page<Mate> findAllByMate(Pageable pageable, String nickname) {
         Member findMember = memberService.findByNickname(nickname);
-
-        System.out.println("findMember ToString : " + findMember.toString());
-
         Page<Mate> matePage = mateRepository.findByFromMember(findMember, pageable);
-
-        System.out.println("pagedMate size : " + matePage.getContent().size());
-
         return matePage;
     }
 
     @Override
     public List<Mate> findByFromMember(Member fromMember) {
         List<Mate> findMateList = mateRepository.findByFromMember(fromMember);
-        if(findMateList.size() == 0) {
+        if(findMateList.isEmpty()) {
             throw new NotFoundException("메이트가 없습니다.");
         }
         return findMateList;
@@ -86,5 +80,4 @@ public class MateServiceImpl implements MateService {
         Member fromMember = memberService.findByNickname(fromMemberNickname);
         return mateRepository.findByFromMemberAndToMember_NicknameContaining(fromMember, keyword, pageable);
     }
-
 }

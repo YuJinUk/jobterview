@@ -65,7 +65,6 @@ export default {
                     {
                         alert("신고당한 유저입니다. 관리자에게 문의 해주세요.");
                     }else if(data.roles[0] == "ROLE_ADMIN"){
-                        alert("안녕하세요 킹왕짱 관리자님");
                         commit("SET_IS_ADMIN", data.nickname);
                         router.push({ name: "Home" });
                     }else{
@@ -92,17 +91,5 @@ export default {
                     console.log(error);
                 })
         },
-        // async getMemberRole({ commit, state }) {
-        //     await isAdmin(state.loginNickname,
-        //         ({ data }) => {
-        //             console.log(data);
-        //             if(data==true){
-        //                 commit("SET_IS_ADMIN");
-        //             }
-        //         },
-        //         (error) => {
-        //             console.log(error);
-        //         })
-        // },
     }
 }

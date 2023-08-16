@@ -1,7 +1,7 @@
-import {apiTest} from "./apiTest";
+import { apiTest } from "./apiTest";
 
 async function postReportAPI(report, success, fail) {
-    await apiTest.post('/report', report).then(success).catch(fail);
+  await apiTest.post("/report", report).then(success).catch(fail);
 }
 
-export {postReportAPI};
+export { postReportAPI };

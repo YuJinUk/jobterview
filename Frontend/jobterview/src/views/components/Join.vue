@@ -162,7 +162,6 @@ export default {
           } else {
             alert("중복된 이메일입니다");
           }
-          console.log(response);
         }
         (error) => {
           alert("오류가 발생했습니다.");
@@ -183,7 +182,6 @@ export default {
             this.duplicateNickname = false;
           } else {
             alert("사용할 수 없는 닉네임입니다.");
-            console.log(response);
           }
         }
         (error) => {

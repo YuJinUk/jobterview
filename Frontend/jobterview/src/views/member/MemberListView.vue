@@ -104,9 +104,6 @@ export default {
     //페이지네이션///////////////////////////////////////////////////////////
     //다음 페이지로
     let toNextPage = () => {
-      console.log(Math.floor(totalPages.value / 5) * 5);
-      console.log(curStartingPage.value);
-
       if (Math.floor(totalPages.value / 5) - 1 * 5 >= curStartingPage.value) {
         curStartingPage.value += 5;
         curPage.value = curStartingPage.value;
@@ -145,7 +142,6 @@ export default {
       await getMateListApi(
         { nickname },
         ({ data }) => {
-          console.log(data);
           mateNicknames.value = data;
           mateNicknames.value = mateNicknames.value.map(
             (mate) => mate.toMember.nickname
