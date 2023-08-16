@@ -31,13 +31,13 @@
         <div class="empty"></div>
 
         <ul class="list">
-          <li v-for="mate in mates" :key="mate.toMember.nickname" class="mateBox">
+          <li v-for="mate in mates" :key="mate.toMemberNickname" class="mateBox">
             <div class="mate">
-              <p class="nickname">{{ mate.toMember.nickname }}</p>
+              <p class="nickname">{{ mate.toMemberNickname }}</p>
               <font-awesome-icon
                 icon="fa-solid fa-envelope"
                 class="icon messageIcon"
-                @click="toSend(mate.toMember.nickname)"
+                @click="toSend(mate.toMemberNickname)"
               />
               <font-awesome-icon
                 icon="fa-solid fa-user-group"
@@ -145,7 +145,7 @@ export default {
     //해당 맴버와 메이트 관계 설정///////////////////////////////////
     async function switchMate(mate) {
       const fromNickname = loginMemberNickname.value;
-      const toNickname = mate.toMember.nickname;
+      const toNickname = mate.toMemberNickname;
 
       //이미 메이트인 경우
       if(mate.isMate === true) {

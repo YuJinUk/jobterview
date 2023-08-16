@@ -21,17 +21,14 @@ public class MateServiceImpl implements MateService {
     private final MateRepository mateRepository;
     private final MemberService memberService;
 
-    // 메이트 추가
-    @Override
-    public void save(MateDto mateDto){
-        Member fromMember = mateDto.getFromMember();
-        Member toMember= mateDto.getToMember();
-        Mate mate = new Mate(mateDto.getMateId(),fromMember,toMember);
-        mateRepository.save(mate);
-    }
 
-
-    public MateDto save(String fromMemberNickname, String toMemberNickname) {
+    /**
+     * 메이트 추가
+     * 
+     * @param fromMemberNickname 메이트를 신청한 사용자 닉넹미
+     * @param toMemberNickname 메이트를 신청당한 사용자 닉네임
+     */
+    public void save(String fromMemberNickname, String toMemberNickname) {
         //닉네임으로 해당 맴버 가져오기
         Member fromMember = memberService.findByNickname(fromMemberNickname);
         Member toMember = memberService.findByNickname(toMemberNickname);
@@ -41,9 +38,6 @@ public class MateServiceImpl implements MateService {
         
         //저장
         Mate savedMate = mateRepository.save(new Mate(mateId, fromMember, toMember));
-        
-        //저장된 Mate를 MateDto로 변환 후 반환
-        return savedMate.convertToDto();
     }
 
     // 메이트 삭제
@@ -59,20 +53,29 @@ public class MateServiceImpl implements MateService {
         mateRepository.delete(findMate);
     }
 
+    /**
+     * 해당 사용자의 메이트 리스트 조회
+     * 
+     * @param pageable 페이징 정보 및 정렬 정보
+     * @param nickname 사용자 닉네임
+     * @return 페이징 처리된 해당 사용자의 메이트 리스트
+     */
     @Override
     public Page<Mate> findAllByMate(Pageable pageable, String nickname) {
         Member findMember = memberService.findByNickname(nickname);
-        Page<Mate> matePage = mateRepository.findByFromMember(findMember, pageable);
-        return matePage;
+        return mateRepository.findByFromMember(findMember, pageable);
     }
 
+    /**
+     * 해당 사용자의 메이트 리스트 조회
+     * 
+     * @param nickname 사용자 닉네임
+     * @return 해당 사용자의 메이트 리스트
+     */
     @Override
-    public List<Mate> findByFromMember(Member fromMember) {
-        List<Mate> findMateList = mateRepository.findByFromMember(fromMember);
-        if(findMateList.isEmpty()) {
-            throw new NotFoundException("메이트가 없습니다.");
-        }
-        return findMateList;
+    public List<Mate> findAllByMate(String nickname) {
+        Member findMember = memberService.findByNickname(nickname);
+        return mateRepository.findByFromMember(findMember);
     }
 
     @Override

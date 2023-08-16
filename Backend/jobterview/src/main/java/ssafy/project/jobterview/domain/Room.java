@@ -23,7 +23,6 @@ public class Room extends BaseTimeEntity {
     @OneToMany(mappedBy = "room")
     private List<Chat> roomChatList = new ArrayList<>();
 
-
     @Column(name = "room_password", nullable = false)
     private String roomPassword;
 

@@ -32,8 +32,10 @@ public class Mate extends BaseTimeEntity {
     }
 
     public MateDto convertToDto() {
-        return MateDto.builder().mateId(this.getMateId()).fromMember(this.getFromMember()).toMember(this.getToMember()).build();
+        return MateDto.builder()
+                .mateId(this.getMateId())
+                .fromMemberNickname(this.getFromMember().getNickname())
+                .toMemberNickname(this.getToMember().getNickname())
+                .build();
     }
-
-
 }

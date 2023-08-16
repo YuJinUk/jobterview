@@ -145,7 +145,8 @@ public class MemberController {
     @ApiOperation(value = "회원 검색", notes = "")
     @ApiResponses({@ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"), @ApiResponse(code = 404, message = "질문 없음"), @ApiResponse(code = 500, message = "서버 오류")})
     public ResponseEntity<?> searchByNickname(@PageableDefault(page = 0, size = 10, sort = "nickname", direction = Sort.Direction.ASC) @ApiParam(value = "페이지 정보", required = true) Pageable pageable, @RequestParam @ApiParam(value = "검색할 닉네임 키워드", required = true) String keyword) {
-        Page<MemberDto> members = null;
+        Page<MemberDto> members;
+
         if(keyword.trim().isEmpty()) {
             members = memberService.getAllActiveMember(pageable).map(Member::toMemberDto);
         } else {
