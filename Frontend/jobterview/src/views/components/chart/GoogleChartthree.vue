@@ -15,9 +15,8 @@
       </div>
       <div class="zoomable-div" @click="eyeMouseOver" style="display:flex; justify-content:center;">
         <div class="shadow" style="background-color: none; width:fit-content; align-content:center;">
-          <p class="shadow likeabutton" style="text-align: center; color:white; margin:0;">1분동안 감정의 변화를 알아볼까요?</p>
+          <p class="shadow likeabutton" style="text-align: center; margin:0;">1분동안 감정의 변화를 알아볼까요?</p>
         </div>
-        <!-- <button class="shadow" style="display:flex; justify-content:center; background-color: #0F4471; color:white; text-align:center; width: 250px; margin-left: 0;">감정의 흐름이 궁금하신가요?</button> -->
       </div>
     </div>
     <div>
@@ -27,17 +26,10 @@
         </div>
         <br>
         <div><LineChartthree /></div>
-        <div style="background-color:#0F4471; color: white; border-radius:5px; width:60px; text-align:center" @click="eye = true">닫기</div>
+        <div style="background-color:#0F4471; color: white; border-radius:5px; width:60px; text-align:center; cursor:pointer;" @click="eye = true">닫기</div>
       </div>
     </div>
     <div>
-      <div class="modal-overlay modal-shadow" v-if="!mo">
-        <div class="shadow">면접에서 다양한 감정은 표정에 드러난다고 해요. 면접관님들께서 보고 느낄 수 있는 감정이니 연습해봐요!</div>
-        <br>
-        <div>시간의 흐름에 따른 감정변화에요.</div>
-        <div><LineChartthree /></div>
-        <div style="background-color:#0F4471; color: white; border-radius:5px; width:60px; text-align:center" @click="mo = true">닫기</div>
-      </div>
     </div>
     
     <div class="container3">
@@ -52,7 +44,7 @@
         </div>
         <div class="zoomable-div" @click="TextOver" style="display:flex; justify-content:center;">
           <div class="shadow" style="background-color:none; margin-top:10px; width:fit-content; align-content:center;">
-            <p class="shadow likeabutton" style="text-align: center; color:white; margin:0;">면접자님이 가장 많이 말씀하신 단어를 알아볼까요?</p>
+            <p class="shadow likeabutton" style="text-align: center; margin:0;">면접자님이 가장 많이 말씀하신 단어를 알아볼까요?</p>
           </div>
         </div>
       </div>
@@ -80,7 +72,7 @@
           <ul v-for="word in getvideo3.result_emotion.WordCheck.maxcnt" :key="word" style="padding: 0;">
             <li>{{ word }}</li>
           </ul>
-        <div style="background-color:#0F4471; color: white; border-radius:5px; width:60px;" @click="tt = true">닫기</div>
+        <div style="background-color:#0F4471; color: white; border-radius:5px; width:60px; cursor:pointer;" @click="tt = true">닫기</div>
       </div>
     </div>
   </div>
@@ -199,11 +191,15 @@ export default {
     padding: 2px 8px;
     background: ButtonFace;
     background-color: #0F4471;
-    color: ButtonText;
+    color: white;
     border-style: solid; 
     border-width: 2px;
     border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
     cursor : pointer;
+}
+.likeabutton:hover{
+  color:black;
+  background-color: white;
 }
 .chart-down {
     position: relative;
