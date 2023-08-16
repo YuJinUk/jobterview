@@ -53,7 +53,6 @@ export default {
                 reportedNickname: this.reportedNickname,
                 reason: this.reason,
             }
-            console.log(report);
             await postReportAPI(report, () => {
                 alert("신고가 접수되었습니다.");
             }, 

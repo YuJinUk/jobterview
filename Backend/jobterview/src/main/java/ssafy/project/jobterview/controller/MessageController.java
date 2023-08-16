@@ -22,7 +22,7 @@ import ssafy.project.jobterview.service.MessageService;
 public class MessageController {
     private final MessageService messageService;
 
-    @GetMapping("")
+    @GetMapping
     @ApiOperation(value = "전체 메세지 목록")
     public ResponseEntity<Page<MessageDto>> getAllMessages(
             @PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {

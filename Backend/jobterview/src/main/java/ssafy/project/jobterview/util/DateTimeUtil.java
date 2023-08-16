@@ -7,9 +7,6 @@ public class DateTimeUtil {
 
     /**
      * 문자열을 LocalDateTime 객체로 변환
-     *
-     * @param s
-     * @return
      */
     public static LocalDateTime StringToLocalDateTime(String s) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

@@ -1,6 +1,7 @@
 package ssafy.project.jobterview.config.auth;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -41,7 +42,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             try {
                 byUsername = memberService.findByEmail(email);
             } catch (Exception e) {
-                byUsername = null;
+                e.printStackTrace();
             }
 
             name = oAuth2User.getAttribute("name");
