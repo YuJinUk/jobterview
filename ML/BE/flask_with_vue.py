@@ -64,6 +64,7 @@ def process_video_and_audio(video_data, audio_info, num, nickname, gender):
         
     if os.path.exists(audio_path):
         os.remove(audio_path)
+        
     print(result_emotion)
     return result_emotion
 
@@ -86,77 +87,12 @@ def upload1():
         else:
             gender = 'male'
             nickname = nickname.replace('male', '')
-        # print(video_file)
-        # video_data = base64.b64encode(video_data)
-        """ 
-        video_data(encoding base64) from flask to DB
-        
-        """ 
-        # video_data = base64.b64decode(video_data)
-        """
-        video_data(decoding base64) from DB to flask
-        
-        """
-        # save video in os folder
-        # with open('video_data.mp4', 'wb') as f:
-        #     f.write(video_data)
-        
-        """
-        Analyze facial expressions for 7 emotions 
-        and 
-        check eye movements(left and right)
-        """
-        
-        # result_emotion, result_eye = facial_expression_and_eye_movements('video_data.mp4')
-        # print(result_emotion)
-        # print(result_eye)
-        # result_emotion['eye_movement'] = result_eye
-        
-        # # remove video in os folder
-        # video_path = 'video_data.mp4'
-        # if os.path.exists(video_path):
-        #     os.remove(video_path)
-        
+            
         # audio_analysis
         audio_file = request.files.get('audio')
-        # print(audio_file)
         audio_file.save(f'dataset/audio_data_{nickname}_1.wav') # binary data type
         audio, sr = process_audio(f'dataset/audio_data_{nickname}_1.wav', './', f'new_audio_{nickname}_1.wav')
-        # print(audio, sr)
         
-        # plt.figure(figsize=(10, 12))  # 전체 그림 크기를 조정
-        # plt.subplot(211)
-        # plt.plot(audio)
-        # plt.title('Audio Waveform')
-        # plt.xlabel('Sample')
-        # plt.ylabel('Amplitude')
-        # print('sr:', sr, ', audio shape:', audio.shape)
-        # print('length:', audio.shape[0]/float(sr), 'secs')
-        
-        
-        # audio_float = audio.astype(float) / np.abs(audio).max()
-
-        # Calculate the spectrogram using librosa.stft
-        # spectrogram = librosa.stft(audio_float)
-
-        # plt.subplot(212)
-        # fig, ax = plt.subplots()
-        # Spectrogram plotting
-        # img = librosa.display.specshow(librosa.amplitude_to_db(spectrogram, ref=np.max),
-        #                         y_axis='log', x_axis='time', sr=sr)
-        # plt.colorbar(img, format='%+2.0f dB')
-        # plt.title('Spectrogram')
-        # plt.xlabel('Time (s)')
-        # plt.ylabel('Frequency (Hz)')
-        # plt.tight_layout()
-        # plt.show()
-        
-        
-        # analyze audio_file
-        """
-        add analysis function about audio_file
-        
-        """
         # remove audio in os folder
         audio_path = f'dataset/audio_data_{nickname}_1.wav'
         if os.path.exists(audio_path):
