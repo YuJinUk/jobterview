@@ -14,7 +14,7 @@
               id="email"
               style="border-radius: 5px; height: 50px"
               v-model="email"
-              placeholder="  이메일"
+              placeholder="이메일"
               size="40"
               @input="testValidEmail"
             />
@@ -33,7 +33,7 @@
               id="nickname"
               style="border-radius: 5px; height: 50px"
               v-model="nickname"
-              placeholder="  닉네임"
+              placeholder="닉네임"
               size="40"
               @input="testValidNickname"
             />
@@ -48,7 +48,7 @@
             id="password"
             style="border-radius: 5px; height: 50px"
             v-model="password"
-            placeholder="  비밀번호"
+            placeholder="비밀번호"
             @input="passwordLengthCheck"
             size="40"
           />
@@ -64,7 +64,7 @@
             id="passwordCheck"
             style="border-radius: 5px; height: 50px"
             v-model="passwordCheck"
-            placeholder="  비밀번호 확인"
+            placeholder="비밀번호 확인"
             size="40"
           />
           <span
@@ -124,17 +124,26 @@ export default {
       //이메일 중복체크 필요하게
       this.duplicateEmail = 0;
 
-        const com= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.com$/i;
-        const cokr= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.co.kr$/i;
-        const net= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.net$/i;
-        const ackr= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]).ac.kr$/i;
+      const com =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.com$/i;
+      const cokr =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.co.kr$/i;
+      const net =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.net$/i;
+      const ackr =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]).ac.kr$/i;
 
-          if(this.email.match(com)!==null||this.email.match(cokr)!=null||this.email.match(net)!=null||this.email.match(ackr)!=null){
-          this.isValidEmail = true;}
-          else{
-              this.isValidEmail=false;
-          }
-      },
+      if (
+        this.email.match(com) !== null ||
+        this.email.match(cokr) != null ||
+        this.email.match(net) != null ||
+        this.email.match(ackr) != null
+      ) {
+        this.isValidEmail = true;
+      } else {
+        this.isValidEmail = false;
+      }
+    },
     // 비밀번호 길이 검사
     passwordLengthCheck() {
       if (this.password.length > 15 || this.password.length < 8) {
@@ -162,7 +171,6 @@ export default {
           } else {
             alert("중복된 이메일입니다");
           }
-          console.log(response);
         }
         (error) => {
           alert("오류가 발생했습니다.");
@@ -183,7 +191,6 @@ export default {
             this.duplicateNickname = false;
           } else {
             alert("사용할 수 없는 닉네임입니다.");
-            console.log(response);
           }
         }
         (error) => {
@@ -328,6 +335,8 @@ h1 {
   margin-left: 11%;
 }
 .inputForm {
-  box-shadow: 0px 6px 4px 0px rgb(109, 114, 118);
+  border: 1px solid #083358;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+  padding-left: 15px;
 }
 </style>

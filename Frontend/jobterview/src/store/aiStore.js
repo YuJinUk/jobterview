@@ -32,9 +32,7 @@ export default ({
       state.resultDataList = [];
     },
     addvideo1(state, data) {
-      console.log(data)
       state.video1 = data;
-      console.log(state.video1  )
     },
     addvideo2(state, data) {
       state.video2 = data;
@@ -54,7 +52,6 @@ export default ({
       commit("clearResultDataList");
     },
     storeVideo1({ commit }, data) {
-      console.log(data)
       commit("addvideo1", data);
     },
     storeVideo2({ commit }, data) {

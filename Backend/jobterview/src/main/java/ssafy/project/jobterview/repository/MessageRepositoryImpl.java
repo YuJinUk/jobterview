@@ -18,6 +18,8 @@ public class MessageRepositoryImpl implements MessageCustomRepository{
     public Page<Message> findAllByFromMemberVisibleAndReceiver(Pageable pageable,String nickname){
         QMessage qMessage = QMessage.message;
         List<Message> messageList = queryFactory.selectFrom(qMessage)
+                .leftJoin(qMessage.receiver).fetchJoin()
+                .leftJoin(qMessage.sender).fetchJoin()
                 .where(qMessage.fromMemberVisible.eq(true)
                         ,(qMessage.receiver.nickname.eq(nickname)))
                 .offset(pageable.getOffset())
@@ -34,6 +36,8 @@ public class MessageRepositoryImpl implements MessageCustomRepository{
     public Page<Message> findAllByToMemberVisibleAndSender(Pageable pageable, String nickname){
         QMessage qMessage = QMessage.message;
         List<Message> messageList = queryFactory.selectFrom(qMessage)
+                .leftJoin(qMessage.receiver).fetchJoin()
+                .leftJoin(qMessage.sender).fetchJoin()
                 .where(qMessage.toMemberVisible.eq(true)
                         ,(qMessage.sender.nickname.eq(nickname)))
                 .offset(pageable.getOffset())

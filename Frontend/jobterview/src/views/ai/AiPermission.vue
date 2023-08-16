@@ -36,7 +36,6 @@ export default {
     this.getMedia();
   },
   beforeUnmount() {
-    console.log("카메라 종료");
     if (this.myStream) {
       this.myStream.getTracks().forEach((track) => track.stop());
     }
@@ -75,11 +74,9 @@ export default {
     }
 
     function muteClick() {
-      // console.log(this.myStream.getAudioTracks());
       this.myStream
         .getAudioTracks()
         .forEach((track) => (track.enabled = !track.enabled));
-      // console.log(this.myStream.getAudioTracks());
       this.mic = !this.mic;
     }
 

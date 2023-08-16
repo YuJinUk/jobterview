@@ -1,33 +1,56 @@
 <template>
   <div>
-      <GChart
-        type="LineChart"
-        class="chart"
-        :options="options"
-        :data="collectionData"
-      />
+    <GChart
+      type="LineChart"
+      class="chart"
+      :options="options"
+      :data="collectionData"
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 import { GChart } from "vue-google-charts";
 
 export default {
   name: "LineChartfour",
   components: {
-    GChart
+    GChart,
   },
   computed: {
-    ...mapGetters('aiStore', ['getvideo4']),
+    ...mapGetters("aiStore", ["getvideo4"]),
     collectionData() {
       const dataList = this.getvideo4;
-      const labels = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral'];
-      const chartData = [['Time', ...labels]];
+      const labels = [
+        "angry",
+        "disgust",
+        "fear",
+        "happy",
+        "sad",
+        "surprise",
+        "neutral",
+      ];
+      const newlabels = [
+        "흥분",
+        "불쾌",
+        "긴장",
+        "행복",
+        "슬픔",
+        "놀람",
+        "차분",
+      ];
+      const chartData = [["Time", ...newlabels]];
 
-      for (let i = 0; i < dataList.result_emotion.new_data_about_time.time.length; i++) {
+      for (
+        let i = 0;
+        i < dataList.result_emotion.new_data_about_time.time.length;
+        i++
+      ) {
         const time = dataList.result_emotion.new_data_about_time.time[i];
-        const values = labels.map(label => dataList.result_emotion.new_data_about_time[label][i]);
+        const values = labels.map(
+          (label) => dataList.result_emotion.new_data_about_time[label][i]
+        );
         chartData.push([time, ...values]);
       }
 
@@ -42,28 +65,32 @@ export default {
           color: "white", // Set the title text color to white
         },
         legend: {
+          position: "right",
+          alignment: "center",
           textStyle: {
             color: "black", // Set the legend text color to white
+            fontSize: 15,
           },
         },
-        chartArea: { // 차트 영역 조절
-          left: 30, // 왼쪽 여백
+        chartArea: {
+          // 차트 영역 조절
+          left: 0, // 왼쪽 여백
           top: 30, // 위쪽 여백
-          width: '75%', // 너비 조절
-          height: '70%', // 높이 조절
-          },
-          margin: 0, // 주위 여백 조절
+          width: "75%", // 너비 조절
+          height: "70%", // 높이 조절
+        },
+        margin: 0, // 주위 여백 조절
       };
-    }
+    },
   },
 };
 </script>
   
 <style scoped>
 .chart {
-    position: relative;
-    z-index: 100;
-    background-color: white;
+  position: relative;
+  z-index: 100;
+  background-color: white;
 }
 
 li {
@@ -82,8 +109,6 @@ li {
 
   width: 1080px;
   height: 500px;
-
-  /* background-color: white; */
 }
 
 .container1 {
@@ -108,7 +133,7 @@ li {
   align-items: center;
 }
 
-.container1 .chartBox .chart{
+.container1 .chartBox .chart {
   width: 100%;
   background-color: None;
 }
@@ -135,7 +160,7 @@ li {
   display: flex;
   flex-direction: column;
   align-items: center;
-} 
+}
 
 .container2 .emotionResult li {
   font-size: 16px;
@@ -152,11 +177,12 @@ li {
   align-items: center;
 }
 
-.container3 div{
+.container3 div {
   width: 99%;
 }
 
-.memberScript, .comment {
+.memberScript,
+.comment {
   height: 38%;
 }
 

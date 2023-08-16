@@ -22,7 +22,7 @@
       </router-link>
     </div>
 
-    <div v-if="(mates.length == 0)" class="emptyMate">
+    <div v-if="mates.length == 0" class="emptyMate">
       <p>등록된 메이트가 없습니다!</p>
     </div>
     <div v-else>
@@ -31,13 +31,17 @@
         <div class="empty"></div>
 
         <ul class="list">
-          <li v-for="mate in mates" :key="mate.toMember.nickname" class="mateBox">
+          <li
+            v-for="mate in mates"
+            :key="mate.toMemberNickname"
+            class="mateBox"
+          >
             <div class="mate">
-              <p class="nickname">{{ mate.toMember.nickname }}</p>
+              <p class="nickname">{{ mate.toMemberNickname }}</p>
               <font-awesome-icon
                 icon="fa-solid fa-envelope"
                 class="icon messageIcon"
-                @click="toSend(mate.toMember.nickname)"
+                @click="toSend(mate.toMemberNickname)"
               />
               <font-awesome-icon
                 icon="fa-solid fa-user-group"
@@ -84,7 +88,12 @@
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
-import { makeMateApi, breakMateApi, getMateListWithPagingApi, searchMateListWithPagingApi } from "@/api/mateApi";
+import {
+  makeMateApi,
+  breakMateApi,
+  getMateListWithPagingApi,
+  searchMateListWithPagingApi,
+} from "@/api/mateApi";
 
 export default {
   setup() {
@@ -145,10 +154,10 @@ export default {
     //해당 맴버와 메이트 관계 설정///////////////////////////////////
     async function switchMate(mate) {
       const fromNickname = loginMemberNickname.value;
-      const toNickname = mate.toMember.nickname;
+      const toNickname = mate.toMemberNickname;
 
       //이미 메이트인 경우
-      if(mate.isMate === true) {
+      if (mate.isMate === true) {
         mate.isMate = false;
 
         //서버에 메이트 취소하는 api 보내는 메서드
@@ -163,7 +172,12 @@ export default {
     }
 
     //전체 메이트 조회///////////////////////////////////////////////////////
-    async function getMates(nickname, page = 1, size = 12, sort = "createdDate,desc") {
+    async function getMates(
+      nickname,
+      page = 1,
+      size = 12,
+      sort = "createdDate,desc"
+    ) {
       await getMateListWithPagingApi(
         { page, size, sort, nickname },
         ({ data }) => {
@@ -185,18 +199,24 @@ export default {
     //메이트 검색어로 조회/////////////////////////////////////////////////////
     async function searchMate(page = 1) {
       savedKeyword.value = searchQuery.value.trim();
-      searchQuery.value = '';
+      searchQuery.value = "";
 
       //검색어가 존재하지 않은 경우
-      if(savedKeyword.value === '') {
-        await getMates(loginMemberNickname.value,page);
+      if (savedKeyword.value === "") {
+        await getMates(loginMemberNickname.value, page);
         setVisiblePageNumbers();
-      
-      //검색어가 존재하는 경우
+
+        //검색어가 존재하는 경우
       } else {
         await searchMateListWithPagingApi(
-          {page, size: 12, sort: 'createdDate,desc', fromNickname: loginMemberNickname.value, keyword: savedKeyword.value},
-          ({data}) => {
+          {
+            page,
+            size: 12,
+            sort: "createdDate,desc",
+            fromNickname: loginMemberNickname.value,
+            keyword: savedKeyword.value,
+          },
+          ({ data }) => {
             totalPages.value = data.totalPages;
             mates.value = data.content; //일단 배열에 한번 넣고
 
@@ -210,13 +230,14 @@ export default {
             console.log(error);
           }
         );
-          setVisiblePageNumbers();
+        setVisiblePageNumbers();
       }
     }
 
     ///////////////////////////////////////////////////////
     onMounted(async () => {
-      loginMemberNickname.value = store.getters["loginStore/getLoginMemberNickname"]; //로그인한 맴버 가져오기
+      loginMemberNickname.value =
+        store.getters["loginStore/getLoginMemberNickname"]; //로그인한 맴버 가져오기
       getMates(loginMemberNickname.value);
       setVisiblePageNumbers(); //페이지 갱신
     });

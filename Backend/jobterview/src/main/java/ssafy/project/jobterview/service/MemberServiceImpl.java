@@ -59,13 +59,12 @@ public class MemberServiceImpl implements MemberService{
     public Page<Member> findByNicknameContainsAndRole(Pageable pageable, String keyword) {
         Page<Member> socialPage= memberRepository.findByNicknameContainsAndRole(pageable, keyword, Role.ROLE_SOCIAL);
         Page<Member> localPage = memberRepository.findByNicknameContainsAndRole(pageable,keyword,Role.ROLE_LOCAL);
+
         List<Member> page = new ArrayList<>(localPage.getContent());
+
         page.addAll(socialPage.getContent());
-        return new PageImpl<>(
-                page,
-                pageable,
-                page.size()
-        );
+
+        return new PageImpl<>(page, pageable, page.size());
     }
 
 
@@ -146,15 +145,11 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Page<Member> getAllActiveMember(Pageable pageable) {
-        Page<Member> localPage = memberRepository.findByRole(Role.ROLE_LOCAL,pageable);
-        Page<Member> socialPage = memberRepository.findByRole(Role.ROLE_SOCIAL,pageable);
-        List<Member> page = new ArrayList<>(localPage.getContent());
-        page.addAll(socialPage.getContent());
-        return new PageImpl<>(
-                page,
-                pageable,
-                page.size()
-        );}
+        List<Role> roles = new ArrayList<>();
+        roles.add(Role.ROLE_SOCIAL);
+        roles.add(Role.ROLE_LOCAL);
+        return memberRepository.findByRoleIn(roles, pageable);
+    }
 
     @Override
     public void setEmailCode(String email, String code) {

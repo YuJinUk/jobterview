@@ -1,33 +1,74 @@
 <template>
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
+    <a class="navbar-brand" href="#" @click="toMain()" style="cursor: pointer"
+      >JOBTERVIEW</a
+    >
 
     <!-- 로그인 했을 때 -->
 
-    <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
+    <div v-if="getUser" class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <p class="  login-nickname">{{ loginNickname }}</p>
+          <p class="login-nickname">{{ loginNickname }}</p>
         </li>
         <div class="dropdown">
-          <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
-          <div v-if=getSocail class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
-            aria-labelledby="dropdownIcon">
-            <a class="dropdown-item" @click="logout">로그아웃</a>
+          <i
+            class="bi bi-caret-down-fill"
+            @click="toggleDropdown"
+            style="cursor: pointer"
+          ></i>
+          <div
+            v-if="getSocail"
+            class="dropdown-menu dropdown-menu-left"
+            :class="{ show: isDropdownOpen }"
+            aria-labelledby="dropdownIcon"
+          >
+            <a class="dropdown-item" @click="logout" style="cursor: pointer"
+              >로그아웃</a
+            >
           </div>
-          <div v-else class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
-            aria-labelledby="dropdownIcon">
-            <a class="dropdown-item" @click="updatePassword">비밀번호 변경</a>
-            <a class="dropdown-item" @click="withdraw">회원 탈퇴</a>
-            <a class="dropdown-item" @click="logout">로그아웃</a>
+          <div
+            v-else
+            class="dropdown-menu dropdown-menu-left"
+            :class="{ show: isDropdownOpen }"
+            aria-labelledby="dropdownIcon"
+            style="cursor: pointer"
+          >
+            <a
+              class="dropdown-item"
+              @click="updatePassword"
+              style="cursor: pointer"
+              >비밀번호 변경</a
+            >
+            <a class="dropdown-item" @click="withdraw" style="cursor: pointer"
+              >회원 탈퇴</a
+            >
+            <a class="dropdown-item" @click="logout" style="cursor: pointer"
+              >로그아웃</a
+            >
           </div>
         </div>
-        <li v-if="getIsAdmin" class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;"
-            @click="toAdmin()"></i></li>
-        <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;"
-            @click="toMessage()"></i></li>
-        <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;"
-            @click="toMemberList()"></i></li>
+        <li v-if="getIsAdmin" class="nav-item">
+          <i
+            class="bi bi-hammer"
+            style="font-size: 22px; margin-right: 20px; cursor: pointer"
+            @click="toAdmin()"
+          ></i>
+        </li>
+        <li class="nav-item">
+          <i
+            class="bi bi-envelope-fill"
+            style="font-size: 22px; margin-right: 20px; cursor: pointer"
+            @click="toMessage()"
+          ></i>
+        </li>
+        <li class="nav-item">
+          <i
+            class="bi bi-people-fill"
+            style="font-size: 22px; margin-right: 20px; cursor: pointer"
+            @click="toMemberList()"
+          ></i>
+        </li>
       </ul>
     </div>
     <!-- 로그인 안 했을 때 -->
@@ -35,12 +76,24 @@
     <div v-else class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <div class="container-login navbar-light">
-          <button type="button" class="btn btn-link" id="login" @click="toLogin()">
+          <button
+            type="button"
+            class="btn btn-link"
+            id="login"
+            @click="toLogin()"
+            style="cursor: pointer"
+          >
             로그인
           </button>
         </div>
         <div class="container-register navbar-light">
-          <button type="button" class="btn btn-link" id="register" @click="toJoin()">
+          <button
+            type="button"
+            class="btn btn-link"
+            id="register"
+            @click="toJoin()"
+            style="cursor: pointer"
+          >
             회원가입
           </button>
         </div>
@@ -106,7 +159,6 @@ export default {
   },
   async mounted() {
     //어드민인지 확인
-    await this.$store.dispatch("loginStore/getMemberRole");
     window.addEventListener("click", this.closeDropdown);
   },
   beforeUnmount() {
@@ -115,9 +167,10 @@ export default {
   computed: {
     ...mapGetters(["loginStore/getLogin"]),
     ...mapGetters(["loginStore/getSocial"]),
-    ...mapGetters("loginStore", ["getIsAdmin"]),
+    ...mapGetters(["loginStore/getIsAdmin"]),
     ...mapState("loginStore", ["isLogin"]),
     ...mapState("loginStore", ["isSocial"]),
+    ...mapState("loginStore", ["isAdmin"]),
     ...mapState("loginStore", ["loginNickname"]),
 
     getUser() {
@@ -134,8 +187,15 @@ export default {
         return false;
       }
     },
+    getIsAdmin() {
+      if (this.isAdmin) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
-}
+};
 </script>
 
 <style scoped>

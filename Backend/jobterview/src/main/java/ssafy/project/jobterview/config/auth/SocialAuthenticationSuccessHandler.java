@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.service.MemberService;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,6 @@ public class SocialAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final MemberService memberService;
     private final Environment env;
 
-
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -33,16 +32,16 @@ public class SocialAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String username2 = userDetails.getUsername();
         String usernickname = "";
-        String userRole = "";
+        Role userRole = null;
         try {
             Member loginMember = memberService.findByEmail(username2);
             usernickname = loginMember.getNickname();
-            userRole = loginMember.getRole().toString();
+            userRole = loginMember.getRole();
         } catch (Exception e) {
             e.printStackTrace();
         }
         String encodedNickname = URLEncoder.encode(usernickname, StandardCharsets.UTF_8);
-        if(userRole.toString().equals("ROLE_REPORTED_SOCIAL")){
+        if(userRole ==  Role.ROLE_REPORTED_SOCIAL){
             setDefaultTargetUrl(env.getProperty("varialbles.feUri")+"/auth/login?report=ok");
         }else{
             setDefaultTargetUrl(env.getProperty("varialbles.feUri")+"?nickname=" + encodedNickname+"&role="+userRole);

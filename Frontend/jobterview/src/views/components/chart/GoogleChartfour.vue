@@ -13,9 +13,9 @@
           <EyeChartfour />
         </div>
       </div>
-      <div class="zoomable-div" @click="eyeMouseOver">
-        <div class="shadow" style="background-color: #0F4471;">
-          <p style="text-align: center; color:white;">감정의 흐름이 궁금하신가요?</p>
+      <div class="zoomable-div" @click="eyeMouseOver" style="display:flex; justify-content:center;">
+        <div class="shadow" style="background-color: none; width:fit-content; align-content:center;">
+          <p class="shadow likeabutton" style="text-align: center; color:white; margin:0;">1분동안 감정의 변화를 알아볼까요?</p>
         </div>
       </div>
     </div>
@@ -44,14 +44,14 @@
       <div class="memberScript">
         <h5>면접자님의 답변이에요.</h5>
         <div class="scroll-box">
-        <h6> Q1. {{ selectedQuestions[0].content }}</h6>
+        <h6> Q4. {{ selectedQuestions[3].content }}</h6>
           <p>
             A. {{ getvideo4.result_emotion.STT_message }}
           </p>
         </div>
-        <div class="zoomable-div" @click="TextOver">
-          <div class="shadow" style="background-color:#0F4471; margin-top:10px;">
-            <p style="text-align: center; color:white;">면접자님이 가장 많이 말씀하신 단어를 알아볼까요?</p>
+        <div class="zoomable-div" @click="TextOver" style="display:flex; justify-content:center;">
+          <div class="shadow" style="background-color:none; margin-top:10px; width:fit-content; align-content:center;">
+            <p class="shadow likeabutton" style="text-align: center; color:white; margin:0;">면접자님이 가장 많이 말씀하신 단어를 알아볼까요?</p>
           </div>
         </div>
       </div>
@@ -61,11 +61,11 @@
       <div class="chart-down" style="height: 70%; margin-top: 30px; margin-left:150px; display:flex; flex-direction:row">
         <div class="container2">
           <h5>
-            표현에 능숙하지 않은 사람도 표정은 숨겨도 목소리에 깃든 감정은 숨길 수 없다는 말이 있잖아요.
+            아무리 표현에 능숙한 사람도 표정은 숨겨도 목소리에 깃든 감정은 숨길 수 없다는 말이 있잖아요.
             <br><br>
-            성공적인 면접을 위해 
+            면접자님의 성공적인 면접을 위해 
             <br><br>
-            면접자님의 목소리에 깃든 숨겨진 감정을 알아봤어요.
+            목소리에 깃든 숨겨진 감정을 알아봤어요.
           </h5>
         </div>
         <br>
@@ -151,14 +151,14 @@ export default {
         }
       });
       return [
-        ['Daily Routine', 'Hours per Day'],
-        ['angry', normalizedValues[0]],
-        ['disgust', normalizedValues[1]],
-        ['fear', normalizedValues[2]],
-        ['happy', normalizedValues[3]],
-        ['sad', normalizedValues[4]],
-        ['surprise', normalizedValues[5]],
-        ['neutral', normalizedValues[6]]
+        ['Emotion', 'Percent'],
+        ['흥분', normalizedValues[0]],
+        ['불쾌', normalizedValues[1]],
+        ['긴장', normalizedValues[2]],
+        ['행복', normalizedValues[3]],
+        ['슬픔', normalizedValues[4]],
+        ['놀람', normalizedValues[5]],
+        ['차분', normalizedValues[6]]
       ];
     },
     options() {
@@ -170,8 +170,11 @@ export default {
           color: "white", // Set the title text color to white
         },
         legend: {
+          position: "right",
+          alignment: "center",
           textStyle: {
             color: "black", // Set the legend text color to white
+            fontSize: 15,
           },
         },
         chartArea: { // 차트 영역 조절
@@ -188,6 +191,19 @@ export default {
 </script>
 
 <style scoped>
+.likeabutton {
+    text-decoration: none; 
+    font-size: medium;
+    display: inline-block; 
+    padding: 2px 8px;
+    background: ButtonFace;
+    background-color: #0F4471;
+    color: ButtonText;
+    border-style: solid; 
+    border-width: 2px;
+    border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+    cursor : pointer;
+}
 .chart-down {
     position: relative;
     z-index: 0;
@@ -347,7 +363,7 @@ button {
   position: fixed;
   top: 100px;
   left: 500px;
-  width: 500px;
+  width: 600px;
   height: 450px;
   background: white;
   display: flex;

@@ -105,7 +105,6 @@ methods: {
     this.timer = this.captureDuration
     },
     startAudio() {
-    console.log("startaudio")
     this.checkactive = false;
     navigator.mediaDevices.getUserMedia({ audio: true })
     .then(stream => {
@@ -130,7 +129,6 @@ methods: {
 
     },
     startCapture() {
-    console.log("startcapture")
     this.startAudio()
     clearInterval(this.captureInterval);
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -169,7 +167,6 @@ methods: {
         
     },
     stopCapture() {
-    console.log('end')
     if (this.videoData.recorder && this.audioData.recorder) {
         this.videoData.recorder.stop();
         this.audioData.recorder.stop();
@@ -200,7 +197,6 @@ methods: {
         }, 100)
     },
     async uploadCapture() {
-    console.log('upload')
     if (this.videoData.chunks.length > 0 && this.audioData.length > 0) {
         const videoBlob = new Blob(this.videoData.chunks, { type: 'video/webm' });
         const audioBlob = new Blob(this.audioData, { type: "audio/ogg codecs=opus" });
@@ -212,8 +208,6 @@ methods: {
         formData.append('nickname', textBlob, 'nickname.txt');
 
         this.resultData = null;
-
-        console.log(this.videoData.chunks)
         try {
             // 비디오와 오디오 데이터를 Flask로 전송
             const response = await axios.post(this.localhost + 'api/upload/4', formData);
@@ -222,8 +216,6 @@ methods: {
             this.resultData = response.data;
             // this.$store.dispatch('aiStore/storeResultData', response.data);
             this.$store.dispatch('aiStore/storeVideo4', response.data);
-            console.log(this.resultData);
-            console.log('Upload successful');
         } catch (error) {
             console.error('Upload error:', error);
         }

@@ -7,8 +7,6 @@ import ssafy.project.jobterview.exception.NotFoundException;
 
 public interface RoomService {
 
-//    Room save(Room room);
-
     Room findById(Long roomId);
 
     Room findByName(String roomName);

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Message;
 import ssafy.project.jobterview.dto.MessageDto;
-import ssafy.project.jobterview.repository.MemberRepository;
 import ssafy.project.jobterview.repository.MessageRepository;
 
 
@@ -37,7 +36,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message findById(Long id){
-        return messageRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
+        return messageRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 
     @Override
@@ -62,8 +61,6 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Page<Message> findAllWithPaging(Pageable pageable) {
-        System.out.println("messageService");
-
         return messageRepository.findAll(pageable);
     }
 }

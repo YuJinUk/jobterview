@@ -13,7 +13,7 @@
             id="email"
             style="border-radius: 5px; height: 50px"
             v-model="email"
-            placeholder="  email"
+            placeholder="이메일"
             size="40"
           />
         </div>
@@ -25,7 +25,7 @@
             id="password"
             style="border-radius: 5px; height: 50px" 
             v-model="password"
-            placeholder="  password"
+            placeholder="비밀번호"
             size="40"
             
           />
@@ -56,9 +56,9 @@
         flex-direction: column;
         justify-content: center;
         width: 100%; "> 
-          <p class="findPassword" @click="findPassword"><b>비밀번호</b>를 잊으셨나요?</p>
+          <p class="findPassword" @click="findPassword" style="cursor:pointer;"><b>비밀번호</b>를 잊으셨나요?</p>
           <button class="login" @click="login" size="40">로그인</button>
-          <p class="toJoin" @click="toJoin" >처음이신가요? <b>회원가입</b></p>
+          <p class="toJoin" @click="toJoin" style="cursor:pointer;" >처음이신가요? <b>회원가입</b></p>
         </div>
       </div>
     </div>
@@ -111,7 +111,7 @@ export default {
   align-items: center;
   flex-direction:column;
   width: 100%;
-  height: 600px;
+  height: 500px;
   background-color: #ffffff;
 }
 
@@ -147,6 +147,8 @@ h1 {
   margin-bottom: 15px;
 }
 .inputForm {
-  box-shadow: 0px 6px 4px 0px rgb(109, 114, 118);
+  border: 1px solid #083358;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+  padding-left: 15px;
 }
 </style>

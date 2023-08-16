@@ -34,14 +34,9 @@ export default {
     },
   },
   components: {},
-  created() {
-    // console.log(this.info.stream);
-  },
+  created() {},
   mounted() {
-    console.log(this.index + "번컴포넌트에서 mount이벤트 발생");
     this.$refs.remote.srcObject = this.info.stream;
-    // console.log(this.$refs.remote);
-    // console.log(this.$refs);
   },
   props: {
     info: Object,
@@ -49,14 +44,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* #app {
-     font-family: Avenir, Helvetica, Arial, sans-serif; 
-     -sebkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-text-align: center;
-color: #2c3e50;
-margin-top: 60px; 
-} */
-</style>

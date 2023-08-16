@@ -99,8 +99,7 @@ export default {
                 })
         },     
         async postMessages(context, message) {
-            await postMessage(message, ({data}) => {
-                console.log(data.content);
+            await postMessage(message, () => {
                 router.push({name:"MessageList"});
             },
             (error) => {

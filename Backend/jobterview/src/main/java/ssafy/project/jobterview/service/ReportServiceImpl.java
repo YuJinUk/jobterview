@@ -23,7 +23,7 @@ public class ReportServiceImpl implements ReportService {
      * 접수된 신고 저장
      * Dto의 닉네임으로 Member를 조회하여 Report Entity 생성하여 저장
      *
-     * @param r
+     * @param
      * @return
      */
     @Override
