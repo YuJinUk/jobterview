@@ -31,5 +31,5 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 app.config.productionTip = false;
 app.config.globalProperties.$axios = axios;
 app.config.globalProperties.localhost = MLUrl;
-app.config.globalProperties.second = 60;
+app.config.globalProperties.second = 10;
 app.mount("#app");
