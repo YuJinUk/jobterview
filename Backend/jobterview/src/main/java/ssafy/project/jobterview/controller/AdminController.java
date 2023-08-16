@@ -12,13 +12,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ssafy.project.jobterview.domain.Chat;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Room;
-import ssafy.project.jobterview.dto.ChatDto;
 import ssafy.project.jobterview.dto.MemberDto;
 import ssafy.project.jobterview.dto.RoomDto;
-import ssafy.project.jobterview.service.ChatService;
 import ssafy.project.jobterview.service.MemberService;
 import ssafy.project.jobterview.service.RoomService;
 
@@ -29,7 +26,6 @@ import ssafy.project.jobterview.service.RoomService;
 public class AdminController {
 
     private final MemberService memberService;
-    private final ChatService chatService;
     private final RoomService roomService;
 
     @GetMapping("/members")
@@ -125,63 +121,5 @@ public class AdminController {
                     sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         // 페이징된 RoomDto 목록과 HttpStatus.OK 반환
         return new ResponseEntity<>(roomService.findAll(pageable).map(Room::convertToDto), HttpStatus.OK);
-    }
-
-    @GetMapping("/chat")
-    @ApiOperation(value = "모든 채팅 조회", notes = "")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "채팅 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
-    })
-    public ResponseEntity<Page<ChatDto>> getAllChats(
-            @PageableDefault(page = 0, size = 50,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return new ResponseEntity<>(chatService.findAll(pageable).map(Chat::convertToDto), HttpStatus.OK);
-    }
-
-    /**
-     * 특정 Member의 채팅 목록 조회
-     *
-     * @param memberId Member id
-     * @param pageable 페이징 및 정렬 정보
-     * @return Page<ChatDto>형태로 조회된 채팅 목록과 HttpStatus.OK 반환
-     */
-    @GetMapping("/chat/{memberId}")
-    @ApiOperation(value = "특정 맴버 채팅 조회", notes = "")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "채팅 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
-    })
-    public ResponseEntity<Page<ChatDto>> getMemberChats(
-            @PathVariable(name = "memberId") Long memberId,
-            @PageableDefault(page = 0, size = 50,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return new ResponseEntity<>(chatService.findByMemberId(memberId, pageable).map(Chat::convertToDto), HttpStatus.OK);
-    }
-
-    /**
-     * 특정 Room의 채팅 목록 조회
-     *
-     * @param roomId   Room id
-     * @param pageable 페이징 및 정렬 정보
-     * @return Page<ChatDto>형태로 조회된 채팅 목록과 HttpStatus.OK 반환
-     */
-    @GetMapping("/chat/room/{roomId}")
-    @ApiOperation(value = "특정 방 채팅 조회", notes = "")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "채팅 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
-    })
-    public ResponseEntity<Page<ChatDto>> getRoomChats(
-            @PathVariable(name = "roomId") Long roomId,
-            @PageableDefault(page = 0, size = 50,
-                    sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return new ResponseEntity<>(chatService.findByRoomId(roomId, pageable).map(Chat::convertToDto), HttpStatus.OK);
     }
 }
