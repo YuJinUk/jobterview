@@ -36,7 +36,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
         } finally {
             long endTime = System.currentTimeMillis();
             long elapsedTime = endTime - startTime;
-            log.info("elapsed time: " + elapsedTime + "ms");
+            log.info("URL: " + requestURL + ", elapsed time: " + elapsedTime + "ms");
         }
     }
 }
