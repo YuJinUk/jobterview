@@ -22,12 +22,14 @@ export default {
         const normalizedValues = dataList.result_emotion.SER
         console.log(normalizedValues)
         return [
-        ['where', 'Per'],
-        ['angry', normalizedValues['angry']],
-        ['disgust', normalizedValues['disgust']],
-        ['fear', normalizedValues['fear']],
-        ['neutral', normalizedValues['neutral']],
-        ['sad', normalizedValues['sad']],
+            ['emotion', 'Percent'],
+            ['흥분', normalizedValues['angry']],
+            ['불쾌', normalizedValues['disgust']],
+            ['긴장', normalizedValues['fear']],
+            ['차분', normalizedValues['neutral']],
+            ['슬픔', normalizedValues['sad']],
+            ['당황', normalizedValues['surprise']],
+            ['행복', normalizedValues['happy']],
         ];
     },
     options() {
@@ -39,8 +41,11 @@ export default {
             color: "white", // Set the title text color to white
         },
         legend: {
+            position: "right",
+            alignment: "center",
             textStyle: {
-            color: "black", // Set the legend text color to white
+                color: "black", // Set the legend text color to white
+                fontSize: 15,
             },
         },
         chartArea: { // 차트 영역 조절
