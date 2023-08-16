@@ -1,6 +1,7 @@
 package ssafy.project.jobterview.config.auth;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -41,7 +42,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             try {
                 byUsername = memberService.findByEmail(email);
             } catch (Exception e) {
-                byUsername = null;
+                e.printStackTrace();
             }
 
             name = oAuth2User.getAttribute("name");
@@ -51,7 +52,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             Map<String, Object> kakaoAccount = oAuth2User.getAttribute("kakao_account");
             Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
             name = (String) profile.get("nickname");
-            name = name + "10";
+
             email = (String) kakaoAccount.get("email");
             try {
                 byUsername = memberService.findByEmail(email);
@@ -63,7 +64,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         //DB에 없는 사용자라면 회원가입처리
         if (byUsername == null) {
             Member newMember = new Member(email, name, password);
-            newMember.changeRole(Role.ROLE_MEMBER);
+            newMember.changeRole(Role.ROLE_SOCIAL);
             memberRepository.save(newMember);
             return new PrincipalDetail(newMember, oAuth2User.getAttributes());
         } else {

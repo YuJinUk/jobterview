@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ssafy.project.jobterview.domain.Member;
+import ssafy.project.jobterview.domain.Role;
 import ssafy.project.jobterview.service.MemberService;
 
 
@@ -19,9 +20,11 @@ public class PrincipalDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
             Member principal = memberService.findByEmail(email);
-            if (principal.getRole().toString().equals("ROLE_UNVERIFIED")) {
+
+            if (principal.getRole() == Role.ROLE_WITHDRAWN) {
                 principal = null;
             }
+
             return new PrincipalDetail(principal);
         } catch (Exception e) {
             Member principal = null;
@@ -29,3 +32,4 @@ public class PrincipalDetailService implements UserDetailsService {
         }
     }
 }
+

@@ -1,39 +1,46 @@
 <template>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#" @click="toMain()">JOBTERVIEW</a>
-        
-        <!-- 로그인 했을 때 -->
-        
-            <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <p class="  login-nickname">{{loginNickname}}</p>
-                    </li>
-                        <div class="dropdown">
-                        <i class="bi bi-caret-down-fill" @click="toggleDropdown"></i>
-                        <div class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
-                            aria-labelledby="dropdownIcon">
-                            <a class="dropdown-item"  href="#" >비밀번호 변경</a>
-                            <a class="dropdown-item" href="#">회원 탈퇴</a>
-                            <a class="dropdown-item" @click="logout">로그아웃</a>
-                        </div>
-                    </div>
-                    <li v-if="getIsAdmin" class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;" @click="toAdmin()"></i></li>
-                    <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px;" @click="toMessage()"></i></li>
-                    <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px;" @click="toMemberList()"></i></li>
-                </ul>
-            </div>
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <a class="navbar-brand" href="#" @click="toMain()" style="cursor:pointer;">JOBTERVIEW</a>
+
+    <!-- 로그인 했을 때 -->
+
+    <div v-if=getUser class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <p class="  login-nickname">{{ loginNickname }}</p>
+        </li>
+        <div class="dropdown">
+          <i class="bi bi-caret-down-fill" @click="toggleDropdown" style="cursor:pointer;"></i>
+          <div v-if=getSocail class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+            aria-labelledby="dropdownIcon">
+            <a class="dropdown-item" @click="logout" style="cursor:pointer;">로그아웃</a>
+          </div>
+          <div v-else class="dropdown-menu dropdown-menu-left" :class="{ 'show': isDropdownOpen }"
+            aria-labelledby="dropdownIcon" style="cursor:pointer;">
+            <a class="dropdown-item" @click="updatePassword" style="cursor:pointer;">비밀번호 변경</a>
+            <a class="dropdown-item" @click="withdraw" style="cursor:pointer;">회원 탈퇴</a>
+            <a class="dropdown-item" @click="logout" style="cursor:pointer;">로그아웃</a>
+          </div>
+        </div>
+        <li v-if="getIsAdmin" class="nav-item"><i class="bi bi-hammer" style="font-size: 22px; margin-right: 20px;cursor: pointer"
+            @click="toAdmin()"></i></li>
+        <li class="nav-item"><i class="bi bi-envelope-fill" style="font-size: 22px; margin-right: 20px; cursor: pointer"
+            @click="toMessage()"></i></li>
+        <li class="nav-item"><i class="bi bi-people-fill" style="font-size: 22px; margin-right: 20px; cursor: pointer"
+            @click="toMemberList()"></i></li>
+      </ul>
+    </div>
     <!-- 로그인 안 했을 때 -->
 
     <div v-else class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <div class="container-login navbar-light">
-          <button type="button" class="btn btn-link" id="login" @click="toLogin()">
+          <button type="button" class="btn btn-link" id="login" @click="toLogin()" style="cursor:pointer;">
             로그인
           </button>
         </div>
         <div class="container-register navbar-light">
-          <button type="button" class="btn btn-link" id="register" @click="toJoin()">
+          <button type="button" class="btn btn-link" id="register" @click="toJoin()" style="cursor:pointer;">
             회원가입
           </button>
         </div>
@@ -43,8 +50,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "NavBar",
   components: {},
@@ -78,6 +85,9 @@ export default {
     toMemberList() {
       this.$router.push({ name: "MemberList" });
     },
+    toAdmin() {
+      this.$router.push({ name: "AdminMember" });
+    },
     toMain() {
       this.$router.push({ name: "Home" });
     },
@@ -94,20 +104,38 @@ export default {
       this.$store.dispatch("loginStore/UserLogout");
     },
   },
-  mounted() {
+  async mounted() {
+    //어드민인지 확인
     window.addEventListener("click", this.closeDropdown);
   },
   beforeUnmount() {
     window.removeEventListener("click", this.closeDropdown);
   },
   computed: {
-
     ...mapGetters(["loginStore/getLogin"]),
+    ...mapGetters(["loginStore/getSocial"]),
+    ...mapGetters(["loginStore/getIsAdmin"]),
     ...mapState("loginStore", ["isLogin"]),
+    ...mapState("loginStore", ["isSocial"]),
+    ...mapState("loginStore", ["isAdmin"]),
     ...mapState("loginStore", ["loginNickname"]),
-    
+
     getUser() {
       if (this.isLogin) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getSocail() {
+      if (this.isSocial) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getIsAdmin() {
+      if (this.isAdmin) {
         return true;
       } else {
         return false;

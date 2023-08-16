@@ -49,7 +49,6 @@ public class RoomController {
         if(room==null){
             return new ResponseEntity<>(0, HttpStatus.OK);
         }
-        System.out.println("동일이름 발견");
         return new ResponseEntity<>(1, HttpStatus.OK);
     }
 

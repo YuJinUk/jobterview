@@ -1,26 +1,49 @@
 <template>
     <div>
+        <div style="margin-top:60px ">
+        <h1 style="color: #000000"><b>비밀번호 변경</b></h1>
+      </div>
         <div class="totalForm">
-            <div id="joinForm">
-                <h1 style="color:#ffffff; text-align:center;"><b>비밀번호 변경</b></h1>
-                <div class="form-group">
-                    <label for="password"></label>
-                    <input type="password" id="password" style="border-radius: 5px;" v-model="password" placeholder="새 비밀번호" @input="passwordLengthCheck" >
-                    <span style="color:#ffffff; font-size:small" v-if="!passwordLength">8~15자로 입력해주세요.</span>
-                </div>
-                <div class="form-group">
-                    <label for="passwordCheck"></label>
-                    <input type="password" id="passwordCheck" style="border-radius: 5px;" v-model="passwordCheck"
-                        placeholder="비밀번호 확인">
-                    <span style="color:#ffffff; font-size:small" v-if="passwordCheck != password">비밀번호와 일치하지 않습니다.</span>
-                </div>
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <button class="button col-3" @click="submit"
-                        style="background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">변경하기</button>
-                </div>
+          <div class="resetPasswordForm">
+            <div class="resetPasswordForm-group">
+              <label for="password" ></label>
+              <input
+                class="inputForm"
+                type="password"
+                id="password"
+                style="border-radius: 5px; height: 50px"
+                v-model="password"
+                placeholder="  새 비밀번호"
+                @input="passwordLengthCheck"
+                size="40"
+              />
+              <span style="color:#EC255A; font-size:medium " v-if="!passwordLength">8~15자로 입력해주세요.</span>
             </div>
+            <div class="resetPasswordForm-group">
+              <label for="passwordCheck"></label>
+              <input
+                class="inputForm"
+                type="password"
+                id="passwordCheck"
+                style="border-radius: 5px; height: 50px" 
+                v-model="passwordCheck"
+                placeholder="  비밀번호 확인"
+                size="40"
+              />
+              <span style="color:#EC255A; font-size:medium " v-if="passwordCheck != password">비밀번호와 일치하지 않습니다.</span>
+            </div>
+            <br>
+            <br/>
+            <div style="  display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%; ">               
+                  <button class="resetPassword" @click="submit">변경하기</button>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
 </template>
 <script>
 import { resetPassword } from "@/api/memberApi";
@@ -53,18 +76,19 @@ export default {
                 alert("비밀번호에 공백이 들어갈 수 없습니다.")
             }
             else {
-                const member = {
+                const member = {    
                     nickname: "",
                     email: route.params.email,
                     password:"",
                     newPassword:password.value,
+                    code: route.params.code,
                 };
                 await resetPassword(member, () => {         
                     alert("새로운 비밀번호로 로그인해주세요.");
                     router.push({ name: 'Home' });
                 },
                     (error) => {
-                        alert("현재 비밀번호가 일치하지 않습니다.")
+                        alert("최신 메일의 링크로 접속해주세요.")
                         console.log(error);
                     });
             } 
@@ -80,6 +104,7 @@ export default {
 }
 </script>
 <style scoped>
+
 .totalForm {
     display: flex;
     position: absolute;
@@ -87,19 +112,17 @@ export default {
     align-items: center;
     width: 100%;
     height: 600px;
-    background-color: #0F4471;
+    background-color: #ffffff;
 }
-#joinForm {
+.resetPasswordForm {
     display: block;
     align-items: center;
     justify-content: center;
     width: 700px;
     height: 400px;
-    border-style: solid;
-    border: 5px solid #eeeeee;
 }
 
-.form-group {
+.resetPasswordForm-group {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -108,13 +131,23 @@ export default {
     width: 100%;
 }
 
-.check {
-    background-color: #2c3e50;
-    color: #ffffff;
-    border-radius: 8px;
-    border-color: #ffffff;
+.resetPassword {
+    background-color: #083358;
+    pointer-events: all;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    width:369.6px;
+    height: 50px;
+    transition: all 0.15s ease-in-out;
+    margin-bottom: 15px;
+  }
+h1 {
+  text-align: center;
 }
-
-.input-group {
-    margin-left: 72%;
-}</style>
+.inputForm {
+  box-shadow: 0px 6px 4px 0px rgb(109, 114, 118);
+}
+</style>

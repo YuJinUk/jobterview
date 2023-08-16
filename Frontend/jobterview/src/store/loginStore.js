@@ -1,5 +1,4 @@
 import { loginAPI, logoutAPI } from '@/api/authApi';
-import { isAdmin } from '@/api/memberApi';
 import router from "../router";
 
 export default {
@@ -8,30 +7,42 @@ export default {
         isLogin: false,
         loginNickname: "",
         isAdmin: false,
+        isSocial: false,
     },
     mutations: {
+        // SET_Login: function (state, nickname) {
 
-        SET_Login: function (state, nickname) {
+        //     state.isLogin = true;
+        //     state.loginNickname = nickname;
+        // },
+        SET_Socail_Login: function (state, nickname) {
 
             state.isLogin = true;
+            state.isSocial = true;
             state.loginNickname = nickname;
         },
         User_Logout: function (state) {
             state.isLogin = false;
+            state.isSocial =false;
+            state.isAdmin = false;
             state.loginNickname = "";
         },
         SET_LOGIN_USER: function (state, user) {
             state.isLogin = true;
             state.loginNickname = user.nickname;
         },
-        SET_IS_ADMIN: function (state, isAdmin) {
-            state.isAdmin = isAdmin;
+        SET_IS_ADMIN: function (state, nickname) {
+            state.isAdmin = true;
+            state.isLogin = true;
+            state.loginNickname = nickname;
         }
-
     },
     getters: {
         getLogin: function (state) {
             return state.isLogin;
+        },
+        getSocial: function (state) {
+            return state.isSocial;
         },
         getLoginMemberNickname: function (state) {
             return state.loginNickname;
@@ -44,9 +55,19 @@ export default {
         async setLoginUser({ commit }, user) {
             await loginAPI(user,
                 ({ data }) => {
+
                     if (data.email == null) {
                         alert("로그인 실패");
-                    } else {
+                    } 
+                    else if(data.roles[0] == "ROLE_UNVERIFIED"){
+                        alert("메일인증을 진행해주세요");
+                    }else if(data.roles[0] == "ROLE_REPORTED_LOCAL")
+                    {
+                        alert("신고당한 유저입니다. 관리자에게 문의 해주세요.");
+                    }else if(data.roles[0] == "ROLE_ADMIN"){
+                        commit("SET_IS_ADMIN", data.nickname);
+                        router.push({ name: "Home" });
+                    }else{
                         alert("로그인 성공!");
                         commit("SET_LOGIN_USER", data);
                         //   수정
@@ -65,15 +86,6 @@ export default {
                     commit("User_Logout");
                     //  수정
                     router.push({ name: "Home" });
-                },
-                (error) => {
-                    console.log(error);
-                })
-        },
-        async getMemberRole({ commit, state }) {
-            await isAdmin(state.loginNickname,
-                ({ data }) => {
-                    commit("SET_IS_ADMIN", data);
                 },
                 (error) => {
                     console.log(error);

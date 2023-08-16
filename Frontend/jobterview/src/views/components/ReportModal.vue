@@ -44,12 +44,15 @@ export default {
         },
         // Dto에 맞춰서 백엔드로 전송할 객체 생성
         async sendReport() {
+            if(this.reason.length > 250 || this.reason.length <= 0) {
+                alert("신고 사유는 1자 이상 250자 이하여야 합니다.");
+                return;
+            }
             let report = {
                 reporterNickname: this.reporterNickname,
                 reportedNickname: this.reportedNickname,
                 reason: this.reason,
             }
-            console.log(report);
             await postReportAPI(report, () => {
                 alert("신고가 접수되었습니다.");
             }, 

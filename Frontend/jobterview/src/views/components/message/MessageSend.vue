@@ -37,8 +37,8 @@ export default {
 
         function sendMessage() {
             if (confirm("메시지를 전송하시겠습니까?")) {
-                if (content.value.length <= 0 || content.value.length >= 500) {
-                    alert("메시지는 1자 이상 500자 이하여야 합니다.");
+                if (content.value.length <= 0 || content.value.length >= 250) {
+                    alert("메시지는 1자 이상 250자 이하여야 합니다.");
                 } else {
                     const message = {
                         senderNickname: nickname.value,
@@ -124,5 +124,11 @@ export default {
 
 .date {
     margin-top: auto;
+}
+
+.btn {
+    background-color: #0f4471;
+    font: 700 16px/18px "Lato", sans-serif;
+    border: none;
 }
 </style>

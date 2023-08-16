@@ -120,14 +120,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/auth/logout")
-                .addLogoutHandler((request, response, authentication) -> {
-                    // 사실 굳이 내가 세션 무효화하지 않아도 됨.
-                    // LogoutFilter가 내부적으로 해줌.
-                    HttpSession session = request.getSession();
-                    if (session != null) {
-                        session.invalidate();
-                    }
-                })
                 .logoutSuccessHandler(customLogoutSuccessHandler)// 로그아웃 URL 설정
                 .clearAuthentication(true)// 현재 인증 정보 삭제
                 .invalidateHttpSession(true) // HTTP 세션 무효화

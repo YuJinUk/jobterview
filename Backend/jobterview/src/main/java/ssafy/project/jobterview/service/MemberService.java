@@ -35,4 +35,6 @@ public interface MemberService {
     void emailAuth(String email, String code);
 
     void setEmailCode(String email, String code);
+
+    void passwordAuth(String email, String code, String password);
 }

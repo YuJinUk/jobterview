@@ -62,8 +62,6 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Page<Message> findAllWithPaging(Pageable pageable) {
-        System.out.println("messageService");
-
         return messageRepository.findAll(pageable);
     }
 }

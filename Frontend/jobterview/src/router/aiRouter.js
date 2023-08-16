@@ -4,6 +4,7 @@ import AiWebCamtwo from "@/views/ai/AiWebCamtwo"
 import AiWebCamthree from "@/views/ai/AiWebCamthree"
 import AiWebCamfour from "@/views/ai/AiWebCamfour"
 import AiResult from "@/views/ai/AiResult"
+import AiPermission from "@/views/ai/AiPermission"
 
 const aiRouter = [
   {
@@ -35,6 +36,11 @@ const aiRouter = [
     path: "/airesult",
     name: "AiResult",
     component: AiResult,
+  },
+  {
+    path: "/aipermission",
+    name: "AiPermission",
+    component: AiPermission,
   },
 ];
 

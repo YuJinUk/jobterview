@@ -11,6 +11,6 @@ import ssafy.project.jobterview.domain.Member;
 @ToString
 public class MateDto {
     private MateId mateId;
-    private Member fromMember;
-    private Member toMember;
+    private String fromMemberNickname;
+    private String toMemberNickname;
 }

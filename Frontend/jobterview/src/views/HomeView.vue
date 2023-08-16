@@ -21,10 +21,10 @@
       </div>
 
       <div id="buttonBox">
-        <router-link :to="{ name: 'AiQuestion'}">
+        <router-link :to="{ name: 'AiQuestion' }">
           <button>AI 면접 준비</button>
         </router-link>
-        <router-link :to="{ name: 'RoomList'}">
+        <router-link :to="{ name: 'RoomList' }">
           <button>메이트 찾기</button>
         </router-link>
       </div>
@@ -33,18 +33,18 @@
 </template>
 
 <script>
-import { computed, onMounted} from "vue";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 
 export default {
   setup() {
     const store = useStore();
-    
+
     //onMounted
     onMounted(() => {
       store.dispatch("homeStore/setTotalMemberCnt");
 
-  
+
     });
 
     return {
@@ -59,10 +59,10 @@ export default {
   created() {
     const nickname = this.$route.query.nickname;
     if (nickname) {
-      
-      this.$store.commit('loginStore/SET_Login', nickname);
-        }
-    }, 
+
+      this.$store.commit('loginStore/SET_Socail_Login', nickname);
+    }
+  },
 
 };
 </script>

@@ -1,32 +1,36 @@
 <template>
   <div>
+    <div style="margin-top:60px ">
+    <h1 style="color: #000000"><b>로그인</b></h1>
+  </div>
     <div class="logintotalForm">
       <div id="loginForm">
-        <br />
-        <h1 style="color: #ffffff"><b>로그인</b></h1>
-        <div class="loginform-group">
-          <label for="email"></label>
+        <div class="loginForm-group">
+          <label for="email" ></label>
           <input
+            class="inputForm"
             type="text"
             id="email"
             style="border-radius: 5px; height: 50px"
             v-model="email"
             placeholder="이메일"
-            size="70"
+            size="40"
           />
         </div>
-        <div class="loginform-group">
+        <div class="loginForm-group">
           <label for="password"></label>
           <input
+            class="inputForm"
             type="password"
             id="password"
-            style="border-radius: 5px; height: 50px"
+            style="border-radius: 5px; height: 50px" 
             v-model="password"
             placeholder="비밀번호"
-            size="70"
+            size="40"
+            
           />
         </div>
-
+        <br>
         <div
           style="display: flex; justify-content: center; align-items: center"
         >
@@ -46,27 +50,15 @@
             />
           </a>
         </div>
-        <br />
-        <br />
-        <div
-          style="display: flex; justify-content: center; align-items: center"
-        >
-        <div style="display: flex; justify-content: center; align-items: center; "> 
-          <p class="findPassword" @click="findPassword"><b>비밀번호 찾기</b></p>
-      </div>
-          <button
-            class="button col-8"
-            @click="login"
-            style="
-              background-color: #2c3e50;
-              color: #ffffff;
-              border-radius: 8px;
-              border-color: #ffffff;
-            "
-          >
-            로그인
-          </button>
-          <button class="button col-4" @click="join" style="margin-right:6px; background-color:#2c3e50; color:#ffffff; border-radius: 8px; border-color:#ffffff">회원가입</button>
+        <br/>
+        <div style="  display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%; "> 
+          <p class="findPassword" @click="findPassword" style="cursor:pointer;"><b>비밀번호</b>를 잊으셨나요?</p>
+          <button class="login" @click="login" size="40">로그인</button>
+          <p class="toJoin" @click="toJoin" style="cursor:pointer;" >처음이신가요? <b>회원가입</b></p>
         </div>
       </div>
     </div>
@@ -74,6 +66,7 @@
 </template>
 <script>
 import { apiUrl } from "../../../config/config.js";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -82,41 +75,54 @@ export default {
       password: "",
     };
   },
+
   methods: {
+    toJoin() {
+      router.push({ name: "Join" });
+    },
+    findPassword(){
+      router.push({ name: 'FindPassword' });
+    },
     login() {
       let user = {
         email: this.email,
         password: this.password,
       };
-
       const frm = new FormData();
       frm.append("email", user.email);
       frm.append("password", user.password);
       this.$store.dispatch("loginStore/setLoginUser", frm);
     },
   },
+  created() {
+    const report = this.$route.query.report;
+    if (report) {
+
+      alert("신고당한 유저입니다. 관리자에게 문의 해주세요.");
+    }
+  },
 };
 </script>
-<style>
+<style scoped>
 .logintotalForm {
   display: flex;
   position: absolute;
   justify-content: center;
   align-items: center;
+  flex-direction:column;
   width: 100%;
-  height: 600px;
-  background-color: #0f4471;
+  height: 500px;
+  background-color: #ffffff;
 }
+
 #loginForm {
   display: block;
   align-items: center;
   justify-content: center;
-  width: 700px; /* 너비를 200px로 설정 */
-  height: 400px; /* 높이를 300px로 설정 */
-  border-style: solid;
-  border: 5px solid #eeeeee;
+  width: 700px; 
+  height: 400px; 
 }
-.loginform-group {
+.loginForm-group {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -126,5 +132,23 @@ export default {
 }
 h1 {
   text-align: center;
+}
+.login {
+  background-color: #083358;
+  pointer-events: all;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  width:369.6px;
+  height: 50px;
+  transition: all 0.15s ease-in-out;
+  margin-bottom: 15px;
+}
+.inputForm {
+  border: 1px solid #083358;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+  padding-left: 15px;
 }
 </style>

@@ -17,12 +17,12 @@
       </div>
 
       <!-- 메이트 페이지로 가는 Nav -->
-      <router-link :to="{name:'MateList'}">
+      <router-link :to="{ name: 'MateList' }">
         <button class="mateButton">메이트 목록</button>
       </router-link>
     </div>
 
-    <div v-if="(members.length == 0)" class="emptyMate">
+    <div v-if="members.length == 0" class="emptyMate">
       <p>등록된 유저가 없습니다!</p>
     </div>
 
@@ -30,7 +30,6 @@
     <div v-else class="listBox">
       <div class="empty"></div>
       <ul class="list">
-        
         <li v-for="member in members" :key="member.nickname" class="memberBox">
           <div class="member">
             <p class="nickname">{{ member.nickname }}</p>
@@ -90,8 +89,8 @@ export default {
   setup() {
     const store = useStore();
 
-    let searchQuery = ref(''); //유저 검색어
-    let savedKeyword = ref('');
+    let searchQuery = ref(""); //유저 검색어
+    let savedKeyword = ref("");
 
     let loginMemberNickname = ref({}); //로그인 유저
     let members = ref([]); //유저 목록
@@ -105,10 +104,7 @@ export default {
     //페이지네이션///////////////////////////////////////////////////////////
     //다음 페이지로
     let toNextPage = () => {
-      console.log(Math.floor(totalPages.value / 5) * 5);
-      console.log(curStartingPage.value);
-
-      if (Math.floor(totalPages.value / 5) -1  * 5 >= curStartingPage.value) {
+      if (Math.floor(totalPages.value / 5) - 1 * 5 >= curStartingPage.value) {
         curStartingPage.value += 5;
         curPage.value = curStartingPage.value;
         setVisiblePageNumbers();
@@ -148,7 +144,7 @@ export default {
         ({ data }) => {
           mateNicknames.value = data;
           mateNicknames.value = mateNicknames.value.map(
-            (mate) => mate.toMember.nickname
+            (mate) => mate.toMemberNickname
           );
         },
         (error) => {
@@ -180,8 +176,6 @@ export default {
         await breakMateApi({ fromNickname, toNickname });
         return;
       }
-
-      //메이트가 아닌 경우
       member.isMate = true;
       mateNicknames.value.push(toNickname);
 
@@ -196,12 +190,12 @@ export default {
       sort = "createdDate,desc"
     ) {
       savedKeyword.value = searchQuery.value.trim();
-      searchQuery.value = '';
+      searchQuery.value = "";
 
       const keyword = savedKeyword.value;
 
       await searchMemberApi(
-        {  page, size, sort, keyword },
+        { page, size, sort, keyword },
         ({ data }) => {
           totalPages.value = data.totalPages;
           members.value = data.content; //일단 배열에 한번 넣고
@@ -236,7 +230,6 @@ export default {
     onMounted(async () => {
       loginMemberNickname.value =
         store.getters["loginStore/getLoginMemberNickname"]; //로그인한 맴버 가져오기
-
       await getMateNicknames(loginMemberNickname.value); //메이트 가져오기
       await searchMember(); //맴버 가져오기
       setVisiblePageNumbers(); //페이지 갱신

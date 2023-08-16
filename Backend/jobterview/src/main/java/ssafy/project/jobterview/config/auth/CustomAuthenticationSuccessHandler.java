@@ -2,6 +2,7 @@ package ssafy.project.jobterview.config.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final MemberService memberService;
@@ -29,22 +31,22 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // 인증 정보로부터 사용자 정보 추출
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username2 = userDetails.getUsername();
+        String userEmail = userDetails.getUsername();
 
-        String usernickname = "";
+        String userNickname = "";
         try {
-            Member loginMemeber = memberService.findByEmail(username2);
-            usernickname = loginMemeber.getNickname();
+            Member loginMember = memberService.findByEmail(userEmail);
+            userNickname = loginMember.getNickname();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
         // 뷰에 전달할 데이터 생성
         Map<String, Object> responseData = new HashMap<>();
 
-        responseData.put("email", username2);
-        responseData.put("nickname", usernickname);
+        responseData.put("email", userEmail);
+        responseData.put("nickname", userNickname);
         responseData.put("roles", roles);
         responseData.put("message", "로그인 성공");
 
@@ -54,6 +56,4 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(jsonData);
     }
-
-
 }

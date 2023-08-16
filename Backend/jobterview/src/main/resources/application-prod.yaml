@@ -1,13 +1,11 @@
 #사용할 변수
 varialbles:
-# 백엔드가 동작할 포트
+  # 백엔드가 동작할 포트
   port: 8060
-
   #feurl
-  feUri: http://localhost:3060/testfe
-
-  #리다이렉트할때 쓸 url
-  beUri: http://localhost:${varialbles.port}
+  feUri: https://i9a701.p.ssafy.io/testfe
+  #  리다이렉트할때 쓸 url
+  beUri: https://i9a701.p.ssafy.io/testbe
 
 #여기서부터 설정파일
 server:
@@ -22,12 +20,9 @@ server:
         secure: true
 
 spring:
-  profiles:
-    active:
-      - local
   datasource:
     url: jdbc:mysql://localhost:3306/jobterview?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    username: root
+    username: ssafy
     password: ssafy
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
@@ -35,11 +30,13 @@ spring:
       matching-strategy: ant_path_matcher
   jpa:
     hibernate:
-      ddl-auto: update
-    show_sql: true
+      ddl-auto: create-drop
     properties:
       hibernate:
-        format_sql: true #쿼리 포맷팅 활성화
+
+        show_sql: true
+  #        format_sql: true
+
 
   security:
     oauth2:
@@ -71,7 +68,8 @@ spring:
             user-name-attribute: id
 
 logging.level:
-  org.hibernate.SQL: info
+  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
 
 mail:
   smtp:
@@ -91,6 +89,4 @@ AdminMail:
   id: jobterview1@gmail.com
   password: onzkacghyhqoznpq
 
-servlet:
-  session:
-    timeout: 300m
+
