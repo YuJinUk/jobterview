@@ -27,7 +27,8 @@ public class BookmarkController {
      * @return HttpStatus.OK 반환
      */
     @PostMapping("/{roomId}/{memberId}")
-    public ResponseEntity<Void> add(@PathVariable(name = "roomId") Long roomId, @PathVariable(name = "memberId") Long memberId) {
+    public ResponseEntity<Void> add(@PathVariable(name = "roomId") Long roomId,
+                                    @PathVariable(name = "memberId") Long memberId) {
         bookmarkService.add(roomId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -69,14 +69,11 @@ export default {
       state.readRoomPassword = " ";
     },
     SET_SELECT_GEN: (state, gen) => {
-      console.log(gen);
       state.selectGen = gen;
-      console.log(state.selectGen);
     },
   },
   actions: {
     setSelectGen({ commit }, gen) {
-      console.log(gen);
       commit("SET_SELECT_GEN", gen); // SET_SELECT_GEN 뮤테이션 호출
     },
     //선택된 질문 목록 갱신
@@ -85,11 +82,9 @@ export default {
     },
 
     async getReceiveRooms({ commit }, page) {
-      console.log(page);
       await receiveRoomList(
         page,
         ({ data }) => {
-          console.log(data.content);
           commit("SET_RECEIVE_ROOMS", data.content);
           commit("SET_TOTAL_RECEIVE_PAGE", data.totalPages);
           commit("SET_CURRENT_RECEIVE_PAGE", page + 1);
@@ -104,7 +99,6 @@ export default {
       await receiveSearchRoomList(
         { keyword, page },
         ({ data }) => {
-          console.log(data.content);
           commit("SET_RECEIVE_ROOMS", data.content);
           commit("SET_TOTAL_RECEIVE_PAGE", data.totalPages);
           commit("SET_CURRENT_RECEIVE_PAGE", page + 1);

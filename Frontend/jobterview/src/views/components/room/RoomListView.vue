@@ -201,11 +201,9 @@ export default {
     checked(newVal) {
       if (newVal) {
         this.checkd = true;
-        //console.log(this.checkd);
       } else {
         this.checkd = false;
         this.createRoomPassword = "";
-        //console.log(this.checkd);
       }
     },
   },
@@ -282,7 +280,6 @@ export default {
     //화면에서 페이지 누르면 현재 페이지 변경
     function changeReceivePage(pageNumber) {
       store.commit('roomStore/SET_CURRENT_RECEIVE_PAGE', pageNumber);
-      console.log(currentReceivePage.value);
       fetchReceiveRooms();
     }
 
@@ -324,7 +321,6 @@ export default {
     const keyword = ref('');
 
     async function searchRoom() {
-      //console.log(keyword.value);
       await store.dispatch('roomStore/SearchRoomList', { keyword: keyword.value, page: currentReceivePage.value - 1 });
     }
 

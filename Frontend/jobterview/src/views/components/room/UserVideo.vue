@@ -35,13 +35,9 @@ export default {
   },
   components: {},
   created() {
-    // console.log(this.info.stream);
   },
   mounted() {
-    console.log(this.index + "번컴포넌트에서 mount이벤트 발생");
     this.$refs.remote.srcObject = this.info.stream;
-    // console.log(this.$refs.remote);
-    // console.log(this.$refs);
   },
   props: {
     info: Object,
