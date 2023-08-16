@@ -1,0 +1,413 @@
+1. Stacks
+Development Environment
+#FE#
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@popperjs/core": "^2.11.8",
+    "axios": "^1.4.0",
+    "bootstrap": "^5.3.0",
+    "bootstrap-icons": "^1.10.5",
+    "bootstrap-vue": "^2.23.1",
+    "bootstrap-vue-3": "^0.5.1",
+    "core-js": "^3.8.3",
+    "router": "^1.3.8",
+    "socket.io-client": "^4.7.2",
+    "vue": "^3.2.26",
+    "vue-google-charts": "^1.1.0",
+    "vue-router": "^4.0.13",
+    "vue-socket.io": "^3.0.10",
+    "vuetify": "^3.3.11",
+    "vuex": "^4.1.0",
+    "vuex-persistedstate": "^4.1.0",
+    "vuex-save": "^1.2.0"
+
+#BE#
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	//Querydsl 추가
+	implementation 'com.querydsl:querydsl-jpa'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'com.auth0:java-jwt:4.4.0'
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	implementation 'com.auth0:java-jwt:4.4.0'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2', 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+	// oauth
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	//implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
+
+	//Swagger2 추가
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("io.springfox:springfox-data-rest:3.0.0")
+	implementation("io.springfox:springfox-bean-validators:3.0.0")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+
+	// email 관련
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+#signaling server#
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.0",
+    "nodemon": "^3.0.1",
+    "socket.io": "^4.7.1",
+    "ws": "^8.13.0"
+
+#ML#
+absl-py==1.4.0
+amqp==5.1.1
+appdirs==1.4.4
+asttokens==2.2.1
+astunparse==1.6.3
+async-timeout==4.0.2
+attrs==23.1.0
+audioread==3.0.0
+backcall==0.2.0
+backports.zoneinfo==0.2.1
+beautifulsoup4==4.12.2
+billiard==4.1.0
+blinker==1.6.2
+cachetools==5.3.1
+celery==5.3.1
+certifi==2023.7.22
+cffi==1.15.1
+charset-normalizer==3.2.0
+click==8.1.6
+click-didyoumean==0.3.0
+click-plugins==1.1.1
+click-repl==0.3.0
+cmake==3.27.0
+colorama==0.4.6
+contourpy==1.1.0
+cycler==0.11.0
+decorator==5.1.1
+deepface==0.0.79
+dlib==19.24.2
+executing==1.2.0
+face-recognition==1.3.0
+face-recognition-models==0.3.0
+filelock==3.12.2
+fire==0.5.0
+Flask==2.3.2
+Flask-Cors==4.0.0
+flatbuffers==23.5.26
+fonttools==4.42.0
+gast==0.4.0
+gdown==4.7.1
+gevent==23.7.0
+google-auth==2.22.0
+google-auth-oauthlib==1.0.0
+google-pasta==0.2.0
+greenlet==2.0.2
+grpcio==1.56.2
+gunicorn==21.2.0
+h5py==3.9.0
+hgtk==0.2.0
+idna==3.4
+importlib-metadata==6.8.0
+importlib-resources==6.0.0
+ipython==8.12.2
+itsdangerous==2.1.2
+jedi==0.19.0
+Jinja2==3.1.2
+joblib==1.3.1
+keras==2.13.1
+kiwisolver==1.4.4
+kombu==5.3.1
+lazy_loader==0.3
+libclang==16.0.6
+librosa==0.10.0.post2
+llvmlite==0.40.1
+Markdown==3.4.4
+MarkupSafe==2.1.3
+matplotlib==3.7.2
+matplotlib-inline==0.1.6
+mediapipe==0.10.3
+msgpack==1.0.5
+mtcnn==0.1.1
+numba==0.57.1
+numpy==1.24.3
+oauthlib==3.2.2
+opencv-contrib-python==4.8.0.74
+opencv-python==4.8.0.74
+opt-einsum==3.3.0
+packaging==23.1
+pandas==2.0.3
+parso==0.8.3
+pickleshare==0.7.5
+Pillow==10.0.0
+pooch==1.6.0
+prompt-toolkit==3.0.39
+protobuf==3.20.3
+pure-eval==0.2.2
+pyasn1==0.5.0
+pyasn1-modules==0.3.0
+PyAudio==0.2.13
+pycparser==2.21
+Pygments==2.15.1
+pyparsing==3.0.9
+PySocks==1.7.1
+python-dateutil==2.8.2
+pytz==2023.3
+redis==4.6.0
+requests==2.31.0
+requests-oauthlib==1.3.1
+retina-face==0.0.13
+rsa==4.9
+scikit-learn==1.3.0
+scipy==1.10.1
+seaborn==0.12.2
+six==1.16.0
+sounddevice==0.4.6
+soundfile==0.12.1
+soupsieve==2.4.1
+soxr==0.3.5
+SpeechRecognition==3.10.0
+stack-data==0.6.2
+tensorboard==2.13.0
+tensorboard-data-server==0.7.1
+tensorflow==2.13.0
+tensorflow-estimator==2.13.0
+tensorflow-io-gcs-filesystem==0.31.0
+termcolor==2.3.0
+threadpoolctl==3.2.0
+tqdm==4.65.0
+traitlets==5.9.0
+typing_extensions==4.5.0
+tzdata==2023.3
+urllib3==1.26.16
+vine==5.0.0
+wcwidth==0.2.6
+websocket==0.2.1
+Werkzeug==2.3.6
+wrapt==1.15.0
+zipp==3.16.2
+zope.event==5.0
+zope.interface==6.0
+
+2. Build & Distribute
+#JenKins
+BE 
+cd Backend/jobterview
+sudo chmod 777 stop.sh
+./stop.sh
+sudo chmod 777 gradlew
+./gradlew clean
+./gradlew build
+cd build/libs
+sudo chmod 777 jobterview-0.0.1-SNAPSHOT.jar
+BUILD_ID=dontKillMe nohup java -jar jobterview-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
+
+FE
+cd Frontend/jobterview
+npm i
+npm run build
+
+ML
+cd ML/BE
+docker build -t flask .
+sudo chmod 777 stop.sh
+./stop.sh
+docker run --name flask -p 5000:5000 -d flask
+
+RTC
+cd RTC/BE
+npm i
+sudo chmod 777 stop.sh
+./stop.sh
+BUILD_ID=dontKillMe nohup npm run serve &
+
+#Nginx
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+        worker_connections 768;
+        # multi_accept on;
+}
+
+http {
+
+        map $uri $rewrite_flag{
+        default 0;
+        "~^/testbe" 1;
+}
+
+        log_format custom_log '$remote_addr - $remote_user'
+                                '"$request" $status $body_bytes_sent'
+                                '"$http_referer" "$http_user_agent" '
+                                'rewrite:$rewrite_flag => $upstream_http_location' ;
+        ##
+        # Basic Settings
+        ##
+
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        # server_tokens off;
+
+        # server_names_hash_bucket_size 64;
+        # server_name_in_redirect off;
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        ##
+        # SSL Settings
+        ##
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+
+        ##
+        # Logging Settings
+        ##
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        ##
+        # Gzip Settings
+        ##
+
+        gzip on;
+
+        # gzip_vary on;
+        # gzip_proxied any;
+        # gzip_comp_level 6;
+        # gzip_buffers 16 8k;
+        # gzip_http_version 1.1;
+        # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+        ##
+        # Virtual Host Configs
+        ##
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+
+        server{
+        root /var/www/html/dist;
+        index index.html;
+
+        server_name i9a701.p.ssafy.io;
+
+        location /spring {
+        rewrite ^/api(.*)$ /$1 break;
+        #return 200 "$host $uri $args $query_string";
+        proxy_set_header HOST $host;
+        proxy_pass http://127.0.0.1:4060;
+        proxy_redirect off;
+        #header websocket설정
+        #proxy_set_header Upgrade $http_upgrade;
+        #proxy_set_header Connection "upgrade";
+}
+
+
+        location /testbe/{
+        rewrite ^/testbe/(.*)$ /$1 break;
+        proxy_set_header HOST $host;
+        proxy_pass http://localhost:8060;
+        proxy_redirect off;
+}
+        location /testbe{
+        rewrite ^/testbe(.*)$ /$1 break;
+        proxy_set_header HOST $host;
+        proxy_pass http://localhost:8060;
+        proxy_redirect off;
+}
+
+        location /testfe {
+        alias /var/lib/jenkins/workspace/FE/Frontend/jobterview/dist;
+        index index.html;
+        try_files $uri $uri/ /testfe/index.html;
+}
+        location /socket.io {
+        proxy_http_version 1.1;
+        proxy_set_header HOST $host;
+        proxy_pass http://127.0.0.1:4060;
+        proxy_redirect off;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+}
+
+        location /api {
+        proxy_connect_timeout 100;
+        proxy_send_timeout 100;
+        proxy_read_timeout 300;
+        client_max_body_size 0;
+        proxy_set_header HOST $host;
+        proxy_pass http://127.0.0.1:5000;
+        proxy_redirect off;
+}
+
+        location /testsi{
+        rewrite ^/testsi(.*)$ /$1 break;
+        proxy_set_header HOST $host;
+        proxy_pass http://localhost:4060;
+        proxy_redirect off;
+}
+        access_log /var/log/nginx/access.log custom_log;
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/i9a701.p.ssafy.io/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/i9a701.p.ssafy.io/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+        server{
+    if ($host = i9a701.p.ssafy.io) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        server_name i9a701.p.ssafy.io;
+        listen 80;
+    return 404; # managed by Certbot
+
+
+}
+}
+3. Deployment Command 
+
+4. MySQL WorkBench Connection
+
+5. How to use the MongoDB Compass
+
+6. Nginx default
+
+7.EC2 Setting
+Docker
+Nginx
+
+8.Files ignored
+
+9. Settings or Tips
