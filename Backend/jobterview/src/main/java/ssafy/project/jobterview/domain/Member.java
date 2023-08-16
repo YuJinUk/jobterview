@@ -30,12 +30,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "receiver")
     private List<Message> sentMessageList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<Chat> roomChatList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Bookmark> bookmarkList = new ArrayList<>();
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -44,10 +38,6 @@ public class Member extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String password;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "mail_cert_id")
-    private MailCert mailCert;
 
     @Enumerated(value = EnumType.STRING)
     @ColumnDefault("'ROLE_UNVERIFIED'")
@@ -76,12 +66,9 @@ public class Member extends BaseTimeEntity {
                 "memberId=" + memberId +
                 ", receivedMessageList=" + receivedMessageList +
                 ", sentMessageList=" + sentMessageList +
-                ", roomChatList=" + roomChatList +
-                ", bookmarkList=" + bookmarkList +
                 ", email='" + email + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", password='" + password + '\'' +
-                ", mailCert=" + mailCert +
                 '}';
     }
 

@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 public class MateController {
 
     private final MateService mateService;
-    private final MemberService memberService;
 
     // 메이트 신청하기
     @PostMapping
@@ -34,8 +33,9 @@ public class MateController {
     @ApiModelProperty(hidden = true)
     public ResponseEntity<?> makeMate(@RequestParam String fromNickname,
                                       @RequestParam String toNickname) {
-        MateDto savedMateDto = mateService.save(fromNickname, toNickname);
-        return new ResponseEntity<>(savedMateDto, HttpStatus.OK);
+        //메이트 추가
+        mateService.save(fromNickname, toNickname);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 메이트 삭제하기
@@ -50,20 +50,21 @@ public class MateController {
 
     // 메이트 목록 보기
     @GetMapping("/me")
-    @ApiOperation(value = "메이트 목록")
-    public ResponseEntity<Page<MateDto>> findAllByMate(
+    @ApiOperation(value = "메이트 목록 페이징 처리")
+    public ResponseEntity<Page<MateDto>> findAllByMateWithPaging(
             @PageableDefault(page = 0, size = 50, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam String nickname) {
-        Page<MateDto> mateDtoPage = mateService.findAllByMate(pageable, nickname).map(Mate::convertToDto);
+        Page<MateDto> mateDtoPage = mateService.findAllByMate(pageable, nickname)
+                .map(Mate::convertToDto);
+
         return new ResponseEntity<>(mateDtoPage, HttpStatus.OK);
     }
 
     @GetMapping("/list")
-    @ApiOperation(value = "해당 맴버가 등록한 메이트 목록 조회")
-    public ResponseEntity<List<MateDto>> findAllByFromMember(@RequestParam String nickname) {
-        Member findMember = memberService.findByNickname(nickname);
-
-        List<MateDto> mateDtoList = mateService.findByFromMember(findMember)
+    @ApiOperation(value = "메이트 목록 조회 페이징 X")
+    public ResponseEntity<List<MateDto>> findAllByMate(
+            @RequestParam String nickname) {
+        List<MateDto> mateDtoList = mateService.findAllByMate(nickname)
                 .stream()
                 .map(Mate::convertToDto)
                 .collect(Collectors.toList());

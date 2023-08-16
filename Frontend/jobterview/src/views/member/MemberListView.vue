@@ -144,7 +144,7 @@ export default {
         ({ data }) => {
           mateNicknames.value = data;
           mateNicknames.value = mateNicknames.value.map(
-            (mate) => mate.toMember.nickname
+            (mate) => mate.toMemberNickname
           );
         },
         (error) => {

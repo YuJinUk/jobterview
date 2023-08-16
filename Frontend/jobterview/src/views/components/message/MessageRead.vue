@@ -47,18 +47,6 @@
     <div v-else>
       <div class="background-box mt-5">
         <div class="background-inbox d-flex flex-column">
-          <!-- <div class="form-group">
-                        <label for="to">받는 사람</label>
-                        <input type="text" class="form-control" id="to" v-model="receiverNickname" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="content">내용</label>
-                        <textarea class="form-control" id="content" rows="11" v-model="content" readonly></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="to">보낸 날짜</label>
-                        <input type="text" class="form-control" id="to" v-model="createdDate" readonly>
-                    </div> -->
           <div class="row message">
             <div class="mt-2 message-nickname">
               <p>To : <span v-text="receiverNickname" id="sender"></span></p>
@@ -196,7 +184,6 @@ export default {
 }
 
 .background-inbox {
-  /* text-align: center; */
   display: flex;
   margin-top: 50px;
   margin-left: 80px;
@@ -239,7 +226,6 @@ textarea {
 
 .context-box {
   background-color: aquamarine !important;
-  /* text-align: center; */
 }
 
 .btn {

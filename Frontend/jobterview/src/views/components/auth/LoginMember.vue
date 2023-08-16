@@ -56,9 +56,9 @@
         flex-direction: column;
         justify-content: center;
         width: 100%; "> 
-          <p class="findPassword" @click="findPassword"><b>비밀번호</b>를 잊으셨나요?</p>
+          <p class="findPassword" @click="findPassword" style="cursor:pointer;"><b>비밀번호</b>를 잊으셨나요?</p>
           <button class="login" @click="login" size="40">로그인</button>
-          <p class="toJoin" @click="toJoin" >처음이신가요? <b>회원가입</b></p>
+          <p class="toJoin" @click="toJoin" style="cursor:pointer;" >처음이신가요? <b>회원가입</b></p>
         </div>
       </div>
     </div>

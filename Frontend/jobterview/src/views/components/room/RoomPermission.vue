@@ -35,7 +35,7 @@
 <script>
 import { ref } from "vue";
 import router from "@/router";
-// import { useStore } from 'vuex';
+
 export default {
   name: "RoomPermission",
   mounted() {
@@ -47,7 +47,6 @@ export default {
     }
   },
   setup() {
-    // const store = useStore();
     const headText = ref("마이크와 카메라를 준비중입니다.");
     const camera = ref(true);
     const mic = ref(true);
@@ -57,7 +56,6 @@ export default {
     }
 
     function enterRoom() {
-      // store.commit("roomStore/SET_ROOM_NAME", "Test Room");
       router.push({ name: "RoomMeeting" });
     }
     async function getMedia() {

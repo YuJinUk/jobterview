@@ -26,8 +26,7 @@ public class MessageController {
     @ApiOperation(value = "전체 메세지 목록")
     public ResponseEntity<Page<MessageDto>> getAllMessages(
             @PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Message> messagePage = messageService.findAllWithPaging(pageable);
-        Page<MessageDto> messageDtoPage = messagePage.map(Message::convertToDto);
+        Page<MessageDto> messageDtoPage = messageService.findAllWithPaging(pageable).map(Message::convertToDto);
         return new ResponseEntity<>(messageDtoPage, HttpStatus.OK);
     }
 
@@ -62,7 +61,7 @@ public class MessageController {
     @ApiOperation(value = "메세지 상세 보기")
     public ResponseEntity<?> readMessage(@PathVariable Long id) {
         Message m = messageService.read(id);
-        return new ResponseEntity<Message>(m, HttpStatus.OK);
+        return new ResponseEntity<>(m, HttpStatus.OK);
     }
 
     // 받은 메세지 삭제

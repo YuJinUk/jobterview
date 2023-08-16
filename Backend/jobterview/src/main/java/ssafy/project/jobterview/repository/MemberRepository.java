@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ssafy.project.jobterview.domain.Member;
 import ssafy.project.jobterview.domain.Role;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -25,6 +26,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findAll(Pageable pageable);
 
     Page<Member> findByRole(Role role, Pageable pageable);
+
+    Page<Member> findByRoleIn(List<Role> role, Pageable pageable);
 
     Long countByRole(Role role);
 }

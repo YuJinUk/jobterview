@@ -124,17 +124,26 @@ export default {
       //이메일 중복체크 필요하게
       this.duplicateEmail = 0;
 
-        const com= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.com$/i;
-        const cokr= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.co.kr$/i;
-        const net= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.net$/i;
-        const ackr= /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]).ac.kr$/i;
+      const com =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.com$/i;
+      const cokr =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.co.kr$/i;
+      const net =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.net$/i;
+      const ackr =
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]).ac.kr$/i;
 
-          if(this.email.match(com)!==null||this.email.match(cokr)!=null||this.email.match(net)!=null||this.email.match(ackr)!=null){
-          this.isValidEmail = true;}
-          else{
-              this.isValidEmail=false;
-          }
-      },
+      if (
+        this.email.match(com) !== null ||
+        this.email.match(cokr) != null ||
+        this.email.match(net) != null ||
+        this.email.match(ackr) != null
+      ) {
+        this.isValidEmail = true;
+      } else {
+        this.isValidEmail = false;
+      }
+    },
     // 비밀번호 길이 검사
     passwordLengthCheck() {
       if (this.password.length > 15 || this.password.length < 8) {
@@ -327,7 +336,7 @@ h1 {
 }
 .inputForm {
   border: 1px solid #083358;
-  box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   padding-left: 15px;
 }
 </style>

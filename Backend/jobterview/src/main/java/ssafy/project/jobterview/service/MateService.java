@@ -10,9 +10,7 @@ import java.util.List;
 
 public interface MateService {
     // 메이트 신청
-    void save(MateDto mateDto);
-
-    MateDto save(String fromMemberNickname, String toMemberNickname);
+    void save(String fromMemberNickname, String toMemberNickname);
 
     // 메이트 끊기
     void delete(String fromMemberNickname, String toMemberNickname);
@@ -20,8 +18,8 @@ public interface MateService {
     //페이징 처리된 메이트 찾기
     Page<Mate> findAllByMate(Pageable pageable, String nickname);
 
+    List<Mate> findAllByMate(String nickname);
+
     Page<Mate> searchToMember(Pageable pageable, String fromMemberNickname, String keyword);
 
-    //메이트 찾기
-    List<Mate> findByFromMember(Member fromMember);
 }

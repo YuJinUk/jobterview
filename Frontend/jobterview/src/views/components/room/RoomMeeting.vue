@@ -1,14 +1,26 @@
 <template>
-  <ReportModal v-if="displayModal" @close-modal-event="hideModal" :reporterNickname="nickname"
-    :reportedNickname="reportNickname"></ReportModal>
-  <h2 class="text-center mt-3" style="font-family: Arial, Helvetica, sans-serif">
+  <ReportModal
+    v-if="displayModal"
+    @close-modal-event="hideModal"
+    :reporterNickname="nickname"
+    :reportedNickname="reportNickname"
+  ></ReportModal>
+  <h2
+    class="text-center mt-3"
+    style="font-family: Arial, Helvetica, sans-serif"
+  >
     {{ readRoomName }}
   </h2>
   <div class="container-wrapper mt-3">
     <div class="main-container">
       <div class="text-center">
         <div v-for="(user, index) in users" :key="user.id" class="text-center">
-          <UserVideo v-if="index === 0" :info="user" :index="index" @changeMainVideo="changeMainVideo"></UserVideo>
+          <UserVideo
+            v-if="index === 0"
+            :info="user"
+            :index="index"
+            @changeMainVideo="changeMainVideo"
+          ></UserVideo>
         </div>
         <!-- <UserVideo
           v-if="users[0]"
@@ -25,8 +37,16 @@
         ></video> -->
         <!-- <p class="text-center">{{ nickname }}</p> -->
         <p class="h2 text-center">
-          <i v-if="camera" class="bi bi-camera-video-fill mx-3" @click="cameraClick"></i>
-          <i v-else class="bi bi-camera-video-off-fill mx-3" @click="cameraClick"></i>
+          <i
+            v-if="camera"
+            class="bi bi-camera-video-fill mx-3"
+            @click="cameraClick"
+          ></i>
+          <i
+            v-else
+            class="bi bi-camera-video-off-fill mx-3"
+            @click="cameraClick"
+          ></i>
           <i v-if="mic" @click="muteClick" class="bi bi-mic-fill mx-3"></i>
           <i v-else @click="muteClick" class="bi bi-mic-mute-fill mx-3"></i>
           <i class="bi bi-box-arrow-right mx-3" @click="exitRoom"></i>
@@ -44,7 +64,11 @@
     </div> -->
     <template v-for="(user, index) in users" :key="user.id">
       <div v-if="index !== 0" class="text-center">
-        <UserVideo :info="user" :index="index" @changeMainVideo="changeMainVideo">
+        <UserVideo
+          :info="user"
+          :index="index"
+          @changeMainVideo="changeMainVideo"
+        >
         </UserVideo>
       </div>
     </template>
@@ -61,7 +85,10 @@
         </p> -->
         <p v-for="user in users" :key="user.id">
           <i class="bi bi-person-fill"></i><span>{{ user.nickname }}</span>
-          <i class="bi bi-exclamation-triangle-fill text-danger report" @click="showModal(user.nickname)"></i>
+          <i
+            class="bi bi-exclamation-triangle-fill text-danger report"
+            @click="showModal(user.nickname)"
+          ></i>
         </p>
       </div>
     </div>
@@ -75,8 +102,13 @@
       </div>
       <div class="row mt-4 chat-input">
         <div class="col-7">
-          <input type="text" class="form-control" placeholder="채팅 입력..." v-model="chatContent"
-            @keydown.enter.prevent="sendChat()" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="채팅 입력..."
+            v-model="chatContent"
+            @keydown.enter.prevent="sendChat()"
+          />
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-secondary" @click="sendChat()">
@@ -166,7 +198,7 @@ export default {
       this.autoScroll();
     });
   },
-  async created() { },
+  async created() {},
   data: () => {
     return {
       myStream: {},
@@ -211,16 +243,6 @@ export default {
           },
         ],
       });
-      //       const H264Codec = {
-      //   mimeType: 'video/H264',
-      //   clockRate: 90000,
-      //   payloadType: 101, // 사용 가능한 Payload Type 중에 선택 (충돌이 없도록 지정)
-      // };
-      // pc.addTransceiver('video', {
-      //   direction: 'sendrecv',
-      //   streams: [],
-      //   codecs: [H264Codec],
-      // });
       this.pcs = { ...this.pcs, [socketID]: pc };
 
       pc.addEventListener("icecandidate", (data) =>
@@ -362,7 +384,7 @@ export default {
   right: 20px;
 }
 
-.user-list>div {
+.user-list > div {
   background-color: #ffffff;
   border-radius: 5px;
   width: 250px;
@@ -372,7 +394,7 @@ export default {
   left: 25px;
 }
 
-.user-list>p {
+.user-list > p {
   position: absolute;
   left: 25px;
   top: 15px;
@@ -415,7 +437,7 @@ export default {
   overflow-y: auto;
 }
 
-.chatting>p {
+.chatting > p {
   position: relative;
   left: 25px;
   top: 15px;

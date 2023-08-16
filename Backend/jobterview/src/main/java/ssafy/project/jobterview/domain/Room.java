@@ -5,8 +5,6 @@ import org.hibernate.annotations.ColumnDefault;
 import ssafy.project.jobterview.dto.RoomDto;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -19,10 +17,6 @@ public class Room extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
     private Long roomId;
-
-    @OneToMany(mappedBy = "room")
-    private List<Chat> roomChatList = new ArrayList<>();
-
 
     @Column(name = "room_password", nullable = false)
     private String roomPassword;
@@ -49,7 +43,12 @@ public class Room extends BaseTimeEntity {
      * @return 변환된 RoomDto 객체
      */
     public RoomDto convertToDto() {
-        return RoomDto.builder().roomId(this.getRoomId()).roomChatList(this.getRoomChatList()).roomName(this.getRoomName()).nowMember(this.getNowMember()).maxMember(this.getMaxMember()).roomPassword(this.getRoomPassword()).createdDate(this.getCreatedDate()).build();
+        return RoomDto.builder().roomId(this.getRoomId())
+                .roomName(this.getRoomName())
+                .nowMember(this.getNowMember())
+                .maxMember(this.getMaxMember())
+                .roomPassword(this.getRoomPassword())
+                .createdDate(this.getCreatedDate())
+                .build();
     }
-
 }

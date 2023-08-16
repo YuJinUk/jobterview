@@ -10,11 +10,6 @@ export default {
         isSocial: false,
     },
     mutations: {
-        // SET_Login: function (state, nickname) {
-
-        //     state.isLogin = true;
-        //     state.loginNickname = nickname;
-        // },
         SET_Socail_Login: function (state, nickname) {
 
             state.isLogin = true;
