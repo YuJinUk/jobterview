@@ -4,7 +4,7 @@ varialbles:
   port: 8060
 
   #feurl
-  feUri: http://localhost:3060/testfe
+  feUri: http://localhost:3060/
 
   #리다이렉트할때 쓸 url
   beUri: http://localhost:${varialbles.port}
