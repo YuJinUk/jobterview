@@ -22,10 +22,10 @@ export default {
         const normalizedValues = dataList.result_emotion.all_eye
         console.log(normalizedValues)
         return [
-        ['where', 'Per'],
-        ['left', normalizedValues[0]],
-        ['center', normalizedValues[1]],
-        ['right', normalizedValues[2]]
+          ['where', 'Per'],
+          ['왼쪽', normalizedValues[0]],
+          ['중앙', normalizedValues[1]],
+          ['오른쪽', normalizedValues[2]]
         ];
     },
     options() {
@@ -37,8 +37,11 @@ export default {
             color: "white", // Set the title text color to white
         },
         legend: {
+            position: "right",
+            alignment: "center",
             textStyle: {
-            color: "black", // Set the legend text color to white
+              color: "black", // Set the legend text color to white
+              fontSize: 15,
             },
         },
         chartArea: { // 차트 영역 조절

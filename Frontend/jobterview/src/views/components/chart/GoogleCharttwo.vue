@@ -151,14 +151,14 @@ export default {
         }
       });
       return [
-        ['Daily Routine', 'Hours per Day'],
-        ['angry', normalizedValues[0]],
-        ['disgust', normalizedValues[1]],
-        ['fear', normalizedValues[2]],
-        ['happy', normalizedValues[3]],
-        ['sad', normalizedValues[4]],
-        ['surprise', normalizedValues[5]],
-        ['neutral', normalizedValues[6]]
+        ['Emotion', 'Percent'],
+        ['흥분', normalizedValues[0]],
+        ['불쾌', normalizedValues[1]],
+        ['긴장', normalizedValues[2]],
+        ['행복', normalizedValues[3]],
+        ['슬픔', normalizedValues[4]],
+        ['놀람', normalizedValues[5]],
+        ['차분', normalizedValues[6]]
       ];
     },
     options() {
@@ -170,8 +170,11 @@ export default {
           color: "white", // Set the title text color to white
         },
         legend: {
+          position: "right",
+          alignment: "center",
           textStyle: {
             color: "black", // Set the legend text color to white
+            fontSize: 15,
           },
         },
         chartArea: { // 차트 영역 조절
@@ -347,7 +350,7 @@ button {
   position: fixed;
   top: 100px;
   left: 500px;
-  width: 500px;
+  width: 600px;
   height: 450px;
   background: white;
   display: flex;

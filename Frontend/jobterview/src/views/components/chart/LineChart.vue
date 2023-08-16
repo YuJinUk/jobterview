@@ -23,7 +23,8 @@ export default {
     collectionData() {
       const dataList = this.getvideo1;
       const labels = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral'];
-      const chartData = [['Time', ...labels]];
+      const newlabels = ['흥분', '불쾌', '긴장', '행복', '슬픔', '놀람', '차분'];
+      const chartData = [['Time', ...newlabels]];
 
       for (let i = 0; i < dataList.result_emotion.new_data_about_time.time.length; i++) {
         const time = dataList.result_emotion.new_data_about_time.time[i];
@@ -42,12 +43,15 @@ export default {
           color: "white", // Set the title text color to white
         },
         legend: {
+          position: "right",
+          alignment: "center",
           textStyle: {
             color: "black", // Set the legend text color to white
+            fontSize: 15,
           },
         },
         chartArea: { // 차트 영역 조절
-          left: 30, // 왼쪽 여백
+          left: 0, // 왼쪽 여백
           top: 30, // 위쪽 여백
           width: '75%', // 너비 조절
           height: '70%', // 높이 조절
