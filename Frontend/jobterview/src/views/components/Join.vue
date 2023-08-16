@@ -52,7 +52,7 @@
             @input="passwordLengthCheck"
             size="40"
           />
-          <span style="color:#EC255A font-size:medium" v-if="!passwordLength">
+          <span style="color:#EC255A; font-size:medium" v-if="!passwordLength">
             8~15자로 입력해주세요.
           </span>
         </div>
