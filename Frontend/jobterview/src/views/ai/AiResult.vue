@@ -10,9 +10,12 @@
           :key="page"
           @click="goToPage(page)"
         >{{ page }}</button>
+      <div style="margin-left: auto;">
+        <router-link :to="{ name: 'Home' }">
+            <button style="background-color: #0F4471; color: white; border-radius: 5px;">홈으로</button>
+        </router-link>
       </div>
-      <!-- 번호 -->
-
+      </div>
       <!-- 안쪽 컨테이너 -->
       <div class="innerContainer">
 
@@ -82,7 +85,7 @@ export default {
 
 <style scoped>
 .border-box {
-  padding: 10px;
+  padding: 0px;
 }
 
 .page-numbers {
@@ -95,11 +98,11 @@ width: 1080px;
 
 .innerContainer {
   width: 1080px;
-  height: 550px;
+  height: 100vh;
 
   background-color: #fff;
-  border: 1px solid #0F4471;
-  border-radius: 5px;
+  border-top: 1px solid #0F4471;
+  /* border-radius: 5px; */
 
   /* border: 2px solid #0F4471;  */
 
@@ -107,7 +110,8 @@ width: 1080px;
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
+  flex-direction: row;
 }
 
 .page-button {
@@ -125,5 +129,6 @@ width: 1080px;
   background-color: #316fa5;
   transform: scale( 0.95 );
 }
+
 
 </style>
