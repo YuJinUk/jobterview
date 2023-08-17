@@ -21,12 +21,7 @@ def process_audio(origin_path, new_path, new_name):
     binary_data = open(origin_path, 'rb').read()
     save_audio_path = new_path
     temp_wav_file = binary_to_temporary_wav(binary_data, directory=save_audio_path, file_name=new_name)
-    print(temp_wav_file)
-    print('----------------------------------------------------------------------------------------')
-    print('읽기 전까지 옴')
-    print('----------------------------------------------------------------------------------------')
     audio, sr = load_audio(temp_wav_file, new_name)
-    print(audio, sr)
     os.remove(temp_wav_file)  # Remove the temporary WAV file
     return audio, sr
 
@@ -69,7 +64,6 @@ def preprocess(file_path):
     return test_preprocessing
 
 def audio_normalization(audio, sr, audio_path):
-    print('음성 데이터')
     result = {
         0 : 'sad',
         1 : 'neutral',
@@ -92,8 +86,6 @@ def audio_normalization(audio, sr, audio_path):
     }
     prediction = basic_model.predict(new_audio)
     
-    print(prediction)
-    
     for idx, p in enumerate(prediction[0]):
         result2[result[idx]] = p
         
@@ -102,7 +94,6 @@ def audio_normalization(audio, sr, audio_path):
     return result2
 
 def female_audio_normalization(audio, sr, audio_path):
-    print('음성 데이터')
     result = {
         0 : 'sad',
         1 : 'neutral',
@@ -124,8 +115,6 @@ def female_audio_normalization(audio, sr, audio_path):
         'disgust' : 0,
     }
     prediction = basic_model.predict(new_audio)
-    
-    print(prediction)
     
     for idx, p in enumerate(prediction[0]):
         result2[result[idx]] = p
