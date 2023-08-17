@@ -23,7 +23,7 @@
         <div class="dataBox" v-if="pagenum === 1 && getvideo1">
           <GoogleChart />
         </div>
-        <div class="dataBox" v-if="pagenum === 1 && getvideo1 === ''">
+        <div class="dataBox" v-if="pagenum === 1 && getvideo1 == null">
           <div class="loading-container">
             <div class="loading"></div>
             <div id="loading-text">loading</div>
