@@ -36,11 +36,11 @@ def facial_expression_and_eye_movements(video_file):
         total_distance = euclidean_distance(right_point, left_point)
         ratio = center_to_right_dist/total_distance
         iris_position =""
-        if ratio <= 0.45 and ratio >= 0:
+        if ratio <= 0.48 and ratio >= 0:
             iris_position="right"
-        elif ratio > 0.45 and ratio <= 0.55:
+        elif ratio > 0.48 and ratio <= 0.52:
             iris_position="center"
-        elif ratio > 0.55 and ratio <= 1:
+        elif ratio > 0.52 and ratio <= 1:
             iris_position = "left"
         return iris_position, ratio
     
