@@ -31,6 +31,8 @@
     width: 900px;
     height: 450px;
     background: #000000;
+    transform: 'rotateY(180deg)',
+    WebkitTransform: 'rotateY(180deg)',
     }
     
     .timer{
