@@ -28,11 +28,10 @@ export default {
       console.log(normalizedValues);
       return [
         ["emotion", "Percent"],
-        ["흥분", normalizedValues["angry"]],
         ["불쾌", normalizedValues["disgust"]],
-        ["긴장", normalizedValues["fear"] + normalizedValues["surprise"]],
-        ["차분", normalizedValues["neutral"] + normalizedValues["happy"]],
-        ["슬픔", normalizedValues["sad"]],
+        ["긴장", normalizedValues["fear"] + normalizedValues["surprise"] + normalizedValues["angry"]],
+        ["차분", normalizedValues["neutral"] + normalizedValues["sad"]],
+        ["즐거움", normalizedValues["happy"]],
       ];
     },
     options() {
