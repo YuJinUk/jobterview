@@ -5,15 +5,13 @@ import mediapipe as mp
 import math
 import datetime
 
-mp_face_mesh = mp.solutions.face_mesh
+FER = mp.solutions.face_mesh
 
-LEFT_IRIS = [474, 475, 476, 477]
-RIGHT_IRIS = [469, 470, 471, 472]
+left_eye = [474, 475, 476, 477]
+right_eye = [469, 470, 471, 472]
 
-L_H_LEFT = [33]
-L_H_RIGHT = [133]
-R_H_LEFT = [362]
-R_H_RIGHT = [263]
+left_num = [362]
+right_num = [263]
 
 def facial_expression_and_eye_movements(video_file):
     cnt = 0
@@ -25,26 +23,26 @@ def facial_expression_and_eye_movements(video_file):
                 'sad': [], 'surprise': [], 'neutral': [], 'time': []}
     video = cv2.VideoCapture(video_file)
     
-    def euclidean_distance(point1, point2):
-        x1, y1 =point1.ravel()
-        x2, y2 =point2.ravel()
+    def euclidean_distance(first, second):
+        x1, y1 =first.ravel()
+        x2, y2 =second.ravel()
         distance = math.sqrt((x2-x1)**2 + (y2-y1)**2)
         return distance
 
-    def iris_position(iris_center, right_point, left_point):
-        center_to_right_dist = euclidean_distance(iris_center, right_point)
-        total_distance = euclidean_distance(right_point, left_point)
-        ratio = center_to_right_dist/total_distance
-        iris_position =""
+    def eye_position(middel, right, left):
+        dist = euclidean_distance(middel, right) # 동공의 중앙과 오른쪽 거리 계산
+        lefttoright = euclidean_distance(right, left) # 눈의 좌, 우측 거리 계산
+        ratio = dist/lefttoright # 거리의 비율 계산
+        where =""
         if ratio <= 0.48 and ratio >= 0:
-            iris_position="right"
+            where="right"
         elif ratio > 0.48 and ratio <= 0.52:
-            iris_position="center"
+            where="center"
         elif ratio > 0.52 and ratio <= 1:
-            iris_position = "left"
-        return iris_position, ratio
+            where = "left"
+        return where, ratio
     
-    with mp_face_mesh.FaceMesh(max_num_faces=1, refine_landmarks=True, min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
+    with FER.FaceMesh(max_num_faces=1, refine_landmarks=True, min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
         
         while True:
             status, frame = video.read()
@@ -69,27 +67,27 @@ def facial_expression_and_eye_movements(video_file):
             data_new['time'].append(cnt)
 
             frame = cv2.flip(frame, 1)
-            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)   #Mediapipe precisa do formato de cores RGB mas o OpenCV usa o BGR
-            img_h, img_w = frame.shape[:2]
-            results = face_mesh.process(rgb_frame)
+            new_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)   #Mediapipe precisa do formato de cores RGB mas o OpenCV usa o BGR
+            heights_img, width_img = frame.shape[:2]
+            results = face_mesh.process(new_frame)
             if results.multi_face_landmarks:
-                mesh_points=np.array([np.multiply([p.x, p.y], [img_w, img_h]).astype(int) for p in results.multi_face_landmarks[0].landmark])
+                mesh_points=np.array([np.multiply([i.x, i.y], [width_img, heights_img]).astype(int) for i in results.multi_face_landmarks[0].landmark])
 
-                (l_cx, l_cy), l_radius = cv2.minEnclosingCircle(mesh_points[LEFT_IRIS])
-                (r_cx,r_cy), r_radius = cv2.minEnclosingCircle(mesh_points[RIGHT_IRIS])
+                (check_x, check_y), left_radius = cv2.minEnclosingCircle(mesh_points[left_eye])
+                (new_check_x,new_check_y), right_radius = cv2.minEnclosingCircle(mesh_points[right_eye])
 
 
-                center_left = np.array([l_cx, l_cy], dtype=np.int32)
-                center_right = np.array([r_cx, r_cy], dtype=np.int32)
+                centerleft = np.array([check_x, check_y], dtype=np.int32)
+                center_right = np.array([new_check_x, new_check_y], dtype=np.int32)
 
-                iris_pos, ratio = iris_position(center_left, mesh_points[R_H_RIGHT][0], mesh_points[R_H_LEFT][0])
+                result_position, ratio = eye_position(centerleft, mesh_points[right_num][0], mesh_points[left_num][0])
 
-                # print(iris_pos, ratio)
-                if iris_pos == 'left':
+                # print(result_position, ratio)
+                if result_position == 'left':
                     eye_data[0] += 1
-                elif iris_pos == 'right':
+                elif result_position == 'right':
                     eye_data[2] += 1
-                elif iris_pos == 'center':
+                elif result_position == 'center':
                     eye_data[1] += 1
     
     main_emotion = ''
