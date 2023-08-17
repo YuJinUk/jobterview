@@ -34,12 +34,15 @@
 ## 2. 테이블 구조도 (ERD)
 
 ![ex_screenshot](./descImg/erd.PNG)
+<img src="descimg/erd.png">
 
 ---
 
 ## 3. Class Diagram
 
 ![ex_screenshot](./descImg/class-diagram.PNG)
+<img src="descimg/class-diagram.png">
+
 
 ---
 
