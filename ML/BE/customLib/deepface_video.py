@@ -17,7 +17,6 @@ R_H_RIGHT = [263]
 
 def facial_expression_and_eye_movements(video_file):
     cnt = 0
-    print('eye tracking으로 들어음 file에 대하여 decode 해야함')
     now = datetime.datetime.now()
     data = {'angry': 0, 'disgust': 0, 'fear': 0, 'happy': 0,
             'sad': 0, 'surprise': 0, 'neutral': 0, 'time': []}
