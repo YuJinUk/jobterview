@@ -24,7 +24,7 @@
           <GoogleChart />
         </div>
         <div class="dataBox" v-if="pagenum === 1 && getvideo1 == null">
-          <div class="loading-container">
+          <div class="loading-container" style="margin-top:300px;">
             <div class="loading"></div>
             <div id="loading-text">loading</div>
           </div>
@@ -222,7 +222,7 @@ width: 1080px;
 
         .loading {
             border: 2px solid transparent;
-            border-color: transparent #fff transparent #FFF;
+            border-color: transparent #123 transparent #123;
             -moz-animation: rotate-loading 1.5s linear 0s infinite normal;
             -moz-transform-origin: 50% 50%;
             -o-animation: rotate-loading 1.5s linear 0s infinite normal;
@@ -250,7 +250,7 @@ width: 1080px;
             -o-animation: loading-text-opacity 2s linear 0s infinite normal;
             -webkit-animation: loading-text-opacity 2s linear 0s infinite normal;
             animation: loading-text-opacity 2s linear 0s infinite normal;
-            color: #ffffff;
+            color: #123;
             font-family: "Helvetica Neue, "Helvetica", ""arial";
             font-size: 10px;
             font-weight: bold;
