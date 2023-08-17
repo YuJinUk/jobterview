@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 import speech_recognition
 
 app = Flask(__name__)
-# CORS(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 executor1 = ThreadPoolExecutor(10)
