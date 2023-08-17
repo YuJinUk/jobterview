@@ -67,6 +67,7 @@
 <img src="descimg/회원가입.gif">
 <img src="descimg/로그인.gif">
 <img src="descimg/회의룸생성.gif">
+<img src="descimg/미팅룸입장.gif">
 <img src="descimg/미팅룸체험.gif">
 <img src="descimg/ai입장.gif">
 <img src="descimg/ai결과.gif">
