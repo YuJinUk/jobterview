@@ -1,17 +1,10 @@
 import os
-import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-import wave
-import subprocess
 import librosa
 import librosa.display
-import wave
 import struct
 import soundfile as sf
 from io import BytesIO
-from scipy.signal import wiener
 import tempfile
 from keras.models import load_model
 from sklearn.preprocessing import scale
@@ -38,9 +31,6 @@ def numpy_to_binary(numpy_data):
     buffer = BytesIO()
     numpy_data.export(buffer, format="wav")
     return buffer.getvalue()
-
-def remove_noise(audio):
-    return wiener(audio)
 
 def load_audio(file_path, new_name=None):
     if new_name == None:
