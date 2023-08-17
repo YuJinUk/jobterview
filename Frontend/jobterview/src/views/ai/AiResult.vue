@@ -24,7 +24,7 @@
           <GoogleChart />
         </div>
         <div class="dataBox" v-if="pagenum === 1 && getvideo1 == null">
-          <div class="loading-container" style="margin-top:300px;">
+          <div class="loading-container" style="margin-top:250px;">
             <div class="loading"></div>
             <div id="loading-text">loading</div>
           </div>
@@ -34,15 +34,33 @@
         <div class="dataBox" v-if="pagenum === 2 && getvideo2">
           <GoogleCharttwo />
         </div>
+        <div class="dataBox" v-if="pagenum === 2 && getvideo2 == null">
+          <div class="loading-container" style="margin-top:250px;">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+          </div>
+        </div>
 
         <!-- 3번 -->
         <div class="dataBox" v-if="pagenum === 3 && getvideo3">
           <GoogleChartthree />
         </div>
+        <div class="dataBox" v-if="pagenum === 3 && getvideo3 == null">
+          <div class="loading-container" style="margin-top:250px;">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+          </div>
+        </div>        
 
         <!-- 4번 -->
         <div class="dataBox" v-if="pagenum === 4 && getvideo4">
           <GoogleChartfour />
+        </div>
+        <div class="dataBox" v-if="pagenum === 4 && getvideo4 == null">
+          <div class="loading-container" style="margin-top:250px;">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+          </div>
         </div>
 
       </div>
