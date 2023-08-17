@@ -3,7 +3,7 @@ varialbles:
   # 백엔드가 동작할 포트
   port: 8060
   #feurl
-  feUri: https://i9a701.p.ssafy.io/
+  feUri: https://i9a701.p.ssafy.io
   #  리다이렉트할때 쓸 url
   beUri: https://i9a701.p.ssafy.io/testbe
   value: prod
