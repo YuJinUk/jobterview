@@ -6,8 +6,6 @@ from customLib.voice_analysis import process_audio, audio_normalization, female_
 from customLib.tfidf import wordcheck
 import numpy as np
 import os
-from scipy.io import wavfile
-import matplotlib.pyplot as plt
 import speech_recognition
 
 app = Flask(__name__)
