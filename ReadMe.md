@@ -1,6 +1,6 @@
 # 🍪JOB터뷰 Final 명세서
 
-## 1. 요구사항 정의서 (Usercase Diagram) <-애 수정해야함
+## 1. 요구사항 정의서 (Usercase Diagram)
 
 - 회의룸
   - 모든 회의룸 목록 (getRoomList)
@@ -62,7 +62,7 @@
 
 ---
 
-## 4. 화면 설계서 <-이거넣기
+## 4. 시연
 
 <img src="descimg/회원가입.gif">
 <img src="descimg/이메일_인증.gif">
@@ -75,7 +75,7 @@
 
 
 
-## 👪참여자 <- 이모지 변경
+## 👪참여자
 
 😺 SSAFY 9기 강수창(팀장)
 
